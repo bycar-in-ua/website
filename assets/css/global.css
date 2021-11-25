@@ -1,0 +1,3 @@
+.bycar-container {
+  @apply xl:container mx-auto px-4;
+}
