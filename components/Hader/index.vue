@@ -1,7 +1,8 @@
 <template>
-  <div class="bycar-container">
-    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reprehenderit,
-    recusandae!
+  <div class="bycar-container flex flex-row justify-between">
+    <Logo class="xl:basis-2/12" />
+    <Navigation />
+    <div class="xl:basis-2/12" />
   </div>
 </template>
 
@@ -11,4 +12,7 @@ export default {
 };
 </script>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import Logo from "./Logo.vue";
+import Navigation from "./Navigation.vue";
+</script>

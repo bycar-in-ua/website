@@ -1,9 +1,3 @@
 <template>
-  <n-config-provider>
-    <NuxtPage />
-  </n-config-provider>
+  <NuxtPage />
 </template>
-
-<script setup lang="ts">
-import { NConfigProvider } from "naive-ui";
-</script>

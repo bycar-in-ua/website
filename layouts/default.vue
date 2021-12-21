@@ -1,13 +1,11 @@
 <template>
-  <n-layout style="min-height: 100vh">
-    <n-layout-header>
-      <Hader />
-    </n-layout-header>
-    <n-layout-content content-style="padding: 24px;">
+  <div class="min-h-screen">
+    <Hader />
+    <main>
       <slot />
-    </n-layout-content>
-    <n-layout-footer>Chengfu Road</n-layout-footer>
-  </n-layout>
+    </main>
+    <footer class="self-end">Chengfu Road</footer>
+  </div>
 </template>
 
 <script lang="ts">
@@ -17,6 +15,5 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { NLayout, NLayoutHeader, NLayoutFooter } from "naive-ui";
-import Hader from "~~/components/Hader/index.vue";
+import Hader from "@/components/Hader/index.vue";
 </script>

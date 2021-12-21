@@ -1,14 +1,13 @@
 <template>
-  <div class="bg-gray-300">
-    Test
-    <pre>
-    {{ $route }}
-    </pre>
-  </div>
+  <Hero />
 </template>
 
 <script>
 export default {
   name: "IndexPage",
 };
+</script>
+
+<script setup>
+import Hero from "@/components/Home/Hero.vue";
 </script>
