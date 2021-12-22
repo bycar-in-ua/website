@@ -1,5 +1,5 @@
 <template>
-  <div class="flex">Menu</div>
+  <ResponsiveMenu :menu-items="menuItems" />
 </template>
 
 <script lang="ts">
@@ -10,15 +10,16 @@ export default {
 
 <script setup lang="ts">
 import { ref } from "vue";
+import ResponsiveMenu from "@/components/common/Menu/ResponsiveMenu.vue";
 
 const menuItems = [
   {
     label: "Главная",
-    key: "main",
+    route: "/",
   },
   {
     label: "Каталог",
-    key: "catalog",
+    route: "/catalog",
   },
 ];
 
