@@ -17,3 +17,9 @@ export default {
 <script setup lang="ts">
 import Hader from "@/components/Hader/index.vue";
 </script>
+
+<style>
+body {
+  @apply bg-body-bg;
+}
+</style>

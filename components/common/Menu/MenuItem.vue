@@ -1,8 +1,8 @@
 <template>
   <router-link
     :to="item.route"
-    class="mx-2 font-bold hover:text-purple-700 transition-all"
-    active-class="text-purple-700"
+    class="mx-2 font-bold hover:text-primary transition-all"
+    active-class="text-primary"
   >
     {{ item.label }}
   </router-link>
