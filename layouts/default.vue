@@ -20,6 +20,6 @@ import Hader from "@/components/Hader/index.vue";
 
 <style>
 body {
-  @apply bg-body-bg;
+  @apply bg-body-bg text-main-color;
 }
 </style>

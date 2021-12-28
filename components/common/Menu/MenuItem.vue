@@ -1,7 +1,7 @@
 <template>
   <router-link
     :to="item.route"
-    class="mx-2 font-bold hover:text-primary transition-all"
+    class="lg:mx-4 xl:mx-8 hover:text-primary transition-all py-4"
     active-class="text-primary"
   >
     {{ item.label }}
@@ -15,8 +15,6 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { defineProps } from "vue";
-
 const props = defineProps({
   item: {
     type: Object,

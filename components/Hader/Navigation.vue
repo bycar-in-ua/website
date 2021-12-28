@@ -1,5 +1,6 @@
 <template>
   <ResponsiveMenu :menu-items="menuItems" />
+  <MenuToggler />
 </template>
 
 <script lang="ts">
@@ -11,6 +12,7 @@ export default {
 <script setup lang="ts">
 import { ref } from "vue";
 import ResponsiveMenu from "@/components/common/Menu/ResponsiveMenu.vue";
+import MenuToggler from "@/components/common/Menu/MenuToggler.vue";
 
 const menuItems = [
   {

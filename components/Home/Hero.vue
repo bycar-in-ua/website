@@ -1,5 +1,9 @@
 <template>
-  <div class="hero py-40">Test</div>
+  <div class="hero py-40">
+    <div class="bycar-container text-white">
+      <h2>Lorem ipsum dolor sit amet.</h2>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
