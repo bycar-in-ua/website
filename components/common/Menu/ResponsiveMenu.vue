@@ -3,19 +3,23 @@
     class="
       flex flex-col
       lg:flex-row
-      justify-center
       items-center
       lg:static
       fixed
       bg-body-bg/70
       lg:bg-transparent
       top-12
-      right-0
       p-9
       lg:p-0
       max-h-screen
+      h-screen
+      md:h-auto
+      w-screen
+      md:w-auto
       backdrop-blur-sm backdrop-brightness-150
+      transition-all
     "
+    :class="showMobileMenu ? 'right-0' : ' -right-full'"
   >
     <MenuItem v-for="menuItem in menuItems" :item="menuItem" />
   </div>
@@ -28,6 +32,7 @@ export default {
 </script>
 
 <script setup lang="ts">
+import useMenuShowing from "@/composables/useMenuShowing";
 import MenuItem from "./MenuItem.vue";
 
 const props = defineProps({
@@ -36,4 +41,6 @@ const props = defineProps({
     default: () => [],
   },
 });
+
+const showMobileMenu = useMenuShowing();
 </script>
