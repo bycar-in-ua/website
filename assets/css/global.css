@@ -10,3 +10,7 @@ h4 {
 .bycar-container {
   @apply xl:container mx-auto px-4;
 }
+
+.bycar-container-md {
+  @apply max-w-3xl mx-auto px-4;
+}

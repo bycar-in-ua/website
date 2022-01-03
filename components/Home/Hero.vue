@@ -1,18 +1,22 @@
 <template>
-  <div class="hero py-40">
-    <div class="bycar-container text-white">
-      <h2>Lorem ipsum dolor sit amet.</h2>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci,
-        mollitia.
+  <div class="hero py-10 md:py-16 lg:py-20">
+    <div class="max-w-2xl bycar-container-md text-white text-center">
+      <h2 class="text-2xl md:text-3xl xl:text-5xl font-bold mb-4">
+        Помогаем с выбором авто от крутого диллера
+      </h2>
+      <p class="opacity-70 mb-4">
+        У нас 41 218 авто от 921 официального дилера в 60 городах Украины.
       </p>
+      <Filters />
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import Filters from "./Filters/index.vue";
 export default {
   name: "Hero",
+  components: { Filters },
 };
 </script>
 
