@@ -1,8 +1,6 @@
 <template>
-  <section class="bycar-container py-10 md:py-12 lg:py-16">
-    <h2 class="text-2xl text-center font-bold mb-5">
-      Последние добавленные авто
-    </h2>
+  <section class="bycar-container section hi-top">
+    <SectionTitle title="Последние добавленные авто" />
     <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
       <CarCard v-for="i in 8" :key="i"></CarCard>
     </div>
@@ -16,5 +14,6 @@ export default {
 </script>
 
 <script setup lang="ts">
+import SectionTitle from "@/components/common/SectionTitle.vue";
 import CarCard from "@/components/common/CarCard/index.vue";
 </script>

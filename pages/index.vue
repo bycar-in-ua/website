@@ -1,6 +1,7 @@
 <template>
   <Hero />
   <Latest />
+  <Brands />
 </template>
 
 <script>
@@ -11,5 +12,6 @@ export default {
 
 <script setup>
 import Hero from "@/components/Home/Hero.vue";
-import Latest from "@/components/Home/Latest/index.vue";
+import Latest from "@/components/Home/Latest.vue";
+import Brands from "@/components/Home/Brands.vue";
 </script>
