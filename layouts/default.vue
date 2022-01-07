@@ -4,7 +4,7 @@
     <main>
       <slot />
     </main>
-    <footer class="self-end">Chengfu Road</footer>
+    <Footer />
   </div>
 </template>
 
@@ -16,6 +16,7 @@ export default {
 
 <script setup lang="ts">
 import Hader from "@/components/Hader/index.vue";
+import Footer from "@/components/Footer/index.vue";
 </script>
 
 <style>
