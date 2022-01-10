@@ -1,11 +1,9 @@
 <template>
-  <div class="min-h-screen">
-    <Hader />
-    <main>
-      <slot />
-    </main>
-    <Footer />
-  </div>
+  <Hader />
+  <main>
+    <slot />
+  </main>
+  <Footer />
 </template>
 
 <script lang="ts">

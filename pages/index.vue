@@ -1,7 +1,9 @@
 <template>
-  <Hero />
-  <Latest />
-  <Brands />
+  <div>
+    <Hero />
+    <Latest />
+    <Brands />
+  </div>
 </template>
 
 <script>

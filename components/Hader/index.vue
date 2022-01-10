@@ -1,9 +1,9 @@
 <template>
-  <div class="bycar-container flex flex-row justify-between items-center">
+  <header class="bycar-container flex flex-row justify-between items-center">
     <Logo class="lg:basis-2/12" />
     <Navigation />
     <div class="lg:basis-2/12 hidden lg:block" />
-  </div>
+  </header>
 </template>
 
 <script lang="ts">

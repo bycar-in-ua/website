@@ -1,5 +1,5 @@
 <template>
-  <div
+  <nav
     class="
       flex flex-col
       lg:flex-row
@@ -22,7 +22,7 @@
     :class="showMobileMenu ? 'right-0' : ' -right-full'"
   >
     <MenuItem v-for="menuItem in menuItems" :item="menuItem" />
-  </div>
+  </nav>
 </template>
 
 <script lang="ts">
