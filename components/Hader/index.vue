@@ -1,8 +1,10 @@
 <template>
-  <header class="bycar-container flex flex-row justify-between items-center">
-    <Logo class="lg:basis-2/12" />
-    <Navigation />
-    <div class="lg:basis-2/12 hidden lg:block" />
+  <header class="bg-white shadow-md relative z-50">
+    <div class="bycar-container flex flex-row justify-between items-center">
+      <Logo class="lg:basis-2/12" />
+      <Navigation />
+      <div class="lg:basis-2/12 hidden lg:block" />
+    </div>
   </header>
 </template>
 
