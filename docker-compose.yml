@@ -1,0 +1,32 @@
+version: "3.1"
+services:
+  bycar_api:
+    image: "node:16"
+    container_name: ${SERVICE_NAME}
+    user: "node"
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=production
+      - NUXT_HOST=${NUXT_HOST}
+      - NUXT_PORT=${NUXT_PORT}
+    volumes:
+      - ./:/home/node/app
+    networks:
+      - internal
+      - proxy
+    entrypoint: ["sh", "/home/node/app/entrypoint.sh"]
+    restart: "always"
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.${SERVICE_NAME}.rule=Host(`${SERVICE_DOMAIN}`)
+      - traefik.http.routers.${SERVICE_NAME}.entrypoints=websecure
+      - traefik.http.routers.${SERVICE_NAME}.tls=true
+      - traefik.http.routers.${SERVICE_NAME}.tls.certresolver=letsencrypt-resolver
+      - traefik.http.services.${SERVICE_NAME}.loadbalancer.server.port=${NUXT_PORT}
+
+networks:
+  internal:
+    external: false
+  proxy:
+    external: true
+      
