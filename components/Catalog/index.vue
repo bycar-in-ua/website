@@ -7,7 +7,7 @@
 
 <script lang="ts">
 export default {
-  name: "CatalogPage",
+  name: "Catalog",
 };
 </script>
 

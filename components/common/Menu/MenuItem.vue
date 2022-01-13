@@ -1,11 +1,12 @@
 <template>
-  <router-link
+  <NuxtLink
     :to="item.route"
     class="lg:mx-4 xl:mx-8 hover:text-primary transition-all py-4"
     active-class="text-primary"
+    :exact="item.exact"
   >
     {{ item.label }}
-  </router-link>
+  </NuxtLink>
 </template>
 
 <script lang="ts">

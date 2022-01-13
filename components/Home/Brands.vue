@@ -2,10 +2,15 @@
   <section class="bycar-container section hi-bottom">
     <SectionTitle title="Марки автомобилей" />
     <div class="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-8 gap-9">
-      <div v-for="i in 64" :key="i" class="flex items-center">
+      <NuxtLink
+        v-for="i in 64"
+        :key="i"
+        to="/catalog/nissan"
+        class="flex items-center"
+      >
         <div class="bg-gray-300 rounded-full w-6 h-6 mr-4"></div>
         <h4>Nissan</h4>
-      </div>
+      </NuxtLink>
     </div>
   </section>
 </template>

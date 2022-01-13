@@ -1,25 +1,25 @@
 <template>
   <div class="bg-white rounded-lg border border-gray-200 p-4 md:p-5">
-    <router-link to="/catalog">
+    <NuxtLink to="/catalog/bmw/x5-m">
       <img
-        src="assets/images/homepage-bg.jpg"
+        src="@/assets/images/homepage-bg.jpg"
         alt="Test"
         class="rounded-lg mb-3"
       />
-    </router-link>
-    <router-link to="/catalog">
+    </NuxtLink>
+    <NuxtLink to="/catalog">
       <h3 class="font-bold uppercase mb-2">BWM X5</h3>
-    </router-link>
+    </NuxtLink>
     <p class="text-sm text-gray-600 mb-6">
       Классический суперкар начала двухтысячных для п...
     </p>
     <div class="flex">
-      <router-link
+      <NuxtLink
         to="/catalog"
         class="text-primary underline font-bold text-sm hover:no-underline"
       >
         Подробнее
-      </router-link>
+      </NuxtLink>
     </div>
   </div>
 </template>

@@ -18,10 +18,12 @@ const menuItems = [
   {
     label: "Главная",
     route: "/",
+    exact: true,
   },
   {
     label: "Каталог",
     route: "/catalog",
+    exact: false,
   },
 ];
 
