@@ -26,3 +26,7 @@ h4 {
 .section.hi-bottom {
   @apply pb-10 md:pb-12 lg:pb-16;
 }
+
+.card {
+  @apply bg-white rounded-lg border border-gray-200 p-4 md:p-5;
+}

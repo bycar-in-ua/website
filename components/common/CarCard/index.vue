@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white rounded-lg border border-gray-200 p-4 md:p-5">
+  <div class="card">
     <NuxtLink to="/catalog/bmw/x5-m">
       <img
         src="@/assets/images/homepage-bg.jpg"
