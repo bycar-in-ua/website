@@ -1,12 +1,12 @@
 module.exports = {
   content: [
-    "./components/**/*.{vue,js}",
+    "./components/**/*.{vue,js,ts,tsx}",
     "./layouts/**/*.vue",
     "./pages/**/*.vue",
     "./plugins/**/*.{js,ts}",
     "./nuxt.config.{js,ts}",
   ],
-  darkMode: 'media', // or 'media' or 'class'
+  darkMode: "media", // or 'media' or 'class'
   theme: {
     fontFamily: {
       sans: [`"Source Sans Pro"`, "sans-serif"],
