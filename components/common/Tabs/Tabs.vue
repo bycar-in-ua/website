@@ -62,8 +62,6 @@ export default defineComponent({
 
     provide("activeTabKey", activeTab);
 
-    console.log(tabs);
-
     return {
       tabs,
       activeTab,

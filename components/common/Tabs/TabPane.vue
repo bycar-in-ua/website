@@ -20,8 +20,5 @@ export default defineComponent({
   setup() {
     return { activeTabKey: inject("activeTabKey") };
   },
-  mounted() {
-    console.log(this);
-  },
 });
 </script>
