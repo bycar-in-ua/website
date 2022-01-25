@@ -1,7 +1,7 @@
 <template>
   <div class="bycar-container py-5 lg:py-10">
     <Title />
-    <Media class="max-h-64" />
+    <Media />
     <GeneralInfo />
     <Tabs />
   </div>
