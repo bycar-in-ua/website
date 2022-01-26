@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject } from "vue";
+import { defineComponent, inject, onMounted, onBeforeUnmount, Ref } from "vue";
 import { IActiveGalleryItem, TSetGalleryActiveItem } from "./interface";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/vue/solid";
 
@@ -34,10 +34,33 @@ export default defineComponent({
     ChevronRightIcon,
   },
   setup() {
-    const item = inject<IActiveGalleryItem>("activeItem");
+    const item = inject<Ref<IActiveGalleryItem>>("activeItem");
     const setGalleryActiveItem = inject<TSetGalleryActiveItem>(
       "setGalleryActiveItem"
     );
+
+    const arrowsKeydownListener = (e: KeyboardEvent) => {
+      if (e.key === "ArrowRight" && item.value.nextItemIndex !== null) {
+        setGalleryActiveItem(item.value.nextItemIndex);
+        return;
+      }
+
+      if (e.key === "ArrowLeft" && item.value.prevItemIndex !== null) {
+        setGalleryActiveItem(item.value.prevItemIndex);
+        return;
+      }
+
+      return;
+    };
+
+    if (process.client) {
+      onMounted(() => {
+        document.addEventListener("keyup", arrowsKeydownListener);
+      });
+      onBeforeUnmount(() => {
+        document.removeEventListener("keyup", arrowsKeydownListener);
+      });
+    }
 
     return {
       setGalleryActiveItem,
