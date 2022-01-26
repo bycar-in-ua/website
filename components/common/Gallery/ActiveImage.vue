@@ -3,7 +3,7 @@
     <div
       v-if="item.prevItemIndex !== null"
       class="bycar-gallery-chewron-wrapper left-0 hover:bg-gradient-to-l"
-      @click="setGalleryActiveItem(item.prevItemIndex)"
+      @click="setGalleryActiveItem(item.prevItemIndex, 'prev')"
     >
       <ChevronLeftIcon class="bycar-gallery-chevron" />
     </div>
@@ -15,7 +15,7 @@
     <div
       v-if="item.nextItemIndex !== null"
       class="bycar-gallery-chewron-wrapper right-0 hover:bg-gradient-to-r"
-      @click="setGalleryActiveItem(item.nextItemIndex)"
+      @click="setGalleryActiveItem(item.nextItemIndex, 'next')"
     >
       <ChevronRightIcon class="bycar-gallery-chevron" />
     </div>
@@ -41,12 +41,12 @@ export default defineComponent({
 
     const arrowsKeydownListener = (e: KeyboardEvent) => {
       if (e.key === "ArrowRight" && item.value.nextItemIndex !== null) {
-        setGalleryActiveItem(item.value.nextItemIndex);
+        setGalleryActiveItem(item.value.nextItemIndex, "next");
         return;
       }
 
       if (e.key === "ArrowLeft" && item.value.prevItemIndex !== null) {
-        setGalleryActiveItem(item.value.prevItemIndex);
+        setGalleryActiveItem(item.value.prevItemIndex, "prev");
         return;
       }
 

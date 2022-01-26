@@ -1,5 +1,15 @@
 import { PropType } from "vue";
 
+export enum GalleryPlacement {
+  horizontal = "horizontal",
+  vertical = "vertical",
+}
+
+export enum GalleryItemVariant {
+  image = "image",
+  video = "video",
+}
+
 export const GalleryProps = {
   items: {
     type: Array as PropType<IGalleryItem[]>,
@@ -10,8 +20,8 @@ export const GalleryProps = {
     default: "auto",
   },
   mode: {
-    type: String as PropType<"horizontal" | "vertical">,
-    default: "horizontal",
+    type: String as PropType<GalleryPlacement>,
+    default: GalleryPlacement.horizontal,
   },
 };
 
@@ -19,7 +29,7 @@ export const ThumbnailsListProps = {};
 
 export interface IGalleryItem {
   id: number;
-  variant: "image" | "video";
+  variant: GalleryItemVariant;
   source: string;
   alt?: string;
 }
@@ -29,4 +39,7 @@ export interface IActiveGalleryItem extends IGalleryItem {
   nextItemIndex: number | null;
 }
 
-export type TSetGalleryActiveItem = (itemIndex: number) => void;
+export type TSetGalleryActiveItem = (
+  itemIndex: number,
+  direction?: "next" | "prev" | null
+) => void;

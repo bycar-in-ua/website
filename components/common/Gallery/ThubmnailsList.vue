@@ -16,7 +16,7 @@ export default defineComponent({
 
 <style scoped>
 .bycar-gallery-thumnails-list {
-  @apply grid gap-3 content-start justify-start;
+  @apply grid gap-3 content-start justify-start scroll-smooth;
 }
 .bycar-gallery-thumnails-list::-webkit-scrollbar {
   display: none;

@@ -6,7 +6,7 @@
       height: height,
     }"
   >
-    <ThubmnailsList>
+    <ThubmnailsList ref="thumbsListRef">
       <Thumbnail
         v-for="(item, index) in items"
         :key="item.id"
@@ -34,13 +34,23 @@ export default defineComponent({
   props: GalleryProps,
   components: { ThubmnailsList, Thumbnail, ActiveImage },
   setup(props) {
+    const thumbsListRef = ref(null);
+
     const activeItem: Ref<IActiveGalleryItem> = ref({
       ...props.items[0],
       prevItemIndex: null,
       nextItemIndex: props.items.length > 1 ? 1 : null,
     });
 
-    const setActiveItem: TSetGalleryActiveItem = (itemIndex) => {
+    const scrollDirectionsMap = {
+      horizontal: "scrollLeft",
+      vertical: "scrollTop",
+    };
+
+    const setActiveItem: TSetGalleryActiveItem = (
+      itemIndex,
+      direction = null
+    ) => {
       const prevIndex = itemIndex - 1;
       const nextIndex = itemIndex + 1;
       activeItem.value = {
@@ -48,6 +58,16 @@ export default defineComponent({
         prevItemIndex: prevIndex >= 0 ? prevIndex : null,
         nextItemIndex: nextIndex < props.items.length ? nextIndex : null,
       };
+      switch (direction) {
+        case "next":
+          thumbsListRef.value.$el[scrollDirectionsMap[props.mode]] += 90;
+          break;
+        case "prev":
+          thumbsListRef.value.$el[scrollDirectionsMap[props.mode]] -= 90;
+          break;
+        default:
+          break;
+      }
     };
 
     provide("setGalleryActiveItem", setActiveItem);
@@ -55,6 +75,7 @@ export default defineComponent({
 
     return {
       activeItem,
+      thumbsListRef,
     };
   },
 });
