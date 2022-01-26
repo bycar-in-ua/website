@@ -11,48 +11,48 @@ export default {
 <script setup lang="ts">
 import { Gallery } from "@/components/common/Gallery";
 import { GalleryItem } from "@/components/common/Gallery";
-import "@/assets/images/homepage-bg.jpg";
-import "@/assets/images/test-image-1.jpg";
-import "@/assets/images/test-image-2.jpg";
-import "@/assets/images/test-image-3.jpg";
-import "@/assets/images/test-image-4.jpg";
+import tmmImg1 from "@/assets/images/homepage-bg.jpg";
+import tmmImg2 from "@/assets/images/test-image-1.jpg";
+import tmmImg3 from "@/assets/images/test-image-2.jpg";
+import tmmImg4 from "@/assets/images/test-image-3.jpg";
+import tmmImg5 from "@/assets/images/test-image-4.jpg";
 
 const galleryItems: GalleryItem[] = [
   {
     id: 1,
     variant: "image",
-    source: "@/assets/images/homepage-bg.jpg",
+    source: tmmImg1,
     alt: "Test",
   },
   {
     id: 2,
     variant: "image",
-    source: "@/assets/images/test-image-1.jpg",
+    source: tmmImg2,
   },
   {
     id: 3,
     variant: "image",
-    source: "@/assets/images/test-image-2.jpg",
+    source: tmmImg4,
   },
   {
     id: 4,
     variant: "image",
-    source: "@/assets/images/test-image-3.jpg",
+    source: tmmImg3,
   },
   {
     id: 5,
     variant: "image",
-    source: "@/assets/images/test-image-4.jpg",
+    source: tmmImg5,
   },
   {
     id: 6,
     variant: "image",
-    source: "@/assets/images/test-image-2.jpg",
+    source: tmmImg2,
   },
   {
     id: 7,
     variant: "image",
-    source: "@/assets/images/test-image-3.jpg",
+    source: tmmImg4,
   },
 ];
 </script>
