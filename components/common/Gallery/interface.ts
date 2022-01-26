@@ -2,7 +2,7 @@ import { PropType } from "vue";
 
 export const GalleryProps = {
   items: {
-    type: Array as PropType<GalleryItem[]>,
+    type: Array as PropType<IGalleryItem[]>,
     default: () => [],
   },
   height: {
@@ -17,9 +17,16 @@ export const GalleryProps = {
 
 export const ThumbnailsListProps = {};
 
-export interface GalleryItem {
+export interface IGalleryItem {
   id: number;
   variant: "image" | "video";
   source: string;
   alt?: string;
 }
+
+export interface IActiveGalleryItem extends IGalleryItem {
+  prevItemIndex: number | null;
+  nextItemIndex: number | null;
+}
+
+export type TSetGalleryActiveItem = (itemIndex: number) => void;

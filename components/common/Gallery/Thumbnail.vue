@@ -14,18 +14,21 @@
 
 <script lang="ts">
 import { defineComponent, PropType, inject } from "vue";
-import { GalleryItem } from "./interface";
+import { IGalleryItem, TSetGalleryActiveItem } from "./interface";
 
 export default defineComponent({
   name: "GalleryThumbnail",
   props: {
-    item: Object as PropType<GalleryItem>,
+    item: Object as PropType<IGalleryItem>,
+    index: Number as PropType<number>,
   },
   setup(props) {
-    const activeItem = inject<GalleryItem>("activeItem");
-    const setGalleryActiveItem = inject<any>("setGalleryActiveItem");
+    const activeItem = inject<IGalleryItem>("activeItem");
+    const setGalleryActiveItem = inject<TSetGalleryActiveItem>(
+      "setGalleryActiveItem"
+    );
     return {
-      setActiveItem: () => setGalleryActiveItem(props.item),
+      setActiveItem: () => setGalleryActiveItem(props.index),
       activeItem,
     };
   },

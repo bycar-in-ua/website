@@ -1,6 +1,10 @@
 <template>
   <div class="overflow-hidden rounded-lg w-full relative">
-    <div class="bycar-gallery-chewron-wrapper left-0 hover:bg-gradient-to-l">
+    <div
+      v-if="item.prevItemIndex !== null"
+      class="bycar-gallery-chewron-wrapper left-0 hover:bg-gradient-to-l"
+      @click="setGalleryActiveItem(item.prevItemIndex)"
+    >
       <ChevronLeftIcon class="bycar-gallery-chevron" />
     </div>
     <img
@@ -8,25 +12,37 @@
       :alt="item.alt"
       class="object-cover w-full h-full"
     />
-    <div class="bycar-gallery-chewron-wrapper right-0 hover:bg-gradient-to-r">
+    <div
+      v-if="item.nextItemIndex !== null"
+      class="bycar-gallery-chewron-wrapper right-0 hover:bg-gradient-to-r"
+      @click="setGalleryActiveItem(item.nextItemIndex)"
+    >
       <ChevronRightIcon class="bycar-gallery-chevron" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
-import { GalleryItem } from "./interface";
+import { defineComponent, inject } from "vue";
+import { IActiveGalleryItem, TSetGalleryActiveItem } from "./interface";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/vue/solid";
 
 export default defineComponent({
   name: "ActiveImage",
-  props: {
-    item: Object as PropType<GalleryItem>,
-  },
   components: {
     ChevronLeftIcon,
     ChevronRightIcon,
+  },
+  setup() {
+    const item = inject<IActiveGalleryItem>("activeItem");
+    const setGalleryActiveItem = inject<TSetGalleryActiveItem>(
+      "setGalleryActiveItem"
+    );
+
+    return {
+      setGalleryActiveItem,
+      item,
+    };
   },
 });
 </script>

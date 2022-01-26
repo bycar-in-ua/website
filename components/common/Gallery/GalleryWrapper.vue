@@ -7,15 +7,24 @@
     }"
   >
     <ThubmnailsList>
-      <Thumbnail v-for="item in items" :key="item.id" :item="item" />
+      <Thumbnail
+        v-for="(item, index) in items"
+        :key="item.id"
+        :item="item"
+        :index="index"
+      />
     </ThubmnailsList>
-    <ActiveImage :item="activeItem" />
+    <ActiveImage />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, provide, readonly } from "vue";
-import { GalleryProps, GalleryItem } from "./interface";
+import { defineComponent, ref, Ref, provide, readonly } from "vue";
+import {
+  GalleryProps,
+  IActiveGalleryItem,
+  TSetGalleryActiveItem,
+} from "./interface";
 import ThubmnailsList from "./ThubmnailsList.vue";
 import Thumbnail from "./Thumbnail.vue";
 import ActiveImage from "./ActiveImage.vue";
@@ -25,10 +34,20 @@ export default defineComponent({
   props: GalleryProps,
   components: { ThubmnailsList, Thumbnail, ActiveImage },
   setup(props) {
-    const activeItem = ref(props.items[0]);
+    const activeItem: Ref<IActiveGalleryItem> = ref({
+      ...props.items[0],
+      prevItemIndex: null,
+      nextItemIndex: props.items.length > 1 ? 1 : null,
+    });
 
-    const setActiveItem = (item: GalleryItem): void => {
-      activeItem.value = item;
+    const setActiveItem: TSetGalleryActiveItem = (itemIndex) => {
+      const prevIndex = itemIndex - 1;
+      const nextIndex = itemIndex + 1;
+      activeItem.value = {
+        ...props.items[itemIndex],
+        prevItemIndex: prevIndex >= 0 ? prevIndex : null,
+        nextItemIndex: nextIndex < props.items.length ? nextIndex : null,
+      };
     };
 
     provide("setGalleryActiveItem", setActiveItem);
