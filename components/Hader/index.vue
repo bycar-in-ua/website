@@ -1,5 +1,5 @@
 <template>
-  <header class="bg-white shadow-sm relative z-50">
+  <header class="bg-white shadow-sm relative z-20">
     <div class="bycar-container flex flex-row justify-between items-center">
       <Logo class="lg:basis-2/12" />
       <Navigation />

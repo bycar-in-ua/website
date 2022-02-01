@@ -41,3 +41,5 @@ export type TSetGalleryActiveItem = (
   itemIndex: number,
   direction?: "next" | "prev" | null
 ) => void;
+
+export type TToggleGalleryFullScreen = () => void;

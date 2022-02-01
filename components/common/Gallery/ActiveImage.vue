@@ -1,5 +1,7 @@
 <template>
-  <div class="overflow-hidden rounded-lg w-full relative">
+  <div
+    class="bycar-gallery-image-wrapper overflow-hidden rounded-lg w-full relative select-none"
+  >
     <div
       v-if="item.prevItemIndex !== null"
       class="bycar-gallery-chewron-wrapper left-0 hover:bg-gradient-to-l"
@@ -7,11 +9,7 @@
     >
       <ChevronLeftIcon class="bycar-gallery-chevron" />
     </div>
-    <img
-      :src="item.source"
-      :alt="item.alt"
-      class="object-cover w-full h-full"
-    />
+    <img :src="item.source" :alt="item.alt" class="bycar-gallery-image" />
     <div
       v-if="item.nextItemIndex !== null"
       class="bycar-gallery-chewron-wrapper right-0 hover:bg-gradient-to-r"
@@ -19,33 +17,46 @@
     >
       <ChevronRightIcon class="bycar-gallery-chevron" />
     </div>
+    <div class="bycar-gallery-zoom" @click="toggleFullScreen">
+      <ZoomInIcon class="bycar-gallery-zoom-icon" />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, inject, onMounted, onBeforeUnmount, Ref } from "vue";
-import { IActiveGalleryItem, TSetGalleryActiveItem } from "./interface";
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/vue/solid";
+import {
+  IActiveGalleryItem,
+  TSetGalleryActiveItem,
+  TToggleGalleryFullScreen,
+} from "./interface";
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ZoomInIcon,
+} from "@heroicons/vue/solid";
 
 export default defineComponent({
   name: "ActiveImage",
   components: {
     ChevronLeftIcon,
     ChevronRightIcon,
+    ZoomInIcon,
   },
   setup() {
     const item = inject<Ref<IActiveGalleryItem>>("activeItem");
     const setGalleryActiveItem = inject<TSetGalleryActiveItem>(
       "setGalleryActiveItem"
     );
+    const toggleFullScreen = inject<TToggleGalleryFullScreen>(
+      "toggleGalleryFullScreen"
+    );
 
     const arrowsKeydownListener = (e: KeyboardEvent) => {
       if (e.key === "ArrowRight" && item.value.nextItemIndex !== null) {
         setGalleryActiveItem(item.value.nextItemIndex, "next");
         return;
-      }
-
-      if (e.key === "ArrowLeft" && item.value.prevItemIndex !== null) {
+      } else if (e.key === "ArrowLeft" && item.value.prevItemIndex !== null) {
         setGalleryActiveItem(item.value.prevItemIndex, "prev");
         return;
       }
@@ -65,6 +76,7 @@ export default defineComponent({
     return {
       setGalleryActiveItem,
       item,
+      toggleFullScreen,
     };
   },
 });
@@ -81,5 +93,18 @@ export default defineComponent({
 }
 .bycar-gallery-chewron-wrapper:hover .bycar-gallery-chevron {
   @apply opacity-100;
+}
+.bycar-gallery-zoom {
+  @apply absolute right-0 bottom-0 p-4 cursor-pointer;
+}
+.bycar-gallery-zoom:hover .bycar-gallery-zoom-icon {
+  @apply opacity-100;
+}
+.bycar-gallery-zoom-icon {
+  @apply w-8 h-8 invert opacity-50 transition-all;
+  --tw-invert: invert(50%);
+}
+.bycar-gallery-image {
+  @apply object-cover w-full h-full;
 }
 </style>

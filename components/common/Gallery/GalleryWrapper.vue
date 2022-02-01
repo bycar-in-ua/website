@@ -1,25 +1,35 @@
 <template>
   <div
-    class="bycar-regular-gallery"
-    :class="mode"
     :style="{
       height: height,
     }"
   >
-    <ThubmnailsList ref="thumbsListRef">
-      <Thumbnail
-        v-for="(item, index) in items"
-        :key="item.id"
-        :item="item"
-        :index="index"
-      />
-    </ThubmnailsList>
-    <ActiveImage />
+    <div :class="fullScreen ? 'full-screen' : 'h-full'">
+      <div class="bycar-gallery" :class="mode">
+        <ThubmnailsList ref="thumbsListRef">
+          <Thumbnail
+            v-for="(item, index) in items"
+            :key="item.id"
+            :item="item"
+            :index="index"
+          />
+        </ThubmnailsList>
+        <ActiveImage />
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref, provide, readonly } from "vue";
+import {
+  defineComponent,
+  ref,
+  Ref,
+  provide,
+  readonly,
+  onMounted,
+  onBeforeUnmount,
+} from "vue";
 import {
   GalleryProps,
   IActiveGalleryItem,
@@ -35,6 +45,7 @@ export default defineComponent({
   components: { ThubmnailsList, Thumbnail, ActiveImage },
   setup(props) {
     const thumbsListRef = ref(null);
+    const fullScreen = ref(false);
 
     const activeItem: Ref<IActiveGalleryItem> = ref({
       ...props.items[0],
@@ -70,31 +81,78 @@ export default defineComponent({
       }
     };
 
+    const toggleFullScreen = () => {
+      fullScreen.value = !fullScreen.value;
+    };
+
+    const zoomistener = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        fullScreen.value = false;
+        return;
+      } else if (e.ctrlKey && e.key === "z") {
+        fullScreen.value = true;
+        return;
+      }
+
+      return;
+    };
+
+    if (process.client) {
+      onMounted(() => {
+        document.addEventListener("keyup", zoomistener);
+      });
+      onBeforeUnmount(() => {
+        document.removeEventListener("keyup", zoomistener);
+      });
+    }
+
     provide("setGalleryActiveItem", setActiveItem);
     provide("activeItem", readonly(activeItem));
+    provide("toggleGalleryFullScreen", toggleFullScreen);
 
     return {
       activeItem,
       thumbsListRef,
+      fullScreen,
     };
   },
 });
 </script>
 
 <style>
-.bycar-regular-gallery {
-  @apply grid gap-5 overflow-hidden;
+.bycar-gallery {
+  @apply grid gap-5 overflow-hidden h-full transition-all;
   grid-template-columns: 80px 1fr;
 }
-.bycar-regular-gallery .bycar-gallery-thumnails-list {
+.full-screen {
+  @apply fixed bg-gray-900 bg-opacity-50 w-screen h-screen left-0 top-0 right-0 bottom-0 z-40 transition-all flex justify-center items-center;
+}
+.full-screen .bycar-gallery {
+  @apply max-w-7xl mx-auto p-5 w-full;
+  max-height: 80%;
+}
+
+.full-screen .bycar-gallery-image-wrapper {
+  @apply w-full;
+}
+
+.bycar-gallery .bycar-gallery-thumnails-list {
   @apply grid-flow-row overflow-y-auto overflow-x-hidden;
 }
-.bycar-regular-gallery.horizontal {
+.full-screen .bycar-gallery,
+.bycar-gallery.horizontal {
   grid-template-columns: 1fr;
   grid-template-rows: 1fr 80px;
 }
-.bycar-regular-gallery.horizontal .bycar-gallery-thumnails-list {
+.full-screen .bycar-gallery .bycar-gallery-thumnails-list,
+.bycar-gallery.horizontal .bycar-gallery-thumnails-list {
   order: 2;
   @apply grid-flow-col overflow-x-auto overflow-y-hidden;
+}
+.full-screen .bycar-gallery-image {
+  @apply object-contain;
+}
+.full-screen .bycar-gallery-chevron {
+  @apply invert-0 text-white;
 }
 </style>
