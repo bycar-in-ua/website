@@ -25,8 +25,6 @@ export const GalleryProps = {
   },
 };
 
-export const ThumbnailsListProps = {};
-
 export interface IGalleryItem {
   id: number;
   variant: GalleryItemVariant;

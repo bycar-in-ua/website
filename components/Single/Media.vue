@@ -3,7 +3,7 @@
     :items="galleryItems"
     class="mb-5"
     :mode="GalleryPlacement.vertical"
-    height="30vh"
+    height="40vh"
   />
 </template>
 
