@@ -119,26 +119,32 @@ export default defineComponent({
 });
 </script>
 
-<style>
+<style lang="postcss">
 .bycar-gallery {
   @apply grid gap-5 overflow-hidden h-full transition-all;
   grid-template-columns: 80px 1fr;
+  .bycar-gallery-thumnails-list {
+    @apply grid-flow-row overflow-y-auto overflow-x-hidden;
+  }
 }
 .full-screen {
   @apply fixed bg-gray-900 bg-opacity-50 w-screen h-screen left-0 top-0 right-0 bottom-0 z-40 transition-all flex justify-center items-center;
-}
-.full-screen .bycar-gallery {
-  @apply max-w-7xl mx-auto p-5 w-full;
-  max-height: 80%;
+  .bycar-gallery {
+    @apply max-w-7xl mx-auto p-5 w-full;
+    max-height: 80%;
+  }
+  .bycar-gallery-chevron,
+  .bycar-gallery-zoom-icon {
+    @apply invert-0 text-white;
+  }
+  .bycar-gallery-image-wrapper {
+    @apply w-full;
+  }
+  .bycar-gallery-image {
+    @apply object-contain;
+  }
 }
 
-.full-screen .bycar-gallery-image-wrapper {
-  @apply w-full;
-}
-
-.bycar-gallery .bycar-gallery-thumnails-list {
-  @apply grid-flow-row overflow-y-auto overflow-x-hidden;
-}
 .full-screen .bycar-gallery,
 .bycar-gallery.horizontal {
   grid-template-columns: 1fr;
@@ -148,11 +154,5 @@ export default defineComponent({
 .bycar-gallery.horizontal .bycar-gallery-thumnails-list {
   order: 2;
   @apply grid-flow-col overflow-x-auto overflow-y-hidden;
-}
-.full-screen .bycar-gallery-image {
-  @apply object-contain;
-}
-.full-screen .bycar-gallery-chevron {
-  @apply invert-0 text-white;
 }
 </style>

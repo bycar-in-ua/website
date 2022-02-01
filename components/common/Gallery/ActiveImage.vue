@@ -18,7 +18,7 @@
       <ChevronRightIcon class="bycar-gallery-chevron" />
     </div>
     <div class="bycar-gallery-zoom" @click="toggleFullScreen">
-      <ZoomInIcon class="bycar-gallery-zoom-icon" />
+      <ArrowsExpandIcon class="bycar-gallery-zoom-icon" />
     </div>
   </div>
 </template>
@@ -33,7 +33,7 @@ import {
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
-  ZoomInIcon,
+  ArrowsExpandIcon,
 } from "@heroicons/vue/solid";
 
 export default defineComponent({
@@ -41,7 +41,7 @@ export default defineComponent({
   components: {
     ChevronLeftIcon,
     ChevronRightIcon,
-    ZoomInIcon,
+    ArrowsExpandIcon,
   },
   setup() {
     const item = inject<Ref<IActiveGalleryItem>>("activeItem");
@@ -82,7 +82,7 @@ export default defineComponent({
 });
 </script>
 
-<style>
+<style lang="postcss">
 .bycar-gallery-chevron {
   @apply h-12 opacity-50 invert transition-all;
   --tw-invert: invert(50%);
@@ -90,15 +90,19 @@ export default defineComponent({
 .bycar-gallery-chewron-wrapper {
   @apply absolute top-0 bottom-0 flex items-center justify-center cursor-pointer transition-all;
   --tw-gradient-stops: transparent, rgba(255, 255, 255, 0.2);
-}
-.bycar-gallery-chewron-wrapper:hover .bycar-gallery-chevron {
-  @apply opacity-100;
+  &:hover {
+    .bycar-gallery-chevron {
+      @apply opacity-100;
+    }
+  }
 }
 .bycar-gallery-zoom {
   @apply absolute right-0 bottom-0 p-4 cursor-pointer;
-}
-.bycar-gallery-zoom:hover .bycar-gallery-zoom-icon {
-  @apply opacity-100;
+  &:hover {
+    .bycar-gallery-zoom-icon {
+      @apply opacity-100;
+    }
+  }
 }
 .bycar-gallery-zoom-icon {
   @apply w-8 h-8 invert opacity-50 transition-all;

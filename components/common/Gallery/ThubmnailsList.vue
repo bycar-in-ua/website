@@ -12,11 +12,11 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
+<style lang="postcss">
 .bycar-gallery-thumnails-list {
   @apply grid gap-3 content-start justify-start scroll-smooth overflow-auto;
-}
-.bycar-gallery-thumnails-list::-webkit-scrollbar {
-  display: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 </style>

@@ -35,12 +35,14 @@ export default defineComponent({
 });
 </script>
 
-<style>
+<style lang="postcss">
 .bycar-gallery-thumbnail {
   @apply rounded-lg overflow-hidden w-20 h-20 cursor-pointer transition-all bg-primary;
-}
-.bycar-gallery-thumbnail.active .bycar-gallery-thumbnail-image {
-  @apply opacity-60;
+  &.active {
+    .bycar-gallery-thumbnail-image {
+      @apply opacity-60;
+    }
+  }
 }
 .bycar-gallery-thumbnail-image {
   @apply h-full w-full object-cover transition-all;

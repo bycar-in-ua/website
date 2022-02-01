@@ -5868,11 +5868,6 @@ vue-style-loader@^4.1.3:
     hash-sum "^1.0.2"
     loader-utils "^1.0.2"
 
-vue-tsx-support@^3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/vue-tsx-support/-/vue-tsx-support-3.2.0.tgz#678b7ecc49473bf743be78482f8edad0331536c0"
-  integrity sha512-Uc3i9deEvZeHKc43Lcsh1ihCWvG1yygFnbY1jMe49K+DWCmGgwYWUkD0mxdgPwAMc6gi23CRVkrJsvamfCvD7A==
-
 vue@^3.2.22:
   version "3.2.22"
   resolved "https://registry.npmjs.org/vue/-/vue-3.2.22.tgz"

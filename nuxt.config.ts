@@ -1,5 +1,4 @@
 import { defineNuxtConfig } from "nuxt3";
-import { resolve } from "pathe";
 
 export default defineNuxtConfig({
   build: {
@@ -7,6 +6,7 @@ export default defineNuxtConfig({
     postcss: {
       postcssOptions: {
         plugins: {
+          "tailwindcss/nesting": {},
           tailwindcss: {},
           autoprefixer: {},
         },
