@@ -1,10 +1,5 @@
 import { PropType } from "vue";
 
-export enum GalleryPlacement {
-  horizontal = "horizontal",
-  vertical = "vertical",
-}
-
 export enum GalleryItemVariant {
   image = "image",
   video = "video",
@@ -18,10 +13,6 @@ export const GalleryProps = {
   height: {
     type: String as PropType<string>,
     default: "auto",
-  },
-  mode: {
-    type: String as PropType<GalleryPlacement>,
-    default: GalleryPlacement.horizontal,
   },
 };
 

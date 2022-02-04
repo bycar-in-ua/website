@@ -4,8 +4,13 @@
       height: height,
     }"
   >
-    <div :class="fullScreen ? 'full-screen' : 'h-full'">
-      <div class="bycar-gallery" :class="mode">
+    <div
+      :class="fullScreen ? 'full-screen' : 'h-full'"
+      ref="backdropRef"
+      @click.stop="backdropClickHandler"
+    >
+      <div class="bycar-gallery">
+        <ActiveImage />
         <ThubmnailsList ref="thumbsListRef">
           <Thumbnail
             v-for="(item, index) in items"
@@ -14,7 +19,6 @@
             :index="index"
           />
         </ThubmnailsList>
-        <ActiveImage />
       </div>
     </div>
   </div>
@@ -45,6 +49,7 @@ export default defineComponent({
   components: { ThubmnailsList, Thumbnail, ActiveImage },
   setup(props) {
     const thumbsListRef = ref(null);
+    const backdropRef = ref(null);
     const fullScreen = ref(false);
 
     const activeItem: Ref<IActiveGalleryItem> = ref({
@@ -52,11 +57,6 @@ export default defineComponent({
       prevItemIndex: null,
       nextItemIndex: props.items.length > 1 ? 1 : null,
     });
-
-    const scrollDirectionsMap = {
-      horizontal: "scrollLeft",
-      vertical: "scrollTop",
-    };
 
     const setActiveItem: TSetGalleryActiveItem = (
       itemIndex,
@@ -71,10 +71,12 @@ export default defineComponent({
       };
       switch (direction) {
         case "next":
-          thumbsListRef.value.$el[scrollDirectionsMap[props.mode]] += 90;
+          thumbsListRef.value.$el.scrollLeft += 90;
+          thumbsListRef.value.$el.scrollTop += 90;
           break;
         case "prev":
-          thumbsListRef.value.$el[scrollDirectionsMap[props.mode]] -= 90;
+          thumbsListRef.value.$el.scrollLeft -= 90;
+          thumbsListRef.value.$el.scrollTop -= 90;
           break;
         default:
           break;
@@ -106,6 +108,14 @@ export default defineComponent({
       });
     }
 
+    const backdropClickHandler = (e) => {
+      if (e.target !== backdropRef.value) {
+        return;
+      }
+      fullScreen.value = false;
+      return;
+    };
+
     provide("setGalleryActiveItem", setActiveItem);
     provide("activeItem", readonly(activeItem));
     provide("toggleGalleryFullScreen", toggleFullScreen);
@@ -113,7 +123,9 @@ export default defineComponent({
     return {
       activeItem,
       thumbsListRef,
+      backdropRef,
       fullScreen,
+      backdropClickHandler,
     };
   },
 });
@@ -122,9 +134,20 @@ export default defineComponent({
 <style lang="postcss">
 .bycar-gallery {
   @apply grid gap-5 overflow-hidden h-full transition-all;
-  grid-template-columns: 80px 1fr;
+  @screen md {
+    grid-template-columns: 80px 1fr;
+    .bycar-gallery-image-wrapper {
+      order: 2;
+    }
+  }
   .bycar-gallery-thumnails-list {
-    @apply grid-flow-row overflow-y-auto overflow-x-hidden;
+    grid-template-columns: 80px;
+    @apply grid-flow-col overflow-x-auto overflow-y-hidden;
+    @screen md {
+      order: 1;
+      grid-template-columns: 80px;
+      @apply grid-flow-row overflow-y-auto overflow-x-hidden;
+    }
   }
 }
 .full-screen {
@@ -132,6 +155,15 @@ export default defineComponent({
   .bycar-gallery {
     @apply max-w-7xl mx-auto p-5 w-full;
     max-height: 80%;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 80px;
+    .bycar-gallery-thumnails-list {
+      order: unset;
+      @apply grid-flow-col overflow-x-auto overflow-y-hidden;
+    }
+    .bycar-gallery-image-wrapper {
+      order: unset;
+    }
   }
   .bycar-gallery-chevron,
   .bycar-gallery-zoom-icon {
@@ -143,16 +175,5 @@ export default defineComponent({
   .bycar-gallery-image {
     @apply object-contain;
   }
-}
-
-.full-screen .bycar-gallery,
-.bycar-gallery.horizontal {
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr 80px;
-}
-.full-screen .bycar-gallery .bycar-gallery-thumnails-list,
-.bycar-gallery.horizontal .bycar-gallery-thumnails-list {
-  order: 2;
-  @apply grid-flow-col overflow-x-auto overflow-y-hidden;
 }
 </style>

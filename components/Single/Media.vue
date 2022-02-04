@@ -1,10 +1,5 @@
 <template>
-  <Gallery
-    :items="galleryItems"
-    class="mb-5"
-    :mode="GalleryPlacement.vertical"
-    height="40vh"
-  />
+  <Gallery :items="galleryItems" class="mb-5" height="40vh" />
 </template>
 
 <script lang="ts">
@@ -16,7 +11,6 @@ export default {
 <script setup lang="ts">
 import { Gallery } from "@/components/common/Gallery";
 import { GalleryItem } from "@/components/common/Gallery";
-import { GalleryPlacement } from "@/components/common/Gallery/interface";
 import tmmImg1 from "@/assets/images/homepage-bg.jpg";
 import tmmImg2 from "@/assets/images/test-image-1.jpg";
 import tmmImg3 from "@/assets/images/test-image-2.jpg";
