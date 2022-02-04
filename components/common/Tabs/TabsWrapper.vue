@@ -71,14 +71,17 @@ export default defineComponent({
 });
 </script>
 
-<style>
+<style lang="postcss">
 .bycar-tabs-header {
-  @apply flex;
+  @apply flex overflow-x-auto relative;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 .bycar-tab {
   @apply px-4 py-2 cursor-pointer border-b hover:border-primary hover:text-primary transition-all;
-}
-.bycar-tab.active {
-  @apply border-primary text-primary;
+  &.active {
+    @apply border-primary text-primary;
+  }
 }
 </style>
