@@ -91,8 +91,8 @@ export default defineComponent({
       if (e.key === "Escape") {
         fullScreen.value = false;
         return;
-      } else if (e.ctrlKey && e.key === "z") {
-        fullScreen.value = true;
+      } else if (e.key === "f") {
+        toggleFullScreen();
         return;
       }
 

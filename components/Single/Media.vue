@@ -1,5 +1,5 @@
 <template>
-  <Gallery :items="galleryItems" class="mb-5" height="40vh" />
+  <Gallery :items="galleryItems" class="mb-5" height="510px" />
 </template>
 
 <script lang="ts">
