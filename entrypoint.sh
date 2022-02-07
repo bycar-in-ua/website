@@ -1,5 +1,5 @@
 #!/bin/sh
 
-yarn
-yarn build
+# yarn
+# yarn build
 yarn start

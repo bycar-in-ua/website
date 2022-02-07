@@ -1,6 +1,6 @@
 <template>
-  <nuxt-link to="/">
-    <img src="@/assets/images/logo.png" alt="Logo" class="w-36" />
+  <nuxt-link to="/" class="font-bold text-primary text-3xl montserrat">
+    bycar
   </nuxt-link>
 </template>
 

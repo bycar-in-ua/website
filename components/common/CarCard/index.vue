@@ -14,10 +14,7 @@
       Классический суперкар начала двухтысячных для п...
     </p>
     <div class="flex">
-      <NuxtLink
-        to="/catalog"
-        class="text-primary underline font-bold text-sm hover:no-underline"
-      >
+      <NuxtLink to="/catalog" class="text-primary font-bold text-sm">
         Подробнее
       </NuxtLink>
     </div>
