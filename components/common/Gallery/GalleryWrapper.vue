@@ -1,25 +1,20 @@
 <template>
   <div
-    :style="{
-      height: height,
-    }"
+    :class="fullScreen ? 'full-screen' : 'regular-gallery'"
+    :style="`--gallery-height: ${height}`"
+    ref="backdropRef"
+    @click.stop="backdropClickHandler"
   >
-    <div
-      :class="fullScreen ? 'full-screen' : 'h-full'"
-      ref="backdropRef"
-      @click.stop="backdropClickHandler"
-    >
-      <div class="bycar-gallery">
-        <ActiveImage />
-        <ThubmnailsList ref="thumbsListRef">
-          <Thumbnail
-            v-for="(item, index) in items"
-            :key="item.id"
-            :item="item"
-            :index="index"
-          />
-        </ThubmnailsList>
-      </div>
+    <div class="bycar-gallery">
+      <ActiveImage />
+      <ThubmnailsList ref="thumbsListRef">
+        <Thumbnail
+          v-for="(item, index) in items"
+          :key="item.id"
+          :item="item"
+          :index="index"
+        />
+      </ThubmnailsList>
     </div>
   </div>
 </template>
@@ -132,6 +127,12 @@ export default defineComponent({
 </script>
 
 <style lang="postcss">
+.regular-gallery {
+  height: auto;
+  @screen md {
+    height: var(--gallery-height);
+  }
+}
 .bycar-gallery {
   @apply grid gap-5 overflow-hidden h-full transition-all;
   @screen md {
