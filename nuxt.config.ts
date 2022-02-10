@@ -2,7 +2,7 @@ import { defineNuxtConfig } from "nuxt3";
 
 export default defineNuxtConfig({
   build: {
-    transpile: ["seemly", "naive-ui", "treemate", "vueuc", "vdirs"],
+    transpile: [],
     postcss: {
       postcssOptions: {
         plugins: {

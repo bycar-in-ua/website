@@ -12,6 +12,10 @@
   display: none;
 }
 
+body {
+  overflow: overlay;
+}
+
 h1,
 h2,
 h3,
