@@ -3,6 +3,6 @@
   "extends": "./.nuxt/tsconfig.json",
   "compilerOptions": {
     "jsx": "preserve",
-    "types": ["vite/client", "@nuxt/types"]
+    "types": ["vite/client", "@nuxt/types", "@pinia/nuxt"]
   }
 }
