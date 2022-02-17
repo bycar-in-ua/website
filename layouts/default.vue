@@ -7,14 +7,15 @@
 </template>
 
 <script lang="ts">
-export default {
-  name: "DefaultLayout",
-};
-</script>
-
-<script setup lang="ts">
+import { defineComponent } from "vue";
 import Hader from "@/components/Hader/index.vue";
 import Footer from "@/components/Footer/index.vue";
+export default defineComponent({
+  components: {
+    Hader,
+    Footer,
+  },
+});
 </script>
 
 <style>

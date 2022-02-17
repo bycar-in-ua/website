@@ -1,8 +1,8 @@
 <template>
-  <section class="bycar-container section hi-top">
+  <section class="bycar-container section high-top">
     <SectionTitle title="Последние добавленные авто" />
     <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
-      <CarCard v-for="i in 8" :key="i"></CarCard>
+      <CarCard v-for="car in cars" :key="car.id" :car="car" />
     </div>
   </section>
 </template>
@@ -14,6 +14,12 @@ export default {
 </script>
 
 <script setup lang="ts">
+import { computed } from "vue";
+import { useHomeStore } from "@/stores/home";
 import SectionTitle from "@/components/common/SectionTitle.vue";
 import CarCard from "@/components/common/CarCard/index.vue";
+
+const store = useHomeStore();
+
+const cars = computed(() => store.latestItems);
 </script>

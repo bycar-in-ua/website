@@ -36,11 +36,11 @@ h4,
   @apply py-5 md:py-6 lg:py-8;
 }
 
-.section.hi-top {
+.section.high-top {
   @apply pt-10 md:pt-12 lg:pt-16;
 }
 
-.section.hi-bottom {
+.section.high-bottom {
   @apply pb-10 md:pb-12 lg:pb-16;
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <section class="bycar-container section hi-bottom">
+  <section class="bycar-container section high-bottom">
     <SectionTitle title="Марки автомобилей" />
     <div class="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-8 gap-9">
       <NuxtLink

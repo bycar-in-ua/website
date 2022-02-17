@@ -1,20 +1,20 @@
 <template>
   <div class="card">
-    <NuxtLink to="/catalog/bmw/x5-m">
+    <NuxtLink v-if="car.featureImage" :to="carRoute">
       <img
-        src="@/assets/images/homepage-bg.jpg"
-        alt="Test"
+        :src="$cdnLink(car.featureImage.path, 480, 300)"
+        :alt="car.displayName"
         class="rounded-lg mb-3"
       />
     </NuxtLink>
-    <NuxtLink to="/catalog">
-      <h3 class="font-bold uppercase mb-2">BWM X5</h3>
+    <NuxtLink :to="carRoute">
+      <h3 class="font-bold uppercase mb-2" v-text="car.displayName" />
     </NuxtLink>
-    <p class="text-sm text-gray-600 mb-6">
+    <!-- <p class="text-sm text-gray-600 mb-6">
       Классический суперкар начала двухтысячных для п...
-    </p>
+    </p> -->
     <div class="flex">
-      <NuxtLink to="/catalog" class="text-primary font-bold text-sm">
+      <NuxtLink :to="carRoute" class="text-primary font-bold text-sm">
         Подробнее
       </NuxtLink>
     </div>
@@ -22,9 +22,17 @@
 </template>
 
 <script lang="ts">
-export default {
-  name: "CarCard",
-};
-</script>
+import { defineComponent } from "vue";
 
-<script setup lang="ts"></script>
+export default defineComponent({
+  name: "CarCard",
+  props: {
+    car: Object,
+  },
+  computed: {
+    carRoute() {
+      return `/catalog/${this.car.brand.name}/${this.car.slug}`;
+    },
+  },
+});
+</script>
