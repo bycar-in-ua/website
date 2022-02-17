@@ -1,6 +1,5 @@
 <template>
   <div>
-    <Title> Каталог новых автомобилей | bycar.in.ua </Title>
     <Hero />
     <Latest />
     <Brands />
@@ -18,7 +17,6 @@ import { useRuntimeConfig, useFetch } from "#app";
 import Hero from "@/components/Home/Hero.vue";
 import Latest from "@/components/Home/Latest.vue";
 import Brands from "@/components/Home/Brands.vue";
-import api from "@/utils/apiClient";
 import { useHomeStore } from "@/stores/home";
 
 const config = useRuntimeConfig();
@@ -29,7 +27,7 @@ type Resp = {
   items: Object[];
 };
 
-const { data } = await useFetch<string, Resp>("/vehicles?limit=4", {
+const { data } = await useFetch<string, Resp>("/vehicles?limit=8", {
   baseURL: config.BASE_URL,
 });
 

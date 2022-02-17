@@ -1,10 +1,9 @@
 <template>
+  <Hader />
   <main>
-    <Hader />
-    <Nuxt />
-    Lorem ipsum dolor sit amet.
-    <Footer />
+    <slot />
   </main>
+  <Footer />
 </template>
 
 <script lang="ts">
