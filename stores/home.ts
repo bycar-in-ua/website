@@ -1,6 +1,11 @@
 import { defineStore } from "pinia";
+import { Car } from "@/types/car.type";
 
-export const useHomeStore = defineStore("home", {
+type HomeStoreType = {
+  latestItems: Car[];
+};
+
+export const useHomeStore = defineStore<"home", HomeStoreType>("home", {
   state: () => ({
     latestItems: [],
     establishedBrands: [],

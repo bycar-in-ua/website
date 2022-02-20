@@ -17,7 +17,6 @@ export default defineNuxtConfig({
   buildModules: ["@pinia/nuxt"],
   publicRuntimeConfig: {
     API_BASE: process.env.API_URL,
-    CDN_URL: process.env.CDN_URL,
-    BASE_URL: process.env.API_URL,
+    CDN_BASE: process.env.CDN_URL,
   },
 });

@@ -10,9 +10,6 @@
     <NuxtLink :to="carRoute">
       <h3 class="font-bold uppercase mb-2" v-text="car.displayName" />
     </NuxtLink>
-    <!-- <p class="text-sm text-gray-600 mb-6">
-      Классический суперкар начала двухтысячных для п...
-    </p> -->
     <div class="flex">
       <NuxtLink :to="carRoute" class="text-primary font-bold text-sm">
         Подробнее
