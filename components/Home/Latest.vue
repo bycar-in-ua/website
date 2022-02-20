@@ -1,7 +1,9 @@
 <template>
   <section class="bycar-container section high-top">
     <SectionTitle title="Последние добавленные авто" />
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
+    <div
+      class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4 lg:gap-5"
+    >
       <CarCard v-for="car in cars" :key="car.id" :car="car" />
     </div>
   </section>

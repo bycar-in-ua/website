@@ -18,6 +18,8 @@ export default defineComponent({
 });
 </script>
 
+<script setup lang="ts"></script>
+
 <style>
 body {
   @apply bg-body-bg text-main-color;
