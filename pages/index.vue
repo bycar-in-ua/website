@@ -7,9 +7,9 @@
 </template>
 
 <script lang="ts">
-export default {
+export default defineComponent({
   name: "IndexPage",
-};
+});
 </script>
 
 <script setup lang="ts">
