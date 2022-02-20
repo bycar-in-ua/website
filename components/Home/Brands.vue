@@ -1,15 +1,18 @@
 <template>
   <section class="bycar-container section high-bottom">
     <SectionTitle title="Марки автомобилей" />
-    <div class="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-8 gap-9">
+    <div class="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-8 gap-8">
       <NuxtLink
-        v-for="i in 64"
-        :key="i"
-        to="/catalog/nissan"
+        v-for="brand in establishedBrands"
+        :key="brand.id"
+        :to="`/catalog/${brand.name}`"
         class="flex items-center"
       >
-        <div class="bg-gray-300 rounded-full w-6 h-6 mr-4"></div>
-        <h4>Nissan</h4>
+        <img
+          :src="$cdnLink(brand.logo, 0, 50)"
+          class="rounded-full w-6 h-6 mr-4 object-contain"
+        />
+        <h4 v-text="brand.displayName" />
       </NuxtLink>
     </div>
   </section>
@@ -23,4 +26,8 @@ export default {
 
 <script setup lang="ts">
 import SectionTitle from "@/components/common/SectionTitle.vue";
+
+import { useHomeStore } from "@/stores/home";
+
+const { establishedBrands } = useHomeStore();
 </script>
