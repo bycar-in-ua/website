@@ -9,7 +9,20 @@
     >
       <ChevronLeftIcon class="bycar-gallery-chevron" />
     </div>
-    <img :src="item.source" :alt="item.alt" class="bycar-gallery-image" />
+    <div
+      class="flex transition-all h-full"
+      :style="{
+        transform: `translateX(${itemsTrackTranslate})`,
+      }"
+    >
+      <img
+        v-for="item in galleryItems"
+        :key="item.id"
+        :src="item.source"
+        :alt="item.alt"
+        class="bycar-gallery-image"
+      />
+    </div>
     <div
       v-if="item.nextItemIndex !== null"
       class="bycar-gallery-chewron-wrapper right-0 hover:bg-gradient-to-r"
@@ -24,9 +37,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, onMounted, onBeforeUnmount, Ref } from "vue";
+import {
+  defineComponent,
+  inject,
+  onMounted,
+  onBeforeUnmount,
+  Ref,
+  computed,
+} from "vue";
 import {
   IActiveGalleryItem,
+  IGalleryItem,
   TSetGalleryActiveItem,
   TToggleGalleryFullScreen,
 } from "./interface";
@@ -46,11 +67,13 @@ export default defineComponent({
   setup() {
     const item = inject<Ref<IActiveGalleryItem>>("activeItem");
     const setGalleryActiveItem = inject<TSetGalleryActiveItem>(
-      "setGalleryActiveItem"
+      "setGalleryActiveItem",
     );
     const toggleFullScreen = inject<TToggleGalleryFullScreen>(
-      "toggleGalleryFullScreen"
+      "toggleGalleryFullScreen",
     );
+
+    const galleryItems = inject<IGalleryItem[]>("galleryItems");
 
     const arrowsKeydownListener = (e: KeyboardEvent) => {
       if (e.key === "ArrowRight" && item.value.nextItemIndex !== null) {
@@ -73,10 +96,16 @@ export default defineComponent({
       });
     }
 
+    const itemsTrackTranslate = computed(
+      () => `-${item.value.currentItemIndex * 100}%`,
+    );
+
     return {
       setGalleryActiveItem,
       item,
       toggleFullScreen,
+      galleryItems,
+      itemsTrackTranslate,
     };
   },
 });
@@ -85,10 +114,9 @@ export default defineComponent({
 <style lang="postcss">
 .bycar-gallery-chevron {
   @apply h-12 opacity-50 invert transition-all;
-  --tw-invert: invert(50%);
 }
 .bycar-gallery-chewron-wrapper {
-  @apply absolute top-0 bottom-0 flex items-center justify-center cursor-pointer transition-all;
+  @apply absolute top-0 bottom-0 flex items-center justify-center cursor-pointer transition-all z-20;
   --tw-gradient-stops: transparent, rgba(255, 255, 255, 0.2);
   &:hover {
     .bycar-gallery-chevron {
@@ -97,7 +125,7 @@ export default defineComponent({
   }
 }
 .bycar-gallery-zoom {
-  @apply absolute right-0 bottom-0 p-4 cursor-pointer;
+  @apply absolute right-0 bottom-0 p-4 cursor-pointer z-30;
   &:hover {
     .bycar-gallery-zoom-icon {
       @apply opacity-100;
@@ -106,9 +134,9 @@ export default defineComponent({
 }
 .bycar-gallery-zoom-icon {
   @apply w-8 h-8 invert opacity-50 transition-all;
-  --tw-invert: invert(50%);
 }
 .bycar-gallery-image {
-  @apply object-cover w-full h-full;
+  @apply object-cover w-full h-auto;
+  flex: 1 0 100%;
 }
 </style>

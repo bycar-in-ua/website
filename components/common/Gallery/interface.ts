@@ -23,14 +23,15 @@ export interface IGalleryItem {
   alt?: string;
 }
 
-export interface IActiveGalleryItem extends IGalleryItem {
+export interface IActiveGalleryItem {
+  currentItemIndex: number;
   prevItemIndex: number | null;
   nextItemIndex: number | null;
 }
 
 export type TSetGalleryActiveItem = (
   itemIndex: number,
-  direction?: "next" | "prev" | null
+  direction?: "next" | "prev" | null,
 ) => void;
 
 export type TToggleGalleryFullScreen = () => void;

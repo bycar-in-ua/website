@@ -48,19 +48,19 @@ export default defineComponent({
     const fullScreen = ref(false);
 
     const activeItem: Ref<IActiveGalleryItem> = ref({
-      ...props.items[0],
+      currentItemIndex: 0,
       prevItemIndex: null,
       nextItemIndex: props.items.length > 1 ? 1 : null,
     });
 
     const setActiveItem: TSetGalleryActiveItem = (
       itemIndex,
-      direction = null
+      direction = null,
     ) => {
       const prevIndex = itemIndex - 1;
       const nextIndex = itemIndex + 1;
       activeItem.value = {
-        ...props.items[itemIndex],
+        currentItemIndex: itemIndex,
         prevItemIndex: prevIndex >= 0 ? prevIndex : null,
         nextItemIndex: nextIndex < props.items.length ? nextIndex : null,
       };
@@ -113,6 +113,7 @@ export default defineComponent({
 
     provide("setGalleryActiveItem", setActiveItem);
     provide("activeItem", readonly(activeItem));
+    provide("galleryItems", props.items);
     provide("toggleGalleryFullScreen", toggleFullScreen);
 
     return {
