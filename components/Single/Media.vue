@@ -10,49 +10,25 @@ export default {
 
 <script setup lang="ts">
 import { Gallery } from "@/components/common/Gallery";
-import { GalleryItem } from "@/components/common/Gallery";
-import tmmImg1 from "@/assets/images/homepage-bg.jpg";
-import tmmImg2 from "@/assets/images/test-image-1.jpg";
-import tmmImg3 from "@/assets/images/test-image-2.jpg";
-import tmmImg4 from "@/assets/images/test-image-3.jpg";
-import tmmImg5 from "@/assets/images/test-image-4.jpg";
+import { IGalleryItem } from "@/components/common/Gallery";
+import { CarImage } from "../../types/car.type";
+import { GalleryItemVariant } from "../common/Gallery/interface";
 
-const galleryItems: GalleryItem[] = [
-  {
-    id: 1,
-    variant: "image",
-    source: tmmImg1,
-    alt: "Test",
-  },
-  {
-    id: 2,
-    variant: "image",
-    source: tmmImg2,
-  },
-  {
-    id: 3,
-    variant: "image",
-    source: tmmImg4,
-  },
-  {
-    id: 4,
-    variant: "image",
-    source: tmmImg3,
-  },
-  {
-    id: 5,
-    variant: "image",
-    source: tmmImg5,
-  },
-  {
-    id: 6,
-    variant: "image",
-    source: tmmImg2,
-  },
-  {
-    id: 7,
-    variant: "image",
-    source: tmmImg4,
-  },
-];
+interface IProps {
+  images: CarImage[];
+}
+
+const props = defineProps<IProps>();
+
+const { $cdnLink } = useNuxtApp();
+
+const galleryItems = generateGalleryItems(props.images);
+
+function generateGalleryItems(images: CarImage[]): IGalleryItem[] {
+  return images.map((image) => ({
+    id: image.id,
+    source: $cdnLink(image.path),
+    variant: GalleryItemVariant.image,
+  }));
+}
 </script>

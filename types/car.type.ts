@@ -1,5 +1,8 @@
+import { Brand } from "./brand.type";
+
 export type Car = {
   id: number;
+  brand: Brand;
   status: string;
   model: string;
   year: number;
@@ -21,5 +24,10 @@ export type Car = {
   trunkVolume?: number;
   slug: string;
   featureImage?: Object;
-  images?: Object[];
+  images?: CarImage[];
+};
+
+export type CarImage = {
+  id: number;
+  path: string;
 };
