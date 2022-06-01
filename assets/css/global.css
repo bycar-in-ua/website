@@ -47,3 +47,7 @@ h4,
 .card {
   @apply bg-white rounded-lg border border-gray-200 p-4 md:p-5;
 }
+
+.mce-styles p {
+  @apply pb-4;
+}
