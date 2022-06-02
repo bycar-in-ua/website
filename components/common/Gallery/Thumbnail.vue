@@ -1,20 +1,21 @@
 <template>
   <div
     class="bycar-gallery-thumbnail"
+    :class="activeItem.currentItemIndex === index ? 'active' : ''"
+    :style="{
+      'background-image': `url('${item.source}')`,
+    }"
     @click="setActiveItem"
-    :class="activeItem.id === item.id ? 'active' : ''"
-  >
-    <img
-      :src="item.source"
-      :alt="item.alt"
-      class="bycar-gallery-thumbnail-image"
-    />
-  </div>
+  />
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType, inject } from "vue";
-import { IGalleryItem, TSetGalleryActiveItem } from "./interface";
+import {
+  IActiveGalleryItem,
+  IGalleryItem,
+  TSetGalleryActiveItem,
+} from "./interface";
 
 export default defineComponent({
   name: "GalleryThumbnail",
@@ -23,9 +24,9 @@ export default defineComponent({
     index: Number as PropType<number>,
   },
   setup(props) {
-    const activeItem = inject<IGalleryItem>("activeItem");
+    const activeItem = inject<IActiveGalleryItem>("activeItem");
     const setGalleryActiveItem = inject<TSetGalleryActiveItem>(
-      "setGalleryActiveItem"
+      "setGalleryActiveItem",
     );
     return {
       setActiveItem: () => setGalleryActiveItem(props.index),
@@ -37,14 +38,12 @@ export default defineComponent({
 
 <style lang="postcss">
 .bycar-gallery-thumbnail {
-  @apply rounded-lg overflow-hidden w-20 h-20 cursor-pointer transition-all bg-primary;
+  @apply rounded-lg overflow-hidden w-20 h-20 cursor-pointer transition-all bg-cover bg-center;
   &.active {
-    .bycar-gallery-thumbnail-image {
-      @apply opacity-60;
+    &:after {
+      content: "";
+      @apply block w-full h-full bg-primary opacity-50;
     }
   }
-}
-.bycar-gallery-thumbnail-image {
-  @apply h-full w-full object-cover transition-all;
 }
 </style>

@@ -1,13 +1,14 @@
 <template>
   <div
-    class="bycar-gallery-image-wrapper overflow-hidden rounded-lg w-full relative select-none"
+    class="bycar-gallery-image-wrapper overflow-hidden w-full relative select-none"
   >
     <div
       v-if="item.prevItemIndex !== null"
-      class="bycar-gallery-chewron-wrapper left-0 hover:bg-gradient-to-l"
+      class="bycar-gallery-chewron-wrapper left-0"
       @click="setGalleryActiveItem(item.prevItemIndex, 'prev')"
+      title='"&#129044;"'
     >
-      <ChevronLeftIcon class="bycar-gallery-chevron" />
+      <ChevronLeftIcon class="bycar-gallery-icon bycar-gallery-chevron" />
     </div>
     <div
       class="flex transition-all h-full"
@@ -25,13 +26,14 @@
     </div>
     <div
       v-if="item.nextItemIndex !== null"
-      class="bycar-gallery-chewron-wrapper right-0 hover:bg-gradient-to-r"
+      class="bycar-gallery-chewron-wrapper right-0"
       @click="setGalleryActiveItem(item.nextItemIndex, 'next')"
+      title='"&#10141;"'
     >
-      <ChevronRightIcon class="bycar-gallery-chevron" />
+      <ChevronRightIcon class="bycar-gallery-icon bycar-gallery-chevron" />
     </div>
-    <div class="bycar-gallery-zoom" @click="toggleFullScreen">
-      <ArrowsExpandIcon class="bycar-gallery-zoom-icon" />
+    <div class="bycar-gallery-zoom" @click="toggleFullScreen" title='"F"'>
+      <ArrowsExpandIcon class="bycar-gallery-icon bycar-gallery-zoom-icon" />
     </div>
   </div>
 </template>
@@ -113,7 +115,7 @@ export default defineComponent({
 
 <style lang="postcss">
 .bycar-gallery-chevron {
-  @apply h-12 opacity-50 invert transition-all;
+  @apply h-12  transition-all;
 }
 .bycar-gallery-chewron-wrapper {
   @apply absolute top-0 bottom-0 flex items-center justify-center cursor-pointer transition-all z-20;
@@ -125,7 +127,7 @@ export default defineComponent({
   }
 }
 .bycar-gallery-zoom {
-  @apply absolute right-0 bottom-0 p-4 cursor-pointer z-30;
+  @apply w-12 h-12 absolute right-0 bottom-0 cursor-pointer z-30;
   &:hover {
     .bycar-gallery-zoom-icon {
       @apply opacity-100;
@@ -133,7 +135,7 @@ export default defineComponent({
   }
 }
 .bycar-gallery-zoom-icon {
-  @apply w-8 h-8 invert opacity-50 transition-all;
+  @apply transition-all p-2 w-12 h-12;
 }
 .bycar-gallery-image {
   @apply object-cover w-full h-auto;
