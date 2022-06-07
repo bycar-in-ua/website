@@ -16,7 +16,7 @@ import MenuToggler from "@/components/common/Menu/MenuToggler.vue";
 
 const menuItems = [
   {
-    label: "Главная",
+    label: "Головна",
     route: "/",
     exact: true,
   },
