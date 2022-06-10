@@ -1,9 +1,11 @@
 import { defineNuxtPlugin, useRuntimeConfig } from "#app";
 
+export type CdnLink = (path: string, width?: number, height?: number) => string;
+
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig();
 
-  const cdnLink = (path: string, width: number = 0, height: number = 0) =>
+  const cdnLink: CdnLink = (path, width = 0, height = 0) =>
     `${config.CDN_BASE}/${path}?size=${width}x${height}`;
 
   return {

@@ -5,7 +5,8 @@ export type Car = {
   brand: Brand;
   status: string;
   model: string;
-  year: number;
+  yearFrom: number;
+  yearTo?: number;
   description?: string;
   bodyType: string;
   sizeClass?: string;
