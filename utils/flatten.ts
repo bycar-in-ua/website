@@ -9,7 +9,7 @@ import {
 export function flatten(
   vNodes: VNode[] | VNodeArrayChildren,
   filterCommentNode = true,
-  result = []
+  result = [],
 ): VNode[] {
   vNodes.forEach((vNode) => {
     if (vNode === null) return;

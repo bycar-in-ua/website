@@ -1,22 +1,26 @@
 module.exports = {
-  root: true,
   env: {
+    browser: true,
+    es2021: true,
     node: true,
   },
   extends: [
-    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended",
-    "@nuxtjs/eslint-config-typescript",
+    "plugin:nuxt/recommended",
   ],
-  ignorePatterns: [".eslintrc.js"],
+  parserOptions: {
+    ecmaVersion: 13,
+    parser: "@typescript-eslint/parser",
+    sourceType: "module",
+  },
+  plugins: ["vue", "@typescript-eslint"],
   rules: {
-    "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
-    "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
-    "prettier/prettier": [
-      "error",
-      {
-        endOfLine: "auto",
-      },
-    ],
+    "no-unused-expressions": "off",
+    "vue/no-v-html": "off",
+    "no-console": ["error", { allow: ["warn", "error"] }],
+    "vue/script-setup-uses-vars": "error",
+    "@typescript-eslint/no-explicit-any": "off",
+    "prettier/prettier": "error",
   },
 };

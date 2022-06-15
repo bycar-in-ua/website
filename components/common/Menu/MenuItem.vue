@@ -16,7 +16,7 @@ export default {
 </script>
 
 <script setup lang="ts">
-const props = defineProps({
+defineProps({
   item: {
     type: Object,
     requierd: true,

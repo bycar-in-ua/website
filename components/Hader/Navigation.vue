@@ -10,7 +10,6 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { ref } from "vue";
 import ResponsiveMenu from "@/components/common/Menu/ResponsiveMenu.vue";
 import MenuToggler from "@/components/common/Menu/MenuToggler.vue";
 
@@ -26,6 +25,4 @@ const menuItems = [
     exact: false,
   },
 ];
-
-const activeItem = ref("main");
 </script>
