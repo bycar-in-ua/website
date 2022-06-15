@@ -1,4 +1,4 @@
-import { defineNuxtPlugin, useRuntimeConfig, useFetch, AsyncData } from "#app";
+import { defineNuxtPlugin, useRuntimeConfig, useFetch } from "#app";
 
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig();

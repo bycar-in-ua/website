@@ -3,7 +3,7 @@
     <Title :title="getCarName(car)" />
     <Media :images="car.images" />
     <GeneralInfo :description="car.description" :short-summary="shortSummary" />
-    <Tabs />
+    <Tabs :car="car" />
   </div>
 </template>
 
@@ -17,10 +17,10 @@ export default {
 import Title from "@/components/Single/Title.vue";
 import Media from "@/components/Single/Media.vue";
 import GeneralInfo from "@/components/Single/GeneralInfo.vue";
-import Tabs from "@/components/Single/Tabs.vue";
-import { Car } from "../../../types/car.type";
+import Tabs from "@/components/Single/Tabs/index.vue";
+import { VehicleDto as Car } from "@/common";
 import { generatePageTitle } from "../../../utils/seo";
-import { ShortSummary } from "../../../components/Single";
+import { InfoLineProps } from "@/components/common/InfoLine";
 
 const { $api } = useNuxtApp();
 
@@ -48,7 +48,7 @@ function getModelYear(car: Car) {
   return year;
 }
 
-const shortSummary = computed<ShortSummary[]>(() => [
+const shortSummary = computed<InfoLineProps[]>(() => [
   {
     name: "Модель",
     value: getCarName(car.value),

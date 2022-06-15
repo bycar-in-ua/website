@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { Car } from "../types/car.type";
+import { VehicleDto as Car } from "@/common";
 
 type CatalogStoreType = {
   items: Car[];
@@ -11,5 +11,5 @@ export const useCatalogStore = defineStore<"catalog", CatalogStoreType>(
     state: () => ({
       items: [],
     }),
-  }
+  },
 );

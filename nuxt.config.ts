@@ -2,7 +2,7 @@ import { defineNuxtConfig } from "nuxt";
 
 export default defineNuxtConfig({
   build: {
-    transpile: [],
+    transpile: ["@heroicons/vue"],
     postcss: {
       postcssOptions: {
         plugins: {

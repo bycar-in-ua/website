@@ -5,11 +5,11 @@
       <div class="description mce-styles" v-html="description" />
     </div>
     <div class="card self-baseline" v-if="shortSummary">
-      <div v-for="(item, index) in shortSummary" :key="index" class="flex">
-        <span v-text="item.name" />
-        <div class="border-b border-dotted flex-grow" />
-        <span v-text="item.value" />
-      </div>
+      <info-line
+        v-for="(item, index) in shortSummary"
+        :key="index"
+        v-bind="item"
+      />
     </div>
   </div>
 </template>
@@ -21,11 +21,11 @@ export default {
 </script>
 
 <script setup lang="ts">
-import type { ShortSummary } from ".";
+import { InfoLine, InfoLineProps } from "@/components/common/InfoLine";
 
 interface IProps {
   description?: string;
-  shortSummary?: ShortSummary[];
+  shortSummary?: InfoLineProps[];
 }
 
 defineProps<IProps>();

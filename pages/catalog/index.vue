@@ -11,14 +11,14 @@ export default {
 <script setup lang="ts">
 import Catalog from "@/components/Catalog/index.vue";
 import { useCatalogStore } from "../../stores/catalog";
-import { Car } from "../../types/car.type";
+import { VehicleDto as Car } from "@/common";
 
 const catalogStore = useCatalogStore();
 
 const { $api } = useNuxtApp();
 
 const { data: vehicles } = await $api.get<{ items: Car[] }>(
-  "/vehicles?limit=10"
+  "/vehicles?limit=10",
 );
 
 catalogStore.items = vehicles.value.items;

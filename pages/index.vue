@@ -8,7 +8,7 @@
 
 <script lang="ts">
 export default defineComponent({
-  name: "IndexPage",
+  name: "HomePage",
 });
 </script>
 
@@ -18,8 +18,7 @@ import Hero from "@/components/Home/Hero.vue";
 import Latest from "@/components/Home/Latest.vue";
 import Brands from "@/components/Home/Brands.vue";
 import { useHomeStore } from "@/stores/home";
-import type { Car } from "@/types/car.type";
-import type { Brand } from "@/types/brand.type";
+import { VehicleDto as Car, BrandDto as Brand } from "@/common";
 
 const homeStore = useHomeStore();
 
