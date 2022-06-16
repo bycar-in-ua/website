@@ -1,5 +1,7 @@
 <template>
-  <div class="py-4 grid gap-4 md:gap-6 xl:grid-cols-3 md:grid-cols-2">
+  <div
+    class="py-4 grid items-baseline gap-4 md:gap-6 xl:grid-cols-3 md:grid-cols-2"
+  >
     <Card title="Загальні характеристики">
       <info-line
         v-for="(item, index) in generalCaracteristics"
