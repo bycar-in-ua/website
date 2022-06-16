@@ -20,6 +20,10 @@ import Brands from "@/components/Home/Brands.vue";
 import { useHomeStore } from "@/stores/home";
 import { VehicleDto as Car, BrandDto as Brand } from "@/common";
 
+useHead({
+  title: "bycar.in.ua",
+});
+
 const homeStore = useHomeStore();
 
 const { $api } = useNuxtApp();
