@@ -19,6 +19,8 @@ export default defineNuxtConfig({
     public: {
       API_BASE: process.env.API_URL,
       CDN_BASE: process.env.CDN_URL,
+      SUPPORTED_LOCALES: process.env.SUPPORTED_LOCALES.split("|"),
+      FALLBACK_LOCALE: process.env.FALLBACK_LOCALE,
     },
   },
 });

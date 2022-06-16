@@ -1,9 +1,12 @@
 <template>
   <Tabs default-active-tab="general">
-    <TabPane name="general" title="Загальні характеристики">
+    <TabPane name="general" :title="$t('vehicle.generalCharacteristics.title')">
       <General :car="car" />
     </TabPane>
-    <TabPane name="complectations" title="Комплектації та ціни">
+    <TabPane
+      name="complectations"
+      :title="$t('vehicle.complectationsAndPrices')"
+    >
       Lorem ipsum dolor sit amet.
     </TabPane>
   </Tabs>
@@ -21,4 +24,6 @@ import { VehicleDto as Car } from "@/common";
 import General from "./General.vue";
 
 defineProps<{ car: Car }>();
+
+const { $t } = useNuxtApp();
 </script>

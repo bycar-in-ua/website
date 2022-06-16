@@ -1,7 +1,7 @@
 <template>
   <div class="mb-5 grid md:grid-cols-3 gap-5">
     <div class="md:col-span-2" v-if="description">
-      <h3 class="mb-5 font-semibold">Опис</h3>
+      <h3 class="mb-5 font-semibold">{{ $t("description") }}</h3>
       <div class="description mce-styles" v-html="description" />
     </div>
     <div class="card self-baseline" v-if="shortSummary">
@@ -29,4 +29,6 @@ interface IProps {
 }
 
 defineProps<IProps>();
+
+const { $t } = useNuxtApp();
 </script>

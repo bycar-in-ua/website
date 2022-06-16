@@ -22,7 +22,7 @@ import { VehicleDto as Car } from "@/common";
 import { generatePageTitle } from "../../../utils/seo";
 import { InfoLineProps } from "@/components/common/InfoLine";
 
-const { $api } = useNuxtApp();
+const { $api, $t } = useNuxtApp();
 
 const route = useRoute();
 
@@ -50,20 +50,20 @@ function getModelYear(car: Car) {
 
 const shortSummary = computed<InfoLineProps[]>(() => [
   {
-    name: "Модель",
+    name: $t("vehicle.model"),
     value: getCarName(car.value),
   },
   {
-    name: "Модельний рік",
+    name: $t("vehicle.modelYear"),
     value: getModelYear(car.value),
   },
   {
-    name: "Тип кузову",
-    value: car.value.bodyType,
+    name: $t("vehicle.bodyTypes.title"),
+    value: $t(`vehicle.bodyTypes.items.${car.value.bodyType}`),
   },
   {
-    name: "Класс",
-    value: car.value.sizeClass,
+    name: $t("vehicle.sizeClases.title"),
+    value: $t(`vehicle.sizeClases.items.${car.value.sizeClass}`),
   },
 ]);
 

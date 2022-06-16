@@ -2,15 +2,19 @@
   <div
     class="py-4 grid items-baseline gap-4 md:gap-6 xl:grid-cols-3 md:grid-cols-2"
   >
-    <Card title="Загальні характеристики">
+    <Card :title="$t('vehicle.generalCharacteristics.title')">
       <info-line
         v-for="(item, index) in generalCaracteristics"
         :key="index"
         v-bind="item"
       />
     </Card>
-    <Card title="Габаритні показники">Lorem ipsum </Card>
-    <Card title="Маси та об'єми">Lorem ipsum </Card>
+    <Card :title="$t('vehicle.generalCharacteristics.dimensions.title')"
+      >Lorem ipsum
+    </Card>
+    <Card :title="$t('vehicle.generalCharacteristics.weightsNVolumes')"
+      >Lorem ipsum
+    </Card>
   </div>
 </template>
 
@@ -27,53 +31,55 @@ import { VehicleDto as Car } from "@/common";
 
 const props = defineProps<{ car: Car }>();
 
+const { $t } = useNuxtApp();
+
 const generalCaracteristics: InfoLineProps[] = [
   {
-    name: "Тип кузову",
-    value: props.car.bodyType,
+    name: $t("vehicle.bodyTypes.title"),
+    value: $t(`vehicle.bodyTypes.items.${props.car.bodyType}`),
   },
   {
-    name: "Клас авто",
-    value: props.car.sizeClass,
+    name: $t("vehicle.sizeClases.title"),
+    value: $t(`vehicle.sizeClases.items.${props.car.sizeClass}`),
   },
   {
-    name: "Тип підсилювача керма",
-    value: props.car.powerSteering,
+    name: $t("vehicle.powerSteerings.title"),
+    value: $t(`vehicle.powerSteerings.items.${props.car.powerSteering}`),
   },
   {
-    name: "Розположення двигуна",
-    value: props.car.enginePlacement,
+    name: $t("vehicle.enginePlacements.title"),
+    value: $t(`vehicle.enginePlacements.items.${props.car.enginePlacement}`),
   },
   {
-    name: "Кількість дверей",
+    name: $t("vehicle.numberOfDoors"),
     value: props.car.numberOfDoors,
   },
   {
-    name: 'Діаметр дисків, "',
+    name: $t("vehicle.discDiameter"),
     value: props.car.discDiameter,
   },
   {
-    name: "Результати краштестів",
+    name: $t("vehicle.generalCharacteristics.crashTestsRate"),
     value: props.car.crashTestsRate,
   },
   {
-    name: "Гарантія, років",
+    name: $t("vehicle.generalCharacteristics.warantyYears"),
     value: props.car.warantyYears,
   },
   {
-    name: "Гарантія на ЛФП, років",
+    name: $t("vehicle.generalCharacteristics.warantyYearsPaintwork"),
     value: props.car.warantyYearsPaintwork,
   },
   {
-    name: "Гарантія от наскрізної корозії, років",
+    name: $t("vehicle.generalCharacteristics.warantyYearsPaintwork"),
     value: props.car.warantyYearsPaintwork,
   },
   {
-    name: "Гарантія, пробіг - тис. км",
+    name: $t("vehicle.generalCharacteristics.warantyMileage"),
     value: props.car.warantyMileage,
   },
   {
-    name: "Країна зборки",
+    name: $t("vehicle.generalCharacteristics.manufactureCountry"),
     value: props.car.manufactureCountry,
   },
 ];
