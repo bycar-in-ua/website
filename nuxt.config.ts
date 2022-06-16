@@ -13,6 +13,11 @@ export default defineNuxtConfig({
       },
     },
   },
+  app: {
+    head: {
+      title: "bycar.in.ua",
+    },
+  },
   css: ["@/assets/css/tailwind.css", "@/assets/css/global.css"],
   buildModules: ["@pinia/nuxt"],
   runtimeConfig: {

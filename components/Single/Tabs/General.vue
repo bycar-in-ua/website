@@ -9,11 +9,11 @@
         v-bind="item"
       />
     </Card>
-    <Card :title="$t('vehicle.generalCharacteristics.dimensions.title')"
-      >Lorem ipsum
+    <Card :title="$t('vehicle.generalCharacteristics.dimensions.title')">
+      <info-line v-for="(item, index) in gabarits" :key="index" v-bind="item" />
     </Card>
-    <Card :title="$t('vehicle.generalCharacteristics.weightsNVolumes')"
-      >Lorem ipsum
+    <Card :title="$t('vehicle.generalCharacteristics.weightsNVolumes')">
+      <info-line v-for="(item, index) in volumes" :key="index" v-bind="item" />
     </Card>
   </div>
 </template>
@@ -55,6 +55,10 @@ const generalCaracteristics: InfoLineProps[] = [
     value: props.car.numberOfDoors,
   },
   {
+    name: $t("vehicle.generalCharacteristics.numberOfSeats"),
+    value: props.car.numberOfSeats,
+  },
+  {
     name: $t("vehicle.discDiameter"),
     value: props.car.discDiameter,
   },
@@ -81,6 +85,48 @@ const generalCaracteristics: InfoLineProps[] = [
   {
     name: $t("vehicle.generalCharacteristics.manufactureCountry"),
     value: props.car.manufactureCountry,
+  },
+];
+
+const gabarits: InfoLineProps[] = [
+  {
+    name: $t("vehicle.generalCharacteristics.dimensions.l"),
+    value: props.car.dimensionL,
+  },
+  {
+    name: $t("vehicle.generalCharacteristics.dimensions.w"),
+    value: props.car.dimensionW,
+  },
+  {
+    name: $t("vehicle.generalCharacteristics.dimensions.h"),
+    value: props.car.dimensionH,
+  },
+  {
+    name: $t("vehicle.generalCharacteristics.wheelbase"),
+    value: props.car.wheelbase,
+  },
+  {
+    name: $t("vehicle.generalCharacteristics.clearance"),
+    value: props.car.clearance,
+  },
+];
+
+const volumes: InfoLineProps[] = [
+  {
+    name: $t("vehicle.generalCharacteristics.curbWeight"),
+    value: props.car.curbWeight,
+  },
+  {
+    name: $t("vehicle.generalCharacteristics.fullWeight"),
+    value: props.car.fullWeight,
+  },
+  {
+    name: $t("vehicle.generalCharacteristics.gasTankVolume"),
+    value: props.car.gasTankVolume,
+  },
+  {
+    name: $t("vehicle.generalCharacteristics.trunkVolume"),
+    value: props.car.trunkVolume,
   },
 ];
 </script>
