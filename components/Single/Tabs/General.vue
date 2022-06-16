@@ -2,7 +2,10 @@
   <div
     class="py-4 grid items-baseline gap-4 md:gap-6 xl:grid-cols-3 md:grid-cols-2"
   >
-    <Card :title="$t('vehicle.generalCharacteristics.title')">
+    <Card
+      :title="$t('vehicle.generalCharacteristics.title')"
+      class="row-span-2"
+    >
       <info-line
         v-for="(item, index) in generalCaracteristics"
         :key="index"
@@ -14,6 +17,18 @@
     </Card>
     <Card :title="$t('vehicle.generalCharacteristics.weightsNVolumes')">
       <info-line v-for="(item, index) in volumes" :key="index" v-bind="item" />
+    </Card>
+    <Card :title="$t('colors.availableColors')">
+      <div class="flex gap-4">
+        <img
+          v-for="color in car.colors"
+          :key="color.id"
+          :src="$cdnLink(color.reference, 200, 200)"
+          :alt="color.name"
+          :title="color.name"
+          class="w-16 rounded-full"
+        />
+      </div>
     </Card>
   </div>
 </template>
@@ -31,7 +46,7 @@ import { VehicleDto as Car } from "@/common";
 
 const props = defineProps<{ car: Car }>();
 
-const { $t } = useNuxtApp();
+const { $t, $cdnLink } = useNuxtApp();
 
 const generalCaracteristics: InfoLineProps[] = [
   {

@@ -19,11 +19,14 @@ export const InfoLine = defineComponent({
   setup(props) {
     return () => {
       if (props.value)
-        return h("div", { class: "flex" }, [
-          h("span", {}, props.name),
-          h("div", { class: "border-b border-dotted flex-grow px-1" }),
-          h("span", {}, props.value),
-        ]);
+        return h(
+          "div",
+          { class: "flex py-1 border-b border-dotted justify-between" },
+          [
+            h("span", { class: "pr-1" }, props.name),
+            h("span", { class: "text-right pl-1" }, props.value),
+          ],
+        );
     };
   },
 });

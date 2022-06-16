@@ -73,13 +73,13 @@ export default defineComponent({
 
 <style lang="postcss">
 .bycar-tabs-header {
-  @apply flex overflow-x-auto relative;
+  @apply flex overflow-x-auto relative px-4;
   &::-webkit-scrollbar {
     display: none;
   }
 }
 .bycar-tab {
-  @apply px-4 py-2 cursor-pointer border-b hover:border-primary hover:text-primary transition-all;
+  @apply px-4 py-2 cursor-pointer border-b hover:border-primary hover:text-primary transition-all whitespace-nowrap;
   &.active {
     @apply border-primary text-primary;
   }
