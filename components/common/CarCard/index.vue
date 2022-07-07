@@ -30,8 +30,6 @@ export default defineComponent({
 <script setup lang="ts">
 import { getCarTitle } from "@/utils/carHelpers";
 
-const { $t } = useNuxtApp();
-
 const props = defineProps<{
   car: Car;
 }>();
