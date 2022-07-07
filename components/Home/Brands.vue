@@ -5,7 +5,7 @@
       <NuxtLink
         v-for="brand in establishedBrands"
         :key="brand.id"
-        :to="`/catalog/${brand.name}`"
+        :to="`/${brand.name}`"
         class="flex items-center"
       >
         <img

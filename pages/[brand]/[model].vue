@@ -19,7 +19,7 @@ import Media from "@/components/Single/Media.vue";
 import GeneralInfo from "@/components/Single/GeneralInfo.vue";
 import Tabs from "@/components/Single/Tabs/index.vue";
 import { VehicleDto as Car } from "@/common";
-import { generatePageTitle } from "../../../utils/seo";
+import { generatePageTitle } from "@/utils/seo";
 import { InfoLineProps } from "@/components/common/InfoLine";
 
 const { $api, $t } = useNuxtApp();

@@ -38,9 +38,7 @@ const props = defineProps<{
 
 const carTitle = getCarTitle(props.car);
 
-const carRoute = computed(
-  () => `/catalog/${props.car.brand.name}/${props.car.slug}`,
-);
+const carRoute = computed(() => `/${props.car.brand.name}/${props.car.slug}`);
 </script>
 
 <style lang="postcss">
