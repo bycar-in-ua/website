@@ -3,15 +3,12 @@
     <NuxtLink v-if="car.featureImage" :to="carRoute">
       <img
         :src="$cdnLink(car.featureImage.path, 480, 300)"
-        :alt="car.displayName"
+        :alt="carTitle"
         class="rounded-t-lg mb-3"
       />
     </NuxtLink>
     <NuxtLink :to="carRoute">
-      <h3
-        class="car-card-component font-bold uppercase"
-        v-text="car.displayName"
-      />
+      <h3 class="car-card-component font-bold uppercase" v-text="carTitle" />
     </NuxtLink>
     <div class="car-card-component flex justify-end">
       <NuxtLink :to="carRoute" class="text-primary font-bold text-sm">
@@ -23,22 +20,27 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { VehicleDto as Car } from "common";
 
 export default defineComponent({
   name: "CarCard",
-  props: {
-    car: Object,
-  },
-  computed: {
-    carRoute() {
-      return `/catalog/${this.car.brand.name}/${this.car.slug}`;
-    },
-  },
 });
 </script>
 
 <script setup lang="ts">
+import { getCarTitle } from "@/utils/carHelpers";
+
 const { $t } = useNuxtApp();
+
+const props = defineProps<{
+  car: Car;
+}>();
+
+const carTitle = getCarTitle(props.car);
+
+const carRoute = computed(
+  () => `/catalog/${props.car.brand.name}/${props.car.slug}`,
+);
 </script>
 
 <style lang="postcss">
