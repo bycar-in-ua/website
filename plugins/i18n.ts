@@ -2,6 +2,7 @@ import { defineNuxtPlugin, useRuntimeConfig, useCookie } from "#app";
 import generalTranslations from "@/common/translations/general.json";
 import vehicleTranslations from "@/common/translations/vehicle.json";
 import colorsTranslations from "@/common/translations/colors.json";
+import websiteTranslations from "@/common/translations/website.json";
 import get from "lodash.get";
 
 export type TranslationFunction = (path: string, pluralism?: number) => string;
@@ -18,6 +19,7 @@ export default defineNuxtPlugin(() => {
       l,
       {
         ...generalTranslations[l],
+        ...websiteTranslations[l],
         vehicle: vehicleTranslations[l],
         colors: colorsTranslations[l],
       },

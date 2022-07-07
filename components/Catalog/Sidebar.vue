@@ -1,6 +1,6 @@
 <template>
-  <div class="bg-white p-5">
-    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Culpa, quis!
+  <div class="bg-white p-4 my-4 rounded border border-gray-200">
+    <h3 class="text-center pb-2">{{ $t("filters") }}</h3>
   </div>
 </template>
 

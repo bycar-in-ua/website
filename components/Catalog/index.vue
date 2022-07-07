@@ -1,6 +1,6 @@
 <template>
-  <div class="bycar-container md:flex">
-    <!-- <Sidebar class="basis-80 flex-shrink-0 lg:pl-10 lg:-ml-5" /> -->
+  <div class="bycar-container flex gap-4">
+    <Sidebar class="w-80 flex-shrink-0" />
     <List />
   </div>
 </template>
@@ -12,6 +12,6 @@ export default {
 </script>
 
 <script setup lang="ts">
-// import Sidebar from "@/components/Catalog/Sidebar.vue";
+import Sidebar from "@/components/Catalog/Sidebar.vue";
 import List from "@/components/Catalog/List.vue";
 </script>

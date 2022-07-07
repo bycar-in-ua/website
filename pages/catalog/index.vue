@@ -10,7 +10,7 @@ export default {
 
 <script setup lang="ts">
 import Catalog from "@/components/Catalog/index.vue";
-import { useCatalogStore } from "../../stores/catalog";
+import { useCatalogStore } from "@/stores/catalog";
 import { VehicleDto as Car } from "@/common";
 
 const catalogStore = useCatalogStore();
