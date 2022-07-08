@@ -39,7 +39,7 @@ export default defineComponent({
     }
   }
   &__checkmark-wrapper {
-    @apply w-4 h-4 border-2 border-subtext-color rounded mr-2 transition-colors relative inline-flex justify-center items-center;
+    @apply w-4 h-4 border border-subtext-color rounded mr-2 transition-colors relative inline-flex justify-center items-center;
     &.checked {
       @apply bg-primary border-primary;
     }
