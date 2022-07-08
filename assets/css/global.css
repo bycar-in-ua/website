@@ -57,3 +57,8 @@ h4,
 .mce-styles p {
   @apply pb-4;
 }
+
+.disabled {
+  @apply text-gray-400;
+  cursor: not-allowed !important;
+}

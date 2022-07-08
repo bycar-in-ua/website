@@ -2,7 +2,7 @@
   <div class="bg-white p-4 my-4 rounded border border-gray-200">
     <h3 class="text-center pb-2">{{ $t("filters") }}</h3>
 
-    <Checkbox :value="true" name="test" />
+    <Checkbox v-model:checked="checked" label="test" />
   </div>
 </template>
 
@@ -13,5 +13,8 @@ export default {
 </script>
 
 <script setup lang="ts">
-import Checkbox from "@/components/common/Checkbox.vue";
+import { ref } from "vue";
+import { Checkbox } from "@/components/common/Checkbox";
+
+const checked = ref(true);
 </script>

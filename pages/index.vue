@@ -33,6 +33,6 @@ const [{ data: vehicles }, { data: brands }] = await Promise.all([
   $api.get<Brand[]>("/brands"),
 ]);
 
-homeStore.latestItems = vehicles.value.items;
+homeStore.latestItems = vehicles.value?.items;
 homeStore.establishedBrands = brands.value;
 </script>

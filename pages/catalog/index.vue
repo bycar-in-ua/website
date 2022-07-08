@@ -21,5 +21,5 @@ const { data: vehicles } = await $api.get<{ items: Car[] }>(
   "/vehicles?limit=10",
 );
 
-catalogStore.items = vehicles.value.items;
+catalogStore.items = vehicles.value?.items;
 </script>
