@@ -2,7 +2,7 @@
   <span
     class="bycar-checkbox"
     :class="disabled ? 'disabled' : ''"
-    @click="!disabled && $emit('update:checked', !checked)"
+    @click="!disabled && $emit('update:checked', !checked, value)"
   >
     <span
       class="bycar-checkbox__checkmark-wrapper"
