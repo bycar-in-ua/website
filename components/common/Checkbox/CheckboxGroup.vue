@@ -15,7 +15,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { CheckboxGroupProps } from "./interface";
-import Checkbox from "./Checkbox.vue";
+import Checkbox from "./SingleCheckbox.vue";
 
 export default defineComponent({
   name: "CheckboxGroup",
@@ -41,7 +41,7 @@ export default defineComponent({
 
 <style lang="postcss">
 .bycar-checkbox-group {
-  @apply flex flex-wrap items-start gap-2;
+  @apply flex flex-wrap items-start;
   &.vertical {
     @apply flex-col;
   }
