@@ -16,28 +16,15 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-export default defineComponent({
-  name: "Checkbox",
-});
-</script>
-
-<script setup lang="ts">
+import { CheckboxProps } from "./interface";
 import { CheckIcon } from "@heroicons/vue/solid";
 
-withDefaults(
-  defineProps<{
-    checked?: boolean;
-    label?: string;
-    disabled?: boolean;
-  }>(),
-  {
-    checked: false,
-    label: "",
-    disabled: false,
-  },
-);
-
-defineEmits(["update:checked"]);
+export default defineComponent({
+  name: "Checkbox",
+  props: CheckboxProps,
+  components: { CheckIcon },
+  emits: ["update:checked"],
+});
 </script>
 
 <style lang="postcss">
