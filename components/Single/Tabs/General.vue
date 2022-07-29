@@ -19,7 +19,7 @@
       <info-line v-for="(item, index) in volumes" :key="index" v-bind="item" />
     </Card>
     <Card :title="$t('colors.availableColors')">
-      <div class="flex gap-4">
+      <div class="grid gap-4 colors-wrapper">
         <img
           v-for="color in car.colors"
           :key="color.id"
@@ -145,3 +145,9 @@ const volumes: InfoLineProps[] = [
   },
 ];
 </script>
+
+<style>
+.colors-wrapper {
+  grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+}
+</style>
