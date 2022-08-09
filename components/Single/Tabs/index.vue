@@ -7,7 +7,7 @@
       name="complectations"
       :title="$t('vehicle.complectationsAndPrices')"
     >
-      Lorem ipsum dolor sit amet.
+      <Complectations :car="car" />
     </TabPane>
   </Tabs>
 </template>
@@ -22,6 +22,7 @@ export default {
 import { Tabs, TabPane } from "@/components/common/Tabs";
 import { VehicleDto as Car } from "@/common";
 import General from "./General.vue";
+import Complectations from "./Complectations.vue";
 
 defineProps<{ car: Car }>();
 
