@@ -15,8 +15,7 @@ export default {
 
 <script setup lang="ts">
 import useMenuShowing from "@/composables/useMenuShowing";
-import { MenuIcon } from "@heroicons/vue/solid/index.js";
-import { useRouter } from "vue-router";
+import { MenuIcon } from "@heroicons/vue/solid";
 
 const { afterEach } = useRouter();
 

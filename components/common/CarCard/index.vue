@@ -20,7 +20,6 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { VehicleDto as Car } from "common";
 
 export default defineComponent({
   name: "CarCard",
@@ -28,6 +27,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
+import { VehicleDto as Car } from "common";
 import { getCarTitle } from "@/utils/carHelpers";
 
 const props = defineProps<{

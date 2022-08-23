@@ -19,7 +19,14 @@ export default defineNuxtConfig({
     },
   },
   css: ["@/assets/css/tailwind.css", "@/assets/css/global.css"],
-  buildModules: ["@pinia/nuxt"],
+  modules: [
+    [
+      "@pinia/nuxt",
+      {
+        autoImports: ["defineStore", ["defineStore", "definePiniaStore"]],
+      },
+    ],
+  ],
   runtimeConfig: {
     public: {
       API_BASE: process.env.API_URL,

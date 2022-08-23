@@ -57,7 +57,7 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   ArrowsExpandIcon,
-} from "@heroicons/vue/solid/index.js";
+} from "@heroicons/vue/solid";
 
 export default defineComponent({
   name: "ActiveImage",

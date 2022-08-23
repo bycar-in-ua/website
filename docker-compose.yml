@@ -7,8 +7,6 @@ services:
     working_dir: /home/node/app
     environment:
       - NODE_ENV=production
-      - NUXT_HOST=${NUXT_HOST}
-      - NUXT_PORT=${NUXT_PORT}
     volumes:
       - ./:/home/node/app
     networks:
@@ -22,7 +20,7 @@ services:
       - traefik.http.routers.${SERVICE_NAME}.entrypoints=websecure
       - traefik.http.routers.${SERVICE_NAME}.tls=true
       - traefik.http.routers.${SERVICE_NAME}.tls.certresolver=letsencrypt-resolver
-      - traefik.http.services.${SERVICE_NAME}.loadbalancer.server.port=${NUXT_PORT}
+      - traefik.http.services.${SERVICE_NAME}.loadbalancer.server.port=4000
 
 networks:
   internal:

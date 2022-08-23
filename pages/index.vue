@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <main>
     <Hero />
     <Latest />
     <Brands />
-  </div>
+  </main>
 </template>
 
 <script lang="ts">

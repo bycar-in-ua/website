@@ -1,13 +1,15 @@
-import { defineNuxtPlugin, useRuntimeConfig, useFetch } from "#app";
+import { defineNuxtPlugin, useRuntimeConfig, useAsyncData } from "#app";
 
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig();
 
-  async function get<ResponseType = any>(endpoind: string) {
-    return await useFetch<ResponseType>(endpoind, {
-      baseURL: config.API_BASE,
-    });
-  }
+  const get = async <ResponseType = any>(endpoind: string) => {
+    return await useAsyncData(endpoind, () =>
+      $fetch<ResponseType>(endpoind, {
+        baseURL: config.API_BASE,
+      }),
+    );
+  };
 
   return {
     provide: {
