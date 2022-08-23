@@ -12,7 +12,7 @@ services:
     networks:
       - internal
       - proxy
-    entrypoint: ["sh", "/home/node/app/entrypoint.sh"]
+    command: "yarn start"
     restart: "always"
     labels:
       - traefik.enable=true
