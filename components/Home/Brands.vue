@@ -1,16 +1,16 @@
 <template>
   <section class="bycar-container section high-bottom">
     <SectionTitle title="Марки автомобилей" />
-    <div class="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-8 gap-8">
+    <div class="flex flex-wrap justify-center gap-8">
       <NuxtLink
         v-for="brand in establishedBrands"
         :key="brand.id"
-        :to="`/catalog/${brand.name}`"
-        class="flex items-center"
+        :to="`/${brand.name}`"
+        class="text-center hover:text-primary"
       >
         <img
           :src="$cdnLink(brand.logo, 0, 50)"
-          class="rounded-full w-6 h-6 mr-4 object-contain"
+          class="w-12 h-12 mx-auto mb-4 object-contain"
         />
         <h4 v-text="brand.displayName" />
       </NuxtLink>

@@ -5,6 +5,11 @@
     ref="backdropRef"
     @click.stop="backdropClickHandler"
   >
+    <XIcon
+      v-if="fullScreen"
+      class="bycar-gallery-icon absolute right-4 top-4 w-12 h-12 p-2 cursor-pointer hover:opacity-100 transition-opacity"
+      @click="fullScreen = false"
+    />
     <div class="bycar-gallery">
       <ActiveImage />
       <ThubmnailsList ref="thumbsListRef">
@@ -37,30 +42,31 @@ import {
 import ThubmnailsList from "./ThubmnailsList.vue";
 import Thumbnail from "./Thumbnail.vue";
 import ActiveImage from "./ActiveImage.vue";
+import { XIcon } from "@heroicons/vue/solid";
 
 export default defineComponent({
   name: "Gallery",
   props: GalleryProps,
-  components: { ThubmnailsList, Thumbnail, ActiveImage },
+  components: { ThubmnailsList, Thumbnail, ActiveImage, XIcon },
   setup(props) {
     const thumbsListRef = ref(null);
     const backdropRef = ref(null);
     const fullScreen = ref(false);
 
     const activeItem: Ref<IActiveGalleryItem> = ref({
-      ...props.items[0],
+      currentItemIndex: 0,
       prevItemIndex: null,
       nextItemIndex: props.items.length > 1 ? 1 : null,
     });
 
     const setActiveItem: TSetGalleryActiveItem = (
       itemIndex,
-      direction = null
+      direction = null,
     ) => {
       const prevIndex = itemIndex - 1;
       const nextIndex = itemIndex + 1;
       activeItem.value = {
-        ...props.items[itemIndex],
+        currentItemIndex: itemIndex,
         prevItemIndex: prevIndex >= 0 ? prevIndex : null,
         nextItemIndex: nextIndex < props.items.length ? nextIndex : null,
       };
@@ -113,6 +119,7 @@ export default defineComponent({
 
     provide("setGalleryActiveItem", setActiveItem);
     provide("activeItem", readonly(activeItem));
+    provide("galleryItems", props.items);
     provide("toggleGalleryFullScreen", toggleFullScreen);
 
     return {
@@ -138,6 +145,7 @@ export default defineComponent({
   @screen md {
     grid-template-columns: 80px 1fr;
     .bycar-gallery-image-wrapper {
+      @apply rounded-lg;
       order: 2;
     }
   }
@@ -152,7 +160,7 @@ export default defineComponent({
   }
 }
 .full-screen {
-  @apply fixed bg-gray-900 bg-opacity-50 w-screen h-screen left-0 top-0 right-0 bottom-0 z-40 transition-all flex justify-center items-center;
+  @apply fixed bg-gray-900 bg-opacity-50 w-screen h-screen left-0 top-0 right-0 bottom-0 z-40 flex justify-center items-center;
   .bycar-gallery {
     @apply max-w-7xl mx-auto p-5 w-full;
     max-height: 80%;
@@ -171,10 +179,16 @@ export default defineComponent({
     @apply invert-0 text-white;
   }
   .bycar-gallery-image-wrapper {
-    @apply w-full;
+    @apply w-full rounded-none;
   }
   .bycar-gallery-image {
     @apply object-contain;
   }
+}
+
+.bycar-gallery-icon {
+  @apply opacity-70;
+  background: rgba(0, 0, 0, 0.6);
+  fill: rgba(255, 255, 255, 0.65);
 }
 </style>

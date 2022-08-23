@@ -30,7 +30,7 @@
 import { ref, defineComponent, PropType, provide } from "vue";
 import { flatten } from "@/utils/flatten";
 
-export const tabPaneProps = {
+export const tabsProps = {
   title: [String] as PropType<string>,
   key: [String, Number] as PropType<string | number>,
   defaultActiveTab: [String, Number] as PropType<string | number>,
@@ -42,10 +42,10 @@ export const tabPaneProps = {
 
 export default defineComponent({
   name: "Tabs",
-  props: tabPaneProps,
+  props: tabsProps,
   setup(props, { slots }) {
     const tabs = flatten(slots.default()).filter(
-      (t) => (t.type as any).__TAB_PANE__ === true
+      (t) => (t.type as any).__TAB_PANE__ === true,
     );
 
     const activeTab = ref(undefined);
@@ -73,13 +73,13 @@ export default defineComponent({
 
 <style lang="postcss">
 .bycar-tabs-header {
-  @apply flex overflow-x-auto relative;
+  @apply flex overflow-x-auto relative px-4;
   &::-webkit-scrollbar {
     display: none;
   }
 }
 .bycar-tab {
-  @apply px-4 py-2 cursor-pointer border-b hover:border-primary hover:text-primary transition-all;
+  @apply px-4 py-2 cursor-pointer border-b hover:border-primary hover:text-primary transition-all whitespace-nowrap;
   &.active {
     @apply border-primary text-primary;
   }

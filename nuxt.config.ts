@@ -1,8 +1,8 @@
-import { defineNuxtConfig } from "nuxt3";
+import { defineNuxtConfig } from "nuxt";
 
 export default defineNuxtConfig({
   build: {
-    transpile: [],
+    transpile: ["@heroicons/vue"],
     postcss: {
       postcssOptions: {
         plugins: {
@@ -13,10 +13,19 @@ export default defineNuxtConfig({
       },
     },
   },
+  app: {
+    head: {
+      title: "bycar.in.ua",
+    },
+  },
   css: ["@/assets/css/tailwind.css", "@/assets/css/global.css"],
   buildModules: ["@pinia/nuxt"],
-  publicRuntimeConfig: {
-    API_BASE: process.env.API_URL,
-    CDN_BASE: process.env.CDN_URL,
+  runtimeConfig: {
+    public: {
+      API_BASE: process.env.API_URL,
+      CDN_BASE: process.env.CDN_URL,
+      SUPPORTED_LOCALES: process.env.SUPPORTED_LOCALES.split("|"),
+      FALLBACK_LOCALE: process.env.FALLBACK_LOCALE,
+    },
   },
 });
