@@ -14,12 +14,29 @@ export default {
 </script>
 
 <script setup lang="ts">
+import { watch } from "vue";
 import useMenuShowing from "@/composables/useMenuShowing";
 import { MenuIcon } from "@heroicons/vue/solid";
 
 const { afterEach } = useRouter();
 
 const showMobileMenu = useMenuShowing();
+
+if (process.client) {
+  watch(showMobileMenu, (val) => {
+    switch (val) {
+      case true:
+        document.body.style.overflowY = "hidden";
+        break;
+      case false:
+        document.body.style.overflowY = "";
+        break;
+
+      default:
+        break;
+    }
+  });
+}
 
 afterEach(() => {
   showMobileMenu.value = false;

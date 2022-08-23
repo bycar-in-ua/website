@@ -18,7 +18,7 @@
     <Card :title="$t('vehicle.generalCharacteristics.weightsNVolumes')">
       <info-line v-for="(item, index) in volumes" :key="index" v-bind="item" />
     </Card>
-    <Card :title="$t('colors.availableColors')">
+    <Card v-if="car.colors.length" :title="$t('colors.availableColors')">
       <div class="grid gap-4 colors-wrapper">
         <img
           v-for="color in car.colors"

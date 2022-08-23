@@ -49,8 +49,8 @@ export default defineComponent({
   props: GalleryProps,
   components: { ThubmnailsList, Thumbnail, ActiveImage, XIcon },
   setup(props) {
-    const thumbsListRef = ref(null);
-    const backdropRef = ref(null);
+    const thumbsListRef = ref();
+    const backdropRef = ref();
     const fullScreen = ref(false);
 
     const activeItem: Ref<IActiveGalleryItem> = ref({
@@ -61,7 +61,7 @@ export default defineComponent({
 
     const setActiveItem: TSetGalleryActiveItem = (
       itemIndex,
-      direction = null,
+      direction: "prev" | "next" = null,
     ) => {
       const prevIndex = itemIndex - 1;
       const nextIndex = itemIndex + 1;
@@ -72,12 +72,16 @@ export default defineComponent({
       };
       switch (direction) {
         case "next":
-          thumbsListRef.value.$el.scrollLeft += 90;
-          thumbsListRef.value.$el.scrollTop += 90;
+          thumbsListRef.value.htmlRef.scroll(
+            thumbsListRef.value.htmlRef.scrollLeft + 90,
+            thumbsListRef.value.htmlRef.scrollTop + 90,
+          );
           break;
         case "prev":
-          thumbsListRef.value.$el.scrollLeft -= 90;
-          thumbsListRef.value.$el.scrollTop -= 90;
+          thumbsListRef.value.htmlRef.scroll(
+            thumbsListRef.value.htmlRef.scrollLeft - 90,
+            thumbsListRef.value.htmlRef.scrollTop - 90,
+          );
           break;
         default:
           break;

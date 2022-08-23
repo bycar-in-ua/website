@@ -1,5 +1,5 @@
 <template>
-  <div class="bycar-gallery-thumnails-list">
+  <div class="bycar-gallery-thumnails-list" ref="htmlRef">
     <slot />
   </div>
 </template>
@@ -9,6 +9,16 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "ThubmnailsList",
+});
+</script>
+
+<script setup lang="ts">
+import { ref } from "vue";
+
+const htmlRef = ref();
+
+defineExpose({
+  htmlRef,
 });
 </script>
 
