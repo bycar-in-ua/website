@@ -1,10 +1,10 @@
 <template>
-  <div class="bycar-container py-5 lg:py-10">
+  <main class="bycar-container py-5 lg:py-10">
     <Title :title="getCarName(car)" />
     <Media :images="car.images" />
     <GeneralInfo :description="car.description" :short-summary="shortSummary" />
     <Tabs :car="car" />
-  </div>
+  </main>
 </template>
 
 <script lang="ts">
@@ -20,7 +20,7 @@ import Title from "@/components/Single/Title.vue";
 import Media from "@/components/Single/Media.vue";
 import GeneralInfo from "@/components/Single/GeneralInfo.vue";
 import Tabs from "@/components/Single/Tabs/index.vue";
-import { VehicleDto as Car } from "@/common";
+import { VehicleView as Car } from "@/common";
 import { generatePageTitle } from "@/utils/seo";
 import { InfoLineProps } from "@/components/common/InfoLine";
 

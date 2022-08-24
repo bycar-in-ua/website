@@ -1,20 +1,21 @@
 <template>
   <div class="bycar-tabs">
     <div
-      class="bycar-tabs-header"
-      :class="tabsJustify"
+      class="w-full flex"
       :style="{
         justifyContent: tabsJustify,
       }"
     >
-      <div
-        v-for="tab in tabs"
-        :key="tab.key"
-        class="bycar-tab"
-        :class="activeTab === tab.props.name ? 'active' : ''"
-        @click="switchTab(tab.props.name)"
-      >
-        {{ tab.props.title }}
+      <div class="bycar-tabs-header" :class="tabsJustify">
+        <div
+          v-for="tab in tabs"
+          :key="tab.key"
+          class="bycar-tab"
+          :class="activeTab === tab.props.name ? 'active' : ''"
+          @click="switchTab(tab.props.name)"
+        >
+          {{ tab.props.title }}
+        </div>
       </div>
     </div>
     <component

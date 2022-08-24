@@ -18,9 +18,12 @@
   display: none;
 }
 
-body {
-  overflow: overlay;
+* {
   scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
 }
 
 h1,

@@ -20,7 +20,7 @@ export default {
 
 <script setup lang="ts">
 import { Tabs, TabPane } from "@/components/common/Tabs";
-import { VehicleDto as Car } from "@/common";
+import { VehicleView as Car } from "@/common";
 import General from "./General.vue";
 import Complectations from "./Complectations.vue";
 

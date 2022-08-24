@@ -5,11 +5,11 @@
 </template>
 
 <script setup lang="ts">
-const { afterEach } = useRouter();
+const nuxtApp = useNuxtApp();
 
 if (process.client) {
-  afterEach(() => {
-    document.body.scrollTo(0, 0);
+  nuxtApp.hook("page:finish", () => {
+    window.scrollTo(0, 0);
   });
 }
 </script>
