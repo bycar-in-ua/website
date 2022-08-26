@@ -39,8 +39,5 @@ import ComplectationInfo from "./ComplectationInfo.vue";
 
 const props = defineProps<{ car: Car }>();
 
-const currentComplectation = useState(
-  "currentComplectation",
-  () => props.car.complectations[0].id,
-);
+const currentComplectation = ref(props.car.complectations[0].id);
 </script>
