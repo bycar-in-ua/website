@@ -22,7 +22,7 @@ import GeneralInfo from "@/components/Single/GeneralInfo.vue";
 import Tabs from "@/components/Single/Tabs/index.vue";
 import { VehicleView as Car } from "@/common";
 import { generatePageTitle } from "@/utils/seo";
-import { InfoLineProps } from "@/components/common/InfoLine";
+import { type InfoLineProps } from "@/components/common/InfoLine.vue";
 
 const { $api, $t } = useNuxtApp();
 

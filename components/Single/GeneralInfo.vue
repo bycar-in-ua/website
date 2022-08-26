@@ -21,7 +21,7 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { InfoLine, InfoLineProps } from "@/components/common/InfoLine";
+import InfoLine, { type InfoLineProps } from "@/components/common/InfoLine.vue";
 
 interface IProps {
   description?: string;

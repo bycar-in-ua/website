@@ -17,7 +17,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { CheckboxProps } from "./interface";
-import { CheckIcon } from "@heroicons/vue/solid";
+import { CheckIcon } from "@heroicons/vue/24/solid";
 
 export default defineComponent({
   name: "Checkbox",

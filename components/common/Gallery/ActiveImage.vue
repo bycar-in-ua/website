@@ -33,7 +33,9 @@
       <ChevronRightIcon class="bycar-gallery-icon bycar-gallery-chevron" />
     </div>
     <div class="bycar-gallery-zoom" @click="toggleFullScreen" title='"F"'>
-      <ArrowsExpandIcon class="bycar-gallery-icon bycar-gallery-zoom-icon" />
+      <ArrowsPointingOutIcon
+        class="bycar-gallery-icon bycar-gallery-zoom-icon"
+      />
     </div>
   </div>
 </template>
@@ -56,15 +58,15 @@ import {
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
-  ArrowsExpandIcon,
-} from "@heroicons/vue/solid";
+  ArrowsPointingOutIcon,
+} from "@heroicons/vue/24/solid";
 
 export default defineComponent({
   name: "ActiveImage",
   components: {
     ChevronLeftIcon,
     ChevronRightIcon,
-    ArrowsExpandIcon,
+    ArrowsPointingOutIcon,
   },
   setup() {
     const item = inject<Ref<IActiveGalleryItem>>("activeItem");

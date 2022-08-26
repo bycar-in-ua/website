@@ -22,7 +22,7 @@ export default {
 import { Tabs, TabPane } from "@/components/common/Tabs";
 import { VehicleView as Car } from "@/common";
 import General from "./General.vue";
-import Complectations from "./Complectations.vue";
+import Complectations from "./Complectations/index.vue";
 
 defineProps<{ car: Car }>();
 

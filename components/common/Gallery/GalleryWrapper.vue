@@ -5,7 +5,7 @@
     ref="backdropRef"
     @click.stop="backdropClickHandler"
   >
-    <XIcon
+    <XMarkIcon
       v-if="fullScreen"
       class="bycar-gallery-icon absolute right-4 top-4 w-12 h-12 p-2 cursor-pointer hover:opacity-100 transition-opacity"
       @click="fullScreen = false"
@@ -42,12 +42,12 @@ import {
 import ThubmnailsList from "./ThubmnailsList.vue";
 import Thumbnail from "./Thumbnail.vue";
 import ActiveImage from "./ActiveImage.vue";
-import { XIcon } from "@heroicons/vue/solid";
+import { XMarkIcon } from "@heroicons/vue/24/solid";
 
 export default defineComponent({
   name: "Gallery",
   props: GalleryProps,
-  components: { ThubmnailsList, Thumbnail, ActiveImage, XIcon },
+  components: { ThubmnailsList, Thumbnail, ActiveImage, XMarkIcon },
   setup(props) {
     const thumbsListRef = ref();
     const backdropRef = ref();
