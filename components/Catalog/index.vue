@@ -1,8 +1,6 @@
 <template>
-  <div class="bycar-container flex gap-4">
-    <Sidebar class="w-80 flex-shrink-0" />
-    <List />
-  </div>
+  <Sidebar />
+  <List />
 </template>
 
 <script lang="ts">

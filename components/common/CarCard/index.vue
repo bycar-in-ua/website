@@ -4,7 +4,7 @@
       <img
         :src="$cdnLink(car.featureImage.path, 480, 300)"
         :alt="carTitle"
-        class="rounded-t-lg mb-3"
+        class="rounded-t-lg mb-3 w-full"
       />
     </NuxtLink>
     <NuxtLink :to="carRoute">

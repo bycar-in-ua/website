@@ -1,5 +1,7 @@
 <template>
-  <Catalog />
+  <main class="bycar-container lg:flex gap-4 relative py-5">
+    <Catalog />
+  </main>
 </template>
 
 <script lang="ts">
