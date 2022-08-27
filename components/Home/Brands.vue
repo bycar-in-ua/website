@@ -5,7 +5,12 @@
       <NuxtLink
         v-for="brand in establishedBrands"
         :key="brand.id"
-        :to="`/${brand.slug}`"
+        :to="{
+          path: 'catalog',
+          query: {
+            brand: brand.slug,
+          },
+        }"
         class="flex items-center justify-center text-xl"
       >
         <img
