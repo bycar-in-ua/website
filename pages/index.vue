@@ -19,9 +19,28 @@ import Latest from "@/components/Home/Latest.vue";
 import Brands from "@/components/Home/Brands.vue";
 import { useHomeStore } from "@/stores/home";
 import { VehicleDto as Car, BrandDto as Brand } from "@/common";
+import HomeBg from "@/assets/images/homepage-bg.jpg";
 
 useHead({
   title: "bycar.in.ua",
+  meta: [
+    {
+      name: "description",
+      content: "bycar-in-ua - Автомобільна спільнота України",
+    },
+    {
+      name: "og:title",
+      content: "bycar.in.ua",
+    },
+    {
+      name: "og:url",
+      content: "https://bycar.in.ua",
+    },
+    {
+      name: "og:image",
+      content: HomeBg,
+    },
+  ],
 });
 
 const homeStore = useHomeStore();

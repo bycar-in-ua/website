@@ -24,14 +24,34 @@ import { VehicleView as Car } from "@/common";
 import { generatePageTitle } from "@/utils/seo";
 import { type InfoLineProps } from "@/components/common/InfoLine.vue";
 
-const { $api, $t } = useNuxtApp();
+const { $api, $t, $cdnLink } = useNuxtApp();
 
 const route = useRoute();
 
 const { data: car } = await $api.get<Car>(`/vehicles/${route.params.model}`);
 
+const carName = getCarName(car.value);
+
 useHead({
-  title: generatePageTitle(getCarName(car.value)),
+  title: generatePageTitle(carName),
+  meta: [
+    {
+      name: "description",
+      content: carName + " | bycar-in-ua - Автомобільна спільнота України",
+    },
+    {
+      name: "og:title",
+      content: generatePageTitle(carName),
+    },
+    {
+      name: "og:url",
+      content: route.fullPath,
+    },
+    {
+      name: "og:image",
+      content: $cdnLink(car.value.featureImage.path, 300),
+    },
+  ],
 });
 
 function getCarName(car: Car) {

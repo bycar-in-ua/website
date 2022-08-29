@@ -15,6 +15,7 @@
       >
         <img
           :src="$cdnLink(brand.logo, 0, 150)"
+          :alt="brand.displayName"
           class="rounded-full w-12 h-12 mr-4 object-contain"
         />
         <h4 v-text="brand.displayName" />
