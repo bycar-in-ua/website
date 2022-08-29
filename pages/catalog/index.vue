@@ -13,7 +13,6 @@ export default {
 <script setup lang="ts">
 import Catalog from "@/components/Catalog/index.vue";
 import { useCatalogStore } from "@/stores/catalog";
-import { VehicleDto as Car } from "@/common";
 import { generatePageTitle } from "@/utils/seo";
 import HomeBg from "@/assets/images/homepage-bg.jpg";
 
@@ -41,11 +40,5 @@ useHead({
 
 const catalogStore = useCatalogStore();
 
-const { $api } = useNuxtApp();
-
-const { data: vehicles } = await $api.get<{ items: Car[] }>(
-  "/vehicles?limit=10",
-);
-
-catalogStore.items = vehicles.value?.items;
+await catalogStore.fetchCars();
 </script>

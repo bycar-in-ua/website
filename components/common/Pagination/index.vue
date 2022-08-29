@@ -1,10 +1,11 @@
 <template>
   <div class="flex">
     <a
-      v-for="i in 5"
+      v-for="i in pagination.totalPages"
       :key="i"
       :href="`#${i}`"
       class="text-primary hover:underline mx-2"
+      @click.prevent="$emit('update:page', i)"
       >{{ i }}</a
     >
   </div>
@@ -16,4 +17,10 @@ export default {
 };
 </script>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { PaginationMeta } from "@/common";
+
+defineProps<{ pagination: PaginationMeta }>();
+
+defineEmits(["update:page"]);
+</script>

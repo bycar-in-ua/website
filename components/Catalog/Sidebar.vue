@@ -19,7 +19,7 @@
       <CheckboxGroup
         :options="brandsOptions"
         variant="vertical"
-        v-model:value="checkboxGroupModel.brand"
+        v-model:value="checkboxModel.brand"
       />
 
       <h4 class="my-4">{{ $t("vehicle.bodyTypes.title") }}:</h4>
@@ -27,7 +27,7 @@
       <CheckboxGroup
         :options="bodyTypesOptions"
         variant="vertical"
-        v-model:value="checkboxGroupModel.bodyType"
+        v-model:value="checkboxModel.bodyType"
       />
     </div>
   </div>
@@ -46,45 +46,48 @@ import {
 } from "@/components/common/Checkbox";
 import { AdjustmentsHorizontalIcon, XMarkIcon } from "@heroicons/vue/24/solid";
 import { BrandDto as Brand } from "@/common";
-import { ua as VehicleWordings } from "@/common/translations/vehicle.json";
+// import { ua as VehicleWordings } from "@/common/translations/vehicle.json";
+import { useCatalogStore } from "@/stores/catalog";
 
 const { $api, $t } = useNuxtApp();
 const router = useRouter();
+const route = useRoute();
+const catalogStore = useCatalogStore();
 
-const { data: brands } = await $api.get<Brand[]>("/brands");
+const [{ data: brands }, { data: bodyTypes }] = await Promise.all([
+  $api.get<Brand[]>("/brands"),
+  $api.get<string[]>("/vehicles/body-types"),
+]);
 
 const isSidebarShowing = ref(false);
+
+function prepareParams(param: string | string[]) {
+  return Array.isArray(param) ? param : [param];
+}
+
+const checkboxModel = ref({
+  brand: prepareParams(route.query?.brand),
+  bodyType: prepareParams(route.query?.bodyType),
+});
 
 const brandsOptions: ICheckboxGroupOption[] = brands.value.map((brand) => ({
   key: brand.slug,
   label: brand.displayName,
 }));
 
-const bodyTypesOptions: ICheckboxGroupOption[] = Object.entries(
-  VehicleWordings.bodyTypes.items,
-).map(([key, label]) => ({ key, label }));
+// const bodyTypesOptions: ICheckboxGroupOption[] = Object.entries(
+//   VehicleWordings.bodyTypes.items,
+// ).map(([key, label]) => ({ key, label }));
 
-function prepareQueryVars(queryVars: { [k: string]: string | string[] }): {
-  [k: string]: string[] | number[];
-} {
-  const vars = {};
-
-  Object.entries(router.currentRoute.value.query).forEach(([key, val]) => {
-    if (Array.isArray(val)) vars[key] = val;
-
-    if (typeof val === "string") {
-      vars[key] = val.split(",");
-    }
-  });
-
-  return vars;
-}
-
-const checkboxGroupModel = ref(
-  prepareQueryVars(router.currentRoute.value.query),
+const bodyTypesOptions: ICheckboxGroupOption[] = bodyTypes.value.map(
+  (item) => ({
+    key: item,
+    label: $t(`vehicle.bodyTypes.items.${item}`),
+  }),
 );
 
-watch(checkboxGroupModel.value, (query) => {
-  router.push({ query: query });
+watch(checkboxModel.value, async (query) => {
+  await router.replace({ query });
+  await catalogStore.fetchCars();
 });
 </script>
