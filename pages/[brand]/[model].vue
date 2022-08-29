@@ -30,18 +30,23 @@ const route = useRoute();
 
 const { data: car } = await $api.get<Car>(`/vehicles/${route.params.model}`);
 
-const carName = getCarName(car.value);
+function getCarName(car: Car) {
+  return car.brand?.displayName + " " + car.model;
+}
+
+const carName = computed(() => getCarName(car.value));
 
 useHead({
-  title: generatePageTitle(carName),
+  title: generatePageTitle(carName.value),
   meta: [
     {
       name: "description",
-      content: carName + " | bycar-in-ua - Автомобільна спільнота України",
+      content:
+        carName.value + " | bycar-in-ua - Автомобільна спільнота України",
     },
     {
       name: "og:title",
-      content: generatePageTitle(carName),
+      content: generatePageTitle(carName.value),
     },
     {
       name: "og:url",
@@ -53,10 +58,6 @@ useHead({
     },
   ],
 });
-
-function getCarName(car: Car) {
-  return car.brand.displayName + " " + car.model;
-}
 
 function getModelYear(car: Car) {
   let year = "";
