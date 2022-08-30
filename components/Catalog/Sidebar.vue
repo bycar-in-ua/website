@@ -24,7 +24,7 @@
       />
 
       <div
-        v-if="route.query.price.length"
+        v-if="route.query.price?.length"
         @click="() => checkHandler('price', [])"
         class="mt-4 text-primary cursor-pointer hover:underline"
       >
