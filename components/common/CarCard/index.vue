@@ -1,10 +1,14 @@
 <template>
   <div class="car-card">
-    <NuxtLink v-if="car.featureImage" :to="carRoute">
+    <NuxtLink :to="carRoute">
       <img
-        :src="$cdnLink(car.featureImage.path, 480, 300)"
+        :src="
+          car.featureImage
+            ? $cdnLink(car.featureImage.path, 480, 300)
+            : carPlaceholder
+        "
         :alt="carTitle"
-        class="rounded-t-lg mb-3 w-full"
+        class="rounded-t-lg mb-3 w-full aspect-video object-cover"
       />
     </NuxtLink>
     <NuxtLink :to="carRoute">
@@ -29,6 +33,7 @@ export default defineComponent({
 <script setup lang="ts">
 import { VehicleDto as Car } from "common";
 import { getCarTitle } from "@/utils/carHelpers";
+import carPlaceholder from "@/assets/images/placeholder-image.jpg";
 
 const props = defineProps<{
   car: Car;

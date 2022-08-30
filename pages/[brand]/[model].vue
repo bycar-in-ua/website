@@ -1,6 +1,6 @@
 <template>
   <main class="bycar-container py-5 lg:py-10">
-    <Title :title="getCarName(car)" />
+    <Title :title="carTitle" />
     <Media :images="car.images" />
     <GeneralInfo :description="car.description" :short-summary="shortSummary" />
     <Tabs :car="car" />
@@ -20,6 +20,7 @@ import Title from "@/components/Single/Title.vue";
 import Media from "@/components/Single/Media.vue";
 import GeneralInfo from "@/components/Single/GeneralInfo.vue";
 import Tabs from "@/components/Single/Tabs/index.vue";
+import { getCarTitle } from "@/utils/carHelpers";
 import { VehicleView as Car } from "@/common";
 import { generatePageTitle } from "@/utils/seo";
 import { type InfoLineProps } from "@/components/common/InfoLine.vue";
@@ -30,23 +31,19 @@ const route = useRoute();
 
 const { data: car } = await $api.get<Car>(`/vehicles/${route.params.model}`);
 
-function getCarName(car: Car) {
-  return car.brand?.displayName + " " + car.model;
-}
-
-const carName = computed(() => getCarName(car.value));
+const carTitle = computed(() => getCarTitle(car.value));
 
 useHead({
-  title: generatePageTitle(carName.value),
+  title: generatePageTitle(carTitle.value),
   meta: [
     {
       name: "description",
       content:
-        carName.value + " | bycar-in-ua - Автомобільна спільнота України",
+        carTitle.value + " | bycar-in-ua - Автомобільна спільнота України",
     },
     {
       name: "og:title",
-      content: generatePageTitle(carName.value),
+      content: generatePageTitle(carTitle.value),
     },
     {
       name: "og:url",
@@ -54,7 +51,10 @@ useHead({
     },
     {
       name: "og:image",
-      content: $cdnLink(car.value.featureImage.path, 300),
+      content: $cdnLink(
+        car.value?.featureImage?.path || car.value.images[0]?.path,
+        300,
+      ),
     },
   ],
 });
@@ -74,7 +74,7 @@ function getModelYear(car: Car) {
 const shortSummary = computed<InfoLineProps[]>(() => [
   {
     name: $t("vehicle.model"),
-    value: getCarName(car.value),
+    value: getCarTitle(car.value),
   },
   {
     name: $t("vehicle.modelYear"),
