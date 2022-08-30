@@ -66,3 +66,27 @@ h4,
   @apply text-gray-400;
   cursor: not-allowed !important;
 }
+
+.page-enter-active {
+  position: absolute;
+  left: 0;
+  right: 0;
+  transform: translateY(50px);
+  transition: all 0.3s ease;
+}
+.page-enter-from {
+  opacity: 0;
+}
+.page-enter-to {
+  opacity: 1;
+  transform: translateY(0);
+}
+.page-leave-active {
+  transition: all 0.3s ease;
+}
+.page-leave-from {
+  opacity: 1;
+}
+.page-leave-to {
+  opacity: 0;
+}

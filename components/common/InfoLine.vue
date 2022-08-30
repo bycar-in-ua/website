@@ -18,7 +18,7 @@ export default defineComponent({
 <script setup lang="ts">
 export interface InfoLineProps {
   name: string;
-  value: string | number;
+  value: string | number | null;
   children?: InfoLineProps[];
 }
 
