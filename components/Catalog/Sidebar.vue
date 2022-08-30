@@ -15,7 +15,15 @@
     <h3 class="text-center pb-2">{{ $t("filters") }}</h3>
 
     <div class="overflow-y-auto max-h-full pb-8 lg:pb-0">
-      <h4 class="mb-4">{{ $t("brand") }}:</h4>
+      <h4 class="mb-4">{{ $t("price") }}:</h4>
+      <RadioInputGroup
+        :options="priceOptions"
+        group-name="price"
+        :value="String(route.query.price)"
+        @update:value="(val) => checkHandler('price', val)"
+      />
+
+      <h4 class="my-4">{{ $t("brand") }}:</h4>
       <CheckboxGroup
         :options="brandsOptions"
         variant="vertical"
@@ -49,6 +57,9 @@ import {
 import { AdjustmentsHorizontalIcon, XMarkIcon } from "@heroicons/vue/24/solid";
 import { BrandDto as Brand } from "@/common";
 import { useCatalogStore } from "@/stores/catalog";
+import RadioInputGroup, {
+  IRadioInputProps,
+} from "@/components/common/Radio/index.vue";
 
 const { $api, $t } = useNuxtApp();
 const router = useRouter();
@@ -65,6 +76,29 @@ const isSidebarShowing = ref(false);
 function prepareParams(param: string | string[]) {
   return Array.isArray(param) ? param : [param];
 }
+
+const priceOptions: IRadioInputProps[] = [
+  {
+    value: ">15000",
+    label: $t("to") + " $15000",
+  },
+  {
+    value: ">15000,<25000",
+    label: "$15000 - $25000",
+  },
+  {
+    value: ">25000,<35000",
+    label: "$25000 - $35000",
+  },
+  {
+    value: ">35000,<50000",
+    label: "$35000 - $50000",
+  },
+  {
+    value: ">50000",
+    label: $t("from") + " $50000",
+  },
+];
 
 const brandsOptions: ICheckboxGroupOption[] = brands.value.map((brand) => ({
   key: brand.slug,
