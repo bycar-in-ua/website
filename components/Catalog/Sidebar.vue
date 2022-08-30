@@ -19,7 +19,8 @@
       <CheckboxGroup
         :options="brandsOptions"
         variant="vertical"
-        v-model:value="checkboxModel.brand"
+        :value="prepareParams(route.query?.brand || [])"
+        @update:value="(val) => checkHandler('brand', val)"
       />
 
       <h4 class="my-4">{{ $t("vehicle.bodyTypes.title") }}:</h4>
@@ -27,7 +28,8 @@
       <CheckboxGroup
         :options="bodyTypesOptions"
         variant="vertical"
-        v-model:value="checkboxModel.bodyType"
+        :value="prepareParams(route.query?.bodyType || [])"
+        @update:value="(val) => checkHandler('bodyType', val)"
       />
     </div>
   </div>
@@ -46,7 +48,6 @@ import {
 } from "@/components/common/Checkbox";
 import { AdjustmentsHorizontalIcon, XMarkIcon } from "@heroicons/vue/24/solid";
 import { BrandDto as Brand } from "@/common";
-// import { ua as VehicleWordings } from "@/common/translations/vehicle.json";
 import { useCatalogStore } from "@/stores/catalog";
 
 const { $api, $t } = useNuxtApp();
@@ -65,19 +66,10 @@ function prepareParams(param: string | string[]) {
   return Array.isArray(param) ? param : [param];
 }
 
-const checkboxModel = ref({
-  brand: prepareParams(route.query?.brand),
-  bodyType: prepareParams(route.query?.bodyType),
-});
-
 const brandsOptions: ICheckboxGroupOption[] = brands.value.map((brand) => ({
   key: brand.slug,
   label: brand.displayName,
 }));
-
-// const bodyTypesOptions: ICheckboxGroupOption[] = Object.entries(
-//   VehicleWordings.bodyTypes.items,
-// ).map(([key, label]) => ({ key, label }));
 
 const bodyTypesOptions: ICheckboxGroupOption[] = bodyTypes.value.map(
   (item) => ({
@@ -86,8 +78,8 @@ const bodyTypesOptions: ICheckboxGroupOption[] = bodyTypes.value.map(
   }),
 );
 
-watch(checkboxModel.value, async (query) => {
-  await router.replace({ query });
+async function checkHandler(field, value) {
+  await router.replace({ query: { ...route.query, [field]: value } });
   await catalogStore.fetchCars();
-});
+}
 </script>

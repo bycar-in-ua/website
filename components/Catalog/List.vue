@@ -1,5 +1,11 @@
 <template>
-  <div class="w-full">
+  <div class="w-full relative">
+    <Transition name="fade">
+      <div
+        v-if="catalogStore.pending"
+        class="absolute inset-0 bg-white opacity-50"
+      ></div>
+    </Transition>
     <div class="grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
       <CarCard v-for="car in catalogStore.items" :key="car.id" :car="car" />
     </div>
@@ -32,3 +38,15 @@ const paginationHandler = async (page) => {
   await catalogStore.fetchCars();
 };
 </script>
+
+<style>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
