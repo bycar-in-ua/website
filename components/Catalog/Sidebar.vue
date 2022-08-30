@@ -23,6 +23,14 @@
         @update:value="(val) => checkHandler('price', val)"
       />
 
+      <div
+        v-if="route.query.price.length"
+        @click="() => checkHandler('price', [])"
+        class="mt-4 text-primary cursor-pointer hover:underline"
+      >
+        {{ $t("clear") }}
+      </div>
+
       <h4 class="my-4">{{ $t("brand") }}:</h4>
       <CheckboxGroup
         :options="brandsOptions"
@@ -79,7 +87,7 @@ function prepareParams(param: string | string[]) {
 
 const priceOptions: IRadioInputProps[] = [
   {
-    value: ">15000",
+    value: "<15000",
     label: $t("to") + " $15000",
   },
   {
