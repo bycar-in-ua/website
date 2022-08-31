@@ -40,5 +40,14 @@ useHead({
 
 const catalogStore = useCatalogStore();
 
+const route = useRoute();
+
 await catalogStore.fetchCars();
+
+watch(
+  () => route.query,
+  async () => {
+    await catalogStore.fetchCars();
+  },
+);
 </script>

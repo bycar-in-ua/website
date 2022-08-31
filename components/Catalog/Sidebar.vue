@@ -64,7 +64,6 @@ import {
 } from "@/components/common/Checkbox";
 import { AdjustmentsHorizontalIcon, XMarkIcon } from "@heroicons/vue/24/solid";
 import { BrandDto as Brand } from "@/common";
-import { useCatalogStore } from "@/stores/catalog";
 import RadioInputGroup, {
   IRadioInputProps,
 } from "@/components/common/Radio/index.vue";
@@ -72,7 +71,6 @@ import RadioInputGroup, {
 const { $api, $t } = useNuxtApp();
 const router = useRouter();
 const route = useRoute();
-const catalogStore = useCatalogStore();
 
 const [{ data: brands }, { data: bodyTypes }] = await Promise.all([
   $api.get<Brand[]>("/brands"),
@@ -124,6 +122,5 @@ async function checkHandler(field, value) {
   await router.replace({
     query: { ...route.query, page: undefined, [field]: value },
   });
-  await catalogStore.fetchCars();
 }
 </script>
