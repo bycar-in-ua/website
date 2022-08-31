@@ -1,10 +1,15 @@
 <template>
   <div class="w-full relative">
+    <p
+      v-if="!catalogStore.items.length"
+      v-text="$t('emptyCatalog')"
+      class="text-center p-4 text-xl"
+    />
     <Transition name="fade">
       <div
         v-if="catalogStore.pending"
         class="absolute inset-0 bg-white opacity-50"
-      ></div>
+      />
     </Transition>
     <div class="grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
       <CarCard v-for="car in catalogStore.items" :key="car.id" :car="car" />

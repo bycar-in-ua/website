@@ -1,7 +1,7 @@
 <template>
   <footer class="bg-white py-7 border-t">
     <div class="bycar-container">
-      <p class="text-gray-400">Всі права зашищено.</p>
+      <p class="text-gray-400" v-text="$t('copyright')" />
     </div>
   </footer>
 </template>
