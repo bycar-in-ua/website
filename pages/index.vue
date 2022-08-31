@@ -19,22 +19,23 @@ import Latest from "@/components/Home/Latest.vue";
 import Brands from "@/components/Home/Brands.vue";
 import { useHomeStore } from "@/stores/home";
 import { VehicleDto as Car, BrandDto as Brand } from "@/common";
+import { generatePageTitle } from "@/utils/seo";
 import HomeBg from "@/assets/images/homepage-bg.jpg";
 
 useHead({
-  title: "bycar.in.ua",
+  title: generatePageTitle("Автомобільна спільнота України"),
   meta: [
     {
       name: "description",
-      content: "bycar-in-ua - Автомобільна спільнота України",
+      content: generatePageTitle("Автомобільна спільнота України"),
     },
     {
       name: "og:title",
-      content: "bycar.in.ua",
+      content: generatePageTitle("Автомобільна спільнота України"),
     },
     {
       name: "og:url",
-      content: "https://bycar.in.ua",
+      content: useRoute().fullPath,
     },
     {
       name: "og:image",

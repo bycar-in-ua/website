@@ -8,17 +8,18 @@
             : carPlaceholder
         "
         :alt="carTitle"
-        class="rounded-t-lg mb-3 w-full aspect-video object-cover"
+        class="rounded-t-lg w-full aspect-video object-cover"
       />
     </NuxtLink>
     <NuxtLink :to="carRoute">
       <h3 class="car-card-component font-bold uppercase" v-text="carTitle" />
     </NuxtLink>
-    <div class="car-card-component flex justify-end">
-      <NuxtLink :to="carRoute" class="text-primary font-bold text-sm">
-        {{ $t("details") }}
-      </NuxtLink>
-    </div>
+    <NuxtLink
+      :to="carRoute"
+      class="car-card-component text-primary font-bold text-md text-right mt-auto"
+    >
+      {{ $t("details") }}
+    </NuxtLink>
   </div>
 </template>
 
@@ -46,9 +47,9 @@ const carRoute = computed(() => `/${props.car.brand.slug}/${props.car.slug}`);
 
 <style lang="postcss">
 .car-card {
-  @apply bg-white rounded-lg border border-gray-200;
+  @apply bg-white rounded-lg border border-gray-200 flex flex-col;
 }
 .car-card-component {
-  @apply px-4 md:px-5 my-4;
+  @apply px-4 py-2;
 }
 </style>
