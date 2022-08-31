@@ -164,6 +164,7 @@ export default defineComponent({
   }
   .bycar-gallery-thumnails-list {
     @apply grid-flow-col overflow-x-auto overflow-y-hidden;
+    max-height: 100%;
     @screen md {
       @apply grid-flow-row overflow-y-auto overflow-x-hidden;
     }
