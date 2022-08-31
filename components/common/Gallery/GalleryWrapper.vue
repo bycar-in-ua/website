@@ -12,14 +12,16 @@
     />
     <div class="bycar-gallery">
       <ActiveImage />
-      <ThubmnailsList ref="thumbsListRef">
-        <Thumbnail
-          v-for="(item, index) in items"
-          :key="item.id"
-          :item="item"
-          :index="index"
-        />
-      </ThubmnailsList>
+      <div class="bycar-gallery-thumnails-list-wrapper">
+        <ThubmnailsList ref="thumbsListRef">
+          <Thumbnail
+            v-for="(item, index) in items"
+            :key="item.id"
+            :item="item"
+            :index="index"
+          />
+        </ThubmnailsList>
+      </div>
     </div>
   </div>
 </template>
@@ -153,12 +155,16 @@ export default defineComponent({
       order: 2;
     }
   }
-  .bycar-gallery-thumnails-list {
+  .bycar-gallery-thumnails-list-wrapper {
     grid-template-columns: 80px;
-    @apply grid-flow-col overflow-x-auto overflow-y-hidden;
+    overflow: hidden;
     @screen md {
       order: 1;
-      grid-template-columns: 80px;
+    }
+  }
+  .bycar-gallery-thumnails-list {
+    @apply grid-flow-col overflow-x-auto overflow-y-hidden;
+    @screen md {
       @apply grid-flow-row overflow-y-auto overflow-x-hidden;
     }
   }
@@ -170,9 +176,13 @@ export default defineComponent({
     max-height: 80%;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 80px;
-    .bycar-gallery-thumnails-list {
+    .bycar-gallery-thumnails-list-wrapper {
       order: unset;
-      @apply grid-flow-col overflow-x-auto overflow-y-hidden;
+      @apply flex justify-center;
+    }
+    .bycar-gallery-thumnails-list {
+      @apply grid-flow-col overflow-x-auto
+        overflow-y-hidden;
     }
     .bycar-gallery-image-wrapper {
       order: unset;
