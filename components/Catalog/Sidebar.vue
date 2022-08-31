@@ -121,7 +121,9 @@ const bodyTypesOptions: ICheckboxGroupOption[] = bodyTypes.value.map(
 );
 
 async function checkHandler(field, value) {
-  await router.replace({ query: { ...route.query, [field]: value } });
+  await router.replace({
+    query: { ...route.query, page: undefined, [field]: value },
+  });
   await catalogStore.fetchCars();
 }
 </script>

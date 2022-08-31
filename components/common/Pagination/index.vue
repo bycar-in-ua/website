@@ -1,10 +1,15 @@
 <template>
-  <div class="flex">
+  <div v-if="pagination.totalPages && pagination.totalPages > 1" class="flex">
     <a
       v-for="i in pagination.totalPages"
       :key="i"
       :href="`#${i}`"
-      class="text-primary hover:underline mx-2"
+      class="mx-1 px-2 text-lg"
+      :class="
+        pagination.currentPage === i
+          ? 'pointer-events-none bg-primary text-white'
+          : 'text-primary hover:underline'
+      "
       @click.prevent="$emit('update:page', i)"
       >{{ i }}</a
     >
