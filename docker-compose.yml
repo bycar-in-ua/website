@@ -16,17 +16,19 @@ services:
     restart: "always"
     labels:
       - traefik.enable=true
+      - traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https
+      - traefik.http.middlewares.redirect-to-https.redirectscheme.permanent=true
+      - traefik.http.routers.${SERVICE_NAME}-web.middlewares=redirect-to-https
+      - traefik.http.routers.${SERVICE_NAME}-web.rule=Host(`${SERVICE_DOMAIN}`)
+      - traefik.http.routers.${SERVICE_NAME}-web.entrypoints=web
       - traefik.http.routers.${SERVICE_NAME}.rule=Host(`${SERVICE_DOMAIN}`)
       - traefik.http.routers.${SERVICE_NAME}.entrypoints=websecure
       - traefik.http.routers.${SERVICE_NAME}.tls=true
       - traefik.http.routers.${SERVICE_NAME}.tls.certresolver=letsencrypt-resolver
       - traefik.http.services.${SERVICE_NAME}.loadbalancer.server.port=4000
-      - traefik.http.middlewares.test-redirectscheme.redirectscheme.scheme=https
-      - traefik.http.middlewares.test-redirectscheme.redirectscheme.permanent=true
 
 networks:
   internal:
     external: false
   proxy:
     external: true
-      
