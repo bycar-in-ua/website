@@ -21,6 +21,8 @@ services:
       - traefik.http.routers.${SERVICE_NAME}.tls=true
       - traefik.http.routers.${SERVICE_NAME}.tls.certresolver=letsencrypt-resolver
       - traefik.http.services.${SERVICE_NAME}.loadbalancer.server.port=4000
+      - traefik.http.middlewares.test-redirectscheme.redirectscheme.scheme=https
+      - traefik.http.middlewares.test-redirectscheme.redirectscheme.permanent=true
 
 networks:
   internal:

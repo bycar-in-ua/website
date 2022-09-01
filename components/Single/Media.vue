@@ -1,5 +1,10 @@
 <template>
-  <Gallery :items="galleryItems" class="mb-5" height="510px" />
+  <Gallery
+    v-if="galleryItems.length"
+    :items="galleryItems"
+    class="mb-5"
+    height="510px"
+  />
 </template>
 
 <script lang="ts">
