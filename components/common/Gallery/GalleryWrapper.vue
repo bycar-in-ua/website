@@ -7,7 +7,7 @@
   >
     <XMarkIcon
       v-if="fullScreen"
-      class="bycar-gallery-icon absolute right-4 top-4 w-12 h-12 p-2 cursor-pointer hover:opacity-100 transition-opacity"
+      class="bycar-gallery-icon absolute right-4 top-4 w-12 h-12 p-2 cursor-pointer hover:opacity-100 transition-opacity z-10"
       @click="fullScreen = false"
     />
     <div class="bycar-gallery">
@@ -142,6 +142,7 @@ export default defineComponent({
 <style lang="postcss">
 .regular-gallery {
   height: auto;
+  max-height: 95vh;
   @screen md {
     height: var(--gallery-height);
   }
@@ -171,10 +172,10 @@ export default defineComponent({
   }
 }
 .full-screen {
-  @apply fixed bg-gray-900 bg-opacity-50 w-screen h-screen left-0 top-0 right-0 bottom-0 z-40 flex justify-center items-center;
+  @apply fixed bg-gray-900 bg-opacity-90 w-screen h-screen left-0 top-0 right-0 bottom-0 z-40 flex justify-center items-center;
   .bycar-gallery {
     @apply max-w-7xl mx-auto p-5 w-full;
-    max-height: 80%;
+    max-height: 100%;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 80px;
     .bycar-gallery-thumnails-list-wrapper {

@@ -9,7 +9,7 @@
       @click="isSidebarShowing = !isSidebarShowing"
     />
     <XMarkIcon
-      class="p-2 w-8 h-8 absolute right-2 top-2 lg:hidden"
+      class="p-2 w-8 h-8 absolute right-2 top-2 lg:hidden cursor-pointer"
       @click="isSidebarShowing = false"
     />
     <h3 class="text-center pb-2">{{ $t("filters") }}</h3>

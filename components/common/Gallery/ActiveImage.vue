@@ -116,8 +116,11 @@ export default defineComponent({
 </script>
 
 <style lang="postcss">
+.bycar-gallery-icon {
+  @apply h-8 w-8 md:h-12 md:w-12;
+}
 .bycar-gallery-chevron {
-  @apply h-12  transition-all;
+  @apply transition-all;
 }
 .bycar-gallery-chewron-wrapper {
   @apply absolute top-0 bottom-0 flex items-center justify-center cursor-pointer transition-all z-20;
@@ -129,7 +132,7 @@ export default defineComponent({
   }
 }
 .bycar-gallery-zoom {
-  @apply w-12 h-12 absolute right-0 bottom-0 cursor-pointer z-30;
+  @apply absolute right-0 bottom-0 cursor-pointer z-30;
   &:hover {
     .bycar-gallery-zoom-icon {
       @apply opacity-100;
@@ -137,7 +140,7 @@ export default defineComponent({
   }
 }
 .bycar-gallery-zoom-icon {
-  @apply transition-all p-2 w-12 h-12;
+  @apply transition-all p-2;
 }
 .bycar-gallery-image {
   @apply object-cover w-full h-auto;
