@@ -5,17 +5,14 @@
         class="text-2xl md:text-3xl xl:text-5xl font-bold mb-4"
         v-text="$t('homepage.hero')"
       />
-      <Filters />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import Filters from "./Filters/index.vue";
-export default {
+export default defineComponent({
   name: "Hero",
-  components: { Filters },
-};
+});
 </script>
 
 <style>
