@@ -31,7 +31,7 @@ export default {
 </script>
 
 <script setup lang="ts">
-import SectionTitle from "@/components/common/SectionTitle.vue";
+import SectionTitle from "@/components/UI/SectionTitle.vue";
 
 import { useHomeStore } from "@/stores/home";
 

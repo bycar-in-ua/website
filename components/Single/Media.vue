@@ -14,10 +14,10 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { Gallery } from "@/components/common/Gallery";
-import { IGalleryItem } from "@/components/common/Gallery";
+import { Gallery } from "@/components/UI/Gallery";
+import { IGalleryItem } from "@/components/UI/Gallery";
 import { ImageDto as CarImage } from "@/common";
-import { GalleryItemVariant } from "../common/Gallery/interface";
+import { GalleryItemVariant } from "@/components/UI/Gallery/interface";
 
 interface IProps {
   images: CarImage[];

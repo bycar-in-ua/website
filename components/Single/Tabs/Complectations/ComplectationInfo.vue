@@ -76,7 +76,7 @@ import {
   ComplectationView as Complectation,
   OptionCategoryDto as OptionCategory,
 } from "@/common/dto";
-import Card from "@/components/common/Card.vue";
+import Card from "@/components/UI/Card.vue";
 import PowerUnitInfo from "./PowerUnitInfo.vue";
 
 const props = defineProps<{ complectation: Complectation }>();

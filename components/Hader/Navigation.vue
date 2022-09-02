@@ -10,8 +10,8 @@ export default {
 </script>
 
 <script setup lang="ts">
-import ResponsiveMenu from "@/components/common/Menu/ResponsiveMenu.vue";
-import MenuToggler from "@/components/common/Menu/MenuToggler.vue";
+import ResponsiveMenu from "@/components/UI/Menu/ResponsiveMenu.vue";
+import MenuToggler from "@/components/UI/Menu/MenuToggler.vue";
 
 const menuItems = [
   {

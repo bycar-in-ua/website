@@ -61,12 +61,12 @@ export default {
 import {
   CheckboxGroup,
   ICheckboxGroupOption,
-} from "@/components/common/Checkbox";
+} from "@/components/UI/Controls/Checkbox";
 import { AdjustmentsHorizontalIcon, XMarkIcon } from "@heroicons/vue/24/solid";
 import { BrandDto as Brand } from "@/common";
 import RadioInputGroup, {
   IRadioInputProps,
-} from "@/components/common/Radio/index.vue";
+} from "@/components/UI/Controls/Radio/index.vue";
 
 const { $api, $t } = useNuxtApp();
 const router = useRouter();

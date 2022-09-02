@@ -23,7 +23,7 @@ import Tabs from "@/components/Single/Tabs/index.vue";
 import { getCarTitle } from "@/utils/carHelpers";
 import { VehicleView as Car } from "@/common";
 import { generatePageTitle } from "@/utils/seo";
-import { type InfoLineProps } from "@/components/common/InfoLine.vue";
+import { type InfoLineProps } from "@/components/UI/InfoLine.vue";
 
 const { $api, $t, $cdnLink } = useNuxtApp();
 

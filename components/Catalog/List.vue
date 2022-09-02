@@ -29,8 +29,8 @@ export default {
 </script>
 
 <script setup lang="ts">
-import CarCard from "@/components/common/CarCard/index.vue";
-import Pagination from "../common/Pagination/index.vue";
+import CarCard from "@/components/UI/CarCard/index.vue";
+import Pagination from "@/components/UI/Pagination/index.vue";
 import { useCatalogStore } from "../../stores/catalog";
 
 const router = useRouter();
