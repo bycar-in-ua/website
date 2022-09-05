@@ -17,25 +17,14 @@ export default {
 import { watch } from "vue";
 import useMenuShowing from "@/composables/useMenuShowing";
 import { Bars3Icon as MenuIcon } from "@heroicons/vue/24/solid";
+import { bodyScrollWatcher } from "@/utils/htmlUtils";
 
 const { afterEach } = useRouter();
 
 const showMobileMenu = useMenuShowing();
 
 if (process.client) {
-  watch(showMobileMenu, (val) => {
-    switch (val) {
-      case true:
-        document.body.style.overflowY = "hidden";
-        break;
-      case false:
-        document.body.style.overflowY = "";
-        break;
-
-      default:
-        break;
-    }
-  });
+  watch(showMobileMenu, bodyScrollWatcher);
 }
 
 afterEach(() => {

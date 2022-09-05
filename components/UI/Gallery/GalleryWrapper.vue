@@ -7,18 +7,19 @@
   >
     <XMarkIcon
       v-if="fullScreen"
-      class="bycar-gallery-icon absolute right-4 top-4 w-12 h-12 p-2 cursor-pointer hover:opacity-100 transition-opacity z-10"
+      class="bycar-gallery-icon absolute right-2 top-2 md:right-4 md:top-4 w-12 h-12 p-2 cursor-pointer hover:opacity-100 transition-opacity z-30"
       @click="fullScreen = false"
     />
     <div class="bycar-gallery">
       <ActiveImage />
       <div class="bycar-gallery-thumnails-list-wrapper">
-        <ThubmnailsList ref="thumbsListRef">
+        <ThubmnailsList>
           <Thumbnail
             v-for="(item, index) in items"
             :key="item.id"
             :item="item"
             :index="index"
+            ref="thumbsListRef"
           />
         </ThubmnailsList>
       </div>
@@ -45,15 +46,16 @@ import ThubmnailsList from "./ThubmnailsList.vue";
 import Thumbnail from "./Thumbnail.vue";
 import ActiveImage from "./ActiveImage.vue";
 import { XMarkIcon } from "@heroicons/vue/24/solid";
+import { bodyScrollWatcher } from "@/utils/htmlUtils";
 
 export default defineComponent({
   name: "Gallery",
   props: GalleryProps,
   components: { ThubmnailsList, Thumbnail, ActiveImage, XMarkIcon },
   setup(props) {
-    const thumbsListRef = ref();
+    const thumbsListRef = ref<Array<{ htmlRef: HTMLElement }>>();
     const backdropRef = ref();
-    const fullScreen = ref(false);
+    const fullScreen = ref<boolean>(false);
 
     const activeItem: Ref<IActiveGalleryItem> = ref({
       currentItemIndex: 0,
@@ -61,10 +63,7 @@ export default defineComponent({
       nextItemIndex: props.items.length > 1 ? 1 : null,
     });
 
-    const setActiveItem: TSetGalleryActiveItem = (
-      itemIndex,
-      direction: "prev" | "next" = null,
-    ) => {
+    const setActiveItem: TSetGalleryActiveItem = (itemIndex) => {
       const prevIndex = itemIndex - 1;
       const nextIndex = itemIndex + 1;
       activeItem.value = {
@@ -72,22 +71,9 @@ export default defineComponent({
         prevItemIndex: prevIndex >= 0 ? prevIndex : null,
         nextItemIndex: nextIndex < props.items.length ? nextIndex : null,
       };
-      switch (direction) {
-        case "next":
-          thumbsListRef.value.htmlRef.scroll(
-            thumbsListRef.value.htmlRef.scrollLeft + 90,
-            thumbsListRef.value.htmlRef.scrollTop + 90,
-          );
-          break;
-        case "prev":
-          thumbsListRef.value.htmlRef.scroll(
-            thumbsListRef.value.htmlRef.scrollLeft - 90,
-            thumbsListRef.value.htmlRef.scrollTop - 90,
-          );
-          break;
-        default:
-          break;
-      }
+      thumbsListRef.value[itemIndex].htmlRef.scrollIntoView({
+        block: "nearest",
+      });
     };
 
     const toggleFullScreen = () => {
@@ -113,6 +99,8 @@ export default defineComponent({
       onBeforeUnmount(() => {
         document.removeEventListener("keyup", zoomistener);
       });
+
+      watch(fullScreen, bodyScrollWatcher);
     }
 
     const backdropClickHandler = (e) => {
@@ -174,7 +162,7 @@ export default defineComponent({
 .full-screen {
   @apply fixed bg-gray-900 bg-opacity-90 w-screen h-screen left-0 top-0 right-0 bottom-0 z-40 flex justify-center items-center;
   .bycar-gallery {
-    @apply max-w-7xl mx-auto p-5 w-full;
+    @apply mx-auto p-2 md:p-5 w-full;
     max-height: 100%;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 80px;

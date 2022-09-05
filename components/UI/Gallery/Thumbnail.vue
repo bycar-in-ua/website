@@ -6,34 +6,41 @@
       'background-image': `url('${item.source}')`,
     }"
     @click="setActiveItem"
+    ref="htmlRef"
   />
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, inject } from "vue";
+export default defineComponent({
+  name: "GalleryThumbnail",
+});
+</script>
+
+<script setup lang="ts">
+import { defineComponent, inject } from "vue";
 import {
   IActiveGalleryItem,
   IGalleryItem,
   TSetGalleryActiveItem,
 } from "./interface";
 
-export default defineComponent({
-  name: "GalleryThumbnail",
-  props: {
-    item: Object as PropType<IGalleryItem>,
-    index: Number as PropType<number>,
-  },
-  setup(props) {
-    const activeItem = inject<IActiveGalleryItem>("activeItem");
-    const setGalleryActiveItem = inject<TSetGalleryActiveItem>(
-      "setGalleryActiveItem",
-    );
-    return {
-      setActiveItem: () => setGalleryActiveItem(props.index),
-      activeItem,
-    };
-  },
+const props = defineProps<{
+  item: IGalleryItem;
+  index: number;
+}>();
+
+const htmlRef = ref<HTMLElement>();
+
+defineExpose({
+  htmlRef,
 });
+
+const activeItem = inject<IActiveGalleryItem>("activeItem");
+const setGalleryActiveItem = inject<TSetGalleryActiveItem>(
+  "setGalleryActiveItem",
+);
+
+const setActiveItem = () => setGalleryActiveItem(props.index);
 </script>
 
 <style lang="postcss">

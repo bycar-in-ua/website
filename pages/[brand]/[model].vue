@@ -3,7 +3,7 @@
     <Title :title="carTitle" />
     <Media :images="car.images" />
     <GeneralInfo :description="car.description" :short-summary="shortSummary" />
-    <Tabs :car="car" />
+    <FullInfo :car="car" />
   </main>
 </template>
 
@@ -19,7 +19,7 @@ export default defineComponent({
 import Title from "@/components/Single/Title.vue";
 import Media from "@/components/Single/Media.vue";
 import GeneralInfo from "@/components/Single/GeneralInfo.vue";
-import Tabs from "@/components/Single/Tabs/index.vue";
+import FullInfo from "@/components/Single/FullInfo/index.vue";
 import { getCarTitle } from "@/utils/carHelpers";
 import { VehicleView as Car } from "@/common";
 import { generatePageTitle } from "@/utils/seo";

@@ -1,4 +1,9 @@
 <template>
+  <h3
+    id="complectations"
+    class="text-2xl font-bold text-center my-4"
+    v-text="$t('vehicle.complectationsAndPrices')"
+  />
   <div class="flex justify-center w-full mb-4">
     <div class="flex overflow-x-auto">
       <div

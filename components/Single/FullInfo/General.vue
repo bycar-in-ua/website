@@ -1,4 +1,10 @@
 <template>
+  <h3
+    id="general"
+    class="text-2xl font-bold text-center"
+    v-text="$t('vehicle.generalCharacteristics.title')"
+  />
+
   <div
     class="py-4 grid items-baseline gap-4 md:gap-6 xl:grid-cols-3 md:grid-cols-2"
   >

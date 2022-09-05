@@ -18,8 +18,13 @@
   display: none;
 }
 
-* {
+html,
+body {
   scroll-behavior: smooth;
+}
+
+html {
+  scroll-padding-top: 80px;
 }
 
 body {

@@ -3,17 +3,18 @@
     class="bycar-gallery-image-wrapper overflow-hidden w-full relative select-none"
   >
     <div
-      v-if="item.prevItemIndex !== null"
+      v-if="activeItem.prevItemIndex !== null"
       class="bycar-gallery-chewron-wrapper left-0"
-      @click="setGalleryActiveItem(item.prevItemIndex, 'prev')"
+      @click="setGalleryActiveItem(activeItem.prevItemIndex, 'prev')"
       title='"&#129044;"'
     >
       <ChevronLeftIcon class="bycar-gallery-icon bycar-gallery-chevron" />
     </div>
     <div
-      class="flex transition-all h-full"
+      class="bycar-gallery-track flex transition-all h-full"
+      ref="trackRef"
       :style="{
-        transform: `translateX(${itemsTrackTranslate})`,
+        transform: `translate3d(${itemsTrackTranslate}, 0, 0)`,
       }"
     >
       <img
@@ -25,9 +26,9 @@
       />
     </div>
     <div
-      v-if="item.nextItemIndex !== null"
+      v-if="activeItem.nextItemIndex !== null"
       class="bycar-gallery-chewron-wrapper right-0"
-      @click="setGalleryActiveItem(item.nextItemIndex, 'next')"
+      @click="setGalleryActiveItem(activeItem.nextItemIndex, 'next')"
       title='"&#10141;"'
     >
       <ChevronRightIcon class="bycar-gallery-icon bycar-gallery-chevron" />
@@ -41,6 +42,12 @@
 </template>
 
 <script lang="ts">
+export default defineComponent({
+  name: "ActiveImage",
+});
+</script>
+
+<script setup lang="ts">
 import {
   defineComponent,
   inject,
@@ -61,57 +68,68 @@ import {
   ArrowsPointingOutIcon,
 } from "@heroicons/vue/24/solid";
 
-export default defineComponent({
-  name: "ActiveImage",
-  components: {
-    ChevronLeftIcon,
-    ChevronRightIcon,
-    ArrowsPointingOutIcon,
-  },
-  setup() {
-    const item = inject<Ref<IActiveGalleryItem>>("activeItem");
-    const setGalleryActiveItem = inject<TSetGalleryActiveItem>(
-      "setGalleryActiveItem",
-    );
-    const toggleFullScreen = inject<TToggleGalleryFullScreen>(
-      "toggleGalleryFullScreen",
-    );
+const trackRef = ref<HTMLElement>();
 
-    const galleryItems = inject<IGalleryItem[]>("galleryItems");
+const activeItem = inject<Ref<IActiveGalleryItem>>("activeItem");
+const setGalleryActiveItem = inject<TSetGalleryActiveItem>(
+  "setGalleryActiveItem",
+);
+const toggleFullScreen = inject<TToggleGalleryFullScreen>(
+  "toggleGalleryFullScreen",
+);
 
-    const arrowsKeydownListener = (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight" && item.value.nextItemIndex !== null) {
-        setGalleryActiveItem(item.value.nextItemIndex, "next");
-        return;
-      } else if (e.key === "ArrowLeft" && item.value.prevItemIndex !== null) {
-        setGalleryActiveItem(item.value.prevItemIndex, "prev");
-        return;
-      }
+const galleryItems = inject<IGalleryItem[]>("galleryItems");
 
-      return;
-    };
+const arrowsKeydownListener = (e: KeyboardEvent) => {
+  if (e.key === "ArrowRight" && activeItem.value.nextItemIndex !== null) {
+    setGalleryActiveItem(activeItem.value.nextItemIndex, "next");
+    return;
+  } else if (e.key === "ArrowLeft" && activeItem.value.prevItemIndex !== null) {
+    setGalleryActiveItem(activeItem.value.prevItemIndex, "prev");
+    return;
+  }
 
-    if (process.client) {
-      onMounted(() => {
-        document.addEventListener("keyup", arrowsKeydownListener);
-      });
-      onBeforeUnmount(() => {
-        document.removeEventListener("keyup", arrowsKeydownListener);
-      });
-    }
+  return;
+};
 
-    const itemsTrackTranslate = computed(
-      () => `-${item.value.currentItemIndex * 100}%`,
-    );
+if (process.client) {
+  onMounted(() => {
+    document.addEventListener("keyup", arrowsKeydownListener);
+  });
+  onBeforeUnmount(() => {
+    document.removeEventListener("keyup", arrowsKeydownListener);
+    stop();
+  });
+}
 
-    return {
-      setGalleryActiveItem,
-      item,
-      toggleFullScreen,
-      galleryItems,
-      itemsTrackTranslate,
-    };
-  },
+const { isSwiping, lengthX, direction, stop } = useSwipe(trackRef, {
+  onSwipeEnd,
+});
+
+function onSwipeEnd() {
+  switch (direction.value) {
+    case SwipeDirection.RIGHT:
+      activeItem.value.prevItemIndex != null &&
+        setGalleryActiveItem(activeItem.value.prevItemIndex);
+      break;
+
+    case SwipeDirection.LEFT:
+      activeItem.value.nextItemIndex != null &&
+        setGalleryActiveItem(activeItem.value.nextItemIndex);
+      break;
+    default:
+      break;
+  }
+}
+
+const itemsTrackTranslate = computed(() => {
+  if (isSwiping.value) {
+    return `calc(-${activeItem.value.currentItemIndex * 100}% - ${
+      lengthX.value
+    }px)`;
+  }
+
+  return `-${activeItem.value.currentItemIndex * 100}%`;
 });
 </script>
 
@@ -146,4 +164,7 @@ export default defineComponent({
   @apply object-cover w-full h-auto;
   flex: 1 0 100%;
 }
+/* .bycar-gallery-track {
+  transform: translate3d(var(--x-translate), 0, 0);
+} */
 </style>
