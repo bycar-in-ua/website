@@ -11,10 +11,11 @@
       <ChevronLeftIcon class="bycar-gallery-icon bycar-gallery-chevron" />
     </div>
     <div
-      class="bycar-gallery-track flex transition-all h-full"
+      class="flex h-full"
       ref="trackRef"
       :style="{
-        transform: `translate3d(${itemsTrackTranslate}, 0, 0)`,
+        transform: `translateX(${itemsTrackTranslate})`,
+        transitionDuration: `${transitionDuration}ms`,
       }"
     >
       <img
@@ -69,6 +70,7 @@ import {
 } from "@heroicons/vue/24/solid";
 
 const trackRef = ref<HTMLElement>();
+const transitionDuration = ref<number>(300);
 
 const activeItem = inject<Ref<IActiveGalleryItem>>("activeItem");
 const setGalleryActiveItem = inject<TSetGalleryActiveItem>(
@@ -102,11 +104,16 @@ if (process.client) {
   });
 }
 
-const { isSwiping, lengthX, direction, stop } = useSwipe(trackRef, {
+const { lengthX, direction, stop } = useSwipe(trackRef, {
+  threshold: 100,
+  onSwipeStart: () => {
+    transitionDuration.value = 0;
+  },
   onSwipeEnd,
 });
 
 function onSwipeEnd() {
+  transitionDuration.value = 300;
   switch (direction.value) {
     case SwipeDirection.RIGHT:
       activeItem.value.prevItemIndex != null &&
@@ -122,15 +129,10 @@ function onSwipeEnd() {
   }
 }
 
-const itemsTrackTranslate = computed(() => {
-  if (isSwiping.value) {
-    return `calc(-${activeItem.value.currentItemIndex * 100}% - ${
-      lengthX.value
-    }px)`;
-  }
-
-  return `-${activeItem.value.currentItemIndex * 100}%`;
-});
+const itemsTrackTranslate = computed(
+  () =>
+    `calc(-${+activeItem.value.currentItemIndex * 100}% - ${lengthX.value}px)`,
+);
 </script>
 
 <style lang="postcss">

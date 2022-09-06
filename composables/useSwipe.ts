@@ -19,6 +19,7 @@ export interface UseSwipeOptions {
    * @default 50
    */
   threshold?: number;
+  onSwipeStart?: (e: TouchEvent) => void;
   onSwipeEnd?: (e: TouchEvent, direction: SwipeDirection) => void;
 }
 
@@ -36,7 +37,7 @@ export function useSwipe(
   target: Ref<EventTarget | HTMLElement | null | undefined>,
   options: UseSwipeOptions,
 ): UseSwipeReturn {
-  const { threshold = 50, onSwipeEnd } = options;
+  const { threshold = 50, onSwipeEnd, onSwipeStart } = options;
 
   const coordsStart = reactive<Position>({ x: 0, y: 0 });
   const coordsEnd = reactive<Position>({ x: 0, y: 0 });
@@ -61,7 +62,7 @@ export function useSwipe(
     }
   });
 
-  const getTouchEventCoords = (e: TouchEvent) => [
+  const getTouchEventCoords = (e: TouchEvent): number[] => [
     e.touches[0].clientX,
     e.touches[0].clientY,
   ];
@@ -77,10 +78,11 @@ export function useSwipe(
   };
 
   const listenerOptions: { passive?: boolean; capture?: boolean } = {
-    passive: false,
+    passive: true,
   };
 
   const onTouchStart = (e: TouchEvent) => {
+    onSwipeStart?.(e);
     const [x, y] = getTouchEventCoords(e);
     updateCoordsStart(x, y);
     updateCoordsEnd(x, y);
@@ -95,6 +97,8 @@ export function useSwipe(
   const onTouchEnd = (e: TouchEvent) => {
     if (isSwiping.value) onSwipeEnd?.(e, direction.value);
     isSwiping.value = false;
+    updateCoordsStart(0, 0);
+    updateCoordsEnd(0, 0);
   };
 
   const stops = [
