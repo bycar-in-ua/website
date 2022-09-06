@@ -104,30 +104,28 @@ if (process.client) {
   });
 }
 
-const { lengthX, direction, stop } = useSwipe(trackRef, {
+const { lengthX, stop } = useSwipe(trackRef, {
   threshold: 100,
   onSwipeStart: () => {
     transitionDuration.value = 0;
   },
-  onSwipeEnd,
+  onSwipeEnd: (e, direction) => {
+    transitionDuration.value = 300;
+    switch (direction) {
+      case SwipeDirection.RIGHT:
+        activeItem.value.prevItemIndex != null &&
+          setGalleryActiveItem(activeItem.value.prevItemIndex);
+        break;
+
+      case SwipeDirection.LEFT:
+        activeItem.value.nextItemIndex != null &&
+          setGalleryActiveItem(activeItem.value.nextItemIndex);
+        break;
+      default:
+        break;
+    }
+  },
 });
-
-function onSwipeEnd() {
-  transitionDuration.value = 300;
-  switch (direction.value) {
-    case SwipeDirection.RIGHT:
-      activeItem.value.prevItemIndex != null &&
-        setGalleryActiveItem(activeItem.value.prevItemIndex);
-      break;
-
-    case SwipeDirection.LEFT:
-      activeItem.value.nextItemIndex != null &&
-        setGalleryActiveItem(activeItem.value.nextItemIndex);
-      break;
-    default:
-      break;
-  }
-}
 
 const itemsTrackTranslate = computed(
   () =>

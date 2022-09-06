@@ -95,7 +95,7 @@ export function useSwipe(
   };
 
   const onTouchEnd = (e: TouchEvent) => {
-    if (isSwiping.value) onSwipeEnd?.(e, direction.value);
+    onSwipeEnd?.(e, direction.value);
     isSwiping.value = false;
     updateCoordsStart(0, 0);
     updateCoordsEnd(0, 0);

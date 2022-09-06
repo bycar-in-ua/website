@@ -24,7 +24,7 @@ defineExpose({
 
 <style lang="postcss">
 .bycar-gallery-thumnails-list {
-  @apply grid gap-3 content-start justify-start scroll-smooth overflow-auto;
+  @apply grid gap-3 content-start justify-start overflow-auto;
   &::-webkit-scrollbar {
     display: none;
   }
