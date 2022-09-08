@@ -40,9 +40,9 @@ const props = defineProps<{ powerUnit: PowerUnit }>();
 const { $t } = useNuxtApp();
 
 const blocks: PowerUnitInfoBlock[] = [
-  {
+  !!props.powerUnit.engine && {
     title:
-      $t("vehicle.engine.title") + ": " + props.powerUnit.engine.displayName,
+      $t("vehicle.engine.title") + ": " + props.powerUnit.engine?.displayName,
     cssClass: "row-span-2",
     infoLines: [
       {
@@ -65,9 +65,11 @@ const blocks: PowerUnitInfoBlock[] = [
       },
       {
         name: $t("vehicle.engine.injectionType"),
-        value: $t(
-          `vehicle.engine.injectionTypes.${props.powerUnit.engine.injection}`,
-        ),
+        value:
+          props.powerUnit.engine.injection &&
+          $t(
+            `vehicle.engine.injectionTypes.${props.powerUnit.engine.injection}`,
+          ),
       },
       {
         name: $t("vehicle.engine.pistonsQuantity"),

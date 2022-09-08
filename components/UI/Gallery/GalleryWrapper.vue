@@ -76,20 +76,22 @@ export default defineComponent({
       });
     };
 
-    const toggleFullScreen = () => {
-      fullScreen.value = !fullScreen.value;
+    const toggleFullScreen = (value = !fullScreen.value) => {
+      fullScreen.value = value;
     };
 
     const zoomistener = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        fullScreen.value = false;
-        return;
-      } else if (e.key === "f") {
-        toggleFullScreen();
-        return;
-      }
+      switch (e.code) {
+        case "Escape":
+          toggleFullScreen(false);
+          break;
+        case "KeyF":
+          toggleFullScreen();
+          break;
 
-      return;
+        default:
+          break;
+      }
     };
 
     if (process.client) {

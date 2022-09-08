@@ -5,7 +5,10 @@ import colorsTranslations from "@/common/translations/colors.json";
 import websiteTranslations from "@/common/translations/website.json";
 import get from "lodash.get";
 
-export type TranslationFunction = (path: string, pluralism?: number) => string;
+export type TranslationFunction = (
+  path: string,
+  options?: { pluralism?: number; fallback?: any },
+) => string;
 
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig();
@@ -26,10 +29,11 @@ export default defineNuxtPlugin(() => {
     ]),
   );
 
-  const translate: TranslationFunction = (path, pluralism = 1) => {
+  const translate: TranslationFunction = (path, options = {}) => {
+    const { pluralism = 1, fallback = path } = options;
     const translatable: string = get(translations[locale.value], path);
 
-    if (!translatable) return path;
+    if (!translatable) return fallback;
 
     if (translatable.indexOf("|") === -1) return translatable;
 
