@@ -22,13 +22,17 @@
       </div>
     </div>
   </div>
-
-  <ComplectationInfo
+  <Transition
     v-for="cmpl in car.complectations"
     :key="cmpl.id"
-    v-show="currentComplectation == cmpl.id"
-    :complectation="cmpl"
-  />
+    name="fade"
+    :duration="300"
+  >
+    <ComplectationInfo
+      v-show="currentComplectation == cmpl.id"
+      :complectation="cmpl"
+    />
+  </Transition>
 </template>
 
 <script lang="ts">
