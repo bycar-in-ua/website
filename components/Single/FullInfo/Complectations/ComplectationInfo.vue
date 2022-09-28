@@ -51,14 +51,14 @@
     </Card>
 
     <Card :title="$t('complectationOptions')">
-      <div class="flex flex-wrap gap-8">
-        <div v-for="optCat in optionsForRender" :key="optCat.id" class="mb-4">
-          <h4>{{ optCat.displayName }}:</h4>
-
-          <p v-for="option in optCat.options" :key="option.id">
-            {{ option.displayName }}
-          </p>
-        </div>
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
+      >
+        <OptionsList
+          v-for="optCat in optionsForRender"
+          :key="optCat.id"
+          :option-category="optCat"
+        />
       </div>
     </Card>
   </div>
@@ -78,6 +78,7 @@ import {
 } from "@/common/dto";
 import Card from "@/components/UI/Card.vue";
 import PowerUnitInfo from "./PowerUnitInfo.vue";
+import OptionsList from "./OptionsList.vue";
 
 const props = defineProps<{ complectation: Complectation }>();
 

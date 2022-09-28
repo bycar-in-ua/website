@@ -4,7 +4,7 @@ export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig();
 
   const get = async <ResponseType = any>(endpoind: string) => {
-    return await useAsyncData(endpoind, () =>
+    return await useAsyncData<ResponseType>(endpoind, () =>
       $fetch<ResponseType>(endpoind, {
         baseURL: config.API_BASE,
       }),
