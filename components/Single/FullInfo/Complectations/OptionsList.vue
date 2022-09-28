@@ -3,8 +3,7 @@
     <h4 class="text-lg mb-2">{{ optionCategory.displayName }}:</h4>
 
     <ul
-      class="list-inside relative"
-      :class="isLong ? 'long' : ''"
+      class="list-inside relative transition-all long-list"
       :style="{ '--max-height': maxHeight }"
     >
       <li
@@ -62,7 +61,7 @@ const isLong = computed(() => props.optionCategory.options.length > 5);
 </script>
 
 <style lang="postcss">
-.long {
+.long-list {
   max-height: var(--max-height);
   @apply overflow-hidden transition-all;
 }
