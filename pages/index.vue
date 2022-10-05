@@ -48,11 +48,13 @@ const homeStore = useHomeStore();
 
 const { $api } = useNuxtApp();
 
-const [{ data: vehicles }, { data: brands }] = await Promise.all([
-  $api.get<{ items: Car[] }>("/vehicles?limit=8"),
-  $api.get<Brand[]>("/brands"),
-]);
+interface ResponseType {
+  recentVehicles: Car[];
+  establishedBrands: Brand[];
+}
 
-homeStore.latestItems = vehicles.value?.items;
-homeStore.establishedBrands = brands.value;
+const { data } = await $api.get<ResponseType>("/website/home");
+
+homeStore.latestItems = data.value.recentVehicles || [];
+homeStore.establishedBrands = data.value.establishedBrands || [];
 </script>

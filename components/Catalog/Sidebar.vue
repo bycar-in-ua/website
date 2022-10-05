@@ -72,10 +72,12 @@ const { $api, $t } = useNuxtApp();
 const router = useRouter();
 const route = useRoute();
 
-const [{ data: brands }, { data: bodyTypes }] = await Promise.all([
-  $api.get<Brand[]>("/brands"),
-  $api.get<string[]>("/vehicles/body-types"),
-]);
+interface ResponseType {
+  brands: Brand[];
+  bodyTypes: string[];
+}
+
+const { data } = await $api.get<ResponseType>("/website/catalog");
 
 const isSidebarShowing = ref(false);
 
@@ -106,12 +108,14 @@ const priceOptions: IRadioInputProps[] = [
   },
 ];
 
-const brandsOptions: ICheckboxGroupOption[] = brands.value.map((brand) => ({
-  key: brand.slug,
-  label: brand.displayName,
-}));
+const brandsOptions: ICheckboxGroupOption[] = data.value.brands.map(
+  (brand) => ({
+    key: brand.slug,
+    label: brand.displayName,
+  }),
+);
 
-const bodyTypesOptions: ICheckboxGroupOption[] = bodyTypes.value.map(
+const bodyTypesOptions: ICheckboxGroupOption[] = data.value.bodyTypes.map(
   (item) => ({
     key: item,
     label: $t(`vehicle.bodyTypes.items.${item}`),
