@@ -1,16 +1,12 @@
-import { defineNuxtConfig } from "nuxt";
-
-export default defineNuxtConfig({
+export default {
   build: {
     transpile: ["@heroicons/vue"],
-    postcss: {
-      postcssOptions: {
-        plugins: {
-          "tailwindcss/nesting": {},
-          tailwindcss: {},
-          autoprefixer: {},
-        },
-      },
+  },
+  postcss: {
+    plugins: {
+      "tailwindcss/nesting": {},
+      tailwindcss: {},
+      autoprefixer: {},
     },
   },
   app: {
@@ -35,4 +31,4 @@ export default defineNuxtConfig({
       FALLBACK_LOCALE: process.env.FALLBACK_LOCALE,
     },
   },
-});
+};
