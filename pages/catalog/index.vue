@@ -1,5 +1,5 @@
 <template>
-  <main class="bycar-container lg:flex gap-4 relative py-5">
+  <main class="bycar-container lg:flex gap-4 relative py-5 mb-auto">
     <Catalog />
   </main>
 </template>
