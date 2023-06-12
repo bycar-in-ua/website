@@ -16,7 +16,7 @@ export default {
 <script setup lang="ts">
 import { Gallery } from "@/components/UI/Gallery";
 import { IGalleryItem } from "@/components/UI/Gallery";
-import { ImageDto as CarImage } from "@/common";
+import { ImageDto as CarImage } from "@bycar-in-ua/common";
 import { GalleryItemVariant } from "@/components/UI/Gallery/interface";
 
 interface IProps {

@@ -36,7 +36,7 @@ import { useCatalogStore } from "../../stores/catalog";
 const router = useRouter();
 const catalogStore = useCatalogStore();
 
-const paginationHandler = async (page) => {
+const paginationHandler = async (page: number) => {
   await router.replace({
     query: { ...router.currentRoute.value.query, page: page },
   });

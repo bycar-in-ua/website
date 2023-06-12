@@ -48,7 +48,7 @@ export default {
 <script setup lang="ts">
 import Card from "@/components/UI/Card.vue";
 import InfoLine, { type InfoLineProps } from "@/components/UI/InfoLine.vue";
-import { VehicleDto as Car } from "@/common";
+import { VehicleDto as Car } from "@bycar-in-ua/common";
 
 const props = defineProps<{ car: Car }>();
 

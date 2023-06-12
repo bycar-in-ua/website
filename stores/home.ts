@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import type { VehicleDto as Car, BrandDto as Brand } from "@/common";
+import type { VehicleDto as Car, BrandDto as Brand } from "@bycar-in-ua/common";
 
 type HomeStoreType = {
   latestItems: Car[];

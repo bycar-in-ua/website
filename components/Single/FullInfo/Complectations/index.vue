@@ -43,7 +43,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { VehicleView as Car } from "@/common";
+import { VehicleView as Car } from "@bycar-in-ua/common";
 import ComplectationInfo from "./ComplectationInfo.vue";
 
 const props = defineProps<{ car: Car }>();

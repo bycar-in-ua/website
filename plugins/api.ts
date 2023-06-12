@@ -1,21 +1,15 @@
-import { defineNuxtPlugin, useRuntimeConfig, useAsyncData } from "#app";
+import axios from "axios";
 
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig();
 
-  const get = async <ResponseType = any>(endpoind: string) => {
-    return await useAsyncData<ResponseType>(endpoind, () =>
-      $fetch<ResponseType>(endpoind, {
-        baseURL: config.API_BASE,
-      }),
-    );
-  };
+  const api = axios.create({
+    baseURL: config.public.API_BASE,
+  });
 
   return {
     provide: {
-      api: {
-        get,
-      },
+      api,
     },
   };
 });

@@ -75,7 +75,7 @@ export default defineComponent({
 import {
   ComplectationView as Complectation,
   OptionCategoryDto as OptionCategory,
-} from "@/common/dto";
+} from "@bycar-in-ua/common/dto";
 import Card from "@/components/UI/Card.vue";
 import PowerUnitInfo from "./PowerUnitInfo.vue";
 import OptionsList from "./OptionsList.vue";

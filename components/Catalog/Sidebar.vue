@@ -63,7 +63,7 @@ import {
   ICheckboxGroupOption,
 } from "@/components/UI/Controls/Checkbox";
 import { AdjustmentsHorizontalIcon, XMarkIcon } from "@heroicons/vue/24/solid";
-import { BrandDto as Brand } from "@/common";
+import { BrandDto as Brand } from "@bycar-in-ua/common";
 import RadioInputGroup, {
   IRadioInputProps,
 } from "@/components/UI/Controls/Radio/index.vue";
@@ -108,19 +108,15 @@ const priceOptions: IRadioInputProps[] = [
   },
 ];
 
-const brandsOptions: ICheckboxGroupOption[] = data.value.brands.map(
-  (brand) => ({
-    key: brand.slug,
-    label: brand.displayName,
-  }),
-);
+const brandsOptions: ICheckboxGroupOption[] = data.brands.map((brand) => ({
+  key: brand.slug,
+  label: brand.displayName,
+}));
 
-const bodyTypesOptions: ICheckboxGroupOption[] = data.value.bodyTypes.map(
-  (item) => ({
-    key: item,
-    label: $t(`vehicle.bodyTypes.items.${item}`),
-  }),
-);
+const bodyTypesOptions: ICheckboxGroupOption[] = data.bodyTypes.map((item) => ({
+  key: item,
+  label: $t(`vehicle.bodyTypes.items.${item}`),
+}));
 
 async function checkHandler(field, value) {
   await router.replace({

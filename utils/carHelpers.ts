@@ -1,4 +1,4 @@
-import { VehicleDto as Car } from "@/common";
+import { VehicleDto as Car } from "@bycar-in-ua/common";
 
 export function getCarTitle(car: Car) {
   const titleParts = [];

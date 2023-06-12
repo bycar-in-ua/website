@@ -18,7 +18,7 @@ import Hero from "@/components/Home/Hero.vue";
 import Latest from "@/components/Home/Latest.vue";
 import Brands from "@/components/Home/Brands.vue";
 import { useHomeStore } from "@/stores/home";
-import { VehicleDto as Car, BrandDto as Brand } from "@/common";
+import { VehicleDto as Car, BrandDto as Brand } from "@bycar-in-ua/common";
 import { generatePageTitle } from "@/utils/seo";
 import HomeBg from "@/assets/images/homepage-bg.jpg";
 
@@ -55,6 +55,6 @@ interface ResponseType {
 
 const { data } = await $api.get<ResponseType>("/website/home");
 
-homeStore.latestItems = data.value.recentVehicles || [];
-homeStore.establishedBrands = data.value.establishedBrands || [];
+homeStore.latestItems = data.recentVehicles || [];
+homeStore.establishedBrands = data.establishedBrands || [];
 </script>

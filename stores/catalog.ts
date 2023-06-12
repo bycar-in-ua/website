@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { VehicleDto as Car, PaginationMeta } from "@/common";
+import { VehicleDto as Car, PaginationMeta } from "@bycar-in-ua/common";
 
 type State = {
   items: Car[];
@@ -12,9 +12,9 @@ export const useCatalogStore = defineStore("catalog", {
     items: [],
     meta: {
       currentPage: 1,
-      totalPages: null,
-      totalItems: null,
-      itemsPerPage: null,
+      totalPages: 0,
+      totalItems: 0,
+      itemsPerPage: 0,
     },
     pending: false,
   }),
@@ -32,8 +32,8 @@ export const useCatalogStore = defineStore("catalog", {
           "/vehicles?" +
             new URLSearchParams({ ...route.query, limit: "12" }).toString(),
         );
-        this.items = data.value.items;
-        this.meta = data.value.meta;
+        this.items = data.items;
+        this.meta = data.meta;
       } finally {
         this.pending = false;
       }

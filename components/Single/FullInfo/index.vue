@@ -10,7 +10,7 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { VehicleView as Car } from "@/common";
+import { VehicleView as Car } from "@bycar-in-ua/common";
 import General from "./General.vue";
 import Complectations from "./Complectations/index.vue";
 
