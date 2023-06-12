@@ -8,9 +8,6 @@
       />
     </div>
     <div class="md:col-span-2">
-      <h3 v-if="description" class="mb-5 font-semibold">
-        {{ $t("description") }}
-      </h3>
       <div
         v-if="description"
         class="description mce-styles"
@@ -35,6 +32,4 @@ interface IProps {
 }
 
 defineProps<IProps>();
-
-const { $t } = useNuxtApp();
 </script>

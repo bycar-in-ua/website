@@ -1,6 +1,6 @@
 <template>
   <section class="bycar-container section high-bottom">
-    <SectionTitle :title="$t('brands')" />
+    <SectionTitle title="Представлені бренди" />
     <div class="flex flex-wrap justify-center gap-5">
       <NuxtLink
         v-for="brand in establishedBrands"
@@ -36,6 +36,4 @@ import SectionTitle from "@/components/UI/SectionTitle.vue";
 import { useHomeStore } from "@/stores/home";
 
 const { establishedBrands } = useHomeStore();
-
-const { $t } = useNuxtApp();
 </script>

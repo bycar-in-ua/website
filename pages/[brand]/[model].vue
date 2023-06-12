@@ -25,21 +25,20 @@ import { VehicleView as Car } from "@bycar-in-ua/common";
 import { generatePageTitle } from "@/utils/seo";
 import { type InfoLineProps } from "@/components/UI/InfoLine.vue";
 
-const { $api, $t, $cdnLink } = useNuxtApp();
+const { $api, $cdnLink } = useNuxtApp();
 
 const route = useRoute();
 
 const { data: car } = await $api.get<Car>(`/vehicles/${route.params.model}`);
 
-const carTitle = computed(() => getCarTitle(car.value));
+const carTitle = computed(() => getCarTitle(car));
 
 useHead({
   title: generatePageTitle(carTitle.value),
   meta: [
     {
       name: "description",
-      content:
-        carTitle.value + " | bycar-in-ua - Автомобільна спільнота України",
+      content: generatePageTitle(carTitle.value),
     },
     {
       name: "og:title",
@@ -51,10 +50,7 @@ useHead({
     },
     {
       name: "og:image",
-      content: $cdnLink(
-        car.value?.featureImage?.path || car.value.images[0]?.path,
-        300,
-      ),
+      content: $cdnLink(car.featureImage?.path || car.images[0]?.path, 300),
     },
   ],
 });
@@ -73,20 +69,20 @@ function getModelYear(car: Car) {
 
 const shortSummary = computed<InfoLineProps[]>(() => [
   {
-    name: $t("vehicle.model"),
-    value: getCarTitle(car.value),
+    name: "Модель",
+    value: getCarTitle(car),
   },
   {
-    name: $t("vehicle.modelYear"),
-    value: getModelYear(car.value),
+    name: "Модельний рік",
+    value: getModelYear(car),
   },
   {
-    name: $t("vehicle.bodyTypes.title"),
-    value: $t(`vehicle.bodyTypes.items.${car.value.bodyType}`),
+    name: "Тип кузова",
+    value: car.bodyType,
   },
   {
-    name: $t("vehicle.sizeClases.title"),
-    value: $t(`vehicle.sizeClases.items.${car.value.sizeClass}`),
+    name: "Розмірний клас",
+    value: String(car.sizeClass),
   },
 ]);
 

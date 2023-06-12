@@ -3,7 +3,7 @@
   "scripts": {
     "dev": "nuxi dev",
     "build": "nuxi build",
-    "start": "node .output/server/index.mjs"
+    "start": "PORT=4000 node .output/server/index.mjs"
   },
   "devDependencies": {
     "@bycar-in-ua/common": "^1.0.2",

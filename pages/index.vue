@@ -23,15 +23,15 @@ import { generatePageTitle } from "@/utils/seo";
 import HomeBg from "@/assets/images/homepage-bg.jpg";
 
 useHead({
-  title: generatePageTitle("Автомобільна спільнота України"),
+  title: generatePageTitle("Просто зручний каталог авто"),
   meta: [
     {
       name: "description",
-      content: generatePageTitle("Автомобільна спільнота України"),
+      content: generatePageTitle("Просто зручний каталог авто"),
     },
     {
       name: "og:title",
-      content: generatePageTitle("Автомобільна спільнота України"),
+      content: generatePageTitle("Просто зручний каталог авто"),
     },
     {
       name: "og:url",

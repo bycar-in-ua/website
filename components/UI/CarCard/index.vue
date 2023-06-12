@@ -18,7 +18,7 @@
       :to="carRoute"
       class="car-card-component text-primary font-bold text-md text-right mt-auto"
     >
-      {{ $t("details") }}
+      Докладніше
     </NuxtLink>
   </div>
 </template>
@@ -32,7 +32,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { VehicleDto as Car } from "common";
+import { VehicleDto as Car } from "@bycar-in-ua/common";
 import { getCarTitle } from "@/utils/carHelpers";
 import carPlaceholder from "@/assets/images/placeholder-image.jpg";
 
@@ -45,7 +45,7 @@ const carTitle = getCarTitle(props.car);
 const carRoute = computed(() => `/${props.car.brand.slug}/${props.car.slug}`);
 </script>
 
-<style lang="postcss">
+<style>
 .car-card {
   @apply bg-white rounded-lg border border-gray-200 flex flex-col;
 }
