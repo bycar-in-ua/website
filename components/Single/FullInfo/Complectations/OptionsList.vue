@@ -36,7 +36,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { OptionCategoryDto as OptionCategory } from "@bycar-in-ua/common/dto";
+import { OptionCategoryDto as OptionCategory } from "@/common/src/dto";
 import { ChevronDownIcon } from "@heroicons/vue/24/solid";
 
 const props = defineProps<{ optionCategory: OptionCategory }>();
