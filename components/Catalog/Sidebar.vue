@@ -12,10 +12,10 @@
       class="p-2 w-8 h-8 absolute right-2 top-2 lg:hidden cursor-pointer"
       @click="isSidebarShowing = false"
     />
-    <h3 class="text-center pb-2">Фільтри</h3>
+    <h3 class="text-center pb-2">{{ $t("filters") }}</h3>
 
     <div class="overflow-y-auto max-h-full pb-8 lg:pb-0">
-      <h4 class="mb-4">Ціна:</h4>
+      <h4 class="mb-4">{{ $t("price") }}:</h4>
       <RadioInputGroup
         :options="priceOptions"
         group-name="price"
@@ -28,10 +28,10 @@
         @click="() => checkHandler('price', [])"
         class="mt-4 text-primary cursor-pointer hover:underline"
       >
-        Очистити
+        {{ $t("clear") }}
       </div>
 
-      <h4 class="my-4">Бренд:</h4>
+      <h4 class="my-4">{{ $t("brand") }}:</h4>
       <CheckboxGroup
         :options="brandsOptions"
         variant="vertical"
@@ -39,7 +39,7 @@
         @update:value="(val) => checkHandler('brand', val)"
       />
 
-      <h4 class="my-4">Тип кузова:</h4>
+      <h4 class="my-4">{{ $t("vehicle.bodyTypes.title") }}:</h4>
 
       <CheckboxGroup
         :options="bodyTypesOptions"
@@ -72,6 +72,7 @@ import RadioInputGroup, {
 const { $api } = useNuxtApp();
 const router = useRouter();
 const route = useRoute();
+const { t } = useI18n();
 
 interface ResponseType {
   brands: Brand[];
@@ -116,7 +117,7 @@ const brandsOptions: ICheckboxGroupOption[] = data.brands.map((brand) => ({
 
 const bodyTypesOptions: ICheckboxGroupOption[] = data.bodyTypes.map((item) => ({
   key: item,
-  label: item,
+  label: t(`vehicle.bodyTypes.items.${item}`),
 }));
 
 async function checkHandler(field: string, value: string | string[]) {

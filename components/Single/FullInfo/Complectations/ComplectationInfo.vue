@@ -82,7 +82,7 @@ import OptionsList from "./OptionsList.vue";
 
 const props = defineProps<{ complectation: Complectation }>();
 
-const { $t, $api } = useNuxtApp();
+const { $api } = useNuxtApp();
 
 const currentPowerUnit = ref(props.complectation.powerUnits[0]?.id);
 

@@ -1,6 +1,6 @@
 <template>
   <h3 id="general" class="text-2xl font-bold text-center">
-    Загальні характеристики
+    {{ $t("vehicle.generalCharacteristics.title") }}
   </h3>
 
   <div
@@ -22,7 +22,7 @@
     <Card :title="$t('vehicle.generalCharacteristics.weightsNVolumes')">
       <info-line v-for="(item, index) in volumes" :key="index" v-bind="item" />
     </Card>
-    <Card v-if="car.colors.length" :title="$t('colors.availableColors')">
+    <Card v-if="car.colors?.length" :title="$t('colors.availableColors')">
       <div class="grid gap-4 colors-wrapper">
         <img
           v-for="color in car.colors"
@@ -50,101 +50,102 @@ import type { VehicleView as Car } from "@bycar-in-ua/common";
 
 const props = defineProps<{ car: Car }>();
 
-const { $t, $cdnLink } = useNuxtApp();
+const { $cdnLink } = useNuxtApp();
+const { t } = useI18n();
 
 const generalCaracteristics: InfoLineProps[] = [
   {
-    name: $t("vehicle.bodyTypes.title"),
-    value: $t(`vehicle.bodyTypes.items.${props.car.bodyType}`),
+    name: t("vehicle.bodyTypes.title"),
+    value: t(`vehicle.bodyTypes.items.${props.car.bodyType}`),
   },
   {
-    name: $t("vehicle.sizeClases.title"),
-    value: $t(`vehicle.sizeClases.items.${props.car.sizeClass}`),
+    name: t("vehicle.sizeClases.title"),
+    value: t(`vehicle.sizeClases.items.${props.car.sizeClass}`),
   },
   {
-    name: $t("vehicle.powerSteerings.title"),
-    value: $t(`vehicle.powerSteerings.items.${props.car.powerSteering}`),
+    name: t("vehicle.powerSteerings.title"),
+    value: t(`vehicle.powerSteerings.items.${props.car.powerSteering}`),
   },
   {
-    name: $t("vehicle.enginePlacements.title"),
-    value: $t(`vehicle.enginePlacements.items.${props.car.enginePlacement}`),
+    name: t("vehicle.enginePlacements.title"),
+    value: t(`vehicle.enginePlacements.items.${props.car.enginePlacement}`),
   },
   {
-    name: $t("vehicle.numberOfDoors"),
+    name: t("vehicle.numberOfDoors"),
     value: props.car.numberOfDoors,
   },
   {
-    name: $t("vehicle.generalCharacteristics.numberOfSeats"),
+    name: t("vehicle.generalCharacteristics.numberOfSeats"),
     value: props.car.numberOfSeats,
   },
   {
-    name: $t("vehicle.discDiameter"),
+    name: t("vehicle.discDiameter"),
     value: props.car.discDiameter,
   },
   {
-    name: $t("vehicle.generalCharacteristics.crashTestsRate"),
+    name: t("vehicle.generalCharacteristics.crashTestsRate"),
     value: props.car.crashTestsRate,
   },
   {
-    name: $t("vehicle.generalCharacteristics.warantyYears"),
+    name: t("vehicle.generalCharacteristics.warantyYears"),
     value: props.car.warantyYears,
   },
   {
-    name: $t("vehicle.generalCharacteristics.warantyYearsPaintwork"),
+    name: t("vehicle.generalCharacteristics.warantyYearsPaintwork"),
     value: props.car.warantyYearsPaintwork,
   },
   {
-    name: $t("vehicle.generalCharacteristics.warantyYearsPaintwork"),
+    name: t("vehicle.generalCharacteristics.warantyYearsPaintwork"),
     value: props.car.warantyYearsPaintwork,
   },
   {
-    name: $t("vehicle.generalCharacteristics.warantyMileage"),
+    name: t("vehicle.generalCharacteristics.warantyMileage"),
     value: props.car.warantyMileage,
   },
   {
-    name: $t("vehicle.generalCharacteristics.manufactureCountry"),
+    name: t("vehicle.generalCharacteristics.manufactureCountry"),
     value: props.car.manufactureCountry,
   },
 ];
 
 const gabarits: InfoLineProps[] = [
   {
-    name: $t("vehicle.generalCharacteristics.dimensions.l"),
+    name: t("vehicle.generalCharacteristics.dimensions.l"),
     value: props.car.dimensionL,
   },
   {
-    name: $t("vehicle.generalCharacteristics.dimensions.w"),
+    name: t("vehicle.generalCharacteristics.dimensions.w"),
     value: props.car.dimensionW,
   },
   {
-    name: $t("vehicle.generalCharacteristics.dimensions.h"),
+    name: t("vehicle.generalCharacteristics.dimensions.h"),
     value: props.car.dimensionH,
   },
   {
-    name: $t("vehicle.generalCharacteristics.wheelbase"),
+    name: t("vehicle.generalCharacteristics.wheelbase"),
     value: props.car.wheelbase,
   },
   {
-    name: $t("vehicle.generalCharacteristics.clearance"),
+    name: t("vehicle.generalCharacteristics.clearance"),
     value: props.car.clearance,
   },
 ];
 
 const volumes: InfoLineProps[] = [
   {
-    name: $t("vehicle.generalCharacteristics.curbWeight"),
+    name: t("vehicle.generalCharacteristics.curbWeight"),
     value: props.car.curbWeight,
   },
   {
-    name: $t("vehicle.generalCharacteristics.fullWeight"),
+    name: t("vehicle.generalCharacteristics.fullWeight"),
     value: props.car.fullWeight,
   },
   {
-    name: $t("vehicle.generalCharacteristics.gasTankVolume"),
+    name: t("vehicle.generalCharacteristics.gasTankVolume"),
     value: props.car.gasTankVolume,
   },
   {
-    name: $t("vehicle.generalCharacteristics.trunkVolume"),
+    name: t("vehicle.generalCharacteristics.trunkVolume"),
     value: props.car.trunkVolume,
   },
 ];

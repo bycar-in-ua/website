@@ -26,6 +26,7 @@ import { generatePageTitle } from "@/utils/seo";
 import { type InfoLineProps } from "@/components/UI/InfoLine.vue";
 
 const { $api, $cdnLink } = useNuxtApp();
+const { t } = useI18n();
 
 const route = useRoute();
 
@@ -69,19 +70,19 @@ function getModelYear(car: Car) {
 
 const shortSummary = computed<InfoLineProps[]>(() => [
   {
-    name: "Модель",
+    name: t("vehicle.model"),
     value: getCarTitle(car),
   },
   {
-    name: "Модельний рік",
+    name: t("vehicle.modelYear"),
     value: getModelYear(car),
   },
   {
-    name: "Тип кузова",
+    name: t("vehicle.bodyTypes.title"),
     value: car.bodyType,
   },
   {
-    name: "Розмірний клас",
+    name: t("vehicle.sizeClases.title"),
     value: String(car.sizeClass),
   },
 ]);

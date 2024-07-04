@@ -26,7 +26,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import type { PowerUnitDto as PowerUnit } from "@bycar-in-ua/common";
+import type { PowerUnitView as PowerUnit } from "@bycar-in-ua/common";
 import InfoLine, { type InfoLineProps } from "@/components/UI/InfoLine.vue";
 
 interface PowerUnitInfoBlock {
@@ -37,78 +37,76 @@ interface PowerUnitInfoBlock {
 
 const props = defineProps<{ powerUnit: PowerUnit }>();
 
-const { $t } = useNuxtApp();
+const { t } = useI18n();
 
 const blocks: PowerUnitInfoBlock[] = [
-  !!props.powerUnit.engine && {
+  {
     title:
-      $t("vehicle.engine.title") + ": " + props.powerUnit.engine?.displayName,
+      t("vehicle.engine.title") + ": " + props.powerUnit.engine?.displayName,
     cssClass: "row-span-2",
     infoLines: [
       {
-        name: $t("vehicle.engine.displacement"),
+        name: t("vehicle.engine.displacement"),
         value: props.powerUnit.engine.displacement,
       },
       {
-        name: $t("vehicle.engine.fuelType"),
-        value: $t(
-          `vehicle.engine.fuelTypes.${props.powerUnit.engine.fuelType}`,
-        ),
+        name: t("vehicle.engine.fuelType"),
+        value: t(`vehicle.engine.fuelTypes.${props.powerUnit.engine.fuelType}`),
       },
       {
-        name: $t("tradename"),
+        name: t("tradename"),
         value: props.powerUnit.engine.tradename,
       },
       {
-        name: $t("vehicle.manufactureIndex"),
+        name: t("vehicle.manufactureIndex"),
         value: props.powerUnit.engine.manufactureIndex,
       },
       {
-        name: $t("vehicle.engine.injectionType"),
+        name: t("vehicle.engine.injectionType"),
         value:
           props.powerUnit.engine.injection &&
-          $t(
+          t(
             `vehicle.engine.injectionTypes.${props.powerUnit.engine.injection}`,
           ),
       },
       {
-        name: $t("vehicle.engine.pistonsQuantity"),
+        name: t("vehicle.engine.pistonsQuantity"),
         value: props.powerUnit.engine.pistons,
       },
       {
-        name: $t("vehicle.engine.numberOfValves"),
+        name: t("vehicle.engine.numberOfValves"),
         value: props.powerUnit.engine.numberOfValves,
       },
       {
-        name: $t("vehicle.engine.pistonsPlacement"),
-        value: $t(
+        name: t("vehicle.engine.pistonsPlacement"),
+        value: t(
           `vehicle.engine.pistonsPlacements.${props.powerUnit.engine.pistonsPlacement}`,
         ),
       },
       {
-        name: $t("vehicle.engine.cylinderShutOffSystem"),
+        name: t("vehicle.engine.cylinderShutOffSystem"),
         value: props.powerUnit.engine.cylinderShutOffSystem ? " " : "",
         children: [
           {
-            name: $t("from"),
+            name: t("from"),
             value: props.powerUnit.engine.cylinderShutOffNumberFrom,
           },
           {
-            name: $t("to"),
+            name: t("to"),
             value: props.powerUnit.engine.cylinderShutOffNumberTo,
           },
         ],
       },
       {
-        name: $t("vehicle.engine.compressionRatio"),
+        name: t("vehicle.engine.compressionRatio"),
         value: props.powerUnit.engine.compressionRatio,
       },
       {
-        name: $t("vehicle.engine.power"),
+        name: t("vehicle.engine.power"),
         value: props.powerUnit.engine.power,
         children: [
           {
-            name: $t("vehicle.engine.rpm2"),
+            name: t("vehicle.engine.rpm2"),
             value: `${
               props.powerUnit.engine.powerRPMfrom
                 ? props.powerUnit.engine.powerRPMfrom
@@ -122,11 +120,11 @@ const blocks: PowerUnitInfoBlock[] = [
         ],
       },
       {
-        name: $t("vehicle.engine.torque"),
+        name: t("vehicle.engine.torque"),
         value: props.powerUnit.engine.torque,
         children: [
           {
-            name: $t("vehicle.engine.rpm2"),
+            name: t("vehicle.engine.rpm2"),
             value: `${
               props.powerUnit.engine.torqueRPMfrom
                 ? props.powerUnit.engine.torqueRPMfrom
@@ -140,120 +138,120 @@ const blocks: PowerUnitInfoBlock[] = [
         ],
       },
       {
-        name: $t("vehicle.powerUnits.consumption"),
+        name: t("vehicle.powerUnits.consumption"),
         value:
-          props.powerUnit.consumption.city ||
-          props.powerUnit.consumption.highway ||
-          props.powerUnit.consumption.mixed
+          props.powerUnit?.consumption?.city ||
+          props.powerUnit?.consumption?.highway ||
+          props.powerUnit?.consumption?.mixed
             ? " "
             : "",
         children: [
           {
-            name: $t("city"),
-            value: props.powerUnit.consumption.city,
+            name: t("city"),
+            value: props.powerUnit?.consumption?.city,
           },
           {
-            name: $t("highway"),
-            value: props.powerUnit.consumption.highway,
+            name: t("highway"),
+            value: props.powerUnit?.consumption?.highway,
           },
           {
-            name: $t("mixed"),
-            value: props.powerUnit.consumption.mixed,
+            name: t("mixed"),
+            value: props.powerUnit?.consumption?.mixed,
           },
         ],
       },
     ],
   },
   {
-    title: $t("vehicle.transmission.gearbox.abbr"),
+    title: t("vehicle.transmission.gearbox.abbr"),
     infoLines: [
       {
-        name: $t("vehicle.transmission.gearbox.type"),
+        name: t("vehicle.transmission.gearbox.type"),
         value:
-          $t(
+          t(
             `vehicle.transmission.gearbox.types.${props.powerUnit.transmission.gearbox.type}`,
           ) +
           ", " +
-          $t(
+          t(
             `vehicle.transmission.gearbox.subTypes.${props.powerUnit.transmission.gearbox.subType}`,
           ),
       },
       {
-        name: $t("vehicle.transmission.gearbox.numberOfGears"),
+        name: t("vehicle.transmission.gearbox.numberOfGears"),
         value: props.powerUnit.transmission.gearbox.numberOfGears,
       },
       {
-        name: $t("vehicle.transmission.gearbox.technology"),
+        name: t("vehicle.transmission.gearbox.technology"),
         value: props.powerUnit.transmission.gearbox.technology,
       },
       {
-        name: $t("vehicle.manufactureIndex"),
+        name: t("vehicle.manufactureIndex"),
         value: props.powerUnit.transmission.gearbox.manufactureIndex,
       },
       {
-        name: $t("manufacturer"),
+        name: t("manufacturer"),
         value: props.powerUnit.transmission.gearbox.made,
       },
     ],
   },
   {
-    title: $t("vehicle.transmission.title"),
+    title: t("vehicle.transmission.title"),
     infoLines: [
       {
-        name: $t("vehicle.transmission.drive"),
-        value: $t(
+        name: t("vehicle.transmission.drive"),
+        value: t(
           `vehicle.transmission.driveType.${props.powerUnit.transmission.drive}`,
         ),
       },
       {
-        name: $t("vehicle.transmission.driveName"),
+        name: t("vehicle.transmission.driveName"),
         value: props.powerUnit.transmission.driveName,
       },
       {
-        name: $t("vehicle.transmission.suspensionTypeFront"),
+        name: t("vehicle.transmission.suspensionTypeFront"),
         value:
-          $t(
+          t(
             `vehicle.transmission.suspensions.allTypes.${props.powerUnit.transmission.suspensionTypeFront}`,
           ) +
           ", " +
-          $t(
+          t(
             `vehicle.transmission.suspensions.workItems.${props.powerUnit.transmission.suspensionWorkItemFront}`,
           ),
       },
       {
-        name: $t("vehicle.transmission.suspensionTypeRear"),
+        name: t("vehicle.transmission.suspensionTypeRear"),
         value:
-          $t(
+          t(
             `vehicle.transmission.suspensions.allTypes.${props.powerUnit.transmission.suspensionTypeRear}`,
           ) +
           ", " +
-          $t(
+          t(
             `vehicle.transmission.suspensions.workItems.${props.powerUnit.transmission.suspensionWorkItemRear}`,
           ),
       },
       {
-        name: $t("vehicle.transmission.brakingSystemTypeFront"),
-        value: $t(
+        name: t("vehicle.transmission.brakingSystemTypeFront"),
+        value: t(
           `vehicle.transmission.brakingSystemTypes.${props.powerUnit.transmission.brakingSystemTypeFront}`,
         ),
       },
       {
-        name: $t("vehicle.transmission.brakingSystemTypeRear"),
-        value: $t(
+        name: t("vehicle.transmission.brakingSystemTypeRear"),
+        value: t(
           `vehicle.transmission.brakingSystemTypes.${props.powerUnit.transmission.brakingSystemTypeRear}`,
         ),
       },
     ],
   },
   {
-    title: $t("vehicle.dynamic"),
+    title: t("vehicle.dynamic"),
     infoLines: [
       {
-        name: $t("vehicle.powerUnits.speedUp100"),
+        name: t("vehicle.powerUnits.speedUp100"),
         value: props.powerUnit.speedUp100,
       },
       {
-        name: $t("vehicle.powerUnits.maxSpeed"),
+        name: t("vehicle.powerUnits.maxSpeed"),
         value: props.powerUnit.maxSpeed,
       },
     ],

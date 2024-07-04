@@ -13,14 +13,16 @@ export default {
 import ResponsiveMenu from "@/components/UI/Menu/ResponsiveMenu.vue";
 import MenuToggler from "@/components/UI/Menu/MenuToggler.vue";
 
+const { t } = useI18n();
+
 const menuItems = [
   {
-    label: "Головна",
+    label: t("menu.home"),
     route: "/",
     exact: true,
   },
   {
-    label: "Каталог",
+    label: t("menu.home"),
     route: "/catalog",
     exact: false,
   },

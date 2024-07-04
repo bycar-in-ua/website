@@ -31,7 +31,7 @@ const galleryItems = generateGalleryItems(props.images);
 
 function generateGalleryItems(images: CarImage[]): IGalleryItem[] {
   return images.map((image) => ({
-    id: image.id,
+    id: image.id as number,
     source: $cdnLink(image.path),
     variant: GalleryItemVariant.image,
   }));

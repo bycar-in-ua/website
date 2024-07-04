@@ -1,6 +1,6 @@
 <template>
   <section class="bycar-container section high-bottom">
-    <SectionTitle title="Представлені бренди" />
+    <SectionTitle :title="$t('brands')" />
     <div class="flex flex-wrap justify-center gap-5">
       <NuxtLink
         v-for="brand in establishedBrands"

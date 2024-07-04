@@ -18,7 +18,7 @@
       :to="carRoute"
       class="car-card-component text-primary font-bold text-md text-right mt-auto"
     >
-      Докладніше
+      {{ $t("details") }}
     </NuxtLink>
   </div>
 </template>
