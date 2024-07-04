@@ -21,7 +21,7 @@ import Media from "@/components/Single/Media.vue";
 import GeneralInfo from "@/components/Single/GeneralInfo.vue";
 import FullInfo from "@/components/Single/FullInfo/index.vue";
 import { getCarTitle } from "@/utils/carHelpers";
-import { VehicleView as Car } from "@bycar-in-ua/common";
+import type { VehicleView as Car } from "@bycar-in-ua/common";
 import { generatePageTitle } from "@/utils/seo";
 import { type InfoLineProps } from "@/components/UI/InfoLine.vue";
 
@@ -29,7 +29,7 @@ const { $api, $cdnLink } = useNuxtApp();
 
 const route = useRoute();
 
-const { data: car } = await $api.get<Car>(`/vehicles/${route.params.model}`);
+const car = await $api.get<Car>(`/vehicles/${route.params.model}`);
 
 const carTitle = computed(() => getCarTitle(car));
 
@@ -85,8 +85,4 @@ const shortSummary = computed<InfoLineProps[]>(() => [
     value: String(car.sizeClass),
   },
 ]);
-
-/**
- * @todo Сделать 404
- */
 </script>

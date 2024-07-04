@@ -31,17 +31,14 @@
 import {
   defineComponent,
   ref,
-  Ref,
+  type Ref,
   provide,
   readonly,
   onMounted,
   onBeforeUnmount,
 } from "vue";
-import {
-  GalleryProps,
-  IActiveGalleryItem,
-  TSetGalleryActiveItem,
-} from "./interface";
+import type { IActiveGalleryItem, TSetGalleryActiveItem } from "./interface";
+import { GalleryProps } from "./interface.js";
 import ThubmnailsList from "./ThubmnailsList.vue";
 import Thumbnail from "./Thumbnail.vue";
 import ActiveImage from "./ActiveImage.vue";

@@ -54,10 +54,10 @@ import {
   inject,
   onMounted,
   onBeforeUnmount,
-  Ref,
+  type Ref,
   computed,
 } from "vue";
-import {
+import type {
   IActiveGalleryItem,
   IGalleryItem,
   TSetGalleryActiveItem,

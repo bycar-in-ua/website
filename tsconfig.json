@@ -1,12 +1,4 @@
 {
   // https://v3.nuxtjs.org/concepts/typescript
-  "extends": "./.nuxt/tsconfig.json",
-  "compilerOptions": {
-    "jsx": "preserve",
-    "types": ["vite/client", "@nuxt/types", "@pinia/nuxt"],
-    "paths": {
-      "@/*": ["./*"],
-      "#app": ["./node_modules/nuxt/dist/app/index"]
-    }
-  }
+  "extends": "./.nuxt/tsconfig.json"
 }

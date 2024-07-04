@@ -4,7 +4,7 @@ export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig();
 
   const cdnLink: CdnLink = (path, width = 0, height = 0) => {
-    let cdnLink = config.public.CDN_BASE;
+    let cdnLink = config.public.cdnHost;
 
     if (width !== 0 && height !== 0) {
       cdnLink += `/fit-in/${width}x${height}`;

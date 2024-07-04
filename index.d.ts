@@ -9,4 +9,15 @@ declare module "#app" {
   }
 }
 
+type SupportedLocale = "ua";
+
+declare module "nuxt/schema" {
+  interface AppConfig {
+    locale: {
+      supportedLocales: SupportedLocale[];
+      fallbackLocale: SupportedLocale;
+    };
+  }
+}
+
 export {};

@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, inject } from "vue";
+import { defineComponent, type PropType, inject } from "vue";
 
 export const tabPaneProps = {
   title: [String] as PropType<string>,

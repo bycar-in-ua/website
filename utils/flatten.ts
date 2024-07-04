@@ -2,8 +2,8 @@ import {
   Fragment,
   createTextVNode,
   Comment,
-  VNode,
-  VNodeArrayChildren,
+  type VNode,
+  type VNodeArrayChildren,
 } from "vue";
 
 export function flatten(

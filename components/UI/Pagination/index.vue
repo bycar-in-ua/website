@@ -23,7 +23,7 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { PaginationMeta } from "@bycar-in-ua/common";
+import type { PaginationMeta } from "@bycar-in-ua/common";
 
 defineProps<{ pagination: PaginationMeta }>();
 

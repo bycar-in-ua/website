@@ -72,10 +72,10 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import {
+import type {
   ComplectationView as Complectation,
   OptionCategoryDto as OptionCategory,
-} from "@bycar-in-ua/common/dto";
+} from "@bycar-in-ua/common";
 import Card from "@/components/UI/Card.vue";
 import PowerUnitInfo from "./PowerUnitInfo.vue";
 import OptionsList from "./OptionsList.vue";
@@ -86,9 +86,7 @@ const { $t, $api } = useNuxtApp();
 
 const currentPowerUnit = ref(props.complectation.powerUnits[0]?.id);
 
-const { data: optionCategories } = await $api.get<OptionCategory[]>(
-  "option-categories",
-);
+const optionCategories = await $api.get<OptionCategory[]>("option-categories");
 
 const optionsForRender = computed<Array<OptionCategory>>(() => {
   const optCats: OptionCategory[] = [];

@@ -1,15 +1,21 @@
-import axios from "axios";
-
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig();
 
-  const api = axios.create({
-    baseURL: config.public.API_BASE,
+  const ofetch = $fetch.create({
+    baseURL: config.public.apiHost,
   });
+
+  const get = <TResponse>(endpoint: string) => {
+    return ofetch<TResponse>(endpoint, {
+      method: "GET",
+    });
+  };
 
   return {
     provide: {
-      api,
+      api: {
+        get,
+      },
     },
   };
 });

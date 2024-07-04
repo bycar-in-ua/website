@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent, PropType, provide } from "vue";
+import { ref, defineComponent, type PropType, provide } from "vue";
 import { flatten } from "@/utils/flatten";
 
 export const tabsProps = {

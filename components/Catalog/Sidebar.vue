@@ -58,14 +58,15 @@ export default {
 </script>
 
 <script setup lang="ts">
+import type { LocationQueryValue } from "vue-router";
 import {
   CheckboxGroup,
-  ICheckboxGroupOption,
+  type ICheckboxGroupOption,
 } from "@/components/UI/Controls/Checkbox";
 import { AdjustmentsHorizontalIcon, XMarkIcon } from "@heroicons/vue/24/solid";
-import { BrandDto as Brand } from "@bycar-in-ua/common";
+import type { BrandDto as Brand } from "@bycar-in-ua/common";
 import RadioInputGroup, {
-  IRadioInputProps,
+  type IRadioInputProps,
 } from "@/components/UI/Controls/Radio/index.vue";
 
 const { $api } = useNuxtApp();
@@ -77,12 +78,12 @@ interface ResponseType {
   bodyTypes: string[];
 }
 
-const { data } = await $api.get<ResponseType>("/website/catalog");
+const data = await $api.get<ResponseType>("/website/catalog");
 
 const isSidebarShowing = ref(false);
 
-function prepareParams(param: string | string[]) {
-  return Array.isArray(param) ? param : [param];
+function prepareParams(param: LocationQueryValue | LocationQueryValue[]) {
+  return (Array.isArray(param) ? param : [param]) as string[];
 }
 
 const priceOptions: IRadioInputProps[] = [

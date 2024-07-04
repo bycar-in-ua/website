@@ -14,7 +14,6 @@ export default defineComponent({
 import Catalog from "@/components/Catalog/index.vue";
 import { useCatalogStore } from "@/stores/catalog";
 import { generatePageTitle } from "@/utils/seo";
-import HomeBg from "@/assets/images/homepage-bg.jpg";
 
 useHead({
   title: generatePageTitle("Каталог авто"),
@@ -33,7 +32,7 @@ useHead({
     },
     {
       name: "og:image",
-      content: HomeBg,
+      content: "/public/images/homepage-bg.jpg",
     },
   ],
 });

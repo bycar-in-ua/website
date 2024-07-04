@@ -1,1 +1,1 @@
-export const generatePageTitle = (title) => title + " | bycar.in.ua";
+export const generatePageTitle = (title: string) => title + " | bycar.in.ua";

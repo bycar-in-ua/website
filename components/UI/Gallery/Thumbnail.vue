@@ -18,7 +18,7 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { defineComponent, inject } from "vue";
-import {
+import type {
   IActiveGalleryItem,
   IGalleryItem,
   TSetGalleryActiveItem,

@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { VehicleDto as Car, PaginationMeta } from "@bycar-in-ua/common";
+import type { VehicleView as Car, PaginationMeta } from "@bycar-in-ua/common";
 
 type State = {
   items: Car[];
@@ -25,7 +25,7 @@ export const useCatalogStore = defineStore("catalog", {
 
       try {
         this.pending = true;
-        const { data } = await $api.get<{
+        const data = await $api.get<{
           items: Car[];
           meta: PaginationMeta;
         }>(

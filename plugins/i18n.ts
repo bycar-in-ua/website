@@ -1,9 +1,12 @@
-import { defineNuxtPlugin, useRuntimeConfig, useCookie } from "#app";
-import generalTranslations from "@/common/src/translations/general.json";
-import vehicleTranslations from "@/common/src/translations/vehicle.json";
-import colorsTranslations from "@/common/src/translations/colors.json";
-import websiteTranslations from "@/common/src/translations/website.json";
-import get from "lodash.get";
+import { defineNuxtPlugin } from "#app";
+// import {
+//   general,
+//   colors,
+//   vehicle,
+//   website,
+// } from "@bycar-in-ua/common/dist/translations/index.js";
+
+// import get from "lodash/get.js";
 
 export type TranslationFunction = (
   path: string,
@@ -11,35 +14,35 @@ export type TranslationFunction = (
 ) => string;
 
 export default defineNuxtPlugin(() => {
-  const config = useRuntimeConfig();
+  // const appConfig = useAppConfig();
 
-  const locale = useCookie("lang", {
-    default: () => "ua",
-  });
+  // const locale = "ua";
 
-  const translations = Object.fromEntries(
-    config.public.SUPPORTED_LOCALES.map((l) => [
-      l,
-      {
-        ...generalTranslations[l],
-        ...websiteTranslations[l],
-        vehicle: vehicleTranslations[l],
-        colors: colorsTranslations[l],
-      },
-    ]),
-  );
+  // const translations = Object.fromEntries(
+  //   (appConfig.locale.supportedLocales as ["ua"]).map((l) => [
+  //     l,
+  //     {
+  //       ...general[l],
+  //       ...website[l],
+  //       vehicle: vehicle[l],
+  //       colors: colors[l],
+  //     },
+  //   ]),
+  // );
 
   const translate: TranslationFunction = (path, options = {}) => {
-    const { pluralism = 1, fallback = path } = options;
-    const translatable: string = get(translations[locale.value], path);
+    return path;
 
-    if (!translatable) return fallback;
+    // const { pluralism = 1, fallback = path } = options;
+    // const translatable: string = get(translations[locale], path);
 
-    if (translatable.indexOf("|") === -1) return translatable;
+    // if (!translatable) return fallback;
 
-    const plurals = translatable.split(" | ");
+    // if (translatable.indexOf("|") === -1) return translatable;
 
-    return plurals[pluralism - 1] ?? plurals[0];
+    // const plurals = translatable.split(" | ");
+
+    // return plurals[pluralism - 1] ?? plurals[0];
   };
 
   return {

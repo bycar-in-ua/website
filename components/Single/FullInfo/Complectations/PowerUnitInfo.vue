@@ -26,7 +26,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { PowerUnitDto as PowerUnit } from "@bycar-in-ua/common/dto";
+import type { PowerUnitDto as PowerUnit } from "@bycar-in-ua/common";
 import InfoLine, { type InfoLineProps } from "@/components/UI/InfoLine.vue";
 
 interface PowerUnitInfoBlock {

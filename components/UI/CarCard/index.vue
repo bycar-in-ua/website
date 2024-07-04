@@ -5,7 +5,7 @@
         :src="
           car.featureImage
             ? $cdnLink(car.featureImage.path, 480, 300)
-            : carPlaceholder
+            : placeholderImage
         "
         :alt="carTitle"
         class="rounded-t-lg w-full aspect-video object-cover"
@@ -32,17 +32,20 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { VehicleDto as Car } from "@bycar-in-ua/common";
+import type { VehicleView as Car } from "@bycar-in-ua/common";
 import { getCarTitle } from "@/utils/carHelpers";
-import carPlaceholder from "@/assets/images/placeholder-image.jpg";
 
 const props = defineProps<{
   car: Car;
 }>();
 
+const placeholderImage = "/images/placeholder-image.jpg";
+
 const carTitle = getCarTitle(props.car);
 
-const carRoute = computed(() => `/${props.car.brand.slug}/${props.car.slug}`);
+const carRoute = computed(
+  () => `/${props.car.brand.slug ?? ""}/${props.car.slug}`,
+);
 </script>
 
 <style>
