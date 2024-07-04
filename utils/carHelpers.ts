@@ -1,4 +1,4 @@
-import { VehicleDto as Car } from "@bycar-in-ua/common";
+import type { VehicleView as Car } from "@bycar-in-ua/common";
 
 export function getCarTitle(car: Car) {
   const titleParts = [];

@@ -13,7 +13,10 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import type { VehicleView as Car, BrandDto as Brand } from "@bycar-in-ua/common";
+import type {
+  VehicleView as Car,
+  BrandDto as Brand,
+} from "@bycar-in-ua/common";
 import { useNuxtApp } from "#app";
 import Hero from "@/components/Home/Hero.vue";
 import Latest from "@/components/Home/Latest.vue";

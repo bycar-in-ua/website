@@ -1,8 +1,8 @@
 import { watch } from "vue";
 
-const defaultWindow = process.client ? window : undefined;
+const defaultWindow = import.meta.client ? window : undefined;
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
+ 
 const noop = () => {};
 
 export function useEventListener(...args: any[]) {

@@ -7,12 +7,25 @@ export default defineNuxtConfig({
     port: 4000,
   },
 
-  modules: ["@pinia/nuxt", "@nuxtjs/tailwindcss", "@nuxtjs/i18n"],
+  modules: [
+    "@pinia/nuxt",
+    "@nuxtjs/tailwindcss",
+    "@nuxtjs/i18n",
+    "@nuxt/eslint",
+  ],
 
   runtimeConfig: {
     public: {
       apiHost: process.env.API_URL,
       cdnHost: process.env.CDN_URL,
+    },
+  },
+
+  eslint: {
+    config: {
+      stylistic: {
+        quotes: "double",
+      },
     },
   },
 

@@ -10,7 +10,7 @@ import Footer from "@/components/Footer/index.vue";
 
 const nuxtApp = useNuxtApp();
 
-if (process.client) {
+if (import.meta.client) {
   nuxtApp.hook("page:finish", () => {
     window.scrollTo(0, 0);
   });
