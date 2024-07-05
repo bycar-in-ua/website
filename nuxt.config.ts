@@ -7,12 +7,11 @@ export default defineNuxtConfig({
     port: 4000,
   },
 
-  modules: [
-    "@pinia/nuxt",
-    "@nuxtjs/tailwindcss",
-    "@nuxtjs/i18n",
-    "@nuxt/eslint",
-  ],
+  colorMode: {
+    preference: "light",
+  },
+
+  modules: ["@pinia/nuxt", "@nuxtjs/i18n", "@nuxt/eslint", "@nuxt/ui"],
 
   runtimeConfig: {
     public: {

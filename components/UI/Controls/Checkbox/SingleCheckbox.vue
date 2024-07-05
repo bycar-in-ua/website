@@ -8,7 +8,7 @@
       class="bycar-checkbox__checkmark-wrapper"
       :class="checked ? 'checked' : ''"
     >
-      <CheckIcon v-if="checked" class="w-4 text-white" />
+      <UIcon v-if="checked" name="i-heroicons-check" class="w-4 text-white" />
     </span>
     {{ label }}
   </span>
@@ -17,17 +17,15 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { CheckboxProps } from "./interface";
-import { CheckIcon } from "@heroicons/vue/24/solid";
 
 export default defineComponent({
   name: "Checkbox",
   props: CheckboxProps,
-  components: { CheckIcon },
   emits: ["update:checked"],
 });
 </script>
 
-<style lang="postcss">
+<style>
 .bycar-checkbox {
   @apply inline-flex items-center cursor-pointer select-none;
   &.disabled {
@@ -39,7 +37,7 @@ export default defineComponent({
     }
   }
   &__checkmark-wrapper {
-    @apply w-4 h-4 border border-subtext-color rounded mr-2 transition-colors relative inline-flex justify-center items-center;
+    @apply w-4 h-4 border border-gray-600 rounded mr-2 transition-colors relative inline-flex justify-center items-center;
     &.checked {
       @apply bg-primary border-primary;
     }

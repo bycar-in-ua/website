@@ -7,10 +7,11 @@ export default withNuxt().override("nuxt/vue/rules", {
       "warn",
       {
         singleline: {
-          max: 2,
+          max: 3,
         },
       },
     ],
+    "vue/html-self-closing": ["off"],
   },
 });
 // Your custom configs here

@@ -1,32 +1,3 @@
-<template>
-  <div
-    :class="fullScreen ? 'full-screen' : 'regular-gallery'"
-    :style="`--gallery-height: ${height}`"
-    ref="backdropRef"
-    @click.stop="backdropClickHandler"
-  >
-    <XMarkIcon
-      v-if="fullScreen"
-      class="bycar-gallery-icon absolute right-2 top-2 md:right-4 md:top-4 w-12 h-12 p-2 cursor-pointer hover:opacity-100 transition-opacity z-30"
-      @click="fullScreen = false"
-    />
-    <div class="bycar-gallery">
-      <ActiveImage />
-      <div class="bycar-gallery-thumnails-list-wrapper">
-        <ThubmnailsList>
-          <Thumbnail
-            v-for="(item, index) in items"
-            :key="item.id"
-            :item="item"
-            :index="index"
-            ref="thumbsListRef"
-          />
-        </ThubmnailsList>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script lang="ts">
 import {
   defineComponent,
@@ -42,13 +13,12 @@ import { GalleryProps } from "./interface.js";
 import ThubmnailsList from "./ThubmnailsList.vue";
 import Thumbnail from "./Thumbnail.vue";
 import ActiveImage from "./ActiveImage.vue";
-import { XMarkIcon } from "@heroicons/vue/24/solid";
 import { bodyScrollWatcher } from "@/utils/htmlUtils";
 
 export default defineComponent({
   name: "Gallery",
+  components: { ThubmnailsList, Thumbnail, ActiveImage },
   props: GalleryProps,
-  components: { ThubmnailsList, Thumbnail, ActiveImage, XMarkIcon },
   setup(props) {
     const thumbsListRef = ref<Array<{ htmlRef: HTMLElement }>>();
     const backdropRef = ref();
@@ -91,7 +61,7 @@ export default defineComponent({
       }
     };
 
-    if (process.client) {
+    if (import.meta.client) {
       onMounted(() => {
         document.addEventListener("keyup", zoomistener);
       });
@@ -125,6 +95,36 @@ export default defineComponent({
   },
 });
 </script>
+
+<template>
+  <div
+    ref="backdropRef"
+    :class="fullScreen ? 'full-screen' : 'regular-gallery'"
+    :style="`--gallery-height: ${height}`"
+    @click.stop="backdropClickHandler"
+  >
+    <UIcon
+      v-if="fullScreen"
+      name="i-heroicons-x-mark"
+      class="bycar-gallery-icon absolute right-2 top-2 md:right-4 md:top-4 w-12 h-12 p-2 cursor-pointer hover:opacity-100 transition-opacity z-30"
+      @click="fullScreen = false"
+    />
+    <div class="bycar-gallery">
+      <ActiveImage />
+      <div class="bycar-gallery-thumnails-list-wrapper">
+        <ThubmnailsList>
+          <Thumbnail
+            v-for="(item, index) in items"
+            ref="thumbsListRef"
+            :key="item.id"
+            :item="item"
+            :index="index"
+          />
+        </ThubmnailsList>
+      </div>
+    </div>
+  </div>
+</template>
 
 <style lang="postcss">
 .regular-gallery {

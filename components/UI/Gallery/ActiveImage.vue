@@ -1,73 +1,11 @@
-<template>
-  <div
-    class="bycar-gallery-image-wrapper overflow-hidden w-full relative select-none"
-  >
-    <div
-      v-if="activeItem.prevItemIndex !== null"
-      class="bycar-gallery-chewron-wrapper left-0"
-      @click="setGalleryActiveItem(activeItem.prevItemIndex, 'prev')"
-      title='"&#129044;"'
-    >
-      <ChevronLeftIcon class="bycar-gallery-icon bycar-gallery-chevron" />
-    </div>
-    <div
-      class="flex h-full"
-      ref="trackRef"
-      :style="{
-        transform: `translateX(${itemsTrackTranslate})`,
-        transitionDuration: `${transitionDuration}ms`,
-      }"
-    >
-      <img
-        v-for="item in galleryItems"
-        :key="item.id"
-        :src="item.source"
-        :alt="item.alt"
-        class="bycar-gallery-image"
-      />
-    </div>
-    <div
-      v-if="activeItem.nextItemIndex !== null"
-      class="bycar-gallery-chewron-wrapper right-0"
-      @click="setGalleryActiveItem(activeItem.nextItemIndex, 'next')"
-      title='"&#10141;"'
-    >
-      <ChevronRightIcon class="bycar-gallery-icon bycar-gallery-chevron" />
-    </div>
-    <div class="bycar-gallery-zoom" @click="toggleFullScreen" title='"F"'>
-      <ArrowsPointingOutIcon
-        class="bycar-gallery-icon bycar-gallery-zoom-icon"
-      />
-    </div>
-  </div>
-</template>
-
-<script lang="ts">
-export default defineComponent({
-  name: "ActiveImage",
-});
-</script>
-
 <script setup lang="ts">
-import {
-  defineComponent,
-  inject,
-  onMounted,
-  onBeforeUnmount,
-  type Ref,
-  computed,
-} from "vue";
+import { inject, onMounted, onBeforeUnmount, type Ref, computed } from "vue";
 import type {
   IActiveGalleryItem,
   IGalleryItem,
   TSetGalleryActiveItem,
   TToggleGalleryFullScreen,
 } from "./interface";
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  ArrowsPointingOutIcon,
-} from "@heroicons/vue/24/solid";
 
 const trackRef = ref<HTMLElement>();
 const transitionDuration = ref<number>(300);
@@ -94,7 +32,7 @@ const arrowsKeydownListener = (e: KeyboardEvent) => {
   return;
 };
 
-if (process.client) {
+if (import.meta.client) {
   onMounted(() => {
     document.addEventListener("keyup", arrowsKeydownListener);
   });
@@ -132,6 +70,57 @@ const itemsTrackTranslate = computed(
     `calc(-${+activeItem.value.currentItemIndex * 100}% - ${lengthX.value}px)`,
 );
 </script>
+
+<template>
+  <div
+    class="bycar-gallery-image-wrapper overflow-hidden w-full relative select-none"
+  >
+    <div
+      v-if="activeItem.prevItemIndex !== null"
+      class="bycar-gallery-chewron-wrapper left-0"
+      title='"&#129044;"'
+      @click="setGalleryActiveItem(activeItem.prevItemIndex, 'prev')"
+    >
+      <UIcon
+        name="i-heroicons-chevron-left"
+        class="bycar-gallery-icon bycar-gallery-chevron"
+      />
+    </div>
+    <div
+      ref="trackRef"
+      class="flex h-full"
+      :style="{
+        transform: `translateX(${itemsTrackTranslate})`,
+        transitionDuration: `${transitionDuration}ms`,
+      }"
+    >
+      <img
+        v-for="item in galleryItems"
+        :key="item.id"
+        :src="item.source"
+        :alt="item.alt"
+        class="bycar-gallery-image"
+      />
+    </div>
+    <div
+      v-if="activeItem.nextItemIndex !== null"
+      class="bycar-gallery-chewron-wrapper right-0"
+      title='"&#10141;"'
+      @click="setGalleryActiveItem(activeItem.nextItemIndex, 'next')"
+    >
+      <UIcon
+        name="i-heroicons-chevron-right"
+        class="bycar-gallery-icon bycar-gallery-chevron"
+      />
+    </div>
+    <div class="bycar-gallery-zoom" title="F" @click="toggleFullScreen">
+      <UIcon
+        name="i-heroicons-arrows-pointing-out"
+        class="bycar-gallery-icon bycar-gallery-zoom-icon"
+      />
+    </div>
+  </div>
+</template>
 
 <style lang="postcss">
 .bycar-gallery-icon {

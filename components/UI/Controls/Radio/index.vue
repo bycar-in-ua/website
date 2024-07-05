@@ -49,7 +49,7 @@ defineProps<IProps>();
 }
 .bycar-radio {
   appearance: none;
-  @apply w-4 h-4 rounded-full border border-subtext-color;
+  @apply w-4 h-4 rounded-full border  border-gray-600;
   &:checked {
     @apply border-primary border-4;
   }

@@ -3,4 +3,7 @@ export default defineAppConfig({
     supportedLocales: ["ua"],
     fallbackLocale: "ua",
   },
+  ui: {
+    primary: "bycar-primary",
+  },
 });
