@@ -17,11 +17,9 @@ afterEach(() => {
 </script>
 
 <template>
-  <client-only>
-    <UIcon
-      name="i-heroicons-bars-3"
-      class="h-12 p-3 cursor-pointer hover:text-primary block lg:hidden"
-      @click="showMobileMenu = !showMobileMenu"
-    />
-  </client-only>
+  <UIcon
+    name="i-heroicons-bars-3"
+    class="h-12 p-3 cursor-pointer hover:text-primary block md:hidden"
+    @click="showMobileMenu = !showMobileMenu"
+  />
 </template>
