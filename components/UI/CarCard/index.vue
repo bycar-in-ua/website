@@ -9,42 +9,46 @@ const props = defineProps<{
 const placeholderImage = "/images/placeholder-image.jpg";
 
 const carTitle = getCarTitle(props.car);
-
-const carRoute = computed(
-  () => `/${props.car.brand.slug ?? ""}/${props.car.slug}`,
-);
 </script>
 
 <template>
-  <div class="car-card">
-    <NuxtLink :to="carRoute" class="w-full aspect-w-16 aspect-h-9">
-      <img
-        :src="
-          car.featureImage
-            ? $cdnLink(car.featureImage.path, 480, 300)
-            : placeholderImage
-        "
-        :alt="carTitle"
-        class="rounded-t-lg object-cover"
-      />
-    </NuxtLink>
-    <NuxtLink :to="carRoute">
-      <h3 class="car-card-component font-bold uppercase" v-text="carTitle" />
-    </NuxtLink>
-    <NuxtLink
-      :to="carRoute"
-      class="car-card-component text-primary font-bold text-md text-right mt-auto"
+  <NuxtLink
+    :to="{
+      name: 'SingleCar',
+      params: {
+        brand: car.brand.slug,
+        model: car.slug,
+      },
+    }"
+  >
+    <UCard
+      :ui="{
+        header: {
+          base: 'aspect-w-16 aspect-h-9',
+          padding: '',
+        },
+        body: {
+          padding: 'p-2 sm:p-4',
+        },
+      }"
     >
-      {{ $t("details") }}
-    </NuxtLink>
-  </div>
+      <template #header>
+        <img
+          :src="
+            car.featureImage
+              ? $cdnLink(car.featureImage.path, 480, 300)
+              : placeholderImage
+          "
+          :alt="carTitle"
+          class="rounded-t-lg object-cover"
+        />
+      </template>
+      <div class="flex flex-col gap-2">
+        <h3 class="font-bold uppercase" v-text="carTitle" />
+        <span class="text-primary font-bold text-md text-right mt-auto">
+          {{ $t("details") }}
+        </span>
+      </div>
+    </UCard>
+  </NuxtLink>
 </template>
-
-<style>
-.car-card {
-  @apply bg-white rounded-lg border border-gray-200 flex flex-col;
-}
-.car-card-component {
-  @apply px-4 py-2;
-}
-</style>

@@ -8,6 +8,10 @@ import { getCarTitle } from "@/utils/carHelpers";
 import { generatePageTitle } from "@/utils/seo";
 import { type InfoLineProps } from "@/components/UI/InfoLine.vue";
 
+definePageMeta({
+  name: "SingleCar",
+});
+
 const { $api, $cdnLink } = useNuxtApp();
 const { t } = useI18n();
 
