@@ -1,17 +1,3 @@
-<template>
-  <main>
-    <Hero />
-    <Latest />
-    <Brands />
-  </main>
-</template>
-
-<script lang="ts">
-export default defineComponent({
-  name: "HomePage",
-});
-</script>
-
 <script setup lang="ts">
 import type {
   VehicleView as Car,
@@ -60,3 +46,11 @@ const data = await $api.get<ResponseType>("/website/home");
 homeStore.latestItems = data.recentVehicles || [];
 homeStore.establishedBrands = data.establishedBrands || [];
 </script>
+
+<template>
+  <main>
+    <Hero />
+    <Latest />
+    <Brands />
+  </main>
+</template>
