@@ -1,6 +1,7 @@
-import { general, website, vehicle, colors } from "@bycar-in-ua/common";
-
-console.log(website.ua);
+import general from "@bycar-in-ua/common/dist/translations/general.json";
+import website from "@bycar-in-ua/common/dist/translations/website.json";
+import vehicle from "@bycar-in-ua/common/dist/translations/vehicle.json";
+import colors from "@bycar-in-ua/common/dist/translations/colors.json";
 
 export default defineI18nConfig(() => ({
   legacy: false,
@@ -12,9 +13,9 @@ export default defineI18nConfig(() => ({
       ...general.ua,
       ...website.ua,
       menu: {
-        home: 'Головна',
-        catalog: 'Каталог'
-      }
+        home: "Головна",
+        catalog: "Каталог",
+      },
     },
   },
 }));
