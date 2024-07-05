@@ -2,7 +2,6 @@ import { watch } from "vue";
 
 const defaultWindow = import.meta.client ? window : undefined;
 
- 
 const noop = () => {};
 
 export function useEventListener(...args: any[]) {

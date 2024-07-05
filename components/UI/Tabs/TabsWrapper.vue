@@ -1,32 +1,3 @@
-<template>
-  <div class="bycar-tabs">
-    <div
-      class="w-full flex"
-      :style="{
-        justifyContent: tabsJustify,
-      }"
-    >
-      <div class="bycar-tabs-header" :class="tabsJustify">
-        <div
-          v-for="tab in tabs"
-          :key="tab.key"
-          class="bycar-tab"
-          :class="activeTab === tab.props.name ? 'active' : ''"
-          @click="switchTab(tab.props.name)"
-        >
-          {{ tab.props.title }}
-        </div>
-      </div>
-    </div>
-    <component
-      v-for="tab in tabs"
-      :key="tab.key"
-      :is="tab"
-      v-bind="tab.props"
-    />
-  </div>
-</template>
-
 <script lang="ts">
 import { ref, defineComponent, type PropType, provide } from "vue";
 import { flatten } from "@/utils/flatten";
@@ -71,6 +42,35 @@ export default defineComponent({
   },
 });
 </script>
+
+<template>
+  <div class="bycar-tabs">
+    <div
+      class="w-full flex"
+      :style="{
+        justifyContent: tabsJustify,
+      }"
+    >
+      <div class="bycar-tabs-header" :class="tabsJustify">
+        <div
+          v-for="tab in tabs"
+          :key="tab.key"
+          class="bycar-tab"
+          :class="activeTab === tab.props.name ? 'active' : ''"
+          @click="switchTab(tab.props.name)"
+        >
+          {{ tab.props.title }}
+        </div>
+      </div>
+    </div>
+    <component
+      :is="tab"
+      v-for="tab in tabs"
+      :key="tab.key"
+      v-bind="tab.props"
+    />
+  </div>
+</template>
 
 <style lang="postcss">
 .bycar-tabs-header {

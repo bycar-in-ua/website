@@ -1,15 +1,3 @@
-<template>
-  <main class="bycar-container lg:flex gap-4 relative py-5 mb-auto">
-    <Catalog />
-  </main>
-</template>
-
-<script lang="ts">
-export default defineComponent({
-  name: "CatalogPage",
-});
-</script>
-
 <script setup lang="ts">
 import Catalog from "@/components/Catalog/index.vue";
 import { useCatalogStore } from "@/stores/catalog";
@@ -50,3 +38,9 @@ watch(
   },
 );
 </script>
+
+<template>
+  <main class="bycar-container lg:flex gap-4 relative py-5 mb-auto">
+    <Catalog />
+  </main>
+</template>

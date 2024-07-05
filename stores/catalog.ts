@@ -22,16 +22,19 @@ export const useCatalogStore = defineStore("catalog", {
     async fetchCars() {
       const { $api } = useNuxtApp();
       const route = useRoute();
+      const queryString = new URLSearchParams({
+        ...route.query,
+        limit: "12",
+      }).toString();
 
       try {
         this.pending = true;
+
         const data = await $api.get<{
           items: Car[];
           meta: PaginationMeta;
-        }>(
-          "/vehicles?" +
-            new URLSearchParams({ ...route.query, limit: "12" }).toString(),
-        );
+        }>(`/vehicles?${queryString}`);
+
         this.items = data.items;
         this.meta = data.meta;
       } finally {

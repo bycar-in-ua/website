@@ -1,27 +1,10 @@
-<template>
-  <main class="bycar-container py-5 lg:py-10">
-    <Title :title="carTitle" />
-    <Media :images="car.images" />
-    <GeneralInfo :description="car.description" :short-summary="shortSummary" />
-    <FullInfo :car="car" />
-  </main>
-</template>
-
-<script lang="ts">
-import { defineComponent } from "vue";
-
-export default defineComponent({
-  name: "CarModelPage",
-});
-</script>
-
 <script setup lang="ts">
+import type { VehicleView as Car } from "@bycar-in-ua/common";
 import Title from "@/components/Single/Title.vue";
 import Media from "@/components/Single/Media.vue";
 import GeneralInfo from "@/components/Single/GeneralInfo.vue";
 import FullInfo from "@/components/Single/FullInfo/index.vue";
 import { getCarTitle } from "@/utils/carHelpers";
-import type { VehicleView as Car } from "@bycar-in-ua/common";
 import { generatePageTitle } from "@/utils/seo";
 import { type InfoLineProps } from "@/components/UI/InfoLine.vue";
 
@@ -87,3 +70,12 @@ const shortSummary = computed<InfoLineProps[]>(() => [
   },
 ]);
 </script>
+
+<template>
+  <main class="bycar-container py-5 lg:py-10">
+    <Title :title="carTitle" />
+    <Media :images="car.images" />
+    <GeneralInfo :description="car.description" :short-summary="shortSummary" />
+    <FullInfo :car="car" />
+  </main>
+</template>
