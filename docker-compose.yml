@@ -1,5 +1,6 @@
 services:
   bycar-website:
+    container_name: bycar-website
     build:
       context: .
     environment:
