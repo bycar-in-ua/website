@@ -24,7 +24,7 @@ const isLong = computed(() => props.optionCategory.options.length > 5);
 
 <template>
   <div>
-    <h4 class="text-lg mb-2">{{ optionCategory.displayName }}:</h4>
+    <h4 class="text-md mb-2 font-bold">{{ optionCategory.displayName }}:</h4>
 
     <ul
       class="list-inside relative transition-all long-list"
@@ -39,13 +39,13 @@ const isLong = computed(() => props.optionCategory.options.length > 5);
       </li>
       <li
         v-if="isLong"
-        class="read-more bottom-0 left-0 right-0 bg-gradient-to-t from-white to-transparent cursor-pointer"
+        class="read-more bottom-0 left-0 right-0 flex justify-center bg-gradient-to-t from-white to-transparent cursor-pointer"
         :class="open ? 'static' : 'absolute'"
         @click="open = !open"
       >
         <UIcon
-          name="i-heroicons-chewron-dowd"
-          class="read-more-icon w-10 h-10 p-1 border mx-auto rounded-full bg-white transition-all"
+          name="i-heroicons-chevron-down"
+          class="w-10 h-10 p-1 rounded-full transition-all hover:bg-primary"
           :class="open ? 'rotate-180' : 'rotate-0'"
         />
       </li>
@@ -53,17 +53,9 @@ const isLong = computed(() => props.optionCategory.options.length > 5);
   </div>
 </template>
 
-<style lang="postcss">
+<style>
 .long-list {
   max-height: var(--max-height);
   @apply overflow-hidden transition-all;
-}
-
-.read-more {
-  &:hover {
-    .read-more-icon {
-      @apply border-primary;
-    }
-  }
 }
 </style>

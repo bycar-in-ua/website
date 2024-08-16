@@ -1,30 +1,3 @@
-<template>
-  <div
-    class="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 w-full px-4 justify-center"
-  >
-    <div
-      v-for="(block, index) in blocks"
-      :key="index"
-      class="max-w-lg w-full"
-      :class="block.cssClass"
-    >
-      <h4 v-text="block.title" />
-      <InfoLine
-        v-for="(item, index) in block.infoLines"
-        :key="index"
-        v-bind="item"
-      />
-    </div>
-  </div>
-</template>
-
-<script lang="ts">
-import { defineComponent } from "vue";
-export default defineComponent({
-  name: "PowerUnitInfo",
-});
-</script>
-
 <script setup lang="ts">
 import type { PowerUnitView as PowerUnit } from "@bycar-in-ua/common";
 import InfoLine, { type InfoLineProps } from "@/components/UI/InfoLine.vue";
@@ -258,3 +231,19 @@ const blocks: PowerUnitInfoBlock[] = [
   },
 ];
 </script>
+
+<template>
+  <div
+    class="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 w-full px-4 justify-center"
+  >
+    <div
+      v-for="(block, index) in blocks"
+      :key="index"
+      class="max-w-lg w-full"
+      :class="block.cssClass"
+    >
+      <h4 class="font-bold text-lg" v-text="block.title" />
+      <InfoLine v-for="(item, i) in block.infoLines" :key="i" v-bind="item" />
+    </div>
+  </div>
+</template>

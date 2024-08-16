@@ -26,6 +26,7 @@ export default defineNuxtConfig({
         quotes: "double",
         semi: true,
         braceStyle: "1tbs",
+        arrowParens: true,
       },
     },
   },

@@ -1,3 +1,38 @@
+<script setup lang="ts">
+import type {
+  ComplectationView as Complectation,
+  OptionCategoryDto as OptionCategory,
+} from "@bycar-in-ua/common";
+import PowerUnitInfo from "./PowerUnitInfo.vue";
+import OptionsList from "./OptionsList.vue";
+import Card from "@/components/UI/Card.vue";
+
+const props = defineProps<{ complectation: Complectation }>();
+
+const { $api } = useNuxtApp();
+
+const currentPowerUnit = ref(props.complectation.powerUnits[0]?.id);
+
+const { data: optionCategories } = await useAsyncData(() => {
+  return $api.get<OptionCategory[]>("option-categories");
+});
+
+const optionsForRender = computed<Array<OptionCategory>>(() => {
+  const optCats: OptionCategory[] = [];
+
+  Object.entries(props.complectation.optionsByCategories).forEach(
+    ([catId, options]) => {
+      const targetCat = optionCategories.value?.find(
+        (optCat) => optCat.id == Number(catId),
+      );
+
+      optCats.push({ ...targetCat, options });
+    },
+  );
+  return optCats;
+});
+</script>
+
 <template>
   <div>
     <Card
@@ -12,18 +47,18 @@
           <div
             v-for="powerUnit in complectation.powerUnits"
             :key="powerUnit.id"
-            @click="currentPowerUnit = powerUnit.id"
             class="w-50 lg:w-56 shrink-0 py-2 px-4 shadow-lg rounded-lg cursor-pointer transition-colors"
             :class="currentPowerUnit == powerUnit.id && 'text-white bg-primary'"
+            @click="currentPowerUnit = powerUnit.id"
           >
             <strong class="basis-full">{{
-              powerUnit.engine.displayName + " " + powerUnit.transmission.drive
+              `${powerUnit.engine?.displayName} ${powerUnit.transmission?.drive}`
             }}</strong>
             <div class="basis-full">
-              {{ powerUnit.transmission.gearbox.numberOfGears }}
+              {{ powerUnit.transmission?.gearbox.numberOfGears }}
               {{
                 $t(
-                  `vehicle.transmission.gearbox.types.${powerUnit.transmission.gearbox.type}`,
+                  `vehicle.transmission.gearbox.types.${powerUnit.transmission?.gearbox.type}`,
                 )
               }}
             </div>
@@ -63,43 +98,3 @@
     </Card>
   </div>
 </template>
-
-<script lang="ts">
-import { defineComponent } from "vue";
-export default defineComponent({
-  name: "ComplectationInfo",
-});
-</script>
-
-<script setup lang="ts">
-import type {
-  ComplectationView as Complectation,
-  OptionCategoryDto as OptionCategory,
-} from "@bycar-in-ua/common";
-import Card from "@/components/UI/Card.vue";
-import PowerUnitInfo from "./PowerUnitInfo.vue";
-import OptionsList from "./OptionsList.vue";
-
-const props = defineProps<{ complectation: Complectation }>();
-
-const { $api } = useNuxtApp();
-
-const currentPowerUnit = ref(props.complectation.powerUnits[0]?.id);
-
-const optionCategories = await $api.get<OptionCategory[]>("option-categories");
-
-const optionsForRender = computed<Array<OptionCategory>>(() => {
-  const optCats: OptionCategory[] = [];
-
-  Object.entries(props.complectation.optionsByCategories).forEach(
-    ([catId, options]) => {
-      const targetCat = optionCategories.value?.find(
-        (optCat) => optCat.id == Number(catId),
-      );
-
-      optCats.push({ ...targetCat, options });
-    },
-  );
-  return optCats;
-});
-</script>

@@ -72,13 +72,14 @@ async function checkHandler(field: string, value: string | string[]) {
     class="w-screen sm:w-80 flex-shrink-0 fixed top-0 bottom-0 left-0 z-40 lg:z-0 lg:static h- lg:h-auto bg-white p-4 rounded border border-gray-200 transition-transform lg:translate-x-0"
     :class="isSidebarShowing ? 'translate-x-0' : '-translate-x-full'"
   >
-    <UIcon
-      name="i-heroicons-adjustments-horizontal"
-      class="w-12 h-12 cursor-pointer p-2 absolute -right-12 top-16 bg-white rounded-r-lg transition-opacity lg:hidden"
+    <div
+      class="bg-white cursor-pointer p-2 absolute -right-12 top-16 rounded-r-lg transition-opacity lg:hidden"
       :class="isSidebarShowing ? '' : 'opacity-80'"
       @click="isSidebarShowing = !isSidebarShowing"
-    />
-    <XMarkIcon
+    >
+      <UIcon name="i-heroicons-adjustments-horizontal" class="w-8 h-8" />
+    </div>
+    <UIcon
       name="i-heroicons-x-mark"
       class="p-2 w-8 h-8 absolute right-2 top-2 lg:hidden cursor-pointer"
       @click="isSidebarShowing = false"
@@ -96,8 +97,8 @@ async function checkHandler(field: string, value: string | string[]) {
 
       <div
         v-if="route.query.price?.length"
-        @click="() => checkHandler('price', [])"
         class="mt-4 text-primary cursor-pointer hover:underline"
+        @click="() => checkHandler('price', [])"
       >
         {{ $t("clear") }}
       </div>

@@ -1,3 +1,12 @@
+<script setup lang="ts">
+import type { VehicleView as Car } from "@bycar-in-ua/common";
+import ComplectationInfo from "./ComplectationInfo.vue";
+
+const props = defineProps<{ car: Car }>();
+
+const currentComplectation = ref(props.car.complectations[0].id);
+</script>
+
 <template>
   <h3
     id="complectations"
@@ -34,19 +43,3 @@
     />
   </Transition>
 </template>
-
-<script lang="ts">
-import { defineComponent } from "vue";
-export default defineComponent({
-  name: "ComplectationsTab",
-});
-</script>
-
-<script setup lang="ts">
-import type { VehicleView as Car } from "@bycar-in-ua/common";
-import ComplectationInfo from "./ComplectationInfo.vue";
-
-const props = defineProps<{ car: Car }>();
-
-const currentComplectation = ref(props.car.complectations[0].id);
-</script>
