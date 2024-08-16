@@ -1,0 +1,13 @@
+services:
+  bycar-website:
+    build:
+      context: .
+    environment:
+      - API_URL=${API_URL}
+      - CDN_URL=${CDN_URL}
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
