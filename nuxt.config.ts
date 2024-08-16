@@ -1,5 +1,6 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
+  sourcemap: false,
 
   css: ["@/assets/css/global.css"],
 
