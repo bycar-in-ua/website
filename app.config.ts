@@ -5,5 +5,10 @@ export default defineAppConfig({
   },
   ui: {
     primary: "bycar-primary",
+    button: {
+      padding: {
+        sm: "py-2.5 px-4",
+      },
+    },
   },
 });

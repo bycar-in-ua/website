@@ -11,7 +11,13 @@ export default defineNuxtConfig({
     preference: "light",
   },
 
-  modules: ["@pinia/nuxt", "@nuxtjs/i18n", "@nuxt/eslint", "@nuxt/ui"],
+  modules: [
+    "@pinia/nuxt",
+    "@nuxtjs/i18n",
+    "@nuxt/eslint",
+    "@nuxt/ui",
+    "@nuxt/fonts",
+  ],
 
   runtimeConfig: {
     public: {
@@ -28,6 +34,12 @@ export default defineNuxtConfig({
         braceStyle: "1tbs",
         arrowParens: true,
       },
+    },
+  },
+
+  fonts: {
+    defaults: {
+      weights: [400, 500, 600, 700, 800],
     },
   },
 

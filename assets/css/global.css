@@ -21,23 +21,9 @@ html {
 }
 
 body {
-  @apply bg-stone-100 text-stone-800;
+  @apply text-gray-900;
   overflow: overlay;
   overflow-x: hidden;
-}
-
-#__nuxt {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.bycar-container {
-  @apply xl:container mx-auto px-4;
-}
-
-.bycar-container-md {
-  @apply max-w-3xl mx-auto px-4;
 }
 
 .section {

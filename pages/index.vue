@@ -1,9 +1,4 @@
 <script setup lang="ts">
-import type {
-  VehicleView as Car,
-  BrandDto as Brand,
-} from "@bycar-in-ua/common";
-import { useNuxtApp } from "#app";
 import Hero from "@/components/Home/Hero.vue";
 import Latest from "@/components/Home/Latest.vue";
 import Brands from "@/components/Home/Brands.vue";
@@ -34,21 +29,14 @@ useHead({
 
 const homeStore = useHomeStore();
 
-const { $api } = useNuxtApp();
+const { data } = await useFetch("/api/home");
 
-type ResponseType = {
-  recentVehicles: Car[];
-  establishedBrands: Brand[];
-};
-
-const data = await $api.get<ResponseType>("/website/home");
-
-homeStore.latestItems = data.recentVehicles || [];
-homeStore.establishedBrands = data.establishedBrands || [];
+homeStore.latestItems = data.value?.recentVehicles || [];
+homeStore.establishedBrands = data.value?.establishedBrands || [];
 </script>
 
 <template>
-  <main>
+  <main class="container">
     <Hero />
     <Latest />
     <Brands />
