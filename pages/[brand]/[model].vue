@@ -12,14 +12,17 @@ definePageMeta({
   name: "SingleCar",
 });
 
-const { $api, $cdnLink } = useNuxtApp();
+const { $cdnLink } = useNuxtApp();
 const { t } = useI18n();
 
 const route = useRoute();
 
-const car = await $api.get<Car>(`/vehicles/${route.params.model}`);
+const { data: car } = await useFetch(`/api/vehicles/${route.params.model}`, {
+  default: () => ({} as Car),
+});
+console.log({ car: car.value });
 
-const carTitle = computed(() => getCarTitle(car));
+const carTitle = computed(() => getCarTitle(car.value));
 
 useHead({
   title: generatePageTitle(carTitle.value),
@@ -38,7 +41,10 @@ useHead({
     },
     {
       name: "og:image",
-      content: $cdnLink(car.featureImage?.path || car.images[0]?.path, 300),
+      content: $cdnLink(
+        car.value.featureImage?.path || car.value.images[0]?.path,
+        300,
+      ),
     },
   ],
 });
@@ -58,25 +64,25 @@ function getModelYear(car: Car) {
 const shortSummary = computed<InfoLineProps[]>(() => [
   {
     name: t("vehicle.model"),
-    value: getCarTitle(car),
+    value: getCarTitle(car.value),
   },
   {
     name: t("vehicle.modelYear"),
-    value: getModelYear(car),
+    value: getModelYear(car.value),
   },
   {
     name: t("vehicle.bodyTypes.title"),
-    value: car.bodyType,
+    value: car.value.bodyType,
   },
   {
     name: t("vehicle.sizeClases.title"),
-    value: String(car.sizeClass),
+    value: String(car.value.sizeClass),
   },
 ]);
 </script>
 
 <template>
-  <main class="bycar-container py-5 lg:py-10">
+  <main class="container pt-32 pb-5">
     <Title :title="carTitle" />
     <Media :images="car.images" />
     <GeneralInfo :description="car.description" :short-summary="shortSummary" />

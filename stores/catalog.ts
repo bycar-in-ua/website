@@ -1,45 +1,40 @@
 import { defineStore } from "pinia";
-import type { VehicleView as Car, PaginationMeta } from "@bycar-in-ua/common";
 
-type State = {
-  items: Car[];
-  meta: PaginationMeta;
-  pending: boolean;
-};
+export const useCatalogStore = defineStore("catalog", () => {
+  const router = useRouter();
 
-export const useCatalogStore = defineStore("catalog", {
-  state: (): State => ({
-    items: [],
-    meta: {
-      currentPage: 1,
-      totalPages: 0,
-      totalItems: 0,
-      itemsPerPage: 0,
-    },
-    pending: false,
-  }),
-  actions: {
-    async fetchCars() {
-      const { $api } = useNuxtApp();
-      const route = useRoute();
-      const queryString = new URLSearchParams({
-        ...route.query,
-        limit: "12",
-      }).toString();
+  const filters = ref<Record<string, string | string[] | undefined>>(
+    router.currentRoute.value.query as Record<string, string>,
+  );
 
-      try {
-        this.pending = true;
+  const { status, data } = useFetch(`/api/search-cars`, {
+    method: "post",
+    body: filters,
+    default: () => ({
+      items: [],
+      meta: {
+        currentPage: 1,
+        totalPages: 1,
+        itemsPerPage: 12,
+        totalItems: 0,
+      },
+    }),
+  });
 
-        const data = await $api.get<{
-          items: Car[];
-          meta: PaginationMeta;
-        }>(`/vehicles?${queryString}`);
+  const pending = computed(() => status.value === "pending");
 
-        this.items = data.items;
-        this.meta = data.meta;
-      } finally {
-        this.pending = false;
-      }
-    },
-  },
+  const updateFilters = async (field: string, value: string | string[]) => {
+    filters.value = { ...filters.value, page: "1", [field]: value };
+
+    await router.replace({
+      query: filters.value,
+    });
+  };
+
+  return {
+    filters,
+    pending,
+    data,
+    updateFilters,
+  };
 });

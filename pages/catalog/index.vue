@@ -27,20 +27,24 @@ useHead({
 
 const catalogStore = useCatalogStore();
 
-const route = useRoute();
+onUnmounted(() => {
+  catalogStore.$dispose();
+});
 
-await catalogStore.fetchCars();
+// const route = useRoute();
 
-watch(
-  () => route.query,
-  async () => {
-    await catalogStore.fetchCars();
-  },
-);
+// await catalogStore.fetchCars();
+
+// watch(
+//   () => route.query,
+//   async () => {
+//     await catalogStore.fetchCars();
+//   },
+// );
 </script>
 
 <template>
-  <main class="bycar-container lg:flex gap-4 relative py-5 mb-auto">
+  <main class="container lg:flex gap-4 relative pt-32 pb-5 mb-auto">
     <Catalog />
   </main>
 </template>

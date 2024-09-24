@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { LocationQueryValue } from "vue-router";
-import type { BrandDto as Brand } from "@bycar-in-ua/common";
 import {
   CheckboxGroup,
   type ICheckboxGroupOption,
@@ -8,18 +7,16 @@ import {
 import RadioInputGroup, {
   type IRadioInputProps,
 } from "@/components/UI/Controls/Radio/index.vue";
+import { useCatalogStore } from "~/stores/catalog";
 
-const { $api } = useNuxtApp();
-const router = useRouter();
 const route = useRoute();
 const { t } = useI18n();
 
-interface ResponseType {
-  brands: Brand[];
-  bodyTypes: string[];
-}
+const { data } = useFetch("/api/filters", {
+  default: () => ({ brands: [], bodyTypes: [] }),
+});
 
-const data = await $api.get<ResponseType>("/website/catalog");
+const catalogStore = useCatalogStore();
 
 const isSidebarShowing = ref(false);
 
@@ -50,20 +47,22 @@ const priceOptions: IRadioInputProps[] = [
   },
 ];
 
-const brandsOptions: ICheckboxGroupOption[] = data.brands.map((brand) => ({
-  key: brand.slug,
-  label: brand.displayName,
-}));
+const brandsOptions: ICheckboxGroupOption[] = data.value.brands.map(
+  (brand) => ({
+    key: brand.slug,
+    label: brand.displayName,
+  }),
+);
 
-const bodyTypesOptions: ICheckboxGroupOption[] = data.bodyTypes.map((item) => ({
-  key: item,
-  label: t(`vehicle.bodyTypes.items.${item}`),
-}));
+const bodyTypesOptions: ICheckboxGroupOption[] = data.value.bodyTypes.map(
+  (item) => ({
+    key: item,
+    label: t(`vehicle.bodyTypes.items.${item}`),
+  }),
+);
 
-async function checkHandler(field: string, value: string | string[]) {
-  await router.replace({
-    query: { ...route.query, page: undefined, [field]: value },
-  });
+function checkHandler(field: string, value: string | string[]) {
+  catalogStore.updateFilters(field, value);
 }
 </script>
 
@@ -108,7 +107,7 @@ async function checkHandler(field: string, value: string | string[]) {
         :options="brandsOptions"
         variant="vertical"
         :value="prepareParams(route.query?.brand || [])"
-        @update:value="(val) => checkHandler('brand', val)"
+        @update:value="(val) => checkHandler('brand', String(val))"
       />
 
       <h4 class="my-4">{{ $t("vehicle.bodyTypes.title") }}:</h4>
@@ -117,7 +116,7 @@ async function checkHandler(field: string, value: string | string[]) {
         :options="bodyTypesOptions"
         variant="vertical"
         :value="prepareParams(route.query?.bodyType || [])"
-        @update:value="(val) => checkHandler('bodyType', val)"
+        @update:value="(val) => checkHandler('bodyType', String(val))"
       />
     </div>
   </div>
