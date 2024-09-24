@@ -1,14 +1,23 @@
 <script setup lang="ts">
 import Logo from "./Logo.vue";
 import Navigation from "./Navigation.vue";
+import ScrollListener from "./ScrollListener.vue";
+
+const scrolled = ref(false);
 </script>
 
 <template>
-  <header class="bg-white shadow-sm relative z-40">
-    <div class="bycar-container flex flex-row justify-between items-center">
-      <Logo class="lg:basis-2/12" />
+  <header
+    class="z-40 fixed left-0 right-0 py-2 transition-all duration-300"
+    :class="scrolled ? 'top-0 backdrop-blur-md bg-white/30 shadow-md' : 'top-8'"
+  >
+    <ClientOnly>
+      <ScrollListener v-model="scrolled" />
+    </ClientOnly>
+
+    <div class="container flex items-center">
+      <Logo class="mr-16" />
       <Navigation />
-      <div class="lg:basis-2/12 hidden lg:block" />
     </div>
   </header>
 </template>

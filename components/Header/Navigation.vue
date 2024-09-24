@@ -21,7 +21,13 @@ const menuItems: HorizontalNavigationLink[] = [
 <template>
   <UHorizontalNavigation
     :links="menuItems"
-    :ui="{ wrapper: 'justify-center hidden md:flex' }"
+    :ui="{
+      wrapper: 'hidden md:flex',
+      base: 'py-2 hover:text-primary',
+      active: 'text-primary',
+      before: 'hover:before:none',
+      after: 'after:mt-1',
+    }"
   />
   <ClientOnly>
     <MenuToggler />

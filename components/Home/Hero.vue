@@ -1,5 +1,5 @@
 <template>
-  <section class="flex blured-ellipse-bg relative">
+  <section class="flex blured-ellipse-bg relative py-10">
     <div class="basis-3/5 flex flex-col justify-center items-start">
       <h1 class="text-5xl font-semibold mb-4">
         Обрати нове
@@ -25,7 +25,7 @@
       </UButton>
     </div>
     <div class="basis-2/5 min-h-[580px] flex flex-col justify-center">
-      <div class="relative h-full w-[150%] -left-1/2 -z-20">
+      <div class="relative h-full w-[160%] -left-1/2 -z-20">
         <img
           src="/public/images/hero-image.png"
           class="absolute inset-0 top-1/2 -translate-y-1/2"
