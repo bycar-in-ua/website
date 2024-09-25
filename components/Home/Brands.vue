@@ -1,5 +1,13 @@
+<script setup lang="ts">
+import SectionTitle from "@/components/UI/SectionTitle.vue";
+
+import { useHomeStore } from "@/stores/home";
+
+const { establishedBrands } = useHomeStore();
+</script>
+
 <template>
-  <section class="bycar-container section high-bottom">
+  <section class="my-24">
     <SectionTitle :title="$t('brands')" />
     <div class="flex flex-wrap justify-center gap-5">
       <NuxtLink
@@ -11,29 +19,15 @@
             brand: brand.slug,
           },
         }"
-        class="flex items-center justify-center text-xl"
+        class="w-20 h-20 shadow-xl rounded-xl flex items-center justify-center p-3 brightness-90 hover:brightness-100 transition-all duration-300"
+        :title="brand.displayName"
       >
         <img
           :src="$cdnLink(brand.logo, 0, 150)"
           :alt="brand.displayName"
-          class="rounded-full w-12 h-12 mr-4 object-contain"
+          class="object-contain"
         />
-        <h4 v-text="brand.displayName" />
       </NuxtLink>
     </div>
   </section>
 </template>
-
-<script lang="ts">
-export default {
-  name: "Brands",
-};
-</script>
-
-<script setup lang="ts">
-import SectionTitle from "@/components/UI/SectionTitle.vue";
-
-import { useHomeStore } from "@/stores/home";
-
-const { establishedBrands } = useHomeStore();
-</script>
