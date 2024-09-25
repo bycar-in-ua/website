@@ -24,9 +24,9 @@ const menuItems: HorizontalNavigationLink[] = [
     :ui="{
       wrapper: 'hidden md:flex',
       base: 'py-2 hover:text-primary',
-      active: 'text-primary',
+      active: 'text-primary ',
       inactive: 'text-gray-900',
-      before: 'hover:before:none',
+      before: 'hover:before:bg-transparent',
       after: 'after:mt-1',
     }"
   />

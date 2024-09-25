@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Logo from "./Logo.vue";
+import Logo from "../UI/Logo.vue";
 import Navigation from "./Navigation.vue";
 import ScrollListener from "./ScrollListener.vue";
 
