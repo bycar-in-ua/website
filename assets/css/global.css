@@ -26,29 +26,8 @@ body {
   overflow-x: hidden;
 }
 
-.section {
-  @apply py-5 md:py-6 lg:py-8;
-}
-
-.section.high-top {
-  @apply pt-10 md:pt-12 lg:pt-16;
-}
-
-.section.high-bottom {
-  @apply pb-10 md:pb-12 lg:pb-16;
-}
-
-.card {
-  @apply bg-white rounded-lg border border-gray-200 p-4 md:p-5;
-}
-
 .mce-styles p {
   @apply pb-4;
-}
-
-.disabled {
-  @apply text-gray-400;
-  cursor: not-allowed !important;
 }
 
 .page-enter-active {

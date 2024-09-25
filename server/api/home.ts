@@ -1,16 +1,26 @@
 import type {
-  VehicleView as Car,
-  BrandDto as Brand,
+  VehicleView,
+  BrandDto,
+  PaginationMeta,
 } from "@bycar-in-ua/common";
 import { useBycarApi } from "~/composables/useBycarApi";
 
 type ResponseType = {
-  recentVehicles: Car[];
-  establishedBrands: Brand[];
+  recentVehicles: VehicleView[];
+  establishedBrands: BrandDto[];
 };
 
-export default defineEventHandler(() => {
+export default defineEventHandler(async (): Promise<ResponseType> => {
   const bycarApi = useBycarApi();
 
-  return bycarApi<ResponseType>("/website/home");
+  const [{ items: recentVehicles }, establishedBrands] = await Promise.all([
+    bycarApi<{ items: VehicleView[]; meta: PaginationMeta }>("/vehicles", {
+      query: {
+        limit: "8",
+      },
+    }),
+    bycarApi<BrandDto[]>("/brands"),
+  ]);
+
+  return { recentVehicles, establishedBrands };
 });

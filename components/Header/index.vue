@@ -9,7 +9,7 @@ const scrolled = ref(false);
 <template>
   <header
     class="z-40 fixed left-0 right-0 py-2 transition-all duration-300"
-    :class="scrolled ? 'top-0 backdrop-blur-md bg-white/30 shadow-md' : 'top-8'"
+    :class="scrolled ? 'top-0 backdrop-blur-md bg-white/40 shadow-md' : 'top-8'"
   >
     <ClientOnly>
       <ScrollListener v-model="scrolled" />

@@ -1,5 +1,5 @@
 <template>
-  <section class="flex blured-ellipse-bg relative py-10">
+  <section class="flex blured-ellipse-bg relative my-10">
     <div class="basis-3/5 flex flex-col justify-center items-start">
       <h1 class="text-5xl font-semibold mb-4">
         Обрати нове
