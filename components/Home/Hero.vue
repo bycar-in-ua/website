@@ -1,5 +1,7 @@
 <template>
-  <section class="flex blured-ellipse-bg relative my-10">
+  <section
+    class="flex blured-ellipse-bg after:bottom-[10%] after:left-[25%] relative my-10"
+  >
     <div class="basis-3/5 flex flex-col justify-center items-start">
       <h1 class="text-5xl font-semibold mb-4">
         Обрати нове
@@ -34,17 +36,3 @@
     </div>
   </section>
 </template>
-
-<style>
-.blured-ellipse-bg:after {
-  content: "";
-  position: absolute;
-  bottom: 5%;
-  left: 20%;
-  width: 420px;
-  height: 230px;
-  border-radius: 50%;
-  z-index: -30;
-  @apply shadow-primary bg-primary blur-3xl opacity-10;
-}
-</style>
