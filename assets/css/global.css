@@ -57,10 +57,8 @@ body {
 .blured-ellipse-bg:after {
   content: "";
   position: absolute;
-  width: 420px;
-  height: 230px;
   border-radius: 50%;
   z-index: -30;
   filter: blur(150px);
-  @apply shadow-primary bg-primary opacity-30;
+  @apply shadow-primary bg-primary opacity-30 w-80 h-40 md:w-[420px] md:h-[230px];
 }

@@ -6,10 +6,10 @@ import Copyright from "./Copyright.vue";
 
 <template>
   <footer class="my-10">
-    <div class="container flex gap-5">
-      <FooterNavigation />
-      <Socials class="ml-auto basis-64" />
-      <Copyright class="basis-64" />
+    <div class="container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-5 gap-y-8">
+      <FooterNavigation class="sm:col-span-2" />
+      <Socials />
+      <Copyright />
     </div>
   </footer>
 </template>

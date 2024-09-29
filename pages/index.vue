@@ -37,7 +37,7 @@ homeStore.establishedBrands = data.value?.establishedBrands || [];
 </script>
 
 <template>
-  <main class="container">
+  <main class="container pt-20 md:pt-10 lg:pt-0">
     <Hero />
     <Latest />
     <ContactForm />

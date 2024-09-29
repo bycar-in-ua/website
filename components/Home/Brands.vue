@@ -7,7 +7,7 @@ const { establishedBrands } = useHomeStore();
 </script>
 
 <template>
-  <section class="my-24">
+  <section class="my-10 md:my-24">
     <SectionTitle :title="$t('brands')" />
     <div class="flex flex-wrap justify-center gap-5">
       <NuxtLink

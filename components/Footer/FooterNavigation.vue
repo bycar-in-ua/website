@@ -19,8 +19,8 @@ const menuItems: HorizontalNavigationLink[] = [
   <UVerticalNavigation
     :links="menuItems"
     :ui="{
-      wrapper: 'hidden md:flex',
-      base: 'py-2 hover:text-primary',
+      base: 'hover:text-primary',
+      padding: 'py-2 px-0',
       active: 'text-primary before:bg-tranparent',
       inactive: 'text-gray-900 hover:before:bg-transparent',
       before: 'hover:before:bg-transparent',
