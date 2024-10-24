@@ -1,9 +1,8 @@
 <script setup lang="ts">
+import type { Brand } from "@bycar-in-ua/sdk";
 import SectionTitle from "@/components/UI/SectionTitle.vue";
 
-import { useHomeStore } from "@/stores/home";
-
-const { establishedBrands } = useHomeStore();
+defineProps<{ establishedBrands: Brand[] }>();
 </script>
 
 <template>

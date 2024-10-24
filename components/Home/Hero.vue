@@ -14,7 +14,7 @@
         - це просто
       </h1>
       <h2 class="text-sm md:text-base font-medium mb-8 md:mb-12">
-        Від мрії й до купівлі. Погнали зробимо це!
+        Від мрії до купівлі. Погнали зробимо це!
       </h2>
 
       <h3 class="mb-2">4 785 активних пропозицій</h3>
@@ -28,8 +28,7 @@
     </div>
     <div class="flex-grow mt-10 md:mt-0 flex flex-col justify-center">
       <div
-        class="relative w-full sm:w-[130%] md:w-[160%] -right-1/3 sm:right-0
-         md:right-32 lg:right-52 bottom-14 sm:bottom-4 md:-bottom-16 lg:bottom-0 z-0 pt-[50%] sm:pt-0"
+        class="relative w-full sm:w-[130%] md:w-[160%] -right-1/3 sm:right-0 md:right-32 lg:right-52 bottom-14 sm:bottom-4 md:-bottom-16 lg:bottom-0 z-0 pt-[50%] sm:pt-0"
       >
         <img
           src="/public/images/hero-image.png"

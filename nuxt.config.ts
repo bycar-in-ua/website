@@ -1,16 +1,4 @@
 export default defineNuxtConfig({
-  devtools: { enabled: true },
-
-  css: ["@/assets/css/global.css"],
-
-  devServer: {
-    port: 4000,
-  },
-
-  colorMode: {
-    preference: "light",
-  },
-
   modules: [
     "@pinia/nuxt",
     "@nuxtjs/i18n",
@@ -18,6 +6,13 @@ export default defineNuxtConfig({
     "@nuxt/ui",
     "@nuxt/fonts",
   ],
+  devtools: { enabled: true },
+
+  css: ["@/assets/css/global.css"],
+
+  colorMode: {
+    preference: "light",
+  },
 
   runtimeConfig: {
     public: {
@@ -25,6 +20,12 @@ export default defineNuxtConfig({
       cdnHost: process.env.CDN_URL,
     },
   },
+
+  devServer: {
+    port: 4000,
+  },
+
+  compatibilityDate: "2024-07-02",
 
   eslint: {
     config: {
@@ -42,6 +43,4 @@ export default defineNuxtConfig({
       weights: [400, 500, 600, 700, 800],
     },
   },
-
-  compatibilityDate: "2024-07-02",
 });

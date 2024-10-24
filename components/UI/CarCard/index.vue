@@ -1,25 +1,34 @@
 <script setup lang="ts">
-import type { VehicleView as Car } from "@bycar-in-ua/common";
+import type { Vehicle } from "@bycar-in-ua/sdk";
+import { getVehicleInfoBullets } from "./helpers.js";
 import { getCarTitle } from "@/utils/carHelpers";
 
 const props = defineProps<{
-  car: Car;
+  car: Vehicle;
 }>();
 
 const { $cdnLink } = useNuxtApp();
+const { t } = useI18n();
 
 const carTitle = getCarTitle(props.car);
 const imageUrl = props.car.featureImage
   ? $cdnLink(props.car.featureImage.path, 320, 400)
   : "/images/placeholder-image.jpg";
+
 const priceRange = computed(() => {
   if (!props.car.complectations?.length) {
     return "";
   }
 
   const prices = props.car.complectations
-    .flatMap((complectation) => Object.values(complectation.priceRange))
+    .flatMap((complectation) =>
+      complectation.powerUnits?.map(({ price }) => price),
+    )
     .filter(Boolean) as number[];
+
+  if (!prices.length) {
+    return "";
+  }
 
   if (prices.length === 1) {
     return `$${prices[0]}`;
@@ -30,6 +39,8 @@ const priceRange = computed(() => {
 
   return `$${min} - $${max}`;
 });
+
+const infoBullets = computed(() => getVehicleInfoBullets(props.car, t));
 </script>
 
 <template>
@@ -37,7 +48,7 @@ const priceRange = computed(() => {
     :to="{
       name: 'SingleCar',
       params: {
-        brand: car.brand.slug,
+        brand: car.brand?.slug ?? '',
         model: car.slug,
       },
     }"
@@ -48,9 +59,23 @@ const priceRange = computed(() => {
       class="car-card-img transition-all duration-300 object-cover rounded-3xl"
       :alt="carTitle"
     />
-    <div class="p-4 text-white absolute inset-0 z-10">
+    <div class="p-4 text-white absolute inset-0 flex flex-col z-10">
       <h3>{{ carTitle }}</h3>
-      <div class="font-bold">{{ priceRange }}</div>
+      <div class="font-bold">
+        {{ priceRange }}
+      </div>
+
+      <div class="mt-auto flex gap-4 justify-between">
+        <div
+          v-for="(bullet, index) in infoBullets"
+          :key="index"
+          class="text-xs flex flex-col items-center gap-2"
+          :title="bullet.title"
+        >
+          <component :is="bullet.icon" class="w-6 h-6" />
+          {{ bullet.text }}
+        </div>
+      </div>
     </div>
   </NuxtLink>
 </template>

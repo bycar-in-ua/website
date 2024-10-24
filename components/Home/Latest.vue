@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { useHomeStore } from "@/stores/home";
+import type { Vehicle } from "@bycar-in-ua/sdk";
 import SectionTitle from "@/components/UI/SectionTitle.vue";
 import CarCard from "@/components/UI/CarCard/index.vue";
 
-const { latestItems } = useHomeStore();
+defineProps<{ latestItems: Vehicle[] }>();
 </script>
 
 <template>

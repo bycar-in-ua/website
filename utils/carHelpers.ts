@@ -1,11 +1,13 @@
-import type { VehicleView as Car } from "@bycar-in-ua/common";
+import type { Vehicle } from "@bycar-in-ua/sdk";
 
-export function getCarTitle(car: Car) {
+export function getCarTitle(vehicle: Vehicle) {
   const titleParts = [];
 
-  car.brand.displayName && titleParts.push(car.brand.displayName);
+  if (vehicle.brand?.displayName) {
+    titleParts.push(vehicle.brand.displayName);
+  }
 
-  titleParts.push(car.model);
+  titleParts.push(vehicle.model);
 
   return titleParts.join(" ").trim();
 }
