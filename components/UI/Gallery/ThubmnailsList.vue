@@ -1,17 +1,3 @@
-<template>
-  <div class="bycar-gallery-thumnails-list" ref="htmlRef">
-    <slot />
-  </div>
-</template>
-
-<script lang="ts">
-import { defineComponent } from "vue";
-
-export default defineComponent({
-  name: "ThubmnailsList",
-});
-</script>
-
 <script setup lang="ts">
 import { ref } from "vue";
 
@@ -22,9 +8,15 @@ defineExpose({
 });
 </script>
 
-<style lang="postcss">
+<template>
+  <div class="bycar-gallery-thumnails-list" ref="htmlRef">
+    <slot />
+  </div>
+</template>
+
+<style>
 .bycar-gallery-thumnails-list {
-  @apply grid gap-3 content-start justify-start overflow-auto;
+  @apply grid gap-4 content-start overflow-auto;
   &::-webkit-scrollbar {
     display: none;
   }

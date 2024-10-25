@@ -38,7 +38,7 @@ export default defineComponent({
         prevItemIndex: prevIndex >= 0 ? prevIndex : null,
         nextItemIndex: nextIndex < props.items.length ? nextIndex : null,
       };
-      thumbsListRef.value[itemIndex].htmlRef.scrollIntoView({
+      thumbsListRef.value?.[itemIndex].htmlRef.scrollIntoView({
         block: "nearest",
       });
     };
@@ -126,7 +126,7 @@ export default defineComponent({
   </div>
 </template>
 
-<style lang="postcss">
+<style>
 .regular-gallery {
   height: auto;
   max-height: 95vh;
@@ -137,17 +137,17 @@ export default defineComponent({
 .bycar-gallery {
   @apply grid gap-5 overflow-hidden h-full transition-all;
   @screen md {
-    grid-template-columns: 80px 1fr;
+    grid-template-columns: 1fr 160px;
     .bycar-gallery-image-wrapper {
       @apply rounded-lg;
-      order: 2;
+      /* order: 2; */
     }
   }
   .bycar-gallery-thumnails-list-wrapper {
-    grid-template-columns: 80px;
+    grid-template-columns: 160px;
     overflow: hidden;
     @screen md {
-      order: 1;
+      /* order: 1; */
     }
   }
   .bycar-gallery-thumnails-list {

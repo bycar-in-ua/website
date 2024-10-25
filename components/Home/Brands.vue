@@ -15,7 +15,7 @@ defineProps<{ establishedBrands: Brand[] }>();
         :to="{
           path: 'catalog',
           query: {
-            brand: brand.slug,
+            brand: brand.id,
           },
         }"
         class="w-20 h-20 shadow-xl rounded-xl flex items-center justify-center p-3 brightness-90 hover:brightness-100 transition-all duration-300"

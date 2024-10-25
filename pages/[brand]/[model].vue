@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { VehicleView as Car } from "@bycar-in-ua/common";
+import type { Vehicle } from "@bycar-in-ua/sdk";
 import Title from "@/components/Single/Title.vue";
 import Media from "@/components/Single/Media.vue";
 import GeneralInfo from "@/components/Single/GeneralInfo.vue";
@@ -12,15 +12,18 @@ definePageMeta({
   name: "SingleCar",
 });
 
-const { $cdnLink } = useNuxtApp();
+const { $cdnLink, $bycarApi } = useNuxtApp();
 const { t } = useI18n();
 
 const route = useRoute();
 
-const { data: car } = await useFetch(`/api/vehicles/${route.params.model}`, {
-  default: () => ({} as Car),
-});
-console.log({ car: car.value });
+const { data: car } = await useAsyncData(
+  `${route.params.model}`,
+  () => $bycarApi.getVehicleBySlug(route.params.model as string),
+  {
+    default: () => ({} as Vehicle),
+  },
+);
 
 const carTitle = computed(() => getCarTitle(car.value));
 
@@ -42,23 +45,15 @@ useHead({
     {
       name: "og:image",
       content: $cdnLink(
-        car.value.featureImage?.path || car.value.images[0]?.path,
+        car.value.featureImage?.path || car.value.images?.[0]?.path || "",
         300,
       ),
     },
   ],
 });
 
-function getModelYear(car: Car) {
-  let year = "";
-
-  year += car.yearFrom;
-
-  if (car.yearTo) {
-    year += " - " + car.yearTo;
-  }
-
-  return year;
+function getModelYear(car: Vehicle) {
+  return [car.yearFrom, car.yearTo ?? ""].join(" - ");
 }
 
 const shortSummary = computed<InfoLineProps[]>(() => [
@@ -84,7 +79,7 @@ const shortSummary = computed<InfoLineProps[]>(() => [
 <template>
   <main class="container pt-32 pb-5">
     <Title :title="carTitle" />
-    <Media :images="car.images" />
+    <Media v-if="car.images" :images="car.images" />
     <GeneralInfo :description="car.description" :short-summary="shortSummary" />
     <FullInfo :car="car" />
   </main>

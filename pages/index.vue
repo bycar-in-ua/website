@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { Brand, Vehicle } from "@bycar-in-ua/sdk";
 import Hero from "@/components/Home/Hero.vue";
 import Latest from "@/components/Home/Latest.vue";
 import ContactForm from "@/components/Home/ContactForm.vue";
@@ -28,16 +27,13 @@ useHead({
   ],
 });
 
-const bycarApi = useBycarApi();
+const { $bycarApi } = useNuxtApp();
 
 const { data } = await useAsyncData(
   async () => {
     const [vehicles, brands] = await Promise.all([
-      bycarApi<{ items: Vehicle[] }>("vehicles/search", {
-        method: "POST",
-        body: { limit: 8 },
-      }),
-      bycarApi<Brand[]>("brands"),
+      $bycarApi.searchVehicles({ limit: 8 }),
+      $bycarApi.getBrands(),
     ]);
 
     return {

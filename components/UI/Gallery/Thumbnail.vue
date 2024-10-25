@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bycar-gallery-thumbnail"
+    class="bycar-gallery-thumbnail cursor-pointer rounded-lg overflow-hidden transition-all w-full pt-[63%]"
     :class="activeItem.currentItemIndex === index ? 'active' : ''"
     :style="{
       'background-image': `url('${item.source}')`,
@@ -43,9 +43,9 @@ const setGalleryActiveItem = inject<TSetGalleryActiveItem>(
 const setActiveItem = () => setGalleryActiveItem(props.index);
 </script>
 
-<style lang="postcss">
+<style>
 .bycar-gallery-thumbnail {
-  @apply rounded-lg overflow-hidden w-20 h-20 cursor-pointer transition-all bg-cover bg-center;
+  @apply bg-cover bg-center;
   &.active {
     &:after {
       content: "";

@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { VehicleView as Car } from "@bycar-in-ua/common";
+import type { Vehicle } from "@bycar-in-ua/sdk";
 import ComplectationInfo from "./ComplectationInfo.vue";
 
-const props = defineProps<{ car: Car }>();
+const props = defineProps<{ car: Vehicle }>();
 
-const currentComplectation = ref(props.car.complectations[0].id);
+const currentComplectation = ref(props.car.complectations?.[0]?.id);
 </script>
 
 <template>
@@ -26,8 +26,8 @@ const currentComplectation = ref(props.car.complectations[0].id);
           {{ cmpl.displayName }}
         </p>
 
-        {{ cmpl.priceRange.min && "$" + cmpl.priceRange.min }}
-        {{ cmpl.priceRange.max && " - $" + cmpl.priceRange.max }}
+        <!-- {{ cmpl.priceRange.min && "$" + cmpl.priceRange.min }}
+         {{ cmpl.priceRange.max && " - $" + cmpl.priceRange.max }} -->
       </div>
     </div>
   </div>

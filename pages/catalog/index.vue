@@ -44,7 +44,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <main class="container lg:flex gap-4 relative pt-32 pb-5 mb-auto">
+  <main class="container lg:flex gap-10 relative pt-32 pb-5 mb-auto">
     <Catalog />
   </main>
 </template>

@@ -37,8 +37,8 @@ export default <Partial<Config>>{
         padding: "1.25rem",
         screens: {
           // eslint-disable-next-line @stylistic/quote-props
-          xl: "1080px",
-          "2xl": "1080px",
+          xl: "1120px",
+          "2xl": "1120px",
         },
       },
       fontFamily: {

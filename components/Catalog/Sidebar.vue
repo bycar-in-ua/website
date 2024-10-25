@@ -4,17 +4,27 @@ import {
   CheckboxGroup,
   type ICheckboxGroupOption,
 } from "@/components/UI/Controls/Checkbox";
-import RadioInputGroup, {
-  type IRadioInputProps,
-} from "@/components/UI/Controls/Radio/index.vue";
+import { type IRadioInputProps } from "@/components/UI/Controls/Radio/index.vue";
 import { useCatalogStore } from "~/stores/catalog";
 
 const route = useRoute();
 const { t } = useI18n();
+const { $bycarApi } = useNuxtApp();
 
-const { data } = useFetch("/api/filters", {
-  default: () => ({ brands: [], bodyTypes: [] }),
-});
+const { data } = useAsyncData(
+  "filters",
+  async () => {
+    const [brands, bodyTypes] = await Promise.all([
+      $bycarApi.getBrands(),
+      $bycarApi.getBodyTypes(),
+    ]);
+
+    return { brands, bodyTypes };
+  },
+  {
+    default: () => ({ brands: [], bodyTypes: [] }),
+  },
+);
 
 const catalogStore = useCatalogStore();
 
@@ -49,7 +59,7 @@ const priceOptions: IRadioInputProps[] = [
 
 const brandsOptions: ICheckboxGroupOption[] = data.value.brands.map(
   (brand) => ({
-    key: brand.slug,
+    key: brand.id,
     label: brand.displayName,
   }),
 );
@@ -68,7 +78,7 @@ function checkHandler(field: string, value: string | string[]) {
 
 <template>
   <div
-    class="w-screen sm:w-80 flex-shrink-0 fixed top-0 bottom-0 left-0 z-40 lg:z-0 lg:static h- lg:h-auto bg-white p-4 rounded border border-gray-200 transition-transform lg:translate-x-0"
+    class="w-screen sm:w-64 flex-shrink-0 fixed top-0 bottom-0 left-0 z-40 lg:z-0 lg:static h- lg:h-auto bg-white p-4 rounded border border-gray-200 transition-transform lg:translate-x-0"
     :class="isSidebarShowing ? 'translate-x-0' : '-translate-x-full'"
   >
     <div
@@ -87,12 +97,12 @@ function checkHandler(field: string, value: string | string[]) {
 
     <div class="overflow-y-auto max-h-full pb-8 lg:pb-0">
       <h4 class="mb-4">{{ $t("price") }}:</h4>
-      <RadioInputGroup
+      <!-- <RadioInputGroup
         :options="priceOptions"
         group-name="price"
         :value="String(route.query.price)"
         @update:value="(val) => checkHandler('price', val)"
-      />
+      /> -->
 
       <div
         v-if="route.query.price?.length"

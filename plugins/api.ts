@@ -1,21 +1,17 @@
+import { BycarPublicApi } from "@bycar-in-ua/sdk";
+import { ofetch } from "ofetch";
+
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig();
 
-  const ofetch = $fetch.create({
-    baseURL: config.public.apiHost,
-  });
-
-  const get = <TResponse>(endpoint: string) => {
-    return ofetch<TResponse>(endpoint, {
-      method: "GET",
-    });
-  };
+  const bycarApi = new BycarPublicApi(
+    { apiHost: config.public.apiHost },
+    ofetch,
+  );
 
   return {
     provide: {
-      api: {
-        get,
-      },
+      bycarApi,
     },
   };
 });
