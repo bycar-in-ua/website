@@ -16,7 +16,10 @@ export const useCatalogStore = defineStore("catalog", () => {
 
   const pending = computed(() => status.value === "pending");
 
-  const updateFilters = async (field: string, value: string | string[]) => {
+  const updateFilters = async (
+    field: string,
+    value: string | string[] | number | number[],
+  ) => {
     filters.value = { ...filters.value, page: 1, [field]: value };
   };
 

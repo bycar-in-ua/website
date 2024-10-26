@@ -71,14 +71,33 @@ const bodyTypesOptions: ICheckboxGroupOption[] = data.value.bodyTypes.map(
   }),
 );
 
-function checkHandler(field: string, value: string | string[]) {
-  catalogStore.updateFilters(field, value);
+function checkHandler<TValue extends string | number>(
+  field: string,
+  checked: boolean,
+  value: TValue,
+) {
+  // @ts-expect-error
+  const existedValue = catalogStore.filters[field] ?? [];
+
+  if (checked) {
+    catalogStore.updateFilters(field, [...existedValue, value]);
+  } else {
+    catalogStore.updateFilters(
+      field,
+      existedValue.filter((item: string) => item !== value),
+    );
+  }
 }
+
+const filters = [
+  { label: t("brand"), slot: "brand" },
+  { label: t("vehicle.bodyTypes.title"), slot: "bodyType" },
+];
 </script>
 
 <template>
   <div
-    class="w-screen sm:w-64 flex-shrink-0 fixed top-0 bottom-0 left-0 z-40 lg:z-0 lg:static h- lg:h-auto bg-white p-4 rounded border border-gray-200 transition-transform lg:translate-x-0"
+    class="w-screen sm:w-64 flex-shrink-0 fixed top-0 bottom-0 left-0 z-40 lg:z-0 lg:static lg:h-auto transition-transform lg:translate-x-0"
     :class="isSidebarShowing ? 'translate-x-0' : '-translate-x-full'"
   >
     <div
@@ -93,41 +112,61 @@ function checkHandler(field: string, value: string | string[]) {
       class="p-2 w-8 h-8 absolute right-2 top-2 lg:hidden cursor-pointer"
       @click="isSidebarShowing = false"
     />
-    <h3 class="text-center pb-2">{{ $t("filters") }}</h3>
 
-    <div class="overflow-y-auto max-h-full pb-8 lg:pb-0">
-      <h4 class="mb-4">{{ $t("price") }}:</h4>
-      <!-- <RadioInputGroup
-        :options="priceOptions"
-        group-name="price"
-        :value="String(route.query.price)"
-        @update:value="(val) => checkHandler('price', val)"
-      /> -->
-
-      <div
-        v-if="route.query.price?.length"
-        class="mt-4 text-primary cursor-pointer hover:underline"
-        @click="() => checkHandler('price', [])"
+    <div class="overflow-y-auto max-h-full">
+      <UAccordion
+        default-open
+        multiple
+        :items="filters"
+        :ui="{
+          container:
+            'pb-5 mb-5 last-of-type:mb-0 border-b border-gray-200 last-of-type:border-0',
+        }"
       >
-        {{ $t("clear") }}
-      </div>
+        <template #default="{ item, open }">
+          <h4 class="flex justify-between font-medium mb-4 cursor-pointer">
+            {{ item.label }}
 
-      <h4 class="my-4">{{ $t("brand") }}:</h4>
-      <CheckboxGroup
-        :options="brandsOptions"
-        variant="vertical"
-        :value="prepareParams(route.query?.brand || [])"
-        @update:value="(val) => checkHandler('brand', String(val))"
-      />
+            <UIcon
+              name="i-heroicons-chevron-right-20-solid"
+              class="w-6 h-6 transform transition-transform duration-200"
+              :class="[open ? '-rotate-90 text-primary' : 'rotate-90']"
+            />
+          </h4>
+        </template>
 
-      <h4 class="my-4">{{ $t("vehicle.bodyTypes.title") }}:</h4>
+        <template #brand>
+          <div class="max-h-32 overflow-y-auto">
+            <UCheckbox
+              v-for="brand in data.brands"
+              :label="brand.displayName"
+              :value="brand.id"
+              :model-value="catalogStore.filters.brand"
+              @change="(checked: boolean) => {
+                  checkHandler('brand', checked, brand.id);
+                }
+              "
+              class="mb-2"
+            />
+          </div>
+        </template>
 
-      <CheckboxGroup
-        :options="bodyTypesOptions"
-        variant="vertical"
-        :value="prepareParams(route.query?.bodyType || [])"
-        @update:value="(val) => checkHandler('bodyType', String(val))"
-      />
+        <template #bodyType>
+          <div class="max-h-32 overflow-y-auto">
+            <UCheckbox
+              v-for="bodyType in data.bodyTypes"
+              :label="t(`vehicle.bodyTypes.items.${bodyType}`)"
+              :value="bodyType"
+              :model-value="catalogStore.filters.bodyType"
+              @change="(checked: boolean) => {
+                  checkHandler('bodyType', checked, bodyType);
+                }
+              "
+              class="mb-2"
+            />
+          </div>
+        </template>
+      </UAccordion>
     </div>
   </div>
 </template>
