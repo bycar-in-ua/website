@@ -1,13 +1,7 @@
 <script setup lang="ts">
-import type { LocationQueryValue } from "vue-router";
-import {
-  CheckboxGroup,
-  type ICheckboxGroupOption,
-} from "@/components/UI/Controls/Checkbox";
-import { type IRadioInputProps } from "@/components/UI/Controls/Radio/index.vue";
-import { useCatalogStore } from "~/stores/catalog";
+import Slider from "@/components/UI/Slider.vue";
+import debounce from "lodash/debounce";
 
-const route = useRoute();
 const { t } = useI18n();
 const { $bycarApi } = useNuxtApp();
 
@@ -30,47 +24,6 @@ const catalogStore = useCatalogStore();
 
 const isSidebarShowing = ref(false);
 
-function prepareParams(param: LocationQueryValue | LocationQueryValue[]) {
-  return (Array.isArray(param) ? param : [param]) as string[];
-}
-
-const priceOptions: IRadioInputProps[] = [
-  {
-    value: "<15000",
-    label: "до $15000",
-  },
-  {
-    value: ">15000,<25000",
-    label: "$15000 - $25000",
-  },
-  {
-    value: ">25000,<35000",
-    label: "$25000 - $35000",
-  },
-  {
-    value: ">35000,<50000",
-    label: "$35000 - $50000",
-  },
-  {
-    value: ">50000",
-    label: "більше $50000",
-  },
-];
-
-const brandsOptions: ICheckboxGroupOption[] = data.value.brands.map(
-  (brand) => ({
-    key: brand.id,
-    label: brand.displayName,
-  }),
-);
-
-const bodyTypesOptions: ICheckboxGroupOption[] = data.value.bodyTypes.map(
-  (item) => ({
-    key: item,
-    label: t(`vehicle.bodyTypes.items.${item}`),
-  }),
-);
-
 function checkHandler<TValue extends string | number>(
   field: string,
   checked: boolean,
@@ -90,9 +43,26 @@ function checkHandler<TValue extends string | number>(
 }
 
 const filters = [
+  { label: t("price"), slot: "price" },
   { label: t("brand"), slot: "brand" },
   { label: t("vehicle.bodyTypes.title"), slot: "bodyType" },
 ];
+
+const priceSliderModel = computed<number[]>(() => [
+  catalogStore.filters.price.from ?? 0,
+  catalogStore.filters.price.to ?? 999999,
+]);
+
+const debouncedRefresh = debounce(() => {
+  catalogStore.refresh();
+}, 1000);
+
+const piceUpdateHandler = ([from, to]: number[]) => {
+  catalogStore.filters.price.from = from;
+  catalogStore.filters.price.to = to;
+
+  debouncedRefresh();
+};
 </script>
 
 <template>
@@ -113,14 +83,14 @@ const filters = [
       @click="isSidebarShowing = false"
     />
 
-    <div class="overflow-y-auto max-h-full">
+    <div class="overflow-y-auto max-h-full pl-1">
       <UAccordion
         default-open
         multiple
         :items="filters"
         :ui="{
           container:
-            'pb-5 mb-5 last-of-type:mb-0 border-b border-gray-200 last-of-type:border-0',
+            'pb-4 mb-5 last-of-type:mb-0 border-b border-gray-200 last-of-type:border-0',
         }"
       >
         <template #default="{ item, open }">
@@ -133,6 +103,23 @@ const filters = [
               :class="[open ? '-rotate-90 text-primary' : 'rotate-90']"
             />
           </h4>
+        </template>
+
+        <template #price>
+          <div class="flex gap-2 items-center mb-4">
+            <UInput v-model="catalogStore.filters.price.from" size="xs" />
+            <span>-</span>
+            <UInput v-model="catalogStore.filters.price.to" size="xs" />
+            <span>$</span>
+          </div>
+
+          <Slider
+            :model-value="priceSliderModel"
+            @update:model-value="piceUpdateHandler"
+            :min="0"
+            :max="200000"
+            :step="1000"
+          />
         </template>
 
         <template #brand>
