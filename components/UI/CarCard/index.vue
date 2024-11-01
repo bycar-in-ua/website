@@ -73,7 +73,9 @@ const infoBullets = computed(() => getVehicleInfoBullets(props.car, t));
           :title="bullet.title"
         >
           <component :is="bullet.icon" class="w-6 h-6" />
-          {{ bullet.text }}
+          <span class="max-w-16 overflow-hidden text-ellipsis">
+            {{ bullet.text }}
+          </span>
         </div>
       </div>
     </div>

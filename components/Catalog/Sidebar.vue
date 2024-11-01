@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Slider from "@/components/UI/Slider.vue";
 import debounce from "lodash/debounce";
+import type { VehiclesFilters } from "@bycar-in-ua/sdk";
 
 const { t } = useI18n();
 const { $bycarApi } = useNuxtApp();
@@ -46,6 +47,14 @@ const filters = [
   { label: t("price"), slot: "price" },
   { label: t("brand"), slot: "brand" },
   { label: t("vehicle.bodyTypes.title"), slot: "bodyType" },
+  { label: t("engine"), slot: "engineType" },
+];
+
+const engineTypes: NonNullable<VehiclesFilters["engineType"]> = [
+  "gas",
+  "dt",
+  "hybrid",
+  "electric",
 ];
 
 const priceSliderModel = computed<number[]>(() => [
@@ -152,6 +161,20 @@ const piceUpdateHandler = ([from, to]: number[]) => {
               class="mb-2"
             />
           </div>
+        </template>
+
+        <template #engineType>
+          <UCheckbox
+            v-for="engineType in engineTypes"
+            :label="engineType"
+            :value="engineType"
+            :model-value="catalogStore.filters.engineType"
+            @change="(checked: boolean) => {
+                  checkHandler('engineType', checked, engineType);
+                }
+              "
+            class="mb-2"
+          />
         </template>
       </UAccordion>
     </div>
