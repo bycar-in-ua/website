@@ -2,17 +2,17 @@ import { defineStore } from "pinia";
 import type { VehiclesFilters } from "@bycar-in-ua/sdk";
 
 export const useCatalogStore = defineStore("catalog", () => {
-  // const router = useRouter();
-
   const filters = ref<Required<Omit<VehiclesFilters, "status">>>({
     price: {
       from: 0,
-      to: 999999,
+      to: 9999999,
     },
     brand: [],
     bodyType: [],
+    engineType: [],
+    drive: [],
     page: 1,
-    limit: 15,
+    limit: 3,
   });
 
   const { $bycarApi } = useNuxtApp();
@@ -21,7 +21,10 @@ export const useCatalogStore = defineStore("catalog", () => {
     `search-cars`,
     () => $bycarApi.searchVehicles(filters.value),
     {
-      default: () => ({ items: [], meta: { total: 0 } }),
+      default: () => ({
+        items: [],
+        meta: { currentPage: 1, totalPages: 0, itemsPerPage: 0, totalItems: 0 },
+      }),
       watch: [filters],
     },
   );

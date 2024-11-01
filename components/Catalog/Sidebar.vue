@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import debounce from "lodash/debounce";
 import Slider from "@/components/UI/Slider.vue";
+import type { VehiclesFilters } from "@bycar-in-ua/sdk";
 
 const { t } = useI18n();
 const { $bycarApi } = useNuxtApp();
@@ -47,6 +48,19 @@ const filters = [
   { label: t("price"), slot: "price" },
   { label: t("brand"), slot: "brand" },
   { label: t("vehicle.bodyTypes.title"), slot: "bodyType" },
+  { label: t("filters.engineType.title"), slot: "engineType" },
+  { label: t("filters.drive.title"), slot: "drive" },
+];
+
+const engineTypes: NonNullable<VehiclesFilters["engineType"]> = [
+  "gas",
+  "dt",
+  "hybrid",
+  "electric",
+];
+
+const drives = [
+  "FWD", "RWD", "AWD",
 ];
 
 const priceSliderModel = computed<number[]>(() => [
@@ -153,6 +167,34 @@ const piceUpdateHandler = ([from, to]: number[]) => {
               }"
             />
           </div>
+        </template>
+
+        <template #engineType>
+          <UCheckbox
+            v-for="engineType in engineTypes"
+            :key="engineType"
+            :label="t(`filters.engineType.${engineType}`)"
+            :value="engineType"
+            :model-value="catalogStore.filters.engineType"
+            class="mb-2"
+            @change="(checked: boolean) => {
+              checkHandler('engineType', checked, engineType);
+            }"
+          />
+        </template>
+
+        <template #drive>
+          <UCheckbox
+            v-for="drive in drives"
+            :key="drive"
+            :label="t(`filters.drive.${drive}`)"
+            :value="drive"
+            :model-value="catalogStore.filters.drive"
+            class="mb-2"
+            @change="(checked: boolean) => {
+              checkHandler('drive', checked, drive);
+            }"
+          />
         </template>
       </UAccordion>
     </div>
