@@ -12,7 +12,7 @@ export const useCatalogStore = defineStore("catalog", () => {
     engineType: [],
     drive: [],
     page: 1,
-    limit: 3,
+    limit: 15,
   });
 
   const { $bycarApi } = useNuxtApp();
