@@ -24,7 +24,9 @@ const isLong = computed(() => props.optionCategory.options.length > 5);
 
 <template>
   <div>
-    <h4 class="text-md mb-2 font-bold">{{ optionCategory.displayName }}:</h4>
+    <h4 class="text-md mb-2 font-bold">
+      {{ optionCategory.displayName }}:
+    </h4>
 
     <ul
       class="list-inside relative transition-all long-list"

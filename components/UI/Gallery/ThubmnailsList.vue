@@ -9,7 +9,7 @@ defineExpose({
 </script>
 
 <template>
-  <div class="bycar-gallery-thumnails-list" ref="htmlRef">
+  <div ref="htmlRef" class="bycar-gallery-thumnails-list">
     <slot />
   </div>
 </template>

@@ -1,12 +1,12 @@
 <template>
   <div
+    ref="htmlRef"
     class="bycar-gallery-thumbnail cursor-pointer rounded-lg overflow-hidden transition-all w-full pt-[63%]"
     :class="activeItem.currentItemIndex === index ? 'active' : ''"
     :style="{
       'background-image': `url('${item.source}')`,
     }"
     @click="setActiveItem"
-    ref="htmlRef"
   />
 </template>
 
@@ -18,6 +18,7 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { defineComponent, inject } from "vue";
+
 import type {
   IActiveGalleryItem,
   IGalleryItem,
@@ -40,7 +41,7 @@ const setGalleryActiveItem = inject<TSetGalleryActiveItem>(
   "setGalleryActiveItem",
 );
 
-const setActiveItem = () => setGalleryActiveItem(props.index);
+const setActiveItem = () => setGalleryActiveItem?.(props.index);
 </script>
 
 <style>

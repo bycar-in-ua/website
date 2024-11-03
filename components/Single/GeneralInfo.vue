@@ -1,6 +1,6 @@
 <template>
   <div class="mb-5 grid md:grid-cols-3 gap-5">
-    <div class="card self-baseline md:order-2" v-if="shortSummary">
+    <div v-if="shortSummary" class="card self-baseline md:order-2">
       <info-line
         v-for="(item, index) in shortSummary"
         :key="index"

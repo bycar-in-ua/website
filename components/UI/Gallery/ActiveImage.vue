@@ -10,7 +10,7 @@ import type {
 const trackRef = ref<HTMLElement>();
 const transitionDuration = ref<number>(300);
 
-const activeItem = inject<Ref<IActiveGalleryItem>>("activeItem");
+const activeItem = inject("activeItem") as Ref<IActiveGalleryItem>;
 const setGalleryActiveItem = inject<TSetGalleryActiveItem>(
   "setGalleryActiveItem",
 );
@@ -22,10 +22,10 @@ const galleryItems = inject<IGalleryItem[]>("galleryItems");
 
 const arrowsKeydownListener = (e: KeyboardEvent) => {
   if (e.key === "ArrowRight" && activeItem.value.nextItemIndex !== null) {
-    setGalleryActiveItem(activeItem.value.nextItemIndex, "next");
+    setGalleryActiveItem?.(activeItem.value.nextItemIndex, "next");
     return;
   } else if (e.key === "ArrowLeft" && activeItem.value.prevItemIndex !== null) {
-    setGalleryActiveItem(activeItem.value.prevItemIndex, "prev");
+    setGalleryActiveItem?.(activeItem.value.prevItemIndex, "prev");
     return;
   }
 
@@ -51,13 +51,15 @@ const { lengthX, stop } = useSwipe(trackRef, {
     transitionDuration.value = 300;
     switch (direction) {
       case SwipeDirection.RIGHT:
-        activeItem.value.prevItemIndex != null &&
-          setGalleryActiveItem(activeItem.value.prevItemIndex);
+        if (activeItem.value.prevItemIndex != null) {
+          setGalleryActiveItem?.(activeItem.value.prevItemIndex);
+        };
         break;
 
       case SwipeDirection.LEFT:
-        activeItem.value.nextItemIndex != null &&
-          setGalleryActiveItem(activeItem.value.nextItemIndex);
+        if (activeItem.value.nextItemIndex != null) {
+          setGalleryActiveItem?.(activeItem.value.nextItemIndex);
+        };
         break;
       default:
         break;
@@ -78,7 +80,7 @@ const itemsTrackTranslate = computed(
     <div
       v-if="activeItem.prevItemIndex !== null"
       class="bycar-gallery-chewron-wrapper left-0"
-      title='"&#129044;"'
+      title="&quot;&#129044;&quot;"
       @click="setGalleryActiveItem(activeItem.prevItemIndex, 'prev')"
     >
       <UIcon
@@ -105,7 +107,7 @@ const itemsTrackTranslate = computed(
     <div
       v-if="activeItem.nextItemIndex !== null"
       class="bycar-gallery-chewron-wrapper right-0"
-      title='"&#10141;"'
+      title="&quot;&#10141;&quot;"
       @click="setGalleryActiveItem(activeItem.nextItemIndex, 'next')"
     >
       <UIcon

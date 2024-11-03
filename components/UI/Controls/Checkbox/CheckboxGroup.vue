@@ -13,9 +13,9 @@ const checkHandler = (value: boolean, key: string | number) => {
   value
     ? emit("update:value", [...props.value, key])
     : emit(
-        "update:value",
-        props.value.filter((v) => v !== key),
-      );
+      "update:value",
+      props.value.filter((v) => v !== key),
+    );
 };
 </script>
 

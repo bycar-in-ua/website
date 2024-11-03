@@ -12,7 +12,7 @@
       :checked="value == item.value"
       class="bycar-radio"
     />
-    <span v-text="item.label" class="ml-2" />
+    <span class="ml-2" v-text="item.label" />
   </div>
 </template>
 

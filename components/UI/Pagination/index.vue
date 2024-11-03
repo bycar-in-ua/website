@@ -11,8 +11,7 @@
           : 'text-primary hover:underline'
       "
       @click.prevent="$emit('update:page', i)"
-      >{{ i }}</a
-    >
+    >{{ i }}</a>
   </div>
 </template>
 

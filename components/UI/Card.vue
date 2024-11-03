@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <h3 v-if="title" v-text="title" class="text-xl font-bold mb-4" />
+    <h3 v-if="title" class="text-xl font-bold mb-4" v-text="title" />
     <slot />
   </div>
 </template>

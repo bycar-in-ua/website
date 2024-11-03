@@ -21,7 +21,12 @@ export default withNuxt()
         "after",
         { overrides: { "?": "before", ":": "before" } },
       ],
-      "@stylistic/indent": ["error", { FunctionExpression: { parameters: 2 } }],
+      "@stylistic/indent": ["error", 2, { FunctionExpression: { parameters: "off" }, SwitchCase: 1 }],
+    },
+  })
+  .override("nuxt/import/rules", {
+    files: ["*.vue"],
+    rules: {
+      "import/first": "off",
     },
   });
-// Your custom configs here

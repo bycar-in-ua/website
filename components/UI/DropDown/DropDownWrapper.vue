@@ -1,6 +1,5 @@
 <template>
   <div class="bycar-dropdown">
-    
   </div>
 </template>
 
@@ -12,5 +11,5 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-  
+
 </script>

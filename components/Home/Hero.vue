@@ -17,7 +17,9 @@
         Від мрії до купівлі. Погнали зробимо це!
       </h2>
 
-      <h3 class="mb-2">4 785 активних пропозицій</h3>
+      <h3 class="mb-2">
+        4 785 активних пропозицій
+      </h3>
       <UButton
         icon="i-heroicons-magnifying-glass"
         trailing

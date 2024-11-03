@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import Slider from "@/components/UI/Slider.vue";
 import debounce from "lodash/debounce";
+import Slider from "@/components/UI/Slider.vue";
 
 const { t } = useI18n();
 const { $bycarApi } = useNuxtApp();
@@ -29,6 +29,7 @@ function checkHandler<TValue extends string | number>(
   checked: boolean,
   value: TValue,
 ) {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
   const existedValue = catalogStore.filters[field] ?? [];
 
@@ -115,10 +116,10 @@ const piceUpdateHandler = ([from, to]: number[]) => {
 
           <Slider
             :model-value="priceSliderModel"
-            @update:model-value="piceUpdateHandler"
             :min="0"
             :max="200000"
             :step="1000"
+            @update:model-value="piceUpdateHandler"
           />
         </template>
 
@@ -126,14 +127,14 @@ const piceUpdateHandler = ([from, to]: number[]) => {
           <div class="max-h-32 overflow-y-auto">
             <UCheckbox
               v-for="brand in data.brands"
+              :key="brand.id"
               :label="brand.displayName"
               :value="brand.id"
               :model-value="catalogStore.filters.brand"
-              @change="(checked: boolean) => {
-                  checkHandler('brand', checked, brand.id);
-                }
-              "
               class="mb-2"
+              @change="(checked: boolean) => {
+                checkHandler('brand', checked, brand.id);
+              }"
             />
           </div>
         </template>
@@ -142,14 +143,14 @@ const piceUpdateHandler = ([from, to]: number[]) => {
           <div class="max-h-32 overflow-y-auto">
             <UCheckbox
               v-for="bodyType in data.bodyTypes"
+              :key="bodyType"
               :label="t(`vehicle.bodyTypes.items.${bodyType}`)"
               :value="bodyType"
               :model-value="catalogStore.filters.bodyType"
-              @change="(checked: boolean) => {
-                  checkHandler('bodyType', checked, bodyType);
-                }
-              "
               class="mb-2"
+              @change="(checked: boolean) => {
+                checkHandler('bodyType', checked, bodyType);
+              }"
             />
           </div>
         </template>

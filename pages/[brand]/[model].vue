@@ -6,7 +6,7 @@ import GeneralInfo from "@/components/Single/GeneralInfo.vue";
 import FullInfo from "@/components/Single/FullInfo/index.vue";
 import { getCarTitle } from "@/utils/carHelpers";
 import { generatePageTitle } from "@/utils/seo";
-import { type InfoLineProps } from "@/components/UI/InfoLine.vue";
+import type { InfoLineProps } from "@/components/UI/InfoLine.vue";
 
 definePageMeta({
   name: "SingleCar",

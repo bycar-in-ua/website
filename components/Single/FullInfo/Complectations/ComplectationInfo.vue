@@ -75,8 +75,8 @@ const optionsForRender = computed<Array<OptionCategory>>(() => {
         </div>
         <PowerUnitInfo
           v-for="powerUnit in complectation.powerUnits"
-          :key="powerUnit.id"
           v-show="powerUnit.id == currentPowerUnit"
+          :key="powerUnit.id"
           :power-unit="powerUnit"
         />
       </div>
