@@ -27,9 +27,9 @@ const catalogStore = useCatalogStore();
       />
     </div>
     <Pagination
+      v-model:page="catalogStore.pagination.page"
       class="mt-5 justify-center"
       :pagination="catalogStore.data.meta"
-      @update:page="(page: number) => catalogStore.updateFilters('page', page.toString())"
     />
   </div>
 </template>

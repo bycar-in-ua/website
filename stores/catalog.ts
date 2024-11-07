@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import type { VehiclesFilters } from "@bycar-in-ua/sdk";
+import type { VehiclesFilters, VehiclesSearchSchema } from "@bycar-in-ua/sdk";
 
 export const useCatalogStore = defineStore("catalog", () => {
   const filters = ref<Required<Omit<VehiclesFilters, "status">>>({
@@ -11,6 +11,9 @@ export const useCatalogStore = defineStore("catalog", () => {
     bodyType: [],
     engineType: [],
     drive: [],
+  });
+
+  const pagination = reactive<NonNullable<VehiclesSearchSchema["pagination"]>>({
     page: 1,
     limit: 15,
   });
@@ -19,13 +22,13 @@ export const useCatalogStore = defineStore("catalog", () => {
 
   const { status, data, refresh } = useAsyncData(
     `search-cars`,
-    () => $bycarApi.searchVehicles(filters.value),
+    () => $bycarApi.searchVehicles({ filters: filters.value, pagination }),
     {
       default: () => ({
         items: [],
         meta: { currentPage: 1, totalPages: 0, itemsPerPage: 0, totalItems: 0 },
       }),
-      watch: [filters],
+      watch: [filters, pagination],
     },
   );
 
@@ -35,11 +38,13 @@ export const useCatalogStore = defineStore("catalog", () => {
     field: string,
     value: string | string[] | number | number[],
   ) => {
-    filters.value = { ...filters.value, page: 1, [field]: value };
+    filters.value = { ...filters.value, [field]: value };
+    pagination.page = 1;
   };
 
   return {
     filters,
+    pagination,
     pending,
     data,
     refresh,

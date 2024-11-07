@@ -32,7 +32,7 @@ const { $bycarApi } = useNuxtApp();
 const { data } = await useAsyncData(
   async () => {
     const [vehicles, brands] = await Promise.all([
-      $bycarApi.searchVehicles({ limit: 8 }),
+      $bycarApi.searchVehicles({ pagination: { limit: 8 } }),
       $bycarApi.getBrands(),
     ]);
 
