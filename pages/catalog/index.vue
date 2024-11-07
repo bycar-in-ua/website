@@ -30,21 +30,10 @@ const catalogStore = useCatalogStore();
 onUnmounted(() => {
   catalogStore.$dispose();
 });
-
-// const route = useRoute();
-
-// await catalogStore.fetchCars();
-
-// watch(
-//   () => route.query,
-//   async () => {
-//     await catalogStore.fetchCars();
-//   },
-// );
 </script>
 
 <template>
-  <main class="container lg:flex gap-10 relative pt-32 pb-5 mb-auto">
+  <main class="container pt-32 pb-5 mb-auto">
     <Catalog />
   </main>
 </template>
