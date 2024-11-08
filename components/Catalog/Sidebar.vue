@@ -68,7 +68,7 @@ const drives = [
       @click="isSidebarShowing = false"
     />
 
-    <div class="overflow-y-auto max-h-full pl-1">
+    <div class="overflow-y-auto max-h-full pl-1 relative">
       <UAccordion
         default-open
         multiple

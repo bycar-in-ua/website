@@ -15,10 +15,15 @@ const catalogStore = useCatalogStore();
 </script>
 
 <template>
-  <div class="flex gap-5">
+  <div class="flex items-center gap-5">
     <h2 class=" font-semibold text-3xl">
       {{ t('catalog.title') }}
     </h2>
+    <UIcon
+      v-if="catalogStore.pending"
+      name="i-svg-spinners:180-ring"
+      class="w-6 h-6 text-primary"
+    />
     <div class="ml-auto">
       <USelect
         v-model:model-value="catalogStore.order"

@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import debounce from "lodash/debounce";
 import type { VehiclesSearchSchema, VehiclesOrder } from "@bycar-in-ua/sdk";
 
 export type FiltersState = Omit<
@@ -35,9 +36,12 @@ export const useCatalogStore = defineStore("catalog", () => {
         items: [],
         meta: { currentPage: 1, totalPages: 0, itemsPerPage: 0, totalItems: 0 },
       }),
-      watch: [filters, pagination, order],
     },
   );
+
+  const debouncedRefresh = debounce(refresh, 500);
+
+  watch([filters, pagination, order], () => debouncedRefresh());
 
   const pending = computed(() => status.value === "pending");
 

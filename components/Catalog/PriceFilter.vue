@@ -1,36 +1,29 @@
 <script setup lang="ts">
-import debounce from "lodash/debounce";
 import Slider from "@/components/UI/Slider.vue";
 import { useCatalogStore } from "@/stores/catalog.js";
 
 const catalogStore = useCatalogStore();
 
-const priceSliderModel = ref([catalogStore.filters.priceFrom ?? 0, catalogStore.filters.priceTo ?? Infinity]);
-
-const debouncedPricaUpdateHandler = debounce(([min, max]: number[]) => {
-  if (Number.isFinite(min)) {
-    catalogStore.updateFilters("priceFrom", min);
-  }
-
-  if (Number.isFinite(max)) {
-    catalogStore.updateFilters("priceTo", max);
-  }
-}, 1000);
-
-watch(priceSliderModel, debouncedPricaUpdateHandler);
+const priceSliderModel = computed({
+  get: () => [catalogStore.filters.priceFrom ?? 0, catalogStore.filters.priceTo ?? Infinity],
+  set: ([from, to]: number[]) => {
+    catalogStore.updateFilters("priceFrom", from);
+    catalogStore.updateFilters("priceTo", Number.isFinite(to) ? to : undefined);
+  },
+});
 </script>
 
 <template>
   <div class="flex gap-2 items-center mb-4">
     <UInput
-      v-model="priceSliderModel[0]"
+      v-model="catalogStore.filters.priceFrom"
       size="xs"
       type="number"
       step="1000"
     />
     <span>-</span>
     <UInput
-      v-model="priceSliderModel[1]"
+      v-model="catalogStore.filters.priceTo"
       size="xs"
       type="number"
       step="1000"
