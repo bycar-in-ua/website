@@ -2,20 +2,22 @@
 import { useCatalogStore } from "@/stores/catalog.js";
 import type { VehiclesOrder } from "@bycar-in-ua/sdk";
 
-const options: Array<{ label: string; value: VehiclesOrder }> = [
-  { label: "За ціною: від дешевших", value: "price-asc" },
-  { label: "За ціною: від дорожчих", value: "price-desc" },
-  { label: "За роком: від новіших", value: "yearFrom-desc" },
-  { label: "За роком: від старших", value: "yearFrom-asc" },
-];
+const { t } = useI18n();
+
+const orders: VehiclesOrder[] = ["price-asc", "price-desc", "yearFrom-desc", "yearFrom-asc"];
+
+const options: Array<{ label: string; value: VehiclesOrder }> = orders.map((order) => ({
+  label: t(`orders.${order}`),
+  value: order,
+}));
 
 const catalogStore = useCatalogStore();
 </script>
 
 <template>
-  <div class="mb-6 flex gap-5">
+  <div class="flex gap-5">
     <h2 class=" font-semibold text-3xl">
-      Каталог авто
+      {{ t('catalog.title') }}
     </h2>
     <div class="ml-auto">
       <USelect

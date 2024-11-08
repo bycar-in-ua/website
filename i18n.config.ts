@@ -12,7 +12,8 @@ export default defineI18nConfig(() => ({
         home: "Головна",
         catalog: "Каталог",
       },
-      filters: { title: "Фільтри",
+      filters: {
+        title: "Фільтри",
         engineType: {
           title: "Тип двигуна",
           gas: "Бензин",
@@ -26,6 +27,15 @@ export default defineI18nConfig(() => ({
           RWD: "Задній привід",
           AWD: "Повний привід",
         },
+      },
+      orders: {
+        "price-asc": "За ціною: від дешевших",
+        "price-desc": "За ціною: від дорожчих",
+        "yearFrom-desc": "За роком: від новіших",
+        "yearFrom-asc": "За роком: від старших",
+      },
+      catalog: {
+        title: "Каталог авто",
       },
       recentCars: "Нові авто у каталозі",
       brands: "Представлені бренди",
