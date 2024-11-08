@@ -61,19 +61,19 @@ const infoBullets = computed(() => getVehicleInfoBullets(props.car, t));
     />
     <div class="p-4 text-white absolute inset-0 flex flex-col z-10">
       <h3>{{ carTitle }}</h3>
-      <div class="font-bold">
+      <div class="font-semibold">
         {{ priceRange }}
       </div>
 
-      <div class="mt-auto flex gap-4 justify-between">
+      <div class="mt-auto flex gap-1 justify-between">
         <div
           v-for="(bullet, index) in infoBullets"
           :key="index"
-          class="text-xs flex flex-col items-center gap-2"
+          class="text-xs flex flex-col items-center gap-2 basis-16 shrink-0"
           :title="bullet.title"
         >
           <component :is="bullet.icon" class="w-6 h-6" />
-          <span class="max-w-16 overflow-hidden text-ellipsis">
+          <span class="max-w-16 truncate text-ellipsis">
             {{ bullet.text }}
           </span>
         </div>
