@@ -14,6 +14,7 @@ export default defineI18nConfig(() => ({
       },
       filters: {
         title: "Фільтри",
+        clearAll: "Очистити всі",
         engineType: {
           title: "Тип двигуна",
           gas: "Бензин",
@@ -26,6 +27,10 @@ export default defineI18nConfig(() => ({
           FWD: "Передній привід",
           RWD: "Задній привід",
           AWD: "Повний привід",
+        },
+        price: {
+          priceFrom: "Ціна від",
+          priceTo: "Ціна до",
         },
       },
       orders: {

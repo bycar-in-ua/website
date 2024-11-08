@@ -10,6 +10,7 @@ export type FiltersState = Omit<
 };
 
 export const useCatalogStore = defineStore("catalog", () => {
+  // #region filters
   const filters = ref<FiltersState>({});
 
   const pagination = reactive<NonNullable<VehiclesSearchSchema["pagination"]>>({
@@ -42,11 +43,40 @@ export const useCatalogStore = defineStore("catalog", () => {
 
   const updateFilters = async (
     field: string,
-    value: Array<string | number> | number,
+    value?: Array<string | number> | number,
   ) => {
     filters.value = { ...filters.value, [field]: value };
     pagination.page = 1;
   };
+
+  const clearFilters = () => {
+    filters.value = {};
+    pagination.page = 1;
+  };
+
+  // #endregion
+
+  // #region dictionary
+
+  const { data: dictionary } = useAsyncData(
+    "filters",
+    async () => {
+      const [brands, bodyTypes] = await Promise.all([
+        $bycarApi.getBrands(),
+        $bycarApi.getBodyTypes(),
+      ]);
+
+      return {
+        brands: brands.map(({ id, displayName }) => ({ id, displayName })),
+        bodyTypes,
+      };
+    },
+    {
+      default: () => ({ brands: [], bodyTypes: [] }),
+    },
+  );
+
+  // #endregion
 
   return {
     filters,
@@ -56,6 +86,8 @@ export const useCatalogStore = defineStore("catalog", () => {
     data,
     refresh,
     updateFilters,
+    clearFilters,
+    dictionary,
   };
 });
 

@@ -4,22 +4,6 @@ import type { FiltersState } from "@/stores/catalog";
 import PriceFilter from "./PriceFilter.vue";
 
 const { t } = useI18n();
-const { $bycarApi } = useNuxtApp();
-
-const { data } = useAsyncData(
-  "filters",
-  async () => {
-    const [brands, bodyTypes] = await Promise.all([
-      $bycarApi.getBrands(),
-      $bycarApi.getBodyTypes(),
-    ]);
-
-    return { brands, bodyTypes };
-  },
-  {
-    default: () => ({ brands: [], bodyTypes: [] }),
-  },
-);
 
 const catalogStore = useCatalogStore();
 
@@ -113,7 +97,7 @@ const drives = [
         <template #brand>
           <div class="max-h-32 overflow-y-auto">
             <UCheckbox
-              v-for="brand in data.brands"
+              v-for="brand in catalogStore.dictionary.brands"
               :key="brand.id"
               :label="brand.displayName"
               :value="brand.id"
@@ -129,7 +113,7 @@ const drives = [
         <template #bodyType>
           <div class="max-h-32 overflow-y-auto">
             <UCheckbox
-              v-for="bodyType in data.bodyTypes"
+              v-for="bodyType in catalogStore.dictionary.bodyTypes"
               :key="bodyType"
               :label="t(`vehicle.bodyTypes.items.${bodyType}`)"
               :value="bodyType"
