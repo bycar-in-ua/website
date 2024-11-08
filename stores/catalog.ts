@@ -1,5 +1,9 @@
 import { defineStore } from "pinia";
-import type { VehiclesFilters, VehiclesSearchSchema } from "@bycar-in-ua/sdk";
+import type {
+  VehiclesFilters,
+  VehiclesSearchSchema,
+  VehiclesOrder,
+} from "@bycar-in-ua/sdk";
 
 export const useCatalogStore = defineStore("catalog", () => {
   const filters = ref<Required<Omit<VehiclesFilters, "status">>>({
@@ -18,17 +22,24 @@ export const useCatalogStore = defineStore("catalog", () => {
     limit: 15,
   });
 
+  const order = ref<VehiclesOrder>();
+
   const { $bycarApi } = useNuxtApp();
 
   const { status, data, refresh } = useAsyncData(
     `search-cars`,
-    () => $bycarApi.searchVehicles({ filters: filters.value, pagination }),
+    () =>
+      $bycarApi.searchVehicles({
+        filters: filters.value,
+        pagination,
+        order: [order.value].filter(Boolean) as VehiclesOrder[],
+      }),
     {
       default: () => ({
         items: [],
         meta: { currentPage: 1, totalPages: 0, itemsPerPage: 0, totalItems: 0 },
       }),
-      watch: [filters, pagination],
+      watch: [filters, pagination, order],
     },
   );
 
@@ -45,6 +56,7 @@ export const useCatalogStore = defineStore("catalog", () => {
   return {
     filters,
     pagination,
+    order,
     pending,
     data,
     refresh,
