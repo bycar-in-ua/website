@@ -1,45 +1,31 @@
 <script setup lang="ts">
-import debounce from "lodash/debounce";
-import Slider from "@/components/UI/Slider.vue";
 import type { VehiclesFilters } from "@bycar-in-ua/sdk";
+import type { FiltersState } from "@/stores/catalog";
+import PriceFilter from "./PriceFilter.vue";
 
 const { t } = useI18n();
-const { $bycarApi } = useNuxtApp();
-
-const { data } = useAsyncData(
-  "filters",
-  async () => {
-    const [brands, bodyTypes] = await Promise.all([
-      $bycarApi.getBrands(),
-      $bycarApi.getBodyTypes(),
-    ]);
-
-    return { brands, bodyTypes };
-  },
-  {
-    default: () => ({ brands: [], bodyTypes: [] }),
-  },
-);
 
 const catalogStore = useCatalogStore();
 
 const isSidebarShowing = ref(false);
 
 function checkHandler<TValue extends string | number>(
-  field: string,
+  field: keyof FiltersState,
   checked: boolean,
   value: TValue,
 ) {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-expect-error
   const existedValue = catalogStore.filters[field] ?? [];
+
+  if (!Array.isArray(existedValue)) {
+    return;
+  }
 
   if (checked) {
     catalogStore.updateFilters(field, [...existedValue, value]);
   } else {
     catalogStore.updateFilters(
       field,
-      existedValue.filter((item: string) => item !== value),
+      existedValue.filter((item) => item !== value),
     );
   }
 }
@@ -62,22 +48,6 @@ const engineTypes: NonNullable<VehiclesFilters["engineType"]> = [
 const drives = [
   "FWD", "RWD", "AWD",
 ];
-
-const priceSliderModel = computed<number[]>(() => [
-  catalogStore.filters.price.from ?? 0,
-  catalogStore.filters.price.to ?? 999999,
-]);
-
-const debouncedRefresh = debounce(() => {
-  catalogStore.refresh();
-}, 1000);
-
-const piceUpdateHandler = ([from, to]: number[]) => {
-  catalogStore.filters.price.from = from;
-  catalogStore.filters.price.to = to;
-
-  debouncedRefresh();
-};
 </script>
 
 <template>
@@ -98,7 +68,7 @@ const piceUpdateHandler = ([from, to]: number[]) => {
       @click="isSidebarShowing = false"
     />
 
-    <div class="overflow-y-auto max-h-full pl-1">
+    <div class="overflow-y-auto max-h-full pl-1 relative">
       <UAccordion
         default-open
         multiple
@@ -121,26 +91,13 @@ const piceUpdateHandler = ([from, to]: number[]) => {
         </template>
 
         <template #price>
-          <div class="flex gap-2 items-center mb-4">
-            <UInput v-model="catalogStore.filters.price.from" size="xs" />
-            <span>-</span>
-            <UInput v-model="catalogStore.filters.price.to" size="xs" />
-            <span>$</span>
-          </div>
-
-          <Slider
-            :model-value="priceSliderModel"
-            :min="0"
-            :max="200000"
-            :step="1000"
-            @update:model-value="piceUpdateHandler"
-          />
+          <PriceFilter />
         </template>
 
         <template #brand>
           <div class="max-h-32 overflow-y-auto">
             <UCheckbox
-              v-for="brand in data.brands"
+              v-for="brand in catalogStore.dictionary.brands"
               :key="brand.id"
               :label="brand.displayName"
               :value="brand.id"
@@ -156,7 +113,7 @@ const piceUpdateHandler = ([from, to]: number[]) => {
         <template #bodyType>
           <div class="max-h-32 overflow-y-auto">
             <UCheckbox
-              v-for="bodyType in data.bodyTypes"
+              v-for="bodyType in catalogStore.dictionary.bodyTypes"
               :key="bodyType"
               :label="t(`vehicle.bodyTypes.items.${bodyType}`)"
               :value="bodyType"

@@ -1,21 +1,18 @@
 import { defineStore } from "pinia";
-import type {
-  VehiclesFilters,
-  VehiclesSearchSchema,
-  VehiclesOrder,
-} from "@bycar-in-ua/sdk";
+import debounce from "lodash/debounce";
+import type { VehiclesSearchSchema, VehiclesOrder } from "@bycar-in-ua/sdk";
+
+export type FiltersState = Omit<
+  NonNullable<VehiclesSearchSchema["filters"]>,
+  "status" | "price"
+> & {
+  priceFrom?: number;
+  priceTo?: number;
+};
 
 export const useCatalogStore = defineStore("catalog", () => {
-  const filters = ref<Required<Omit<VehiclesFilters, "status">>>({
-    price: {
-      from: 0,
-      to: 9999999,
-    },
-    brand: [],
-    bodyType: [],
-    engineType: [],
-    drive: [],
-  });
+  // #region filters
+  const filters = ref<FiltersState>({});
 
   const pagination = reactive<NonNullable<VehiclesSearchSchema["pagination"]>>({
     page: 1,
@@ -30,7 +27,7 @@ export const useCatalogStore = defineStore("catalog", () => {
     `search-cars`,
     () =>
       $bycarApi.searchVehicles({
-        filters: filters.value,
+        filters: filtersStateToSchema(filters.value),
         pagination,
         order: [order.value].filter(Boolean) as VehiclesOrder[],
       }),
@@ -39,19 +36,51 @@ export const useCatalogStore = defineStore("catalog", () => {
         items: [],
         meta: { currentPage: 1, totalPages: 0, itemsPerPage: 0, totalItems: 0 },
       }),
-      watch: [filters, pagination, order],
     },
   );
+
+  const debouncedRefresh = debounce(refresh, 500);
+
+  watch([filters, pagination, order], () => debouncedRefresh());
 
   const pending = computed(() => status.value === "pending");
 
   const updateFilters = async (
     field: string,
-    value: string | string[] | number | number[],
+    value?: Array<string | number> | number,
   ) => {
     filters.value = { ...filters.value, [field]: value };
     pagination.page = 1;
   };
+
+  const clearFilters = () => {
+    filters.value = {};
+    pagination.page = 1;
+  };
+
+  // #endregion
+
+  // #region dictionary
+
+  const { data: dictionary } = useAsyncData(
+    "filters",
+    async () => {
+      const [brands, bodyTypes] = await Promise.all([
+        $bycarApi.getBrands(),
+        $bycarApi.getBodyTypes(),
+      ]);
+
+      return {
+        brands: brands.map(({ id, displayName }) => ({ id, displayName })),
+        bodyTypes,
+      };
+    },
+    {
+      default: () => ({ brands: [], bodyTypes: [] }),
+    },
+  );
+
+  // #endregion
 
   return {
     filters,
@@ -61,5 +90,23 @@ export const useCatalogStore = defineStore("catalog", () => {
     data,
     refresh,
     updateFilters,
+    clearFilters,
+    dictionary,
   };
 });
+
+function filtersStateToSchema(
+  filters: FiltersState,
+): VehiclesSearchSchema["filters"] {
+  const { priceFrom, priceTo, ...rest } = filters;
+  return {
+    ...rest,
+    price:
+      priceFrom || priceTo
+        ? {
+            from: priceFrom,
+            to: priceTo,
+          }
+        : undefined,
+  };
+}

@@ -12,7 +12,7 @@ withDefaults(defineProps<{ min?: number; max?: number; step?: number }>(), {
 
 <template>
   <SliderRoot
-    v-model:model-value="model"
+    v-model="model"
     class="slider-root"
     :min
     :max
@@ -21,7 +21,7 @@ withDefaults(defineProps<{ min?: number; max?: number; step?: number }>(), {
     <SliderTrack class="slider-track">
       <SliderRange class="slider-range" />
     </SliderTrack>
-    <SliderThumb v-for="i in model" :key="i" class="slider-thumb" />
+    <SliderThumb v-for="i in model?.length" :key="i" class="slider-thumb" />
   </SliderRoot>
 </template>
 
