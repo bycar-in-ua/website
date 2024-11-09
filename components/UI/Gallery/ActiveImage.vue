@@ -1,26 +1,21 @@
 <script setup lang="ts">
-import { inject, onMounted, onBeforeUnmount, type Ref, computed } from "vue";
-import type {
-  IActiveGalleryItem,
-  IGalleryItem,
-  TSetGalleryActiveItem,
-  TToggleGalleryFullScreen,
-} from "./interface";
+import { inject, onMounted, onBeforeUnmount, computed } from "vue";
+import { SetGalleryActiveItemKey, ToggleGalleryFullScreenKey, ActiveItemKey, GalleryItemsKey } from "./interface.js";
 
 const trackRef = ref<HTMLElement>();
 const transitionDuration = ref<number>(300);
 
-const activeItem = inject("activeItem") as Ref<IActiveGalleryItem>;
-const setGalleryActiveItem = inject<TSetGalleryActiveItem>(
-  "setGalleryActiveItem",
-);
-const toggleFullScreen = inject<TToggleGalleryFullScreen>(
-  "toggleGalleryFullScreen",
-);
+const activeItem = inject(ActiveItemKey);
+const setGalleryActiveItem = inject(SetGalleryActiveItemKey);
+const toggleFullScreen = inject(ToggleGalleryFullScreenKey);
 
-const galleryItems = inject<IGalleryItem[]>("galleryItems");
+const galleryItems = inject(GalleryItemsKey);
 
 const arrowsKeydownListener = (e: KeyboardEvent) => {
+  if (!activeItem) {
+    return;
+  }
+
   if (e.key === "ArrowRight" && activeItem.value.nextItemIndex !== null) {
     setGalleryActiveItem?.(activeItem.value.nextItemIndex, "next");
     return;
@@ -48,6 +43,10 @@ const { lengthX, stop } = useSwipe(trackRef, {
     transitionDuration.value = 0;
   },
   onSwipeEnd: (e, direction) => {
+    if (!activeItem) {
+      return;
+    }
+
     transitionDuration.value = 300;
     switch (direction) {
       case SwipeDirection.RIGHT:
@@ -69,7 +68,7 @@ const { lengthX, stop } = useSwipe(trackRef, {
 
 const itemsTrackTranslate = computed(
   () =>
-    `calc(-${+activeItem.value.currentItemIndex * 100}% - ${lengthX.value}px)`,
+    `calc(-${Number(activeItem?.value.currentItemIndex ?? 0) * 100}% - ${lengthX.value}px)`,
 );
 </script>
 
@@ -78,10 +77,10 @@ const itemsTrackTranslate = computed(
     class="bycar-gallery-image-wrapper overflow-hidden w-full relative select-none"
   >
     <div
-      v-if="activeItem.prevItemIndex !== null"
+      v-if="activeItem?.prevItemIndex !== null"
       title="&#129044;"
       class="bycar-gallery-chewron-wrapper justify-end left-0"
-      @click="setGalleryActiveItem(activeItem.prevItemIndex, 'prev')"
+      @click="setGalleryActiveItem(activeItem?.prevItemIndex ?? 0, 'prev')"
     >
       <span class="bycar-gallery-chevron-container">
         <UIcon
@@ -107,10 +106,10 @@ const itemsTrackTranslate = computed(
       />
     </div>
     <div
-      v-if="activeItem.nextItemIndex !== null"
+      v-if="activeItem?.nextItemIndex !== null"
       title="&#10141;"
       class="bycar-gallery-chewron-wrapper justify-start right-0"
-      @click="setGalleryActiveItem(activeItem.nextItemIndex, 'next')"
+      @click="setGalleryActiveItem(activeItem?.nextItemIndex ?? 0, 'next')"
     >
       <span class="bycar-gallery-chevron-container">
         <UIcon

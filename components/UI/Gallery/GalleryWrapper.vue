@@ -2,14 +2,13 @@
 import {
   defineComponent,
   ref,
-  type Ref,
   provide,
   readonly,
   onMounted,
   onBeforeUnmount,
 } from "vue";
 import type { IActiveGalleryItem, TSetGalleryActiveItem } from "./interface";
-import { GalleryProps } from "./interface.js";
+import { GalleryProps, SetGalleryActiveItemKey, ToggleGalleryFullScreenKey, ActiveItemKey, GalleryItemsKey } from "./interface.js";
 import ThubmnailsList from "./ThubmnailsList.vue";
 import Thumbnail from "./Thumbnail.vue";
 import ActiveImage from "./ActiveImage.vue";
@@ -24,7 +23,7 @@ export default defineComponent({
     const backdropRef = ref();
     const fullScreen = ref<boolean>(false);
 
-    const activeItem: Ref<IActiveGalleryItem> = ref({
+    const activeItem = ref<IActiveGalleryItem>({
       currentItemIndex: 0,
       prevItemIndex: null,
       nextItemIndex: props.items.length > 1 ? 1 : null,
@@ -72,7 +71,7 @@ export default defineComponent({
       watch(fullScreen, bodyScrollWatcher);
     }
 
-    const backdropClickHandler = (e) => {
+    const backdropClickHandler = (e: Event) => {
       if (e.target !== backdropRef.value) {
         return;
       }
@@ -80,10 +79,10 @@ export default defineComponent({
       return;
     };
 
-    provide("setGalleryActiveItem", setActiveItem);
-    provide("activeItem", readonly(activeItem));
-    provide("galleryItems", props.items);
-    provide("toggleGalleryFullScreen", toggleFullScreen);
+    provide(SetGalleryActiveItemKey, setActiveItem);
+    provide(ActiveItemKey, readonly(activeItem));
+    provide(GalleryItemsKey, props.items);
+    provide(ToggleGalleryFullScreenKey, toggleFullScreen);
 
     return {
       activeItem,
