@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Hero from "@/components/Home/Hero.vue";
 import Latest from "@/components/Home/Latest.vue";
-import ContactForm from "@/components/Home/ContactForm.vue";
+import ContactForm from "@/components/ContactForm.vue";
 import Brands from "@/components/Home/Brands.vue";
 import { generatePageTitle } from "@/utils/seo";
 

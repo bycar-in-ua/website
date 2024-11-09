@@ -4,6 +4,8 @@ import Pagination from "@/components/UI/Pagination/index.vue";
 import { useCatalogStore } from "~/stores/catalog";
 
 const catalogStore = useCatalogStore();
+
+const list = ref();
 </script>
 
 <template>
@@ -13,13 +15,7 @@ const catalogStore = useCatalogStore();
       class="text-center p-4 text-xl"
       v-text="$t('emptyCatalog')"
     />
-    <Transition name="fade">
-      <div
-        v-if="catalogStore.pending"
-        class="absolute inset-0 bg-white opacity-50"
-      />
-    </Transition>
-    <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-5">
+    <div ref="list" class="grid sm:grid-cols-2 md:grid-cols-3 gap-5">
       <CarCard
         v-for="car in catalogStore.data.items"
         :key="car.id"
@@ -28,20 +24,9 @@ const catalogStore = useCatalogStore();
     </div>
     <Pagination
       v-model:page="catalogStore.pagination.page"
-      class="mt-5 justify-center"
+      class="mt-10 justify-center"
       :pagination="catalogStore.data.meta"
+      @update:page="() => list?.scrollIntoView()"
     />
   </div>
 </template>
-
-<style>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-</style>
