@@ -48,6 +48,10 @@ export default defineI18nConfig(() => ({
       powerUnits: "Доступні силові агрегати",
       emptyCatalog: "Автомобілів за вашим запитом не знайдено",
       copyright: "Всі права захищено.",
+      pagination: {
+        prev: "Попередня сторінка",
+        next: "Наступна сторінка",
+      },
     },
   },
 }));

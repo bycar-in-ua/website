@@ -28,7 +28,7 @@ const catalogStore = useCatalogStore();
     </div>
     <Pagination
       v-model:page="catalogStore.pagination.page"
-      class="mt-5 justify-center"
+      class="mt-10 justify-center"
       :pagination="catalogStore.data.meta"
     />
   </div>
