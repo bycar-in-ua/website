@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Vehicle } from "@bycar-in-ua/sdk";
 import SectionTitle from "@/components/UI/SectionTitle.vue";
-import CarCard from "@/components/UI/CarCard/index.vue";
+import CarCard from "@/components/UI/CarCard/CarCard.vue";
 
 defineProps<{ latestItems: Vehicle[] }>();
 </script>

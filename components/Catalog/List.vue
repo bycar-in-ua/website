@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import CarCard from "@/components/UI/CarCard/index.vue";
-import Pagination from "@/components/UI/Pagination/index.vue";
+import CarCard from "@/components/UI/CarCard/CarCard.vue";
+import Pagination from "@/components/UI/Pagination.vue";
 import { useCatalogStore } from "~/stores/catalog";
 
 const catalogStore = useCatalogStore();

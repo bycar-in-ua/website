@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Vehicle } from "@bycar-in-ua/sdk";
-import { getVehicleInfoBullets } from "./helpers.js";
+import { getVehicleInfoBullets, getPriceRange } from "./helpers.js";
 import { getCarTitle } from "@/utils/carHelpers";
 
 const props = defineProps<{
@@ -12,33 +12,10 @@ const { t } = useI18n();
 
 const carTitle = getCarTitle(props.car);
 const imageUrl = props.car.featureImage
-  ? $cdnLink(props.car.featureImage.path, 320, 400)
+  ? $cdnLink(props.car.featureImage.path, 600, 1200)
   : "/images/placeholder-image.jpg";
 
-const priceRange = computed(() => {
-  if (!props.car.complectations?.length) {
-    return "";
-  }
-
-  const prices = props.car.complectations
-    .flatMap((complectation) =>
-      complectation.powerUnits?.map(({ price }) => price),
-    )
-    .filter(Boolean) as number[];
-
-  if (!prices.length) {
-    return "";
-  }
-
-  if (prices.length === 1) {
-    return `$${prices[0]}`;
-  }
-
-  const min = Math.min(...prices);
-  const max = Math.max(...prices);
-
-  return `$${min} - $${max}`;
-});
+const priceRange = computed(() => getPriceRange(props.car.complectations));
 
 const infoBullets = computed(() => getVehicleInfoBullets(props.car, t));
 </script>
