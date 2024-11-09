@@ -40,7 +40,7 @@ onUnmounted(() => {
   <main class="container pt-32 pb-5 mb-auto">
     <Headline class="mb-6" />
     <AppliedFilters class="mb-6" />
-    <div class="lg:flex gap-10">
+    <div class="lg:flex gap-10 relative blured-ellipse-bg after:left-56 after:top-5">
       <Sidebar />
       <List />
     </div>
