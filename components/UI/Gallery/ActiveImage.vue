@@ -79,14 +79,16 @@ const itemsTrackTranslate = computed(
   >
     <div
       v-if="activeItem.prevItemIndex !== null"
-      class="bycar-gallery-chewron-wrapper left-0"
-      title="&quot;&#129044;&quot;"
+      title="&#129044;"
+      class="bycar-gallery-chewron-wrapper justify-end left-0"
       @click="setGalleryActiveItem(activeItem.prevItemIndex, 'prev')"
     >
-      <UIcon
-        name="i-heroicons-chevron-left"
-        class="bycar-gallery-icon bycar-gallery-chevron"
-      />
+      <span class="bycar-gallery-chevron-container">
+        <UIcon
+          name="i-heroicons-chevron-left"
+          class="bycar-gallery-icon bycar-gallery-chevron"
+        />
+      </span>
     </div>
     <div
       ref="trackRef"
@@ -106,14 +108,16 @@ const itemsTrackTranslate = computed(
     </div>
     <div
       v-if="activeItem.nextItemIndex !== null"
-      class="bycar-gallery-chewron-wrapper right-0"
-      title="&quot;&#10141;&quot;"
+      title="&#10141;"
+      class="bycar-gallery-chewron-wrapper justify-start right-0"
       @click="setGalleryActiveItem(activeItem.nextItemIndex, 'next')"
     >
-      <UIcon
-        name="i-heroicons-chevron-right"
-        class="bycar-gallery-icon bycar-gallery-chevron"
-      />
+      <span class="bycar-gallery-chevron-container">
+        <UIcon
+          name="i-heroicons-chevron-right"
+          class="bycar-gallery-icon bycar-gallery-chevron"
+        />
+      </span>
     </div>
     <div class="bycar-gallery-zoom" title="F" @click="toggleFullScreen">
       <UIcon
@@ -124,19 +128,24 @@ const itemsTrackTranslate = computed(
   </div>
 </template>
 
-<style lang="postcss">
+<style>
 .bycar-gallery-icon {
   @apply h-8 w-8 md:h-12 md:w-12;
 }
+
 .bycar-gallery-chevron {
-  @apply transition-all;
+  @apply  w-5 h-5 bg-white;
 }
+
+.bycar-gallery-chevron-container {
+  @apply bg-slate-900/60 transition-all rounded-full h-8 w-8 inline-flex items-center justify-center;
+}
+
 .bycar-gallery-chewron-wrapper {
-  @apply absolute top-0 bottom-0 flex items-center justify-center cursor-pointer transition-all z-20;
-  --tw-gradient-stops: transparent, rgba(255, 255, 255, 0.2);
+  @apply absolute top-1/4 h-1/2 w-14 flex items-center cursor-pointer transition-all z-20;
   &:hover {
-    .bycar-gallery-chevron {
-      @apply opacity-100;
+    .bycar-gallery-chevron-container {
+      @apply bg-slate-900/80;
     }
   }
 }
@@ -155,7 +164,7 @@ const itemsTrackTranslate = computed(
   @apply object-cover w-full h-auto;
   flex: 1 0 100%;
 }
-/* .bycar-gallery-track {
+.bycar-gallery-track {
   transform: translate3d(var(--x-translate), 0, 0);
-} */
+}
 </style>

@@ -139,7 +139,7 @@ export default defineComponent({
   @screen md {
     grid-template-columns: 1fr 160px;
     .bycar-gallery-image-wrapper {
-      @apply rounded-lg;
+      @apply rounded-2xl;
       /* order: 2; */
     }
   }
@@ -177,21 +177,11 @@ export default defineComponent({
       order: unset;
     }
   }
-  .bycar-gallery-chevron,
-  .bycar-gallery-zoom-icon {
-    @apply invert-0 text-white;
-  }
   .bycar-gallery-image-wrapper {
     @apply w-full rounded-none;
   }
   .bycar-gallery-image {
     @apply object-contain;
   }
-}
-
-.bycar-gallery-icon {
-  @apply opacity-70;
-  background: rgba(0, 0, 0, 0.6);
-  fill: rgba(255, 255, 255, 0.65);
 }
 </style>
