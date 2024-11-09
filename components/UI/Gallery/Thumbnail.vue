@@ -23,23 +23,11 @@ const setActiveItem = () => setGalleryActiveItem?.(props.index);
 <template>
   <div
     ref="htmlRef"
-    class="bycar-gallery-thumbnail cursor-pointer rounded-lg overflow-hidden transition-all w-full pt-[63%]"
-    :class="activeItem?.currentItemIndex === index ? 'active' : ''"
+    class="bg-cover bg-center cursor-pointer rounded-lg overflow-hidden transition-all w-full pt-[63%] border-2 bg-no-repeat"
+    :class="activeItem?.currentItemIndex === index ? 'outline outline-2 -outline-offset-4 outline-white border-primary' : 'border-transparent'"
     :style="{
       'background-image': `url('${item.source}')`,
     }"
     @click="setActiveItem"
   />
 </template>
-
-<style>
-.bycar-gallery-thumbnail {
-  @apply bg-cover bg-center;
-  &.active {
-    &:after {
-      content: "";
-      @apply block w-full h-full bg-primary opacity-50;
-    }
-  }
-}
-</style>
