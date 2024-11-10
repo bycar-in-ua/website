@@ -38,6 +38,6 @@ const items = computed<IGalleryItem[]>(() => {
     v-if="items.length"
     :items
     class="mb-10"
-    height="600px"
+    height="610px"
   />
 </template>

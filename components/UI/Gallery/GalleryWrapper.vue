@@ -139,18 +139,15 @@ export default defineComponent({
     grid-template-columns: 1fr 160px;
     .bycar-gallery-image-wrapper {
       @apply rounded-2xl;
-      /* order: 2; */
     }
   }
   .bycar-gallery-thumnails-list-wrapper {
     grid-template-columns: 160px;
     overflow: hidden;
-    @screen md {
-      /* order: 1; */
-    }
+
   }
   .bycar-gallery-thumnails-list {
-    @apply grid-flow-col overflow-x-auto overflow-y-hidden;
+    @apply flex-col overflow-x-auto overflow-y-hidden;
     max-height: 100%;
     @screen md {
       @apply grid-flow-row overflow-y-auto overflow-x-hidden;
@@ -163,14 +160,13 @@ export default defineComponent({
     @apply mx-auto p-2 md:p-5 w-full;
     max-height: 100%;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 80px;
+    grid-template-rows: 1fr 110px;
     .bycar-gallery-thumnails-list-wrapper {
       order: unset;
       @apply flex justify-center;
     }
     .bycar-gallery-thumnails-list {
-      @apply grid-flow-col overflow-x-auto
-        overflow-y-hidden;
+      @apply flex-row overflow-x-auto overflow-y-hidden w-full;
     }
     .bycar-gallery-image-wrapper {
       order: unset;

@@ -16,7 +16,7 @@ defineExpose({
 
 <style>
 .bycar-gallery-thumnails-list {
-  @apply grid gap-4 content-start overflow-auto;
+  @apply flex gap-4 content-start overflow-auto;
   &::-webkit-scrollbar {
     display: none;
   }
