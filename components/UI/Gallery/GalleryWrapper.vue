@@ -98,7 +98,7 @@ provide(ToggleGalleryFullScreenKey, toggleFullScreen);
       @click="toggleFullScreen(false)"
     />
     <div class="bycar-gallery">
-      <ActiveImage />
+      <ActiveImage :is-full-screen="fullScreen" />
       <div class="bycar-gallery-thumnails-list-wrapper">
         <ThubmnailsList>
           <Thumbnail
@@ -162,7 +162,7 @@ provide(ToggleGalleryFullScreenKey, toggleFullScreen);
     }
   }
   .bycar-gallery-image-wrapper {
-    @apply w-full rounded-none;
+    @apply rounded-none;
   }
   .bycar-gallery-image {
     @apply object-contain;

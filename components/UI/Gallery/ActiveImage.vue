@@ -2,6 +2,8 @@
 import { inject, onMounted, onBeforeUnmount, computed } from "vue";
 import { SetGalleryActiveItemKey, ToggleGalleryFullScreenKey, ActiveItemKey, GalleryItemsKey } from "./interface.js";
 
+defineProps<{ isFullScreen: boolean }>();
+
 const trackRef = ref<HTMLElement>();
 const transitionDuration = ref<number>(300);
 
@@ -89,6 +91,14 @@ const itemsTrackTranslate = computed(
         />
       </span>
     </div>
+
+    <div
+      v-if="!isFullScreen"
+      class="absolute h-full left-14 right-14 cursor-pointer z-10"
+      :title="$t('gallery.toggleFullScreen')"
+      @click="() => toggleFullScreen?.()"
+    />
+
     <div
       ref="trackRef"
       class="flex h-full"
@@ -117,12 +127,6 @@ const itemsTrackTranslate = computed(
           class="bycar-gallery-icon bycar-gallery-chevron"
         />
       </span>
-    </div>
-    <div class="bycar-gallery-zoom" title="F" @click="() => toggleFullScreen?.()">
-      <UIcon
-        name="i-heroicons-arrows-pointing-out"
-        class="bycar-gallery-icon bycar-gallery-zoom-icon"
-      />
     </div>
   </div>
 </template>

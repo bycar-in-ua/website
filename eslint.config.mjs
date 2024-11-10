@@ -22,6 +22,7 @@ export default withNuxt()
         { overrides: { "?": "before", ":": "before" } },
       ],
       "@stylistic/indent": ["error", 2, { FunctionExpression: { parameters: "off" }, SwitchCase: 1, offsetTernaryExpressions: true }],
+      "@stylistic/quotes": ["error", "double", { avoidEscape: true }],
     },
   })
   .override("nuxt/import/rules", {

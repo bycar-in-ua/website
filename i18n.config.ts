@@ -52,6 +52,9 @@ export default defineI18nConfig(() => ({
         prev: "Попередня сторінка",
         next: "Наступна сторінка",
       },
+      gallery: {
+        toggleFullScreen: 'Відкрити на весь екран ("F" на клавіатурі)',
+      },
     },
   },
 }));
