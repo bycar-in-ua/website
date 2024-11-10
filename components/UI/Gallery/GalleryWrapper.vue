@@ -1,98 +1,87 @@
-<script lang="ts">
+<script setup lang="ts">
 import {
-  defineComponent,
   ref,
   provide,
   readonly,
   onMounted,
   onBeforeUnmount,
 } from "vue";
-import type { IActiveGalleryItem, TSetGalleryActiveItem } from "./interface";
-import { GalleryProps, SetGalleryActiveItemKey, ToggleGalleryFullScreenKey, ActiveItemKey, GalleryItemsKey } from "./interface.js";
+import type { IActiveGalleryItem, IGalleryItem, TSetGalleryActiveItem } from "./interface";
+import { SetGalleryActiveItemKey, ToggleGalleryFullScreenKey, ActiveItemKey, GalleryItemsKey } from "./interface.js";
 import ThubmnailsList from "./ThubmnailsList.vue";
 import Thumbnail from "./Thumbnail.vue";
 import ActiveImage from "./ActiveImage.vue";
 import { bodyScrollWatcher } from "@/utils/htmlUtils";
 
-export default defineComponent({
-  name: "Gallery",
-  components: { ThubmnailsList, Thumbnail, ActiveImage },
-  props: GalleryProps,
-  setup(props) {
-    const thumbsListRef = ref<Array<{ htmlRef: HTMLElement }>>();
-    const backdropRef = ref();
-    const fullScreen = ref<boolean>(false);
+const props = withDefaults(
+  defineProps<{ items: IGalleryItem[]; height?: string }>(),
+  { height: "auto" },
+);
 
-    const activeItem = ref<IActiveGalleryItem>({
-      currentItemIndex: 0,
-      prevItemIndex: null,
-      nextItemIndex: props.items.length > 1 ? 1 : null,
-    });
+const thumbsListRef = ref<Array<{ htmlRef: HTMLElement }>>();
+const backdropRef = ref();
+const fullScreen = ref<boolean>(false);
 
-    const setActiveItem: TSetGalleryActiveItem = (itemIndex) => {
-      const prevIndex = itemIndex - 1;
-      const nextIndex = itemIndex + 1;
-      activeItem.value = {
-        currentItemIndex: itemIndex,
-        prevItemIndex: prevIndex >= 0 ? prevIndex : null,
-        nextItemIndex: nextIndex < props.items.length ? nextIndex : null,
-      };
-      thumbsListRef.value?.[itemIndex].htmlRef.scrollIntoView({
-        block: "nearest",
-      });
-    };
-
-    const toggleFullScreen = (value = !fullScreen.value) => {
-      fullScreen.value = value;
-    };
-
-    const zoomistener = (e: KeyboardEvent) => {
-      switch (e.code) {
-        case "Escape":
-          toggleFullScreen(false);
-          break;
-        case "KeyF":
-          toggleFullScreen();
-          break;
-
-        default:
-          break;
-      }
-    };
-
-    if (import.meta.client) {
-      onMounted(() => {
-        document.addEventListener("keyup", zoomistener);
-      });
-      onBeforeUnmount(() => {
-        document.removeEventListener("keyup", zoomistener);
-      });
-
-      watch(fullScreen, bodyScrollWatcher);
-    }
-
-    const backdropClickHandler = (e: Event) => {
-      if (e.target !== backdropRef.value) {
-        return;
-      }
-      fullScreen.value = false;
-      return;
-    };
-
-    provide(SetGalleryActiveItemKey, setActiveItem);
-    provide(ActiveItemKey, readonly(activeItem));
-    provide(GalleryItemsKey, props.items);
-    provide(ToggleGalleryFullScreenKey, toggleFullScreen);
-
-    return {
-      activeItem,
-      thumbsListRef,
-      backdropRef,
-      fullScreen,
-      backdropClickHandler,
-    };
-  },
+const activeItem = ref<IActiveGalleryItem>({
+  currentItemIndex: 0,
+  prevItemIndex: null,
+  nextItemIndex: props.items.length > 1 ? 1 : null,
 });
+
+const setActiveItem: TSetGalleryActiveItem = (itemIndex) => {
+  const prevIndex = itemIndex - 1;
+  const nextIndex = itemIndex + 1;
+  activeItem.value = {
+    currentItemIndex: itemIndex,
+    prevItemIndex: prevIndex >= 0 ? prevIndex : null,
+    nextItemIndex: nextIndex < props.items.length ? nextIndex : null,
+  };
+  thumbsListRef.value?.[itemIndex].htmlRef.scrollIntoView({
+    block: "nearest",
+  });
+};
+
+const toggleFullScreen = (value = !fullScreen.value) => {
+  fullScreen.value = value;
+};
+
+const zoomListener = (e: KeyboardEvent) => {
+  switch (e.code) {
+    case "Escape":
+      toggleFullScreen(false);
+      break;
+    case "KeyF":
+      toggleFullScreen();
+      break;
+
+    default:
+      break;
+  }
+};
+
+if (import.meta.client) {
+  onMounted(() => {
+    document.addEventListener("keyup", zoomListener);
+  });
+  onBeforeUnmount(() => {
+    document.removeEventListener("keyup", zoomListener);
+  });
+
+  watch(fullScreen, bodyScrollWatcher);
+}
+
+const backdropClickHandler = (e: Event) => {
+  if (e.target !== backdropRef.value) {
+    return;
+  }
+
+  toggleFullScreen(false);
+};
+
+provide(SetGalleryActiveItemKey, setActiveItem);
+provide(ActiveItemKey, readonly(activeItem));
+provide(GalleryItemsKey, props.items);
+provide(ToggleGalleryFullScreenKey, toggleFullScreen);
 </script>
 
 <template>
@@ -106,7 +95,7 @@ export default defineComponent({
       v-if="fullScreen"
       name="i-heroicons-x-mark"
       class="bycar-gallery-icon absolute right-2 top-2 md:right-4 md:top-4 w-12 h-12 p-2 cursor-pointer hover:opacity-100 transition-opacity z-30"
-      @click="fullScreen = false"
+      @click="toggleFullScreen(false)"
     />
     <div class="bycar-gallery">
       <ActiveImage />

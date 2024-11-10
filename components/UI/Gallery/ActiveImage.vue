@@ -118,7 +118,7 @@ const itemsTrackTranslate = computed(
         />
       </span>
     </div>
-    <div class="bycar-gallery-zoom" title="F" @click="toggleFullScreen">
+    <div class="bycar-gallery-zoom" title="F" @click="() => toggleFullScreen?.()">
       <UIcon
         name="i-heroicons-arrows-pointing-out"
         class="bycar-gallery-icon bycar-gallery-zoom-icon"

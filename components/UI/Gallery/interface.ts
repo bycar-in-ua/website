@@ -1,20 +1,9 @@
-import type { DeepReadonly, InjectionKey, PropType } from "vue";
+import type { DeepReadonly, InjectionKey } from "vue";
 
 export enum GalleryItemVariant {
   image = "image",
   video = "video",
 }
-
-export const GalleryProps = {
-  items: {
-    type: Array as PropType<IGalleryItem[]>,
-    default: () => [],
-  },
-  height: {
-    type: String as PropType<string>,
-    default: "auto",
-  },
-};
 
 export interface IGalleryItem {
   id: number;
