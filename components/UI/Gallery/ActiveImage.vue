@@ -92,12 +92,21 @@ const itemsTrackTranslate = computed(
       </span>
     </div>
 
-    <div
-      v-if="!isFullScreen"
-      class="absolute h-full left-14 right-14 cursor-pointer z-10"
-      :title="$t('gallery.toggleFullScreen')"
-      @click="() => toggleFullScreen?.()"
-    />
+    <template v-if="!isFullScreen">
+      <div v-if="$slots.top" class="absolute top-0 left-0 right-0 min-h-44 z-10 bg-gradient-to-b from-zinc-700/80 to-zinc-600/0">
+        <slot name="top" />
+      </div>
+
+      <div
+        class="absolute h-full left-14 right-14 cursor-pointer z-20"
+        :title="$t('gallery.toggleFullScreen')"
+        @click="() => toggleFullScreen?.()"
+      />
+
+      <div v-if="$slots.bottom" class="absolute bottom-0 left-0 right-0 min-h-44 z-10 bg-gradient-to-t from-zinc-700/80 to-zinc-600/0 flex flex-col justify-end">
+        <slot name="bottom" />
+      </div>
+    </template>
 
     <div
       ref="trackRef"
@@ -115,6 +124,7 @@ const itemsTrackTranslate = computed(
         class="bycar-gallery-image"
       />
     </div>
+
     <div
       v-if="activeItem?.nextItemIndex !== null"
       title="&#10141;"

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { Vehicle } from "@bycar-in-ua/sdk";
-import Title from "@/components/Single/Title.vue";
 import Media from "@/components/Single/Media.vue";
 import GeneralInfo from "@/components/Single/GeneralInfo.vue";
 import FullInfo from "@/components/Single/FullInfo/index.vue";
@@ -78,8 +77,7 @@ const shortSummary = computed<InfoLineProps[]>(() => [
 
 <template>
   <main class="container pt-32 pb-5">
-    <Title :title="carTitle" />
-    <Media v-if="car.images" :images="car.images" :feautured-image-id="car.featureImage?.id" />
+    <Media :car />
     <GeneralInfo :description="car.description" :short-summary="shortSummary" />
     <FullInfo :car="car" />
   </main>

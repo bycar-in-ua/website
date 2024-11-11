@@ -102,7 +102,15 @@ provide(ToggleGalleryFullScreenKey, toggleFullScreen);
       />
     </div>
     <div class="bycar-gallery">
-      <ActiveImage :is-full-screen="fullScreen" />
+      <ActiveImage :is-full-screen="fullScreen">
+        <template v-if="$slots['active-image-top']" #top>
+          <slot name="active-image-top" />
+        </template>
+
+        <template v-if="$slots['active-image-bottom']" #bottom>
+          <slot name="active-image-bottom" />
+        </template>
+      </ActiveImage>
       <div class="bycar-gallery-thumnails-list-wrapper">
         <ThubmnailsList>
           <Thumbnail

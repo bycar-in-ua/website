@@ -27,7 +27,7 @@ const setActiveItem = () => setGalleryActiveItem?.(props.index);
     :class="activeItem?.currentItemIndex === index ? 'outline-primary' : 'outline-transparent'"
     @click="setActiveItem"
   >
-    <img :src="item.source" />
+    <img :src="item.source" class="w-full h-full object-cover" />
   </div>
 </template>
 

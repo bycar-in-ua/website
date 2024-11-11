@@ -1,23 +1,19 @@
 <script setup lang="ts">
 import { Gallery } from "@/components/UI/Gallery";
 import type { IGalleryItem } from "@/components/UI/Gallery";
-import type { Image } from "@bycar-in-ua/sdk";
+import type { Vehicle } from "@bycar-in-ua/sdk";
 import { GalleryItemVariant } from "@/components/UI/Gallery/interface";
+import { getCarTitle } from "@/utils/carHelpers";
 
-interface IProps {
-  images: Image[];
-  feauturedImageId?: number;
-}
-
-const props = defineProps<IProps>();
+const props = defineProps<{ car: Vehicle }>();
 
 const { $cdnLink } = useNuxtApp();
 
 const items = computed<IGalleryItem[]>(() => {
-  const images = props.images;
+  const images = props.car.images ?? [];
 
   const featuredImageIndex = images.findIndex(
-    (image) => image.id === props.feauturedImageId,
+    (image) => image.id === props.car.featureImage?.id,
   );
 
   if (featuredImageIndex !== -1) {
@@ -39,5 +35,11 @@ const items = computed<IGalleryItem[]>(() => {
     :items
     class="mb-10"
     height="610px"
-  />
+  >
+    <template #active-image-top>
+      <h1 class="p-6 text-white font-semibold text-3xl">
+        {{ getCarTitle(car) }}
+      </h1>
+    </template>
+  </Gallery>
 </template>
