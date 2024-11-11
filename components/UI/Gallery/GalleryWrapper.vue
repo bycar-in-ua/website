@@ -91,12 +91,16 @@ provide(ToggleGalleryFullScreenKey, toggleFullScreen);
     :style="`--gallery-height: ${height}`"
     @click.stop="backdropClickHandler"
   >
-    <UIcon
+    <div
       v-if="fullScreen"
-      name="i-heroicons-x-mark"
-      class="bycar-gallery-icon absolute right-2 top-2 md:right-4 md:top-4 w-12 h-12 p-2 cursor-pointer hover:opacity-100 transition-opacity z-30"
+      class="bycar-gallery-icon-container absolute right-2 top-2 md:right-4 md:top-4 cursor-pointer z-30 p-1"
       @click="toggleFullScreen(false)"
-    />
+    >
+      <UIcon
+        name="i-heroicons-x-mark"
+        class="bycar-gallery-icon w-12 h-12 p-2 bg-white"
+      />
+    </div>
     <div class="bycar-gallery">
       <ActiveImage :is-full-screen="fullScreen" />
       <div class="bycar-gallery-thumnails-list-wrapper">

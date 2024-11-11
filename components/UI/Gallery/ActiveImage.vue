@@ -84,7 +84,7 @@ const itemsTrackTranslate = computed(
       class="bycar-gallery-chewron-wrapper justify-end left-0"
       @click="setGalleryActiveItem(activeItem?.prevItemIndex ?? 0, 'prev')"
     >
-      <span class="bycar-gallery-chevron-container">
+      <span class="bycar-gallery-icon-container">
         <UIcon
           name="i-heroicons-chevron-left"
           class="bycar-gallery-icon bycar-gallery-chevron"
@@ -121,7 +121,7 @@ const itemsTrackTranslate = computed(
       class="bycar-gallery-chewron-wrapper justify-start right-0"
       @click="setGalleryActiveItem(activeItem?.nextItemIndex ?? 0, 'next')"
     >
-      <span class="bycar-gallery-chevron-container">
+      <span class="bycar-gallery-icon-container">
         <UIcon
           name="i-heroicons-chevron-right"
           class="bycar-gallery-icon bycar-gallery-chevron"
@@ -140,14 +140,14 @@ const itemsTrackTranslate = computed(
   @apply  w-5 h-5 bg-white;
 }
 
-.bycar-gallery-chevron-container {
+.bycar-gallery-icon-container {
   @apply bg-slate-900/60 transition-all rounded-full h-8 w-8 inline-flex items-center justify-center;
 }
 
 .bycar-gallery-chewron-wrapper {
   @apply absolute top-1/4 h-1/2 w-14 flex items-center cursor-pointer transition-all z-20;
   &:hover {
-    .bycar-gallery-chevron-container {
+    .bycar-gallery-icon-container {
       @apply bg-slate-900/80;
     }
   }
