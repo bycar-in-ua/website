@@ -3,9 +3,9 @@ import { Gallery } from "@/components/UI/Gallery";
 import type { IGalleryItem } from "@/components/UI/Gallery";
 import type { Vehicle } from "@bycar-in-ua/sdk";
 import { GalleryItemVariant } from "@/components/UI/Gallery/interface";
-import { getCarTitle } from "@/utils/carHelpers";
+import ShortSummary from "./ShortSummary.vue";
 
-const props = defineProps<{ car: Vehicle }>();
+const props = defineProps<{ car: Vehicle; title: string }>();
 
 const { $cdnLink } = useNuxtApp();
 
@@ -38,8 +38,12 @@ const items = computed<IGalleryItem[]>(() => {
   >
     <template #active-image-top>
       <h1 class="p-6 text-white font-semibold text-3xl">
-        {{ getCarTitle(car) }}
+        {{ title }}
       </h1>
+    </template>
+
+    <template #active-image-bottom>
+      <ShortSummary :car />
     </template>
   </Gallery>
 </template>

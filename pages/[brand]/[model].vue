@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import type { Vehicle } from "@bycar-in-ua/sdk";
+import type { Complectation, PowerUnit, Vehicle } from "@bycar-in-ua/sdk";
 import Media from "@/components/Single/Media.vue";
 import GeneralInfo from "@/components/Single/GeneralInfo.vue";
 import FullInfo from "@/components/Single/FullInfo/index.vue";
 import { getCarTitle } from "@/utils/carHelpers";
 import { generatePageTitle } from "@/utils/seo";
 import type { InfoLineProps } from "@/components/UI/InfoLine.vue";
+import { ComplectationKey, PowerUnitKey } from "@/components/Single/interface";
 
 definePageMeta({
   name: "SingleCar",
@@ -23,6 +24,13 @@ const { data: car } = await useAsyncData(
     default: () => ({} as Vehicle),
   },
 );
+
+const currentComplectation = ref<Complectation | null>(car.value.complectations?.find((c) => c.base) || car.value.complectations?.[0] || null);
+
+const currentPowerUnit = ref<PowerUnit | null>(currentComplectation.value?.powerUnits?.[0] || null);
+
+provide(ComplectationKey, currentComplectation.value);
+provide(PowerUnitKey, currentPowerUnit.value);
 
 const carTitle = computed(() => getCarTitle(car.value));
 
@@ -51,10 +59,6 @@ useHead({
   ],
 });
 
-function getModelYear(car: Vehicle) {
-  return [car.yearFrom, car.yearTo ?? ""].join(" - ");
-}
-
 const shortSummary = computed<InfoLineProps[]>(() => [
   {
     name: t("vehicle.model"),
@@ -62,7 +66,7 @@ const shortSummary = computed<InfoLineProps[]>(() => [
   },
   {
     name: t("vehicle.modelYear"),
-    value: getModelYear(car.value),
+    value: [car.value.yearFrom, car.value.yearTo ?? ""].join(" - "),
   },
   {
     name: t("vehicle.bodyTypes.title"),
@@ -77,7 +81,7 @@ const shortSummary = computed<InfoLineProps[]>(() => [
 
 <template>
   <main class="container pt-32 pb-5">
-    <Media :car />
+    <Media :car :title="carTitle" />
     <GeneralInfo :description="car.description" :short-summary="shortSummary" />
     <FullInfo :car="car" />
   </main>
