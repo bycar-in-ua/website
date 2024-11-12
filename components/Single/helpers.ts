@@ -1,9 +1,14 @@
-import { BodyType, type PowerUnit, type Vehicle } from "@bycar-in-ua/sdk";
+import {
+  BodyType,
+  type Engine,
+  type PowerUnit,
+  type Vehicle,
+} from "@bycar-in-ua/sdk";
 import type { Composer } from "#i18n";
 import type { InfoBulletProps } from "./interface";
 import {
   ElectricStation,
-  Engine,
+  Engine as EngineIcon,
   GasStation,
   GearboxAuto,
   GearboxManual,
@@ -68,7 +73,7 @@ export function getInfoBullets(
     bullets.push({
       title: t("vehicle.engine.power"),
       value: `${powerUnit.engine.power} ${t("units.power")}`,
-      icon: Engine,
+      icon: EngineIcon,
     });
   }
 
@@ -113,4 +118,39 @@ export function getBodyTypeIcon(bodyType?: BodyType): Component {
     default:
       return Sedan;
   }
+}
+
+export function getPowerUnitTitle(powerUnit: PowerUnit): string {
+  return [
+    getDisplacement(powerUnit.engine?.displacement),
+    powerUnit.engine?.tradename,
+  ]
+    .filter(Boolean)
+    .join(" ");
+}
+
+function getDisplacement(displacement: Engine["displacement"]) {
+  return displacement ? Math.round(displacement / 1000).toFixed(2) : "";
+}
+
+export function getPowerUnitSubtitle(powerUnit: PowerUnit, t: Composer["t"]) {
+  const parts = [];
+
+  if (powerUnit.transmission?.gearbox.type) {
+    parts.push(
+      t(
+        `vehicle.transmission.gearbox.types.${powerUnit.transmission.gearbox.type}`,
+      ),
+    );
+  }
+
+  if (powerUnit.engine?.power) {
+    parts.push(`${powerUnit.engine.power} ${t("units.power")}`);
+  }
+
+  if (powerUnit.transmission?.drive) {
+    parts.push(powerUnit.transmission.drive);
+  }
+
+  return parts.filter(Boolean).join(" ");
 }

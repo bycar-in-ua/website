@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import type { Complectation, PowerUnit, Vehicle } from "@bycar-in-ua/sdk";
 import Media from "@/components/Single/Media.vue";
+import Complectations from "@/components/Single/Complectations.vue";
+import PowerUnits from "@/components/Single/PowerUnits.vue";
+import Colors from "@/components/Single/Colors.vue";
+import ContactForm from "@/components/ContactForm.vue";
 import { getCarTitle } from "@/utils/carHelpers";
 import { generatePageTitle } from "@/utils/seo";
 import { ComplectationKey, PowerUnitKey } from "@/components/Single/interface";
@@ -21,12 +25,18 @@ const { data: car } = await useAsyncData(
   },
 );
 
-const currentComplectation = ref<Complectation | null>(car.value.complectations?.find((c) => c.base) || car.value.complectations?.[0] || null);
+const activeComplectation = ref<Complectation | null>(car.value.complectations?.find((c) => c.base) || car.value.complectations?.[0] || null);
+const activePowerUnit = ref<PowerUnit | null>(activeComplectation.value?.powerUnits?.[0] || null);
+const setActiveComplectation = (complectation: Complectation) => {
+  activeComplectation.value = complectation;
+  activePowerUnit.value = complectation.powerUnits?.[0] || null;
+};
+const setActivePowerUnit = (powerUnit: PowerUnit) => {
+  activePowerUnit.value = powerUnit;
+};
 
-const currentPowerUnit = ref<PowerUnit | null>(currentComplectation.value?.powerUnits?.[0] || null);
-
-provide(ComplectationKey, currentComplectation.value);
-provide(PowerUnitKey, currentPowerUnit.value);
+provide(ComplectationKey, { complectation: readonly(activeComplectation), setActiveComplectation });
+provide(PowerUnitKey, { powerUnit: readonly(activePowerUnit), setActivePowerUnit });
 
 const carTitle = computed(() => getCarTitle(car.value));
 
@@ -59,5 +69,26 @@ useHead({
 <template>
   <main class="container pt-32 pb-5">
     <Media :car :title="carTitle" />
+
+    <template v-if="car.complectations?.length">
+      <Complectations :compectations="car.complectations" />
+      <UDivider class="my-5" />
+    </template>
+
+    <template v-if="activeComplectation?.powerUnits?.length">
+      <PowerUnits />
+      <UDivider class="my-5" />
+    </template>
+
+    <template v-if="car.colors?.length">
+      <Colors :colors="car.colors" />
+      <UDivider class="my-5" />
+    </template>
+
+    <!-- eslint-disable vue/no-v-html -->
+    <section class="my-10" v-html="car.description">
+    </section>
+
+    <ContactForm />
   </main>
 </template>
