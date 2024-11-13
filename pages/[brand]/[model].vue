@@ -67,7 +67,7 @@ useHead({
 </script>
 
 <template>
-  <main class="container pt-32 pb-5">
+  <main class="container pt-32 pb-5 relative blured-ellipse-bg after:left-0 after:top-40">
     <Media :car :title="carTitle" />
 
     <template v-if="car.complectations?.length">

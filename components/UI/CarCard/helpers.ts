@@ -39,10 +39,8 @@ export function getVehicleInfoBullets(
       `vehicle.transmission.gearbox.subTypes.${basePowerUnit.transmission.gearbox.subType}`,
     );
 
-    const text = basePowerUnit.transmission.gearbox.subType ? subType : type;
-
     bullets.push({
-      text,
+      text: type,
       title: `${type} ${
         basePowerUnit.transmission.gearbox?.subType ? `(${subType})` : ""
       }`,

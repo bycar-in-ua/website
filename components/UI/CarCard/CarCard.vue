@@ -46,11 +46,11 @@ const infoBullets = computed(() => getVehicleInfoBullets(props.car, t));
         <div
           v-for="(bullet, index) in infoBullets"
           :key="index"
-          class="text-xs flex flex-col items-center gap-2 basis-16 shrink-0"
+          class="text-xs flex flex-col items-center gap-1 basis-18 shrink-0"
           :title="bullet.title"
         >
           <component :is="bullet.icon" class="w-6 h-6" />
-          <span class="max-w-16 truncate text-ellipsis">
+          <span class="max-w-18 truncate text-ellipsis">
             {{ bullet.text }}
           </span>
         </div>
