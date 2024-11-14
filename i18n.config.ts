@@ -1,4 +1,4 @@
-import { general, vehicle, colors } from "@bycar-in-ua/sdk";
+import { general, vehicle, colors, options } from "@bycar-in-ua/sdk";
 
 export default defineI18nConfig(() => ({
   legacy: false,
@@ -7,6 +7,7 @@ export default defineI18nConfig(() => ({
     ua: {
       vehicle: vehicle.ua,
       colors: colors.ua,
+      options: options.ua,
       ...general.ua,
       menu: {
         home: "Головна",
@@ -51,6 +52,9 @@ export default defineI18nConfig(() => ({
       pagination: {
         prev: "Попередня сторінка",
         next: "Наступна сторінка",
+      },
+      gallery: {
+        toggleFullScreen: 'Відкрити на весь екран ("F" на клавіатурі)',
       },
     },
   },

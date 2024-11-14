@@ -1,99 +1,87 @@
-<script lang="ts">
+<script setup lang="ts">
 import {
-  defineComponent,
   ref,
-  type Ref,
   provide,
   readonly,
   onMounted,
   onBeforeUnmount,
 } from "vue";
-import type { IActiveGalleryItem, TSetGalleryActiveItem } from "./interface";
-import { GalleryProps } from "./interface.js";
+import type { IActiveGalleryItem, IGalleryItem, TSetGalleryActiveItem } from "./interface";
+import { SetGalleryActiveItemKey, ToggleGalleryFullScreenKey, ActiveItemKey, GalleryItemsKey } from "./interface.js";
 import ThubmnailsList from "./ThubmnailsList.vue";
 import Thumbnail from "./Thumbnail.vue";
 import ActiveImage from "./ActiveImage.vue";
 import { bodyScrollWatcher } from "@/utils/htmlUtils";
 
-export default defineComponent({
-  name: "Gallery",
-  components: { ThubmnailsList, Thumbnail, ActiveImage },
-  props: GalleryProps,
-  setup(props) {
-    const thumbsListRef = ref<Array<{ htmlRef: HTMLElement }>>();
-    const backdropRef = ref();
-    const fullScreen = ref<boolean>(false);
+const props = withDefaults(
+  defineProps<{ items: IGalleryItem[]; height?: string }>(),
+  { height: "auto" },
+);
 
-    const activeItem: Ref<IActiveGalleryItem> = ref({
-      currentItemIndex: 0,
-      prevItemIndex: null,
-      nextItemIndex: props.items.length > 1 ? 1 : null,
-    });
+const thumbsListRef = ref<Array<{ htmlRef: HTMLElement }>>();
+const backdropRef = ref();
+const fullScreen = ref<boolean>(false);
 
-    const setActiveItem: TSetGalleryActiveItem = (itemIndex) => {
-      const prevIndex = itemIndex - 1;
-      const nextIndex = itemIndex + 1;
-      activeItem.value = {
-        currentItemIndex: itemIndex,
-        prevItemIndex: prevIndex >= 0 ? prevIndex : null,
-        nextItemIndex: nextIndex < props.items.length ? nextIndex : null,
-      };
-      thumbsListRef.value?.[itemIndex].htmlRef.scrollIntoView({
-        block: "nearest",
-      });
-    };
-
-    const toggleFullScreen = (value = !fullScreen.value) => {
-      fullScreen.value = value;
-    };
-
-    const zoomistener = (e: KeyboardEvent) => {
-      switch (e.code) {
-        case "Escape":
-          toggleFullScreen(false);
-          break;
-        case "KeyF":
-          toggleFullScreen();
-          break;
-
-        default:
-          break;
-      }
-    };
-
-    if (import.meta.client) {
-      onMounted(() => {
-        document.addEventListener("keyup", zoomistener);
-      });
-      onBeforeUnmount(() => {
-        document.removeEventListener("keyup", zoomistener);
-      });
-
-      watch(fullScreen, bodyScrollWatcher);
-    }
-
-    const backdropClickHandler = (e) => {
-      if (e.target !== backdropRef.value) {
-        return;
-      }
-      fullScreen.value = false;
-      return;
-    };
-
-    provide("setGalleryActiveItem", setActiveItem);
-    provide("activeItem", readonly(activeItem));
-    provide("galleryItems", props.items);
-    provide("toggleGalleryFullScreen", toggleFullScreen);
-
-    return {
-      activeItem,
-      thumbsListRef,
-      backdropRef,
-      fullScreen,
-      backdropClickHandler,
-    };
-  },
+const activeItem = ref<IActiveGalleryItem>({
+  currentItemIndex: 0,
+  prevItemIndex: null,
+  nextItemIndex: props.items.length > 1 ? 1 : null,
 });
+
+const setActiveItem: TSetGalleryActiveItem = (itemIndex) => {
+  const prevIndex = itemIndex - 1;
+  const nextIndex = itemIndex + 1;
+  activeItem.value = {
+    currentItemIndex: itemIndex,
+    prevItemIndex: prevIndex >= 0 ? prevIndex : null,
+    nextItemIndex: nextIndex < props.items.length ? nextIndex : null,
+  };
+  thumbsListRef.value?.[itemIndex].htmlRef.scrollIntoView({
+    block: "nearest",
+  });
+};
+
+const toggleFullScreen = (value = !fullScreen.value) => {
+  fullScreen.value = value;
+};
+
+const zoomListener = (e: KeyboardEvent) => {
+  switch (e.code) {
+    case "Escape":
+      toggleFullScreen(false);
+      break;
+    case "KeyF":
+      toggleFullScreen();
+      break;
+
+    default:
+      break;
+  }
+};
+
+if (import.meta.client) {
+  onMounted(() => {
+    document.addEventListener("keyup", zoomListener);
+  });
+  onBeforeUnmount(() => {
+    document.removeEventListener("keyup", zoomListener);
+  });
+
+  watch(fullScreen, bodyScrollWatcher);
+}
+
+const backdropClickHandler = (e: Event) => {
+  if (e.target !== backdropRef.value) {
+    return;
+  }
+
+  toggleFullScreen(false);
+};
+
+provide(SetGalleryActiveItemKey, setActiveItem);
+provide(ActiveItemKey, readonly(activeItem));
+provide(GalleryItemsKey, props.items);
+provide(ToggleGalleryFullScreenKey, toggleFullScreen);
 </script>
 
 <template>
@@ -103,14 +91,26 @@ export default defineComponent({
     :style="`--gallery-height: ${height}`"
     @click.stop="backdropClickHandler"
   >
-    <UIcon
+    <div
       v-if="fullScreen"
-      name="i-heroicons-x-mark"
-      class="bycar-gallery-icon absolute right-2 top-2 md:right-4 md:top-4 w-12 h-12 p-2 cursor-pointer hover:opacity-100 transition-opacity z-30"
-      @click="fullScreen = false"
-    />
+      class="bycar-gallery-icon-container absolute right-2 top-2 md:right-4 md:top-4 cursor-pointer z-30 p-1"
+      @click="toggleFullScreen(false)"
+    >
+      <UIcon
+        name="i-heroicons-x-mark"
+        class="bycar-gallery-icon w-12 h-12 p-2 bg-white"
+      />
+    </div>
     <div class="bycar-gallery">
-      <ActiveImage />
+      <ActiveImage :is-full-screen="fullScreen">
+        <template v-if="$slots['active-image-top']" #top>
+          <slot name="active-image-top" />
+        </template>
+
+        <template v-if="$slots['active-image-bottom']" #bottom>
+          <slot name="active-image-bottom" />
+        </template>
+      </ActiveImage>
       <div class="bycar-gallery-thumnails-list-wrapper">
         <ThubmnailsList>
           <Thumbnail
@@ -139,19 +139,16 @@ export default defineComponent({
   @screen md {
     grid-template-columns: 1fr 160px;
     .bycar-gallery-image-wrapper {
-      @apply rounded-lg;
-      /* order: 2; */
+      @apply rounded-2xl;
     }
   }
   .bycar-gallery-thumnails-list-wrapper {
     grid-template-columns: 160px;
     overflow: hidden;
-    @screen md {
-      /* order: 1; */
-    }
+
   }
   .bycar-gallery-thumnails-list {
-    @apply grid-flow-col overflow-x-auto overflow-y-hidden;
+    @apply flex-col overflow-x-auto overflow-y-hidden;
     max-height: 100%;
     @screen md {
       @apply grid-flow-row overflow-y-auto overflow-x-hidden;
@@ -164,34 +161,23 @@ export default defineComponent({
     @apply mx-auto p-2 md:p-5 w-full;
     max-height: 100%;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 80px;
+    grid-template-rows: 1fr 110px;
     .bycar-gallery-thumnails-list-wrapper {
       order: unset;
       @apply flex justify-center;
     }
     .bycar-gallery-thumnails-list {
-      @apply grid-flow-col overflow-x-auto
-        overflow-y-hidden;
+      @apply flex-row overflow-x-auto overflow-y-hidden w-full;
     }
     .bycar-gallery-image-wrapper {
       order: unset;
     }
   }
-  .bycar-gallery-chevron,
-  .bycar-gallery-zoom-icon {
-    @apply invert-0 text-white;
-  }
   .bycar-gallery-image-wrapper {
-    @apply w-full rounded-none;
+    @apply rounded-none;
   }
   .bycar-gallery-image {
     @apply object-contain;
   }
-}
-
-.bycar-gallery-icon {
-  @apply opacity-70;
-  background: rgba(0, 0, 0, 0.6);
-  fill: rgba(255, 255, 255, 0.65);
 }
 </style>

@@ -1,26 +1,23 @@
 <script setup lang="ts">
-import { inject, onMounted, onBeforeUnmount, type Ref, computed } from "vue";
-import type {
-  IActiveGalleryItem,
-  IGalleryItem,
-  TSetGalleryActiveItem,
-  TToggleGalleryFullScreen,
-} from "./interface";
+import { inject, onMounted, onBeforeUnmount, computed } from "vue";
+import { SetGalleryActiveItemKey, ToggleGalleryFullScreenKey, ActiveItemKey, GalleryItemsKey } from "./interface.js";
+
+defineProps<{ isFullScreen: boolean }>();
 
 const trackRef = ref<HTMLElement>();
 const transitionDuration = ref<number>(300);
 
-const activeItem = inject("activeItem") as Ref<IActiveGalleryItem>;
-const setGalleryActiveItem = inject<TSetGalleryActiveItem>(
-  "setGalleryActiveItem",
-);
-const toggleFullScreen = inject<TToggleGalleryFullScreen>(
-  "toggleGalleryFullScreen",
-);
+const activeItem = inject(ActiveItemKey);
+const setGalleryActiveItem = inject(SetGalleryActiveItemKey);
+const toggleFullScreen = inject(ToggleGalleryFullScreenKey);
 
-const galleryItems = inject<IGalleryItem[]>("galleryItems");
+const galleryItems = inject(GalleryItemsKey);
 
 const arrowsKeydownListener = (e: KeyboardEvent) => {
+  if (!activeItem) {
+    return;
+  }
+
   if (e.key === "ArrowRight" && activeItem.value.nextItemIndex !== null) {
     setGalleryActiveItem?.(activeItem.value.nextItemIndex, "next");
     return;
@@ -48,6 +45,10 @@ const { lengthX, stop } = useSwipe(trackRef, {
     transitionDuration.value = 0;
   },
   onSwipeEnd: (e, direction) => {
+    if (!activeItem) {
+      return;
+    }
+
     transitionDuration.value = 300;
     switch (direction) {
       case SwipeDirection.RIGHT:
@@ -69,7 +70,7 @@ const { lengthX, stop } = useSwipe(trackRef, {
 
 const itemsTrackTranslate = computed(
   () =>
-    `calc(-${+activeItem.value.currentItemIndex * 100}% - ${lengthX.value}px)`,
+    `calc(-${Number(activeItem?.value.currentItemIndex ?? 0) * 100}% - ${lengthX.value}px)`,
 );
 </script>
 
@@ -78,16 +79,35 @@ const itemsTrackTranslate = computed(
     class="bycar-gallery-image-wrapper overflow-hidden w-full relative select-none"
   >
     <div
-      v-if="activeItem.prevItemIndex !== null"
-      class="bycar-gallery-chewron-wrapper left-0"
-      title="&quot;&#129044;&quot;"
-      @click="setGalleryActiveItem(activeItem.prevItemIndex, 'prev')"
+      v-if="activeItem?.prevItemIndex !== null"
+      title="&#129044;"
+      class="bycar-gallery-chewron-wrapper justify-end left-0"
+      @click="setGalleryActiveItem(activeItem?.prevItemIndex ?? 0, 'prev')"
     >
-      <UIcon
-        name="i-heroicons-chevron-left"
-        class="bycar-gallery-icon bycar-gallery-chevron"
-      />
+      <span class="bycar-gallery-icon-container">
+        <UIcon
+          name="i-heroicons-chevron-left"
+          class="bycar-gallery-icon bycar-gallery-chevron"
+        />
+      </span>
     </div>
+
+    <template v-if="!isFullScreen">
+      <div v-if="$slots.top" class="absolute top-0 left-0 right-0 min-h-44 z-10 bg-gradient-to-b from-zinc-700/80 to-zinc-600/0">
+        <slot name="top" />
+      </div>
+
+      <div
+        class="absolute h-full left-14 right-14 cursor-pointer z-20"
+        :title="$t('gallery.toggleFullScreen')"
+        @click="() => toggleFullScreen?.()"
+      />
+
+      <div v-if="$slots.bottom" class="absolute bottom-0 left-0 right-0 min-h-44 z-10 bg-gradient-to-t from-zinc-700/80 to-zinc-600/0 flex flex-col justify-end">
+        <slot name="bottom" />
+      </div>
+    </template>
+
     <div
       ref="trackRef"
       class="flex h-full"
@@ -104,39 +124,41 @@ const itemsTrackTranslate = computed(
         class="bycar-gallery-image"
       />
     </div>
+
     <div
-      v-if="activeItem.nextItemIndex !== null"
-      class="bycar-gallery-chewron-wrapper right-0"
-      title="&quot;&#10141;&quot;"
-      @click="setGalleryActiveItem(activeItem.nextItemIndex, 'next')"
+      v-if="activeItem?.nextItemIndex !== null"
+      title="&#10141;"
+      class="bycar-gallery-chewron-wrapper justify-start right-0"
+      @click="setGalleryActiveItem(activeItem?.nextItemIndex ?? 0, 'next')"
     >
-      <UIcon
-        name="i-heroicons-chevron-right"
-        class="bycar-gallery-icon bycar-gallery-chevron"
-      />
-    </div>
-    <div class="bycar-gallery-zoom" title="F" @click="toggleFullScreen">
-      <UIcon
-        name="i-heroicons-arrows-pointing-out"
-        class="bycar-gallery-icon bycar-gallery-zoom-icon"
-      />
+      <span class="bycar-gallery-icon-container">
+        <UIcon
+          name="i-heroicons-chevron-right"
+          class="bycar-gallery-icon bycar-gallery-chevron"
+        />
+      </span>
     </div>
   </div>
 </template>
 
-<style lang="postcss">
+<style>
 .bycar-gallery-icon {
   @apply h-8 w-8 md:h-12 md:w-12;
 }
+
 .bycar-gallery-chevron {
-  @apply transition-all;
+  @apply  w-5 h-5 bg-white;
 }
+
+.bycar-gallery-icon-container {
+  @apply bg-slate-900/60 transition-all rounded-full h-8 w-8 inline-flex items-center justify-center;
+}
+
 .bycar-gallery-chewron-wrapper {
-  @apply absolute top-0 bottom-0 flex items-center justify-center cursor-pointer transition-all z-20;
-  --tw-gradient-stops: transparent, rgba(255, 255, 255, 0.2);
+  @apply absolute top-1/4 h-1/2 w-14 flex items-center cursor-pointer transition-all z-20;
   &:hover {
-    .bycar-gallery-chevron {
-      @apply opacity-100;
+    .bycar-gallery-icon-container {
+      @apply bg-slate-900/80;
     }
   }
 }
@@ -155,7 +177,7 @@ const itemsTrackTranslate = computed(
   @apply object-cover w-full h-auto;
   flex: 1 0 100%;
 }
-/* .bycar-gallery-track {
+.bycar-gallery-track {
   transform: translate3d(var(--x-translate), 0, 0);
-} */
+}
 </style>

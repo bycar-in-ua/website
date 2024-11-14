@@ -1,29 +1,7 @@
-<template>
-  <div
-    ref="htmlRef"
-    class="bycar-gallery-thumbnail cursor-pointer rounded-lg overflow-hidden transition-all w-full pt-[63%]"
-    :class="activeItem.currentItemIndex === index ? 'active' : ''"
-    :style="{
-      'background-image': `url('${item.source}')`,
-    }"
-    @click="setActiveItem"
-  />
-</template>
-
-<script lang="ts">
-export default defineComponent({
-  name: "GalleryThumbnail",
-});
-</script>
-
 <script setup lang="ts">
-import { defineComponent, inject } from "vue";
+import { inject } from "vue";
 
-import type {
-  IActiveGalleryItem,
-  IGalleryItem,
-  TSetGalleryActiveItem,
-} from "./interface";
+import { type IGalleryItem, SetGalleryActiveItemKey, ActiveItemKey } from "./interface.js";
 
 const props = defineProps<{
   item: IGalleryItem;
@@ -36,22 +14,33 @@ defineExpose({
   htmlRef,
 });
 
-const activeItem = inject<IActiveGalleryItem>("activeItem");
-const setGalleryActiveItem = inject<TSetGalleryActiveItem>(
-  "setGalleryActiveItem",
-);
+const activeItem = inject(ActiveItemKey);
+const setGalleryActiveItem = inject(SetGalleryActiveItemKey);
 
 const setActiveItem = () => setGalleryActiveItem?.(props.index);
 </script>
 
+<template>
+  <div
+    ref="htmlRef"
+    class="bycar-gallery-thumbnail"
+    :class="activeItem?.currentItemIndex === index ? 'outline-primary' : 'outline-transparent'"
+    @click="setActiveItem"
+  >
+    <img :src="item.source" class="w-full h-full object-cover" />
+  </div>
+</template>
+
 <style>
 .bycar-gallery-thumbnail {
-  @apply bg-cover bg-center;
-  &.active {
-    &:after {
-      content: "";
-      @apply block w-full h-full bg-primary opacity-50;
-    }
-  }
+  @apply bg-cover bg-center cursor-pointer rounded-xl overflow-hidden transition-all w-full border-4 border-transparent outline outline-2 -outline-offset-2 ;
+}
+
+.full-screen .bycar-gallery-thumbnail{
+  flex: 170px 0 0;
+}
+
+.regular-gallery .bycar-gallery-thumbnail {
+  flex: 110px 0 0;
 }
 </style>

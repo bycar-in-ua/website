@@ -1,39 +1,49 @@
-<template>
-  <Gallery
-    v-if="galleryItems.length"
-    :items="galleryItems"
-    class="mb-10"
-    height="600px"
-  />
-</template>
-
-<script lang="ts">
-export default {
-  name: "SingleMedia",
-};
-</script>
-
 <script setup lang="ts">
 import { Gallery } from "@/components/UI/Gallery";
 import type { IGalleryItem } from "@/components/UI/Gallery";
-import type { Image } from "@bycar-in-ua/sdk";
+import type { PowerUnit, Vehicle } from "@bycar-in-ua/sdk";
 import { GalleryItemVariant } from "@/components/UI/Gallery/interface";
+import ShortSummary from "./ShortSummary.vue";
 
-interface IProps {
-  images: Image[];
-}
-
-const props = defineProps<IProps>();
+const props = defineProps<{ car: Vehicle; title: string; activePowerUnit?: PowerUnit }>();
 
 const { $cdnLink } = useNuxtApp();
 
-const galleryItems = generateGalleryItems(props.images);
+const items = computed<IGalleryItem[]>(() => {
+  const images = props.car.images ?? [];
 
-function generateGalleryItems(images: Image[]): IGalleryItem[] {
+  const featuredImageIndex = images.findIndex(
+    (image) => image.id === props.car.featureImage?.id,
+  );
+
+  if (featuredImageIndex !== -1) {
+    const featuredImage = images.splice(featuredImageIndex, 1)[0];
+    images.unshift(featuredImage);
+  }
+
   return images.map((image) => ({
     id: image.id as number,
     source: $cdnLink(image.path),
     variant: GalleryItemVariant.image,
   }));
-}
+});
 </script>
+
+<template>
+  <Gallery
+    v-if="items.length"
+    :items
+    class="mb-10"
+    height="610px"
+  >
+    <template #active-image-top>
+      <h1 class="p-6 text-white font-semibold text-3xl">
+        {{ title }}
+      </h1>
+    </template>
+
+    <template #active-image-bottom>
+      <ShortSummary :car :power-unit="activePowerUnit" />
+    </template>
+  </Gallery>
+</template>
