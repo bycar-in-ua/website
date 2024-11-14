@@ -1,10 +1,25 @@
 <script setup lang="ts">
 import Collapsible from "@/components/UI/Collapsible.vue";
-import type { PowerUnit, Vehicle } from "@bycar-in-ua/sdk";
+import type { Complectation, OptionCategory, PowerUnit, Vehicle } from "@bycar-in-ua/sdk";
+import groupBy from "lodash/groupBy.js";
+import SectionTitle from "./SectionTitle.vue";
 import type { InfoBlock } from "./interface";
 import { getGeneralInfoBlock, getDimensionsBlock, getWeightsAndVolumesBlock, getPetrolEngineBlock, getElectricEngineBlock, getTransmissionBlock } from "./helpers";
 
-const props = defineProps<{ car: Vehicle; powerUnit?: PowerUnit | null }>();
+const props = defineProps<{ car: Vehicle; complectation?: Complectation; powerUnit?: PowerUnit | null }>();
+
+const { $bycarApi } = useNuxtApp();
+
+const { data: optionCategories } = useAsyncData("option-categories", async () => {
+  const optCats = await $bycarApi.client<OptionCategory[]>("option-categories");
+
+  return new Map(optCats.map((cat) => [cat.id, cat.displayName]));
+}, {
+  default: () => new Map(),
+  getCachedData(key, nuxtApp) {
+    return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
+  },
+});
 
 const { t } = useI18n();
 
@@ -23,10 +38,20 @@ const infoBlocks = computed<InfoBlock[][]>(() => {
 
   return [[general, dimensions, weightsAndVolumes], [engine, trnasmission].filter(Boolean) as InfoBlock[]];
 });
+
+const optionsByCategories = computed(() => {
+  if (!props.complectation?.options?.length) return [];
+
+  const optionsByCategories = groupBy(props.complectation.options, "categoryId");
+
+  const optionsByCategoriesArray = Object.entries(optionsByCategories);
+
+  return [optionsByCategoriesArray.splice(0, Math.floor(optionsByCategoriesArray.length / 2)), optionsByCategoriesArray];
+});
 </script>
 
 <template>
-  <section class="grid grid-cols-2 gap-10">
+  <section class="grid grid-cols-2 gap-x-10">
     <div v-for="(blocks, i) in infoBlocks" :key="i">
       <Collapsible
         v-for="(block, j) in blocks"
@@ -42,6 +67,28 @@ const infoBlocks = computed<InfoBlock[][]>(() => {
             </div>
             <UDivider class="my-4 last-of-type:hidden" />
           </template>
+        </template>
+      </Collapsible>
+    </div>
+
+    <SectionTitle class="col-span-2">
+      {{ t('options.title') }}
+      <UDivider class="my-5" />
+    </SectionTitle>
+
+    <div v-for="(blocks, i) in optionsByCategories" :key="i">
+      <Collapsible
+        v-for="[catId, options] in blocks"
+        :key="catId"
+        :default-open="false"
+        :title="optionCategories.get(Number(catId))"
+      >
+        <template #content>
+          <ul>
+            <li v-for="option in options" :key="option.id" class="text-sm mb-1">
+              {{ option.displayName }}
+            </li>
+          </ul>
         </template>
       </Collapsible>
     </div>

@@ -82,7 +82,7 @@ useHead({
       <UDivider class="my-5" />
     </template>
 
-    <FullInfo :car :power-unit="activePowerUnit" />
+    <FullInfo :car :complectation="activeComplectation" :power-unit="activePowerUnit" />
 
     <!-- eslint-disable vue/no-v-html -->
     <section class="my-10" v-html="car.description">
