@@ -4,6 +4,7 @@ import Media from "@/components/Single/Media.vue";
 import Complectations from "@/components/Single/Complectations.vue";
 import PowerUnits from "@/components/Single/PowerUnits.vue";
 import Colors from "@/components/Single/Colors.vue";
+import FullInfo from "@/components/Single/FullInfo.vue";
 import ContactForm from "@/components/ContactForm.vue";
 import { getCarTitle } from "@/utils/carHelpers";
 import { generatePageTitle } from "@/utils/seo";
@@ -84,6 +85,8 @@ useHead({
       <Colors :colors="car.colors" />
       <UDivider class="my-5" />
     </template>
+
+    <FullInfo :car :power-unit="activePowerUnit" />
 
     <!-- eslint-disable vue/no-v-html -->
     <section class="my-10" v-html="car.description">
