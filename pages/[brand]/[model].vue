@@ -8,7 +8,6 @@ import FullInfo from "@/components/Single/FullInfo.vue";
 import ContactForm from "@/components/ContactForm.vue";
 import { getCarTitle } from "@/utils/carHelpers";
 import { generatePageTitle } from "@/utils/seo";
-import { ComplectationKey, PowerUnitKey } from "@/components/Single/interface";
 
 definePageMeta({
   name: "SingleCar",
@@ -26,18 +25,15 @@ const { data: car } = await useAsyncData(
   },
 );
 
-const activeComplectation = ref<Complectation | null>(car.value.complectations?.find((c) => c.base) || car.value.complectations?.[0] || null);
-const activePowerUnit = ref<PowerUnit | null>(activeComplectation.value?.powerUnits?.[0] || null);
+const activeComplectation = ref<Complectation | undefined>(car.value.complectations?.find((c) => c.base) || car.value.complectations?.[0]);
+const activePowerUnit = ref<PowerUnit | undefined>(activeComplectation.value?.powerUnits?.[0]);
 const setActiveComplectation = (complectation: Complectation) => {
   activeComplectation.value = complectation;
-  activePowerUnit.value = complectation.powerUnits?.[0] || null;
+  activePowerUnit.value = complectation.powerUnits?.[0];
 };
 const setActivePowerUnit = (powerUnit: PowerUnit) => {
   activePowerUnit.value = powerUnit;
 };
-
-provide(ComplectationKey, { complectation: readonly(activeComplectation), setActiveComplectation });
-provide(PowerUnitKey, { powerUnit: readonly(activePowerUnit), setActivePowerUnit });
 
 const carTitle = computed(() => getCarTitle(car.value));
 
@@ -69,15 +65,15 @@ useHead({
 
 <template>
   <main class="container pt-32 pb-5 relative blured-ellipse-bg after:left-0 after:top-40">
-    <Media :car :title="carTitle" />
+    <Media :car :title="carTitle" :active-power-unit="activePowerUnit" />
 
     <template v-if="car.complectations?.length">
-      <Complectations :compectations="car.complectations" />
+      <Complectations :compectations="car.complectations" :active-complectation="activeComplectation" :set-active-complectation="setActiveComplectation" />
       <UDivider class="my-5" />
     </template>
 
     <template v-if="activeComplectation?.powerUnits?.length">
-      <PowerUnits />
+      <PowerUnits :power-units="activeComplectation.powerUnits ?? []" :active-power-unit="activePowerUnit" :set-active-power-unit="setActivePowerUnit" />
       <UDivider class="my-5" />
     </template>
 

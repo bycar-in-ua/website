@@ -1,16 +1,14 @@
 <script setup lang="ts">
 import type { PowerUnit, Vehicle } from "@bycar-in-ua/sdk";
-import { PowerUnitKey, type InfoBulletProps } from "./interface.js";
+import type { InfoBulletProps } from "./interface.js";
 import InfoBullet from "./InfoBullet.vue";
 import { getInfoBullets } from "./helpers.js";
 
-const props = defineProps<{ car: Vehicle }>();
-
-const activePowerUnit = inject(PowerUnitKey);
+const props = defineProps<{ car: Vehicle; powerUnit?: PowerUnit }>();
 
 const { t } = useI18n();
 
-const infoBullets = computed<InfoBulletProps[]>(() => getInfoBullets({ car: props.car, powerUnit: activePowerUnit?.powerUnit.value as PowerUnit }, t));
+const infoBullets = computed<InfoBulletProps[]>(() => getInfoBullets({ car: props.car, powerUnit: props.powerUnit }, t));
 </script>
 
 <template>

@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { Gallery } from "@/components/UI/Gallery";
 import type { IGalleryItem } from "@/components/UI/Gallery";
-import type { Vehicle } from "@bycar-in-ua/sdk";
+import type { PowerUnit, Vehicle } from "@bycar-in-ua/sdk";
 import { GalleryItemVariant } from "@/components/UI/Gallery/interface";
 import ShortSummary from "./ShortSummary.vue";
 
-const props = defineProps<{ car: Vehicle; title: string }>();
+const props = defineProps<{ car: Vehicle; title: string; activePowerUnit?: PowerUnit }>();
 
 const { $cdnLink } = useNuxtApp();
 
@@ -43,7 +43,7 @@ const items = computed<IGalleryItem[]>(() => {
     </template>
 
     <template #active-image-bottom>
-      <ShortSummary :car />
+      <ShortSummary :car :power-unit="activePowerUnit" />
     </template>
   </Gallery>
 </template>

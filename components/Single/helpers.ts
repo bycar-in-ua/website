@@ -375,8 +375,8 @@ export function getElectricEngineBlock(
     defaultOpen: true,
     items: [
       {
-        title: t(`vehicle.engine.fuelType`),
-        value: t(`vehicle.engine.electric`),
+        title: t("vehicle.engine.fuelType"),
+        value: t("vehicle.engine.electric"),
       },
       {
         title: t("vehicle.engine.power"),

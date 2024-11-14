@@ -1,13 +1,10 @@
 <script setup lang="ts">
 import type { Complectation } from "@bycar-in-ua/sdk";
-import { ComplectationKey } from "./interface.js";
 import SectionTitle from "./SectionTitle.vue";
 import Control from "./Control.vue";
 import { getPriceRange } from "../UI/CarCard/helpers.js";
 
-defineProps<{ compectations: Complectation[] }>();
-
-const activeComplectation = inject(ComplectationKey);
+defineProps<{ compectations: Complectation[]; activeComplectation?: Complectation; setActiveComplectation: (c: Complectation) => void }>();
 </script>
 
 <template>
@@ -22,8 +19,8 @@ const activeComplectation = inject(ComplectationKey);
         :key="compectation.id"
         :title="compectation.displayName"
         :value="getPriceRange([compectation])"
-        :active="compectation.id === activeComplectation?.complectation.value?.id"
-        @click="() => activeComplectation?.setActiveComplectation(compectation)"
+        :active="compectation.id === activeComplectation?.id"
+        @click="() => setActiveComplectation(compectation)"
       />
     </div>
   </section>
