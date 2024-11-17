@@ -24,7 +24,7 @@ export const useCatalogStore = defineStore("catalog", () => {
   const { $bycarApi } = useNuxtApp();
 
   const { status, data, refresh } = useAsyncData(
-    `search-cars`,
+    "search-cars",
     () =>
       $bycarApi.searchVehicles({
         filters: filtersStateToSchema(filters.value),

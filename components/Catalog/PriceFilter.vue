@@ -4,29 +4,66 @@ import { useCatalogStore } from "@/stores/catalog.js";
 
 const catalogStore = useCatalogStore();
 
+const updatePriceFrom = (value?: number | number) => {
+  if (
+    typeof value !== "number" ||
+    (catalogStore.filters.priceTo && value > catalogStore.filters.priceTo)
+  ) {
+    catalogStore.updateFilters("priceFrom", 0);
+    return;
+  }
+
+  catalogStore.updateFilters("priceFrom", +value > 0 ? +value : 0);
+};
+
+const updatePriceTo = (value?: number | number) => {
+  if (
+    typeof value !== "number" ||
+    (catalogStore.filters.priceFrom && value < catalogStore.filters.priceFrom)
+  ) {
+    catalogStore.updateFilters("priceTo", undefined);
+    return;
+  }
+
+  catalogStore.updateFilters("priceTo", +value > 0 ? +value : 0);
+};
+
 const priceSliderModel = computed({
-  get: () => [catalogStore.filters.priceFrom ?? 0, catalogStore.filters.priceTo ?? Infinity],
+  get: () => [
+    Number(catalogStore.filters.priceFrom ?? 0),
+    Number(catalogStore.filters.priceTo ?? Infinity),
+  ],
   set: ([from, to]: number[]) => {
-    catalogStore.updateFilters("priceFrom", from);
-    catalogStore.updateFilters("priceTo", Number.isFinite(to) ? to : undefined);
+    updatePriceFrom(from);
+    updatePriceTo(to);
   },
+});
+
+catalogStore.$subscribe((_, state) => {
+  console.log({ from: state.filters.priceFrom, to: state.filters.priceTo });
 });
 </script>
 
 <template>
   <div class="flex gap-2 items-center mb-4">
     <UInput
-      v-model="catalogStore.filters.priceFrom"
+      :model-value="catalogStore.filters.priceFrom"
       size="xs"
       type="number"
-      step="1000"
+      :step="1000"
+      :min="0"
+      :max="200000"
+      @update:model-value="updatePriceFrom"
     />
     <span>-</span>
     <UInput
-      v-model="catalogStore.filters.priceTo"
+      :model-value="catalogStore.filters.priceTo"
       size="xs"
       type="number"
-      step="1000"
+      :step="1000"
+      :min="1000"
+      :max="200000"
+      @update:model-value="updatePriceTo"
     />
     <span>$</span>
   </div>
