@@ -19,7 +19,7 @@ export const useCatalogStore = defineStore("catalog", () => {
     limit: 15,
   });
 
-  const order = ref<VehiclesOrder>("yearFrom-desc");
+  const order = ref<VehiclesOrder>();
 
   const { $bycarApi } = useNuxtApp();
 
