@@ -43,6 +43,14 @@ const setActiveItem: TSetGalleryActiveItem = (itemIndex) => {
 
 const toggleFullScreen = (value = !fullScreen.value) => {
   fullScreen.value = value;
+
+  if (thumbsListRef.value?.length && activeItem.value.currentItemIndex) {
+    setTimeout(() => {
+      thumbsListRef.value![activeItem.value.currentItemIndex].htmlRef.scrollIntoView({
+        block: "nearest",
+      });
+    }, 100);
+  }
 };
 
 const zoomListener = (e: KeyboardEvent) => {
