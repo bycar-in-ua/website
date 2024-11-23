@@ -1,11 +1,16 @@
 <script setup lang="ts">
+import BluredEllipse from "@/components/UI/BluredEllipse.vue";
+
 defineProps<{ totalCars?: number }>();
 </script>
 
 <template>
   <section
-    class="flex flex-col sm:flex-row blured-ellipse-bg after:bottom-[10%] after:left-[25%] relative py-4 sm:py-12 md:py-24 lg:py-52"
+    class="flex flex-col sm:flex-row relative py-4 sm:py-12 md:py-24 lg:py-52"
   >
+    <BluredEllipse
+      class="absolute w-[410px] h-[220px] bottom-32 sm:bottom-12 sm:left-24 md:left-[220px] md:bottom-[67px]"
+    />
     <div class="md:basis-3/5 flex flex-col md:justify-center items-start z-10">
       <h1 class="text-3xl md:text-5xl font-semibold mb-4">
         Обрати нове
@@ -25,10 +30,7 @@ defineProps<{ totalCars?: number }>();
         {{ totalCars }} активних пропозицій
       </h3>
 
-      <img
-        src="/public/images/hero-image-mobile.png"
-        class="mb-6 sm:hidden"
-      />
+      <img src="/public/images/hero-image-mobile.png" class="mb-6 sm:hidden" />
 
       <UButton
         icon="i-heroicons-magnifying-glass"
@@ -47,7 +49,7 @@ defineProps<{ totalCars?: number }>();
     </div>
     <div class="hidden sm:flex flex-grow mt-10 md:mt-0 flex-col justify-center">
       <div
-        class="relative w-[160%] -right-1/3 sm:right-0 md:right-32 lg:right-52 bottom-14 sm:bottom-4 md:-bottom-16 lg:bottom-0 z-0 pt-[50%] sm:pt-0"
+        class="relative w-[130%] md:w-[160%] -right-1/3 sm:right-0 md:right-32 lg:right-52 bottom-14 sm:bottom-2 md:-bottom-16 lg:bottom-0 z-0"
       >
         <img
           src="/public/images/hero-image.png"
