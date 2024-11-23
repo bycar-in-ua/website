@@ -24,26 +24,37 @@ const menuItems: HorizontalNavigationLink[] = [
     :ui="{
       wrapper: 'hidden md:flex',
       base: 'py-2 hover:text-primary',
-      active: 'text-primary ',
+      active: 'text-primary',
       inactive: 'text-gray-900',
       before: 'hover:before:bg-transparent',
       after: 'after:mt-1',
     }"
   />
+
   <ClientOnly>
-    <MenuToggler />
+    <MenuToggler class="ml-auto md:hidden" />
   </ClientOnly>
+
   <USlideover v-model="showMobileMenu" class="md:hidden">
     <div class="flex justify-end py-4 px-2">
-      <UIcon
-        name="i-heroicons-x-mark"
-        class="w-6 h-6"
+      <UButton
+        icon="i-heroicons-x-mark"
+        size="xl"
+        square
+        color="primary"
+        variant="link"
         @click="showMobileMenu = false"
       />
     </div>
     <UVerticalNavigation
       :links="menuItems"
-      :ui="{ wrapper: 'py-4', base: 'justify-center', size: 'text-xl' }"
+      :ui="{
+        base: 'justify-center py-2',
+        active:
+          'text-primary before:bg-transparent underline underline-offset-4',
+        inactive: 'text-gray-900',
+        label: 'text-lg',
+      }"
     />
   </USlideover>
 </template>
