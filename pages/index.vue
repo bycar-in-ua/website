@@ -38,16 +38,19 @@ const { data } = await useAsyncData(
 
     return {
       latestItems: vehicles.items,
+      totalItems: vehicles.meta.totalItems,
       establishedBrands: brands,
     };
   },
-  { default: () => ({ latestItems: [], establishedBrands: [] }) },
+  {
+    default: () => ({ latestItems: [], establishedBrands: [], totalItems: 0 }),
+  },
 );
 </script>
 
 <template>
   <main class="container pt-20 md:pt-10 lg:pt-0">
-    <Hero />
+    <Hero :total-cars="data.totalItems" />
     <Latest :latest-items="data.latestItems" />
     <ContactForm />
     <Brands :established-brands="data.establishedBrands" />

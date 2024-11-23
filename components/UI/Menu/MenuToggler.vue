@@ -17,9 +17,12 @@ afterEach(() => {
 </script>
 
 <template>
-  <UIcon
-    name="i-heroicons-bars-3"
-    class="h-12 p-3 cursor-pointer hover:text-primary block md:hidden"
+  <UButton
+    icon="i-heroicons-bars-3"
+    size="xl"
+    square
+    color="primary"
+    variant="link"
     @click="showMobileMenu = !showMobileMenu"
   />
 </template>

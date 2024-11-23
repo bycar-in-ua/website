@@ -19,6 +19,7 @@ body {
 
 html {
   scroll-padding-top: 80px;
+  overflow-x: hidden
 }
 
 body {
@@ -53,13 +54,4 @@ body {
 }
 .page-leave-to {
   opacity: 0;
-}
-
-.blured-ellipse-bg:after {
-  content: "";
-  position: absolute;
-  border-radius: 50%;
-  z-index: -30;
-  filter: blur(150px);
-  @apply shadow-primary bg-primary opacity-30 w-80 h-40 md:w-[420px] md:h-[230px];
 }
