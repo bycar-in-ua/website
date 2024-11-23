@@ -11,7 +11,7 @@ defineProps<{ latestItems: Vehicle[] }>();
     <SectionTitle title="Нові авто в каталозі" />
 
     <div
-      class="cards-container grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 md:gap-4 lg:gap-5 md:"
+      class="cards-container grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 md:gap-4 lg:gap-5 md:"
     >
       <CarCard v-for="car in latestItems" :key="car.id" :car="car" />
     </div>

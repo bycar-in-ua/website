@@ -44,6 +44,9 @@ export default <Partial<Config>>{
       fontFamily: {
         sans: ["Benzin"],
       },
+      screens: {
+        xs: "420px",
+      },
     },
   },
 };
