@@ -15,7 +15,7 @@ const list = ref();
       class="text-center p-4 text-xl"
       v-text="$t('emptyCatalog')"
     />
-    <div ref="list" class="grid sm:grid-cols-2 md:grid-cols-3 gap-5">
+    <div ref="list" class="grid xs:grid-cols-2 sm:grid-cols-3 gap-5">
       <CarCard
         v-for="car in catalogStore.data.items"
         :key="car.id"

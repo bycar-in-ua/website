@@ -2,7 +2,7 @@
 import Filters from "./Filters/Filters.vue";
 import FloatingFiltersButton from "./Filters/FloatingFiltersButton.vue";
 
-const isSidebarShowing = ref(true);
+const isSidebarShowing = ref(false);
 </script>
 
 <template>

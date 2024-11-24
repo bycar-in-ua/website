@@ -29,7 +29,7 @@ const infoBullets = computed(() => getVehicleInfoBullets(props.car, t));
         model: car.slug,
       },
     }"
-    class="car-card aspect-w-9 aspect-h-12 rounded-3xl shadow-xl after:absolute after:block after:inset-0 after:rounded-3xl hover:after:opacity-30 after:transition-all duration-300 overflow-hidden"
+    class="car-card aspect-w-9 aspect-h-9 xs:aspect-h-12 rounded-3xl shadow-xl after:absolute after:block after:inset-0 after:rounded-3xl hover:after:opacity-30 after:transition-all duration-300 overflow-hidden"
   >
     <img
       :src="imageUrl"

@@ -30,7 +30,7 @@ function handleClearOrder() {
   <div
     class="flex md:items-center md:justify-between gap-5 flex-col md:flex-row flex-wrap"
   >
-    <h2 class="font-semibold text-3xl">
+    <h2 class="font-semibold text-2xl md:text-3xl">
       {{ t("catalog.title") }}
     </h2>
 
