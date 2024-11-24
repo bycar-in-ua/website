@@ -12,7 +12,7 @@ const infoBullets = computed<InfoBulletProps[]>(() => getInfoBullets({ car: prop
 </script>
 
 <template>
-  <div class="p-6 flex justify-start gap-5">
+  <div class="p-4 md:p-6 flex justify-start gap-5">
     <InfoBullet
       v-for="(bullet, i) in infoBullets"
       :key="i"
