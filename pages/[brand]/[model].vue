@@ -85,7 +85,7 @@ useHead({
     <FullInfo :car :complectation="activeComplectation" :power-unit="activePowerUnit" />
 
     <!-- eslint-disable vue/no-v-html -->
-    <section class="my-10" v-html="car.description">
+    <section class="my-6 md:my-10" v-html="car.description">
     </section>
 
     <ContactForm />
