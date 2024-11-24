@@ -11,8 +11,6 @@ import {
   ElectricStation,
   Engine as EngineIcon,
   GasStation,
-  GearboxAuto,
-  GearboxManual,
   Sedan,
   SUV,
   Minivan,
@@ -32,49 +30,45 @@ export function getInfoBullets(
   },
   t: Composer["t"],
 ): InfoBulletProps[] {
+  const bodyType = t(`vehicle.bodyTypes.items.${car.bodyType}`)
+    .split("/")[0]
+    .trim();
+
   const bullets: InfoBulletProps[] = [
     {
       title: t("vehicle.bodyTypes.title"),
-      value: t(`vehicle.bodyTypes.items.${car.bodyType}`),
+      value: bodyType,
       icon: getBodyTypeIcon(car.bodyType),
     },
   ];
-
-  if (powerUnit?.transmission) {
-    bullets.push({
-      title: t("vehicle.transmission.drive"),
-      value: t(
-        `vehicle.transmission.driveType.${powerUnit.transmission.drive}`,
-      ),
-      icon: Drive,
-    });
-
-    if (powerUnit.transmission.gearbox) {
-      const type = t(
-        `vehicle.transmission.gearbox.types.${powerUnit.transmission.gearbox.type}`,
-      );
-      const subType = t(
-        `vehicle.transmission.gearbox.subTypes.${powerUnit.transmission.gearbox.subType}`,
-      );
-
-      const value = powerUnit?.transmission.gearbox.subType ? subType : type;
-
-      bullets.push({
-        title: t("vehicle.transmission.gearbox.abbr"),
-        value,
-        icon:
-          powerUnit?.transmission?.gearbox.type === "mechanical"
-            ? GearboxManual
-            : GearboxAuto,
-      });
-    }
-  }
 
   if (powerUnit?.engine?.power) {
     bullets.push({
       title: t("vehicle.engine.power"),
       value: `${powerUnit.engine.power} ${t("units.power")}`,
       icon: EngineIcon,
+    });
+  }
+
+  if (powerUnit?.transmission) {
+    const driveWord = t("vehicle.transmission.drive").toLowerCase();
+    const drive = t(
+      `vehicle.transmission.driveType.${powerUnit.transmission.drive}`,
+    );
+
+    const transmissionParts = [
+      `${drive} ${driveWord}`,
+      powerUnit.transmission.gearbox.type
+        ? t(
+          `vehicle.transmission.gearbox.types.${powerUnit.transmission.gearbox.type}`,
+        )
+        : null,
+    ].filter(Boolean);
+
+    bullets.push({
+      title: t("vehicle.powerUnits.transmission"),
+      value: transmissionParts.join(", "),
+      icon: Drive,
     });
   }
 
@@ -436,8 +430,8 @@ export function getTransmissionBlock(
     transmission.gearbox.technology,
     transmission.gearbox.subType
       ? t(
-          `vehicle.transmission.gearbox.subTypes.${transmission.gearbox.subType}`,
-        )
+        `vehicle.transmission.gearbox.subTypes.${transmission.gearbox.subType}`,
+      )
       : null,
   ]
     .filter(Boolean)
@@ -446,13 +440,13 @@ export function getTransmissionBlock(
   const frontSuspension = [
     transmission.suspensionTypeFront
       ? t(
-          `vehicle.transmission.suspensions.allTypes.${transmission.suspensionTypeFront}`,
-        )
+        `vehicle.transmission.suspensions.allTypes.${transmission.suspensionTypeFront}`,
+      )
       : null,
     transmission.suspensionWorkItemFront
       ? t(
-          `vehicle.transmission.suspensions.workItems.${transmission.suspensionWorkItemFront}`,
-        )
+        `vehicle.transmission.suspensions.workItems.${transmission.suspensionWorkItemFront}`,
+      )
       : null,
   ]
     .filter(Boolean)
@@ -461,13 +455,13 @@ export function getTransmissionBlock(
   const rearSuspension = [
     transmission.suspensionTypeRear
       ? t(
-          `vehicle.transmission.suspensions.allTypes.${transmission.suspensionTypeRear}`,
-        )
+        `vehicle.transmission.suspensions.allTypes.${transmission.suspensionTypeRear}`,
+      )
       : null,
     transmission.suspensionWorkItemRear
       ? t(
-          `vehicle.transmission.suspensions.workItems.${transmission.suspensionWorkItemRear}`,
-        )
+        `vehicle.transmission.suspensions.workItems.${transmission.suspensionWorkItemRear}`,
+      )
       : null,
   ]
     .filter(Boolean)

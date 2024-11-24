@@ -19,7 +19,7 @@ body {
 
 html {
   scroll-padding-top: 80px;
-  overflow-x: hidden
+  overflow-x: hidden;
 }
 
 body {
@@ -54,4 +54,10 @@ body {
 }
 .page-leave-to {
   opacity: 0;
+}
+
+.no-scrollbar {
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }

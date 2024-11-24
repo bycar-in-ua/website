@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { inject, onMounted, onBeforeUnmount, computed } from "vue";
-import { SetGalleryActiveItemKey, ToggleGalleryFullScreenKey, ActiveItemKey, GalleryItemsKey } from "./interface.js";
+import {
+  SetGalleryActiveItemKey,
+  ToggleGalleryFullScreenKey,
+  ActiveItemKey,
+  GalleryItemsKey,
+} from "./interface.js";
 
 defineProps<{ isFullScreen: boolean }>();
 
@@ -54,13 +59,13 @@ const { lengthX, stop } = useSwipe(trackRef, {
       case SwipeDirection.RIGHT:
         if (activeItem.value.prevItemIndex != null) {
           setGalleryActiveItem?.(activeItem.value.prevItemIndex);
-        };
+        }
         break;
 
       case SwipeDirection.LEFT:
         if (activeItem.value.nextItemIndex != null) {
           setGalleryActiveItem?.(activeItem.value.nextItemIndex);
-        };
+        }
         break;
       default:
         break;
@@ -70,7 +75,9 @@ const { lengthX, stop } = useSwipe(trackRef, {
 
 const itemsTrackTranslate = computed(
   () =>
-    `calc(-${Number(activeItem?.value.currentItemIndex ?? 0) * 100}% - ${lengthX.value}px)`,
+    `calc(-${Number(activeItem?.value.currentItemIndex ?? 0) * 100}% - ${
+      lengthX.value
+    }px)`,
 );
 </script>
 
@@ -93,17 +100,24 @@ const itemsTrackTranslate = computed(
     </div>
 
     <template v-if="!isFullScreen">
-      <div v-if="$slots.top" class="absolute top-0 left-0 right-0 min-h-44 z-10 bg-gradient-to-b from-zinc-700/80 to-zinc-600/0">
+      <div
+        v-if="$slots.top"
+        class="absolute top-0 left-0 right-0 min-h-44 z-10 bg-gradient-to-b from-zinc-700/80 to-zinc-600/0"
+      >
         <slot name="top" />
       </div>
 
       <div
-        class="absolute h-full left-14 right-14 cursor-pointer z-20"
+        class="absolute top-0 left-14 right-14 cursor-pointer z-20"
+        :class="$slots.bottom ? 'bottom-16' : 'bottom-0'"
         :title="$t('gallery.toggleFullScreen')"
         @click="() => toggleFullScreen?.()"
       />
 
-      <div v-if="$slots.bottom" class="absolute bottom-0 left-0 right-0 min-h-44 z-10 bg-gradient-to-t from-zinc-700/80 to-zinc-600/0 flex flex-col justify-end">
+      <div
+        v-if="$slots.bottom"
+        class="absolute bottom-0 left-0 right-0 min-h-44 z-10 bg-gradient-to-t from-zinc-700/80 to-zinc-600/0 flex flex-col justify-end overflow-y-auto no-scrollbar"
+      >
         <slot name="bottom" />
       </div>
     </template>
@@ -147,7 +161,7 @@ const itemsTrackTranslate = computed(
 }
 
 .bycar-gallery-chevron {
-  @apply  w-5 h-5 bg-white;
+  @apply w-5 h-5 bg-white;
 }
 
 .bycar-gallery-icon-container {

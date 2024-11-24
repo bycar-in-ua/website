@@ -31,6 +31,14 @@ export function getVehicleInfoBullets(
     return bullets;
   }
 
+  if (basePowerUnit.engine?.power) {
+    bullets.push({
+      text: `${basePowerUnit.engine.power} ${t("units.power")}`,
+      title: `${t("from")} ${basePowerUnit.engine.power} ${t("units.power")}`,
+      icon: Engine,
+    });
+  }
+
   if (basePowerUnit.transmission?.gearbox.type) {
     const type = t(
       `vehicle.transmission.gearbox.types.${basePowerUnit.transmission.gearbox.type}`,
@@ -48,14 +56,6 @@ export function getVehicleInfoBullets(
         basePowerUnit.transmission?.gearbox.type === "mechanical"
           ? GearboxManual
           : GearboxAuto,
-    });
-  }
-
-  if (basePowerUnit.engine?.power) {
-    bullets.push({
-      text: `${basePowerUnit.engine.power} ${t("units.power")}`,
-      title: `${t("from")} ${basePowerUnit.engine.power} ${t("units.power")}`,
-      icon: Engine,
     });
   }
 
