@@ -24,7 +24,11 @@ const appliedFilters = computed<Filterbutton[]>(() => {
       case "priceTo": {
         const labelTranslation = t(`filters.price.${key}`);
 
-        acc.push({ key, label: `${labelTranslation} ${value} $`, value: value as number });
+        acc.push({
+          key,
+          label: `${labelTranslation} ${value} $`,
+          value: value as number,
+        });
         break;
       }
 
@@ -32,7 +36,9 @@ const appliedFilters = computed<Filterbutton[]>(() => {
         const brandIds = value as number[];
 
         brandIds.forEach((item) => {
-          const brand = catalogStore.dictionary.brands.find((brand) => brand.id === item);
+          const brand = catalogStore.dictionary.brands.find(
+            (brand) => brand.id === item,
+          );
 
           acc.push({ key, label: brand!.displayName, value: item });
         });
@@ -44,7 +50,11 @@ const appliedFilters = computed<Filterbutton[]>(() => {
         const bodyTypes = value as string[];
 
         bodyTypes.forEach((item) => {
-          acc.push({ key, label: t(`vehicle.bodyTypes.items.${item}`), value: item });
+          acc.push({
+            key,
+            label: t(`vehicle.bodyTypes.items.${item}`),
+            value: item,
+          });
         });
 
         break;
@@ -54,7 +64,11 @@ const appliedFilters = computed<Filterbutton[]>(() => {
         const engineTypes = value as string[];
 
         engineTypes.forEach((item) => {
-          acc.push({ key, label: t(`filters.engineType.${item}`), value: item });
+          acc.push({
+            key,
+            label: t(`filters.engineType.${item}`),
+            value: item,
+          });
         });
 
         break;
@@ -79,18 +93,27 @@ const appliedFilters = computed<Filterbutton[]>(() => {
   }, [] as Filterbutton[]);
 });
 
-const removeFilterHandler = (key: keyof FiltersState, value: string | number) => {
+const removeFilterHandler = (
+  key: keyof FiltersState,
+  value: string | number,
+) => {
   if (key === "priceFrom" || key === "priceTo") {
     catalogStore.updateFilters(key, undefined);
     return;
   }
 
-  catalogStore.updateFilters(key, catalogStore.filters[key]?.filter((item) => item !== value));
+  catalogStore.updateFilters(
+    key,
+    catalogStore.filters[key]?.filter((item) => item !== value),
+  );
 };
 </script>
 
 <template>
-  <div class="flex flex-wrap gap-1 items-center">
+  <div
+    v-if="appliedFilters.length > 0"
+    class="flex flex-wrap gap-1 items-center"
+  >
     <UButton
       v-for="(item, i) in appliedFilters"
       :key="i"

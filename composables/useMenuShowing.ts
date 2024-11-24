@@ -1,5 +1,5 @@
 import { useState } from "#app";
 
-export default function () {
+export function useMenuShowing() {
   return useState<boolean>("mobileMenuShowing", () => false);
 }

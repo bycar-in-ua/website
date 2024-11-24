@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { HorizontalNavigationLink } from "#ui/types";
 import MenuToggler from "@/components/UI/Menu/MenuToggler.vue";
+import { useMenuShowing } from "@/composables/useMenuShowing";
 
 const { t } = useI18n();
 

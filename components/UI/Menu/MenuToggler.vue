@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { watch } from "vue";
-import useMenuShowing from "@/composables/useMenuShowing";
+import { useMenuShowing } from "@/composables/useMenuShowing";
 import { bodyScrollWatcher } from "@/utils/htmlUtils";
 
 const { afterEach } = useRouter();

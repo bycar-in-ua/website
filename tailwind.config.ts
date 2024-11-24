@@ -45,7 +45,7 @@ export default <Partial<Config>>{
         sans: ["Benzin"],
       },
       screens: {
-        xs: "420px",
+        xs: "520px",
       },
     },
   },

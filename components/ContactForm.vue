@@ -9,7 +9,7 @@ const formState = reactive({
 
 <template>
   <section
-    class="md:my-24 flex flex-wrap md:flex-nowrap justify-center md:justify-normal gap-8 py-6 md:py-12 relative"
+    class="my-4 md:my-24 flex flex-wrap md:flex-nowrap justify-center md:justify-normal gap-8 py-6 md:py-12 relative"
   >
     <BluredEllipse class="absolute w-[410px] h-[220px] right-14 -bottom-14 -z-10" />
     <div>
