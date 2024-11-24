@@ -6,6 +6,7 @@ import PowerUnits from "@/components/Single/PowerUnits.vue";
 import Colors from "@/components/Single/Colors.vue";
 import FullInfo from "@/components/Single/FullInfo.vue";
 import ContactForm from "@/components/ContactForm.vue";
+import BluredEllipse from "@/components/UI/BluredEllipse.vue";
 import { getCarTitle } from "@/utils/carHelpers";
 import { generatePageTitle } from "@/utils/seo";
 
@@ -25,8 +26,13 @@ const { data: car } = await useAsyncData(
   },
 );
 
-const activeComplectation = ref<Complectation | undefined>(car.value.complectations?.find((c) => c.base) || car.value.complectations?.[0]);
-const activePowerUnit = ref<PowerUnit | undefined>(activeComplectation.value?.powerUnits?.[0]);
+const activeComplectation = ref<Complectation | undefined>(
+  car.value.complectations?.find((c) => c.base) ||
+    car.value.complectations?.[0],
+);
+const activePowerUnit = ref<PowerUnit | undefined>(
+  activeComplectation.value?.powerUnits?.[0],
+);
 const setActiveComplectation = (complectation: Complectation) => {
   activeComplectation.value = complectation;
   activePowerUnit.value = complectation.powerUnits?.[0];
@@ -64,16 +70,27 @@ useHead({
 </script>
 
 <template>
-  <main class="container pt-24 md:pt-32 pb-5 relative blured-ellipse-bg after:left-0 after:top-40">
+  <main class="container pt-24 md:pt-32 pb-5 relative">
+    <BluredEllipse
+      class="absolute w-[410px] h-[220px] left-0 md:left-40 top-40 -z-10"
+    />
     <Media :car :title="carTitle" :active-power-unit="activePowerUnit" />
 
     <template v-if="car.complectations?.length">
-      <Complectations :compectations="car.complectations" :active-complectation="activeComplectation" :set-active-complectation="setActiveComplectation" />
+      <Complectations
+        :compectations="car.complectations"
+        :active-complectation="activeComplectation"
+        :set-active-complectation="setActiveComplectation"
+      />
       <UDivider class="my-5" />
     </template>
 
     <template v-if="activeComplectation?.powerUnits?.length">
-      <PowerUnits :power-units="activeComplectation.powerUnits ?? []" :active-power-unit="activePowerUnit" :set-active-power-unit="setActivePowerUnit" />
+      <PowerUnits
+        :power-units="activeComplectation.powerUnits ?? []"
+        :active-power-unit="activePowerUnit"
+        :set-active-power-unit="setActivePowerUnit"
+      />
       <UDivider class="my-5" />
     </template>
 
@@ -82,12 +99,21 @@ useHead({
       <UDivider class="my-5" />
     </template>
 
-    <FullInfo :car :complectation="activeComplectation" :power-unit="activePowerUnit" />
+    <FullInfo
+      :car
+      :complectation="activeComplectation"
+      :power-unit="activePowerUnit"
+    />
 
     <!-- eslint-disable vue/no-v-html -->
-    <section class="my-6 md:my-10" v-html="car.description">
-    </section>
+    <section class="my-6 md:my-10" v-html="car.description"></section>
 
-    <ContactForm />
+    <ContactForm>
+      <template #ellipse>
+        <BluredEllipse
+          class="absolute w-[410px] h-[220px] right-0 md:right-24 top-32 md:-top-24 -z-10"
+        />
+      </template>
+    </ContactForm>
   </main>
 </template>

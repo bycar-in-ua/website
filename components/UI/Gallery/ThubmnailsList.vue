@@ -9,7 +9,10 @@ defineExpose({
 </script>
 
 <template>
-  <div ref="htmlRef" class="bycar-gallery-thumnails-list scroll-smooth">
+  <div
+    ref="htmlRef"
+    class="bycar-gallery-thumnails-list scroll-smooth no-scrollbar"
+  >
     <slot />
   </div>
 </template>
@@ -17,8 +20,5 @@ defineExpose({
 <style>
 .bycar-gallery-thumnails-list {
   @apply flex gap-1 md:gap-4 content-start overflow-auto;
-  &::-webkit-scrollbar {
-    display: none;
-  }
 }
 </style>

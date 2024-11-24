@@ -32,49 +32,45 @@ export function getInfoBullets(
   },
   t: Composer["t"],
 ): InfoBulletProps[] {
+  const bodyType = t(`vehicle.bodyTypes.items.${car.bodyType}`)
+    .split("/")[0]
+    .trim();
+
   const bullets: InfoBulletProps[] = [
     {
       title: t("vehicle.bodyTypes.title"),
-      value: t(`vehicle.bodyTypes.items.${car.bodyType}`),
+      value: bodyType,
       icon: getBodyTypeIcon(car.bodyType),
     },
   ];
-
-  if (powerUnit?.transmission) {
-    bullets.push({
-      title: t("vehicle.transmission.drive"),
-      value: t(
-        `vehicle.transmission.driveType.${powerUnit.transmission.drive}`,
-      ),
-      icon: Drive,
-    });
-
-    if (powerUnit.transmission.gearbox) {
-      const type = t(
-        `vehicle.transmission.gearbox.types.${powerUnit.transmission.gearbox.type}`,
-      );
-      const subType = t(
-        `vehicle.transmission.gearbox.subTypes.${powerUnit.transmission.gearbox.subType}`,
-      );
-
-      const value = powerUnit?.transmission.gearbox.subType ? subType : type;
-
-      bullets.push({
-        title: t("vehicle.transmission.gearbox.abbr"),
-        value,
-        icon:
-          powerUnit?.transmission?.gearbox.type === "mechanical"
-            ? GearboxManual
-            : GearboxAuto,
-      });
-    }
-  }
 
   if (powerUnit?.engine?.power) {
     bullets.push({
       title: t("vehicle.engine.power"),
       value: `${powerUnit.engine.power} ${t("units.power")}`,
       icon: EngineIcon,
+    });
+  }
+
+  if (powerUnit?.transmission) {
+    const driveWord = t("vehicle.transmission.drive").toLowerCase();
+    const drive = t(
+      `vehicle.transmission.driveType.${powerUnit.transmission.drive}`,
+    );
+
+    const transmissionParts = [
+      `${drive} ${driveWord}`,
+      powerUnit.transmission.gearbox.type
+        ? t(
+            `vehicle.transmission.gearbox.types.${powerUnit.transmission.gearbox.type}`,
+          )
+        : null,
+    ].filter(Boolean);
+
+    bullets.push({
+      title: t("vehicle.powerUnits.transmission"),
+      value: transmissionParts.join(", "),
+      icon: Drive,
     });
   }
 

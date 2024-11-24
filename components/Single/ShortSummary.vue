@@ -8,11 +8,13 @@ const props = defineProps<{ car: Vehicle; powerUnit?: PowerUnit }>();
 
 const { t } = useI18n();
 
-const infoBullets = computed<InfoBulletProps[]>(() => getInfoBullets({ car: props.car, powerUnit: props.powerUnit }, t));
+const infoBullets = computed<InfoBulletProps[]>(() =>
+  getInfoBullets({ car: props.car, powerUnit: props.powerUnit }, t),
+);
 </script>
 
 <template>
-  <div class="p-4 md:p-6 flex justify-start gap-5">
+  <div class="p-4 lg:p-6 flex justify-start gap-5">
     <InfoBullet
       v-for="(bullet, i) in infoBullets"
       :key="i"
