@@ -82,8 +82,8 @@ const drives = ["FWD", "RWD", "AWD"];
           :model-value="catalogStore.filters.brand"
           class="mb-2"
           @change="(checked: boolean) => {
-                checkHandler('brand', checked, brand.id);
-              }"
+            checkHandler('brand', checked, brand.id);
+          }"
         />
       </div>
     </template>
@@ -98,8 +98,8 @@ const drives = ["FWD", "RWD", "AWD"];
           :model-value="catalogStore.filters.bodyType"
           class="mb-2"
           @change="(checked: boolean) => {
-                checkHandler('bodyType', checked, bodyType);
-              }"
+            checkHandler('bodyType', checked, bodyType);
+          }"
         />
       </div>
     </template>
@@ -113,8 +113,8 @@ const drives = ["FWD", "RWD", "AWD"];
         :model-value="catalogStore.filters.engineType"
         class="mb-2"
         @change="(checked: boolean) => {
-              checkHandler('engineType', checked, engineType);
-            }"
+          checkHandler('engineType', checked, engineType);
+        }"
       />
     </template>
 
@@ -127,8 +127,8 @@ const drives = ["FWD", "RWD", "AWD"];
         :model-value="catalogStore.filters.drive"
         class="mb-2"
         @change="(checked: boolean) => {
-              checkHandler('drive', checked, drive);
-            }"
+          checkHandler('drive', checked, drive);
+        }"
       />
     </template>
   </UAccordion>
