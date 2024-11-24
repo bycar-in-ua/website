@@ -13,7 +13,7 @@ defineProps<{ powerUnits: PowerUnit[]; activePowerUnit?: PowerUnit; setActivePow
       Доступні силові агрегати
     </SectionTitle>
 
-    <div class="flex gap-2">
+    <div class="flex gap-2 overflow-x-auto pb-1">
       <Control
         v-for="powerUnit in powerUnits"
         :key="powerUnit.id"

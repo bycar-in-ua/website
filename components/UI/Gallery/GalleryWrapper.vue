@@ -1,13 +1,16 @@
 <script setup lang="ts">
+import { ref, provide, readonly, onMounted, onBeforeUnmount } from "vue";
+import type {
+  IActiveGalleryItem,
+  IGalleryItem,
+  TSetGalleryActiveItem,
+} from "./interface";
 import {
-  ref,
-  provide,
-  readonly,
-  onMounted,
-  onBeforeUnmount,
-} from "vue";
-import type { IActiveGalleryItem, IGalleryItem, TSetGalleryActiveItem } from "./interface";
-import { SetGalleryActiveItemKey, ToggleGalleryFullScreenKey, ActiveItemKey, GalleryItemsKey } from "./interface.js";
+  SetGalleryActiveItemKey,
+  ToggleGalleryFullScreenKey,
+  ActiveItemKey,
+  GalleryItemsKey,
+} from "./interface.js";
 import ThubmnailsList from "./ThubmnailsList.vue";
 import Thumbnail from "./Thumbnail.vue";
 import ActiveImage from "./ActiveImage.vue";
@@ -46,7 +49,9 @@ const toggleFullScreen = (value = !fullScreen.value) => {
 
   if (thumbsListRef.value?.length && activeItem.value.currentItemIndex) {
     setTimeout(() => {
-      thumbsListRef.value![activeItem.value.currentItemIndex].htmlRef.scrollIntoView({
+      thumbsListRef.value![
+        activeItem.value.currentItemIndex
+      ].htmlRef.scrollIntoView({
         block: "nearest",
       });
     }, 100);
@@ -96,7 +101,6 @@ provide(ToggleGalleryFullScreenKey, toggleFullScreen);
   <div
     ref="backdropRef"
     :class="fullScreen ? 'full-screen' : 'regular-gallery'"
-    :style="`--gallery-height: ${height}`"
     @click.stop="backdropClickHandler"
   >
     <div
@@ -136,30 +140,25 @@ provide(ToggleGalleryFullScreenKey, toggleFullScreen);
 
 <style>
 .regular-gallery {
-  height: auto;
   max-height: 95vh;
-  @screen md {
-    height: var(--gallery-height);
-  }
 }
 .bycar-gallery {
-  @apply grid gap-5 overflow-hidden h-full transition-all;
+  @apply grid gap-2 md:gap-5 overflow-hidden h-full transition-all;
   @screen md {
     grid-template-columns: 1fr 160px;
-    .bycar-gallery-image-wrapper {
-      @apply rounded-2xl;
-    }
+  }
+  .bycar-gallery-image-wrapper {
+    @apply rounded-2xl;
   }
   .bycar-gallery-thumnails-list-wrapper {
     grid-template-columns: 160px;
     overflow: hidden;
-
   }
   .bycar-gallery-thumnails-list {
-    @apply flex-col overflow-x-auto overflow-y-hidden;
+    @apply flex-row overflow-x-auto overflow-y-hidden w-full;
     max-height: 100%;
     @screen md {
-      @apply grid-flow-row overflow-y-auto overflow-x-hidden;
+      @apply flex-col overflow-x-hidden overflow-y-auto h-full;
     }
   }
 }
@@ -169,7 +168,10 @@ provide(ToggleGalleryFullScreenKey, toggleFullScreen);
     @apply mx-auto p-2 md:p-5 w-full;
     max-height: 100%;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 110px;
+    grid-template-rows: 1fr 80px;
+    @screen md {
+      grid-template-rows: 1fr 110px;
+    }
     .bycar-gallery-thumnails-list-wrapper {
       order: unset;
       @apply flex justify-center;

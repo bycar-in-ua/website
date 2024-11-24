@@ -64,7 +64,7 @@ useHead({
 </script>
 
 <template>
-  <main class="container pt-32 pb-5 relative blured-ellipse-bg after:left-0 after:top-40">
+  <main class="container pt-24 md:pt-32 pb-5 relative blured-ellipse-bg after:left-0 after:top-40">
     <Media :car :title="carTitle" :active-power-unit="activePowerUnit" />
 
     <template v-if="car.complectations?.length">
@@ -85,7 +85,7 @@ useHead({
     <FullInfo :car :complectation="activeComplectation" :power-unit="activePowerUnit" />
 
     <!-- eslint-disable vue/no-v-html -->
-    <section class="my-10" v-html="car.description">
+    <section class="my-6 md:my-10" v-html="car.description">
     </section>
 
     <ContactForm />

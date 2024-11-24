@@ -13,7 +13,7 @@ defineProps<{ compectations: Complectation[]; activeComplectation?: Complectatio
       Комплектації та ціни
     </SectionTitle>
 
-    <div class="flex gap-2">
+    <div class="flex gap-2 overflow-x-auto pb-1">
       <Control
         v-for="compectation in compectations"
         :key="compectation.id"
