@@ -16,6 +16,10 @@ const menuItems: HorizontalNavigationLink[] = [
     label: t("menu.catalog"),
     to: "/catalog",
   },
+  {
+    label: t("menu.about"),
+    to: "/about",
+  },
 ];
 </script>
 

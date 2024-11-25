@@ -12,6 +12,8 @@ export default defineI18nConfig(() => ({
       menu: {
         home: "Головна",
         catalog: "Каталог",
+        catalogAuto: "Каталог автомобілів",
+        about: "Про нас",
       },
       filters: {
         title: "Фільтри",
