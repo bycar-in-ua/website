@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import Slider from "@/components/UI/Slider.vue";
 import { useCatalogStore } from "@/stores/catalog.js";
+import Collapsible from "@/components/UI/Collapsible.vue";
+
+const { t } = useI18n();
 
 const catalogStore = useCatalogStore();
 
@@ -39,39 +42,43 @@ const priceSliderModel = computed({
   },
 });
 
-catalogStore.$subscribe((_, state) => {
-  console.log({ from: state.filters.priceFrom, to: state.filters.priceTo });
-});
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+catalogStore.$subscribe((_, state) => {});
 </script>
 
 <template>
-  <div class="flex gap-2 items-center mb-4">
-    <UInput
-      :model-value="catalogStore.filters.priceFrom"
-      size="xs"
-      type="number"
-      :step="1000"
-      :min="0"
-      :max="200000"
-      @update:model-value="updatePriceFrom"
-    />
-    <span>-</span>
-    <UInput
-      :model-value="catalogStore.filters.priceTo"
-      size="xs"
-      type="number"
-      :step="1000"
-      :min="1000"
-      :max="200000"
-      @update:model-value="updatePriceTo"
-    />
-    <span>$</span>
-  </div>
+  <Collapsible :title="t('price')" :default-open="true">
+    <template #content>
+      <div class="flex gap-2 items-center mb-4 pl-1 pt-1">
+        <UInput
+          :model-value="catalogStore.filters.priceFrom"
+          size="xs"
+          type="number"
+          :step="1000"
+          :min="0"
+          :max="200000"
+          @update:model-value="updatePriceFrom"
+        />
+        <span>-</span>
+        <UInput
+          :model-value="catalogStore.filters.priceTo"
+          size="xs"
+          type="number"
+          :step="1000"
+          :min="1000"
+          :max="200000"
+          @update:model-value="updatePriceTo"
+        />
+        <span>$</span>
+      </div>
 
-  <Slider
-    v-model="priceSliderModel"
-    :min="0"
-    :max="200000"
-    :step="1000"
-  />
+      <Slider
+        v-model="priceSliderModel"
+        :min="0"
+        :max="200000"
+        :step="1000"
+        class="h-3"
+      />
+    </template>
+  </Collapsible>
 </template>
