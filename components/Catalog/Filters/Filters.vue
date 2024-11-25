@@ -37,22 +37,22 @@ function checkHandler<TValue extends string | number>(
   <BrandFilter
     :brands="catalogStore.dictionary.brands"
     :selected-filters="catalogStore.filters.brand"
-    @change-checkbox="(checked: boolean, brandId: number) => checkHandler('brand', checked, brandId)"
+    @change="(checked: boolean, brandId: number) => checkHandler('brand', checked, brandId)"
   />
 
   <BodyTypeFilter
     :body-types="catalogStore.dictionary.bodyTypes"
     :selected-filters="catalogStore.filters.bodyType"
-    @change-checkbox="(checked: boolean, bodyType: BodyType) => checkHandler('bodyType', checked, bodyType)"
+    @change="(checked: boolean, bodyType: BodyType) => checkHandler('bodyType', checked, bodyType)"
   />
 
   <EngineTypeFilter
     :selected-filters="catalogStore.filters.engineType"
-    @change-checkbox="(checked: boolean, engineType:string) => checkHandler('engineType', checked, engineType)"
+    @change="(checked: boolean, engineType:string) => checkHandler('engineType', checked, engineType)"
   />
 
   <DriveFilter
     :selected-filters="catalogStore.filters.drive"
-    @change-checkbox="(checked: boolean, drive:string) => checkHandler('drive', checked, drive)"
+    @change="(checked: boolean, drive:string) => checkHandler('drive', checked, drive)"
   />
 </template>

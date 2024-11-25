@@ -4,14 +4,10 @@ import Collapsible from "@/components/UI/Collapsible.vue";
 
 const { t } = useI18n();
 
-defineProps({
-  selectedFilters: {
-    type: Array as () => string[],
-  },
-});
+defineProps<{ selectedFilters?: string[] }>();
 
 const emit = defineEmits<{
-  (e: "changeCheckbox", checked: boolean, drive: string): void;
+  (e: "change", checked: boolean, drive: string): void;
 }>();
 
 const drives = ["FWD", "RWD", "AWD"];
@@ -27,7 +23,7 @@ const drives = ["FWD", "RWD", "AWD"];
         :value="drive"
         :model-value="selectedFilters"
         class="mb-2"
-        @change="(checked: boolean) => emit('changeCheckbox', checked, drive)"
+        @change="(checked: boolean) => emit('change', checked, drive)"
       />
     </template>
   </Collapsible>

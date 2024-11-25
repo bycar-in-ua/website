@@ -5,14 +5,10 @@ import Collapsible from "@/components/UI/Collapsible.vue";
 
 const { t } = useI18n();
 
-defineProps({
-  selectedFilters: {
-    type: Array as () => VehiclesFilters["engineType"],
-  },
-});
+defineProps<{ selectedFilters?: VehiclesFilters["engineType"] }>();
 
 const emit = defineEmits<{
-  (e: "changeCheckbox", checked: boolean, engineType: string): void;
+  (e: "change", checked: boolean, engineType: string): void;
 }>();
 
 const engineTypes: NonNullable<VehiclesFilters["engineType"]> = [
@@ -33,7 +29,7 @@ const engineTypes: NonNullable<VehiclesFilters["engineType"]> = [
         :value="engineType"
         :model-value="selectedFilters"
         class="mb-2"
-        @change="(checked: boolean) => emit('changeCheckbox', checked, engineType)"
+        @change="(checked: boolean) => emit('change', checked, engineType)"
       />
     </template>
   </Collapsible>

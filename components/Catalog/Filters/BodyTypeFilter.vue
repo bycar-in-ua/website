@@ -5,18 +5,10 @@ import Collapsible from "@/components/UI/Collapsible.vue";
 
 const { t } = useI18n();
 
-defineProps({
-  bodyTypes: {
-    type: Array as () => BodyType[],
-    required: true,
-  },
-  selectedFilters: {
-    type: Array as () => BodyType[],
-  },
-});
+defineProps<{ bodyTypes: BodyType[]; selectedFilters?: BodyType[] }>();
 
 const emit = defineEmits<{
-  (e: "changeCheckbox", checked: boolean, bodyType: BodyType): void;
+  (e: "change", checked: boolean, bodyType: BodyType): void;
 }>();
 </script>
 
@@ -31,7 +23,7 @@ const emit = defineEmits<{
           :value="bodyType"
           :model-value="selectedFilters"
           class="mb-2"
-          @change="(checked: boolean) => emit('changeCheckbox', checked, bodyType)"
+          @change="(checked: boolean) => emit('change', checked, bodyType)"
         />
       </div>
     </template>

@@ -4,18 +4,13 @@ import Collapsible from "@/components/UI/Collapsible.vue";
 
 const { t } = useI18n();
 
-defineProps({
-  brands: {
-    type: Array as () => Array<{ id: number; displayName: string }>,
-    required: true,
-  },
-  selectedFilters: {
-    type: Array as () => number[],
-  },
-});
+defineProps<{
+  brands: { id: number; displayName: string }[];
+  selectedFilters?: number[];
+}>();
 
 const emit = defineEmits<{
-  (e: "changeCheckbox", checked: boolean, brandId: number): void;
+  (e: "change", checked: boolean, brandId: number): void;
 }>();
 </script>
 
@@ -30,7 +25,7 @@ const emit = defineEmits<{
           :value="brand.id"
           :model-value="selectedFilters"
           class="mb-2"
-          @change="(checked: boolean) => emit('changeCheckbox', checked, brand.id)"
+          @change="(checked: boolean) => emit('change', checked, brand.id)"
         />
       </div>
     </template>
