@@ -7,7 +7,7 @@ const isSidebarShowing = ref(false);
 
 <template>
   <div
-    class="overflow-y-auto max-h-full pl-1 relative shrink-0 basis-64 hidden lg:block"
+    class="overflow-y-auto max-h-full relative shrink-0 basis-64 hidden lg:block overflow-x-hidden"
   >
     <Filters />
   </div>
