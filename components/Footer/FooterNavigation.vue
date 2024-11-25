@@ -9,8 +9,12 @@ const menuItems: HorizontalNavigationLink[] = [
     to: "/",
   },
   {
-    label: "Каталог автомобілів",
+    label: t("menu.catalogAuto"),
     to: "/catalog",
+  },
+  {
+    label: t("menu.about"),
+    to: "/about",
   },
 ];
 </script>
