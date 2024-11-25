@@ -13,6 +13,17 @@ const menuItems: HorizontalNavigationLink[] = [
     to: "/catalog",
   },
 ];
+
+const additionalMenuItems: HorizontalNavigationLink[] = [
+  {
+    label: "Політика приватності",
+    to: "/privacy",
+  },
+  {
+    label: "Cookie Policy",
+    to: "/cookies",
+  },
+];
 </script>
 
 <template>
@@ -20,11 +31,24 @@ const menuItems: HorizontalNavigationLink[] = [
     :links="menuItems"
     :ui="{
       base: 'hover:text-primary',
-      padding: 'py-2 px-0',
+      padding: 'pt-0 px-0',
       active: 'text-primary before:bg-tranparent',
       inactive: 'text-gray-900 hover:before:bg-transparent',
       before: 'hover:before:bg-transparent',
       after: 'after:mt-1',
+      size: 'text-base',
+    }"
+  />
+  <UVerticalNavigation
+    :links="additionalMenuItems"
+    :ui="{
+      base: 'hover:text-primary',
+      padding: 'pt-0 px-0',
+      active: 'text-primary before:bg-tranparent',
+      inactive: 'text-gray-900 hover:before:bg-transparent',
+      before: 'hover:before:bg-transparent',
+      after: 'after:mt-1',
+      size: 'text-base',
     }"
   />
 </template>
