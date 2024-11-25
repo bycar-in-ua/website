@@ -53,7 +53,7 @@ const drives = ["FWD", "RWD", "AWD"];
     :items="filters"
     :ui="{
       container:
-        'pb-4 mb-5 last-of-type:mb-0 border-b border-gray-200 last-of-type:border-0',
+        'pb-4 mb-5 last-of-type:mb-0 border-b border-gray-200 last-of-type:border-0 overflow-x-hidden',
     }"
   >
     <template #default="{ item, open }">
