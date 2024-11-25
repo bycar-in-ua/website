@@ -42,9 +42,8 @@ const priceSliderModel = computed({
   },
 });
 
-catalogStore.$subscribe((_, state) => {
-  console.log({ from: state.filters.priceFrom, to: state.filters.priceTo });
-});
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+catalogStore.$subscribe((_, state) => {});
 </script>
 
 <template>
