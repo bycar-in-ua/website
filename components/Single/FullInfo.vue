@@ -98,7 +98,7 @@ const optionsByCategories = computed(() => {
         <template #content>
           <template v-for="(item, k) in block.items" :key="k">
             <div class="flex gap-4 justify-between text-sm">
-              <span class="text-slate-600 flex-shrink-0 max-w-[80%]">
+              <span class="text-slate-600 max-w-[80%] w-full">
                 {{ item.title }}:
               </span>
               <span class="text-right">{{ item.value }}</span>
