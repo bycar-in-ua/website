@@ -42,7 +42,7 @@ export default <Partial<Config>>{
         },
       },
       fontFamily: {
-        sans: ["Benzin"],
+        sans: ["Golos Text"],
       },
       screens: {
         xs: "520px",
