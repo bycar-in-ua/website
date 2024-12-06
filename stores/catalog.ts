@@ -77,6 +77,9 @@ export const useCatalogStore = defineStore("catalog", () => {
     },
     {
       default: () => ({ brands: [], bodyTypes: [] }),
+      getCachedData(key, nuxtApp) {
+        return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
+      },
     },
   );
 

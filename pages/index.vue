@@ -44,6 +44,9 @@ const { data } = await useAsyncData(
   },
   {
     default: () => ({ latestItems: [], establishedBrands: [], totalItems: 0 }),
+    getCachedData(key, nuxtApp) {
+      return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
+    },
   },
 );
 </script>
