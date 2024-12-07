@@ -51,6 +51,7 @@ const priceSliderModel = computed({
           :step="1000"
           :min="0"
           :max="200000"
+          class="flex-grow"
           @update:model-value="updatePriceFrom"
         />
         <span>-</span>
@@ -61,6 +62,7 @@ const priceSliderModel = computed({
           :step="1000"
           :min="1000"
           :max="200000"
+          class="flex-grow"
           @update:model-value="updatePriceTo"
         />
         <span>$</span>
