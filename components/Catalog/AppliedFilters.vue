@@ -40,7 +40,11 @@ const appliedFilters = computed<Filterbutton[]>(() => {
             (brand) => brand.id === item,
           );
 
-          acc.push({ key, label: brand!.displayName, value: item });
+          acc.push({
+            key,
+            label: brand?.displayName ?? String(item),
+            value: item,
+          });
         });
 
         break;
