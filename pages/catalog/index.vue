@@ -31,6 +31,8 @@ useHead({
 
 const catalogStore = useCatalogStore();
 
+await catalogStore.refresh();
+
 onUnmounted(() => {
   catalogStore.$dispose();
 });
@@ -46,6 +48,7 @@ onUnmounted(() => {
       class="lg:flex gap-10 relative blured-ellipse-bg after:left-56 after:top-5"
     >
       <Sidebar />
+
       <List />
     </div>
     <ContactForm />

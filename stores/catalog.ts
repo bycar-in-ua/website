@@ -63,12 +63,19 @@ export const useCatalogStore = defineStore("catalog", () => {
         items: [],
         meta: { currentPage: 1, totalPages: 0, itemsPerPage: 0, totalItems: 0 },
       }),
+      immediate: false,
     },
   );
 
   const debouncedRefresh = debounce(refresh, 500);
 
-  watch([filters, pagination, order], () => debouncedRefresh());
+  watch([filters, pagination, order], (_, __, onClenup) => {
+    debouncedRefresh();
+
+    onClenup(() => {
+      debouncedRefresh.cancel();
+    });
+  });
 
   const pending = computed(() => status.value === "pending");
 
@@ -113,9 +120,11 @@ export const useCatalogStore = defineStore("catalog", () => {
     filters,
     pagination,
     order,
+    status,
     pending,
     data,
     refresh,
+    debouncedRefresh,
     updateFilters,
     clearFilters,
     dictionary,
