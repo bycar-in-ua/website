@@ -23,10 +23,15 @@ const list = ref();
       />
     </div>
     <Pagination
-      v-model:page="catalogStore.pagination.page"
       class="mt-10 justify-center"
+      :page="catalogStore.pagination.page"
       :pagination="catalogStore.data.meta"
-      @update:page="() => list?.scrollIntoView()"
+      @update:page="
+        (page) => {
+          catalogStore.pagination = { page };
+          list?.scrollIntoView();
+        }
+      "
     />
   </div>
 </template>

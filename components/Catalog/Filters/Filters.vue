@@ -32,7 +32,14 @@ function checkHandler<TValue extends string | number>(
 </script>
 
 <template>
-  <PriceFilter />
+  <PriceFilter
+    :price-from="catalogStore.filters.priceFrom"
+    :price-to="catalogStore.filters.priceTo"
+    @update:price-from="
+      (value) => catalogStore.updateFilters('priceFrom', value)
+    "
+    @update:price-to="(value) => catalogStore.updateFilters('priceTo', value)"
+  />
 
   <BrandFilter
     :brands="catalogStore.dictionary.brands"

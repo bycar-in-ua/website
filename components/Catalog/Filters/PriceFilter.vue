@@ -1,49 +1,43 @@
 <script setup lang="ts">
 import Slider from "@/components/UI/Slider.vue";
-import { useCatalogStore } from "@/stores/catalog.js";
 import Collapsible from "@/components/UI/Collapsible.vue";
 
 const { t } = useI18n();
 
-const catalogStore = useCatalogStore();
+const priceFrom = defineModel<number>("priceFrom");
+const priceTo = defineModel<number>("priceTo");
 
-const updatePriceFrom = (value?: number | number) => {
-  if (
-    typeof value !== "number" ||
-    (catalogStore.filters.priceTo && value > catalogStore.filters.priceTo)
-  ) {
-    catalogStore.updateFilters("priceFrom", 0);
+const updatePriceFrom = (value?: number) => {
+  if (typeof value !== "number" || (priceTo.value && value > priceTo.value)) {
+    priceFrom.value = 0;
     return;
   }
 
-  catalogStore.updateFilters("priceFrom", +value > 0 ? +value : 0);
+  priceFrom.value = value > 0 ? value : 0;
 };
 
 const updatePriceTo = (value?: number | number) => {
   if (
     typeof value !== "number" ||
-    (catalogStore.filters.priceFrom && value < catalogStore.filters.priceFrom)
+    (priceFrom.value && value < priceFrom.value)
   ) {
-    catalogStore.updateFilters("priceTo", undefined);
+    priceTo.value = undefined;
     return;
   }
 
-  catalogStore.updateFilters("priceTo", +value > 0 ? +value : 0);
+  priceTo.value = value > 0 ? value : 0;
 };
 
 const priceSliderModel = computed({
-  get: () => [
-    Number(catalogStore.filters.priceFrom ?? 0),
-    Number(catalogStore.filters.priceTo ?? Infinity),
-  ],
+  get: () => [Number(priceFrom.value ?? 0), Number(priceTo.value ?? Infinity)],
   set: ([from, to]: number[]) => {
     updatePriceFrom(from);
-    updatePriceTo(to);
+
+    if (isFinite(to)) {
+      updatePriceTo(to);
+    }
   },
 });
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-catalogStore.$subscribe((_, state) => {});
 </script>
 
 <template>
@@ -51,7 +45,7 @@ catalogStore.$subscribe((_, state) => {});
     <template #content>
       <div class="flex gap-2 items-center mb-4 pl-1 pt-1">
         <UInput
-          :model-value="catalogStore.filters.priceFrom"
+          :model-value="priceFrom"
           size="xs"
           type="number"
           :step="1000"
@@ -61,7 +55,7 @@ catalogStore.$subscribe((_, state) => {});
         />
         <span>-</span>
         <UInput
-          :model-value="catalogStore.filters.priceTo"
+          :model-value="priceTo"
           size="xs"
           type="number"
           :step="1000"

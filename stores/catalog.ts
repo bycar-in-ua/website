@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import debounce from "lodash/debounce";
 import type { VehiclesSearchSchema, VehiclesOrder } from "@bycar-in-ua/sdk";
+import type { LocationQueryRaw } from "vue-router";
 
 export type FiltersState = Omit<
   NonNullable<VehiclesSearchSchema["filters"]>,
@@ -11,12 +12,38 @@ export type FiltersState = Omit<
 };
 
 export const useCatalogStore = defineStore("catalog", () => {
-  // #region filters
-  const filters = ref<FiltersState>({});
+  const router = useRouter();
 
-  const pagination = reactive<NonNullable<VehiclesSearchSchema["pagination"]>>({
-    page: 1,
-    limit: 15,
+  // #region filters
+  const filters = computed<FiltersState>({
+    get() {
+      return queryStringToFiltersState(router.currentRoute.value.query);
+    },
+    set(value) {
+      router.replace({
+        query: {
+          ...filtersStateToQuery(value),
+          page: "1",
+        },
+      });
+    },
+  });
+
+  const pagination = computed<NonNullable<VehiclesSearchSchema["pagination"]>>({
+    get() {
+      return {
+        page: Number(router.currentRoute.value.query.page ?? 1),
+        limit: 15,
+      };
+    },
+    set(value) {
+      router.replace({
+        query: {
+          ...router.currentRoute.value.query,
+          page: String(value.page),
+        },
+      });
+    },
   });
 
   const order = ref<VehiclesOrder>();
@@ -28,7 +55,7 @@ export const useCatalogStore = defineStore("catalog", () => {
     () =>
       $bycarApi.searchVehicles({
         filters: filtersStateToSchema(filters.value),
-        pagination,
+        pagination: pagination.value,
         order: [order.value].filter(Boolean) as VehiclesOrder[],
       }),
     {
@@ -50,18 +77,16 @@ export const useCatalogStore = defineStore("catalog", () => {
     value?: Array<string | number> | number,
   ) => {
     filters.value = { ...filters.value, [field]: value };
-    pagination.page = 1;
+    pagination.value.page = 1;
   };
 
   const clearFilters = () => {
     filters.value = {};
-    pagination.page = 1;
+    pagination.value.page = 1;
   };
-
   // #endregion
 
   // #region dictionary
-
   const { data: dictionary } = useAsyncData(
     "filters",
     async () => {
@@ -82,7 +107,6 @@ export const useCatalogStore = defineStore("catalog", () => {
       },
     },
   );
-
   // #endregion
 
   return {
@@ -112,4 +136,60 @@ function filtersStateToSchema(
           }
         : undefined,
   };
+}
+
+type QueryParameterParser<K extends keyof FiltersState = keyof FiltersState> = (
+  value: string,
+) => FiltersState[K];
+
+const stringsArrayFieldParser = <TData>(value: string) =>
+  value.split(",") as TData;
+
+const numberArrayFieldParser = (value: string) => value.split(",").map(Number);
+
+const getPriceFieldParser = (value: string) => {
+  const numValue = Number(value);
+
+  return isFinite(numValue) ? numValue : undefined;
+};
+
+const queryParameterParsers: Record<
+  keyof FiltersState,
+  QueryParameterParser<keyof FiltersState>
+> = {
+  brand: numberArrayFieldParser,
+  bodyType: (value) => stringsArrayFieldParser<FiltersState["bodyType"]>(value),
+  drive: (value) => stringsArrayFieldParser<FiltersState["drive"]>(value),
+  engineType: (value) =>
+    stringsArrayFieldParser<FiltersState["engineType"]>(value),
+
+  priceFrom: getPriceFieldParser,
+  priceTo: getPriceFieldParser,
+};
+
+function queryStringToFiltersState(query: LocationQueryRaw): FiltersState {
+  const filtersState: FiltersState = {};
+
+  for (const [key, value] of Object.entries(query)) {
+    const filtersKey = key as keyof FiltersState;
+    const parser = queryParameterParsers[filtersKey];
+
+    if (parser) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      filtersState[filtersKey] = parser(value);
+    }
+  }
+
+  return filtersState;
+}
+
+function filtersStateToQuery(filters: FiltersState): Record<string, string> {
+  return Object.entries(filters).reduce((acc, [key, value]) => {
+    if (value) {
+      acc[key] = value.toString();
+    }
+
+    return acc;
+  }, {} as Record<string, string>);
 }
