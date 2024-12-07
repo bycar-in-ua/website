@@ -26,6 +26,14 @@ const isSidebarShowing = ref(false);
       <div class="overflow-auto px-3">
         <Filters />
       </div>
+      <UButton
+        block
+        icon="i-heroicons-funnel"
+        trailing
+        @click="isSidebarShowing = false"
+      >
+        Застосувати
+      </UButton>
     </div>
   </USlideover>
 
