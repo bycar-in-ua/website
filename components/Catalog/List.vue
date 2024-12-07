@@ -10,12 +10,22 @@ const list = ref();
 
 <template>
   <div class="w-full relative">
+    <UProgress
+      v-if="catalogStore.pending"
+      animation="carousel"
+      class="absolute -top-4 left-0 right-0"
+    />
+
     <p
       v-if="!catalogStore.data.items.length"
       class="text-center p-4 text-xl"
       v-text="$t('emptyCatalog')"
     />
-    <div ref="list" class="grid xs:grid-cols-2 sm:grid-cols-3 gap-5">
+    <div
+      ref="list"
+      class="grid xs:grid-cols-2 sm:grid-cols-3 gap-5"
+      :class="{ 'blur-sm': catalogStore.pending }"
+    >
       <CarCard
         v-for="car in catalogStore.data.items"
         :key="car.id"
