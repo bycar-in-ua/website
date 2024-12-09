@@ -4,10 +4,6 @@ import type { FormError } from "#ui/types";
 
 const props = defineProps<{ page: string }>();
 
-const {
-  public: { tgBotUrl, isProduction },
-} = useRuntimeConfig();
-
 type FormState = {
   name: string;
   phone: string;
@@ -20,8 +16,6 @@ const formState = reactive<FormState>({
 
 const validate = (state: FormState): FormError[] => {
   const errors = [];
-
-  console.log("validate", state);
 
   if (!state.name) {
     errors.push({ path: "name", message: "Будь ласка, вкажіть ім'я" });
@@ -51,25 +45,16 @@ const validate = (state: FormState): FormError[] => {
   return errors;
 };
 
-type TgBotPayload = {
-  name: string;
-  phone: string;
-  page: string;
-};
-
 const { status, refresh: submitForm } = useAsyncData(
   "submit-contact-form",
   async () => {
-    const prefix = isProduction ? "" : "STAGING";
-
-    await $fetch("/lead", {
+    await $fetch("/api/contact-form", {
       method: "POST",
-      baseURL: tgBotUrl,
       body: {
         name: formState.name,
         phone: formState.phone,
-        page: [prefix, props.page].join(" "),
-      } as TgBotPayload,
+        page: props.page,
+      },
     });
   },
 );
