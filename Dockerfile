@@ -3,6 +3,7 @@ ARG NODE_VERSION=22
 FROM node:${NODE_VERSION}-alpine
 
 ARG PORT=4000
+ARG NODE_ENV="staging"
 
 WORKDIR /app
 
@@ -15,7 +16,7 @@ COPY --link . .
 
 RUN npm run build
 
-ENV NODE_ENV=production
+ENV NODE_ENV=NODE_ENV
 
 ENV PORT=$PORT
 

@@ -6,6 +6,7 @@ services:
     environment:
       - API_URL=${API_URL}
       - CDN_URL=${CDN_URL}
+      - NODE_ENV=${NODE_ENV}
     networks:
       - proxy
 

@@ -57,6 +57,9 @@ const { status, refresh: submitForm } = useAsyncData(
       },
     });
   },
+  {
+    immediate: false,
+  },
 );
 
 const messageSent = computed(() => status.value === "success");
