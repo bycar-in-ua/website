@@ -51,6 +51,6 @@ onUnmounted(() => {
 
       <List />
     </div>
-    <ContactForm />
+    <ContactForm page="Каталог" />
   </main>
 </template>
