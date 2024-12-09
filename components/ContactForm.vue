@@ -1,10 +1,80 @@
 <script setup lang="ts">
 import BluredEllipse from "@/components/UI/BluredEllipse.vue";
+import type { FormError } from "#ui/types";
 
-const formState = reactive({
+const props = defineProps<{ page: string }>();
+
+const {
+  public: { tgBotUrl, isProduction },
+} = useRuntimeConfig();
+
+type FormState = {
+  name: string;
+  phone: string;
+};
+
+const formState = reactive<FormState>({
   name: "",
   phone: "",
 });
+
+const validate = (state: FormState): FormError[] => {
+  const errors = [];
+
+  console.log("validate", state);
+
+  if (!state.name) {
+    errors.push({ path: "name", message: "Будь ласка, вкажіть ім'я" });
+  }
+
+  if (!state.phone) {
+    errors.push({
+      path: "phone",
+      message: "Будь ласка, вкажіть номер телефону",
+    });
+  }
+
+  if (!/^\d{10,12}$/.test(state.phone.replace(/\D/g, ""))) {
+    errors.push({
+      path: "phone",
+      message: "Введіть коректний номер телефону",
+    });
+  }
+
+  if (/[a-zA-Z]/.test(state.phone)) {
+    errors.push({
+      path: "phone",
+      message: "Номер телефону не повинен містити літер",
+    });
+  }
+
+  return errors;
+};
+
+type TgBotPayload = {
+  name: string;
+  phone: string;
+  page: string;
+};
+
+const { status, refresh: submitForm } = useAsyncData(
+  "submit-contact-form",
+  async () => {
+    const prefix = isProduction ? "" : "STAGING";
+
+    await $fetch("/lead", {
+      method: "POST",
+      baseURL: tgBotUrl,
+      body: {
+        name: formState.name,
+        phone: formState.phone,
+        page: [prefix, props.page].join(" "),
+      } as TgBotPayload,
+    });
+  },
+);
+
+const messageSent = computed(() => status.value === "success");
 </script>
 
 <template>
@@ -22,13 +92,15 @@ const formState = reactive({
         Запитай у експерта!
       </h3>
       <p class="text-base text-gray-500 mb-4">
-        Сьогодні на зв'язку Артем. Справжній автофанат,<br />
-        любить БМВ і свого песика Діка
+        Сьогодні на зв'язку Євген. Справжній автофанат,<br />
+        любить БМВ і свого песика Тобі
       </p>
       <UButton
         icon="i-heroicons-chat-bubble-bottom-center"
         trailing
         variant="outline"
+        to="https://t.me/AJ201997"
+        target="_blank"
       >
         Написати в чат
       </UButton>
@@ -36,17 +108,44 @@ const formState = reactive({
 
     <UForm
       :state="formState"
-      class="p-5 md:ml-auto flex flex-col gap-4 shadow-xl rounded-2xl bg-white sm:min-w-80"
+      :validate="validate"
+      class="p-5 md:ml-auto flex flex-col gap-4 shadow-xl rounded-2xl bg-white max-w-[340px] w-full"
+      :validate-on="['submit']"
+      :disabled="true"
+      @submit="submitForm"
     >
-      <UFormGroup>
-        <UInput placeholder="Ваше ім’я" size="lg" />
+      <UFormGroup name="name">
+        <UInput
+          v-model:model-value="formState.name"
+          placeholder="Ваше ім’я"
+          size="lg"
+          :disabled="messageSent"
+        />
       </UFormGroup>
 
-      <UFormGroup>
-        <UInput placeholder="Ваш номер телефону" size="lg" type="tel" />
+      <UFormGroup name="phone">
+        <UInput
+          v-model:model-value="formState.phone"
+          placeholder="Ваш номер телефону"
+          size="lg"
+          mask="+38 (###) ###-##-##"
+          type="tel"
+          :disabled="messageSent"
+        />
       </UFormGroup>
 
-      <UButton icon="i-heroicons-phone" trailing block>
+      <UButton v-if="messageSent" block disabled>
+        Заявку надіслано!<br />
+        Дякуємо за звернення
+      </UButton>
+      <UButton
+        v-else
+        icon="i-heroicons-phone"
+        trailing
+        block
+        type="submit"
+        :loading="status === 'pending'"
+      >
         Передзвоніть мені
       </UButton>
     </UForm>

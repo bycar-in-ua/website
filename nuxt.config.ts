@@ -18,6 +18,8 @@ export default defineNuxtConfig({
     public: {
       apiHost: process.env.API_URL,
       cdnHost: process.env.CDN_URL,
+      tgBotUrl: process.env.TG_BOT_URL,
+      isProduction: process.env.NODE_ENV === "production",
     },
   },
 

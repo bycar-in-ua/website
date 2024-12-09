@@ -28,7 +28,7 @@ const { data: car } = await useAsyncData(
 
 const activeComplectation = ref<Complectation | undefined>(
   car.value.complectations?.find((c) => c.base) ||
-  car.value.complectations?.[0],
+    car.value.complectations?.[0],
 );
 const activePowerUnit = ref<PowerUnit | undefined>(
   activeComplectation.value?.powerUnits?.[0],
@@ -108,7 +108,7 @@ useHead({
     <!-- eslint-disable vue/no-v-html -->
     <section class="my-6 md:my-10" v-html="car.description"></section>
 
-    <ContactForm>
+    <ContactForm :page="carTitle">
       <template #ellipse>
         <BluredEllipse
           class="absolute w-[410px] h-[220px] right-0 md:right-24 top-32 md:-top-24 -z-10"
