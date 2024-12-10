@@ -4,8 +4,11 @@ FROM node:${NODE_VERSION}-alpine
 
 ARG PORT=4000
 ARG NODE_ENV="staging"
+ARG GITHUB_TOKEN
 
 WORKDIR /app
+
+ENV GITHUB_TOKEN=$GITHUB_TOKEN
 
 COPY ./package* .
 COPY ./.npmrc .
@@ -16,7 +19,7 @@ COPY --link . .
 
 RUN npm run build
 
-ENV NODE_ENV=NODE_ENV
+ENV NODE_ENV=$NODE_ENV
 
 ENV PORT=$PORT
 
