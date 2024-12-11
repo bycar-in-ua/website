@@ -43,12 +43,18 @@ function handleClearOrder() {
       :options
       :ui="{
         wrapper: 'max-w-80',
+        base: 'truncate text-ellipsis',
         placeholder: 'text-primary',
         color: { white: { none: 'text-primary bg-transparent' } },
         icon: {
           color: 'text-black',
           trailing: {
             pointer: 'pointer-events-none',
+          },
+        },
+        trailing: {
+          padding: {
+            sm: 'pe-12',
           },
         },
       }"
