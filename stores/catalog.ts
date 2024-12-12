@@ -88,7 +88,7 @@ export const useCatalogStore = defineStore("catalog", () => {
   };
 
   const clearFilters = () => {
-    filters.value = {};
+    filters.value = {} as FiltersState;
     pagination.value.page = 1;
   };
   // #endregion
@@ -177,7 +177,7 @@ const queryParameterParsers: Record<
 };
 
 function queryStringToFiltersState(query: LocationQueryRaw): FiltersState {
-  const filtersState: FiltersState = {};
+  const filtersState = {} as FiltersState;
 
   for (const [key, value] of Object.entries(query)) {
     const filtersKey = key as keyof FiltersState;
@@ -195,9 +195,11 @@ function queryStringToFiltersState(query: LocationQueryRaw): FiltersState {
 
 function filtersStateToQuery(filters: FiltersState): Record<string, string> {
   return Object.entries(filters).reduce((acc, [key, value]) => {
-    if (value) {
-      acc[key] = value.toString();
+    if (!value || (Array.isArray(value) && !value.length)) {
+      return acc;
     }
+
+    acc[key] = value.toString();
 
     return acc;
   }, {} as Record<string, string>);
