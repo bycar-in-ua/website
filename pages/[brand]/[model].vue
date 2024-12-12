@@ -3,7 +3,6 @@ import type { Complectation, PowerUnit, Vehicle } from "@bycar-in-ua/sdk";
 import Media from "@/components/Single/Media.vue";
 import Complectations from "@/components/Single/Complectations.vue";
 import PowerUnits from "@/components/Single/PowerUnits.vue";
-import Colors from "@/components/Single/Colors.vue";
 import FullInfo from "@/components/Single/FullInfo.vue";
 import ContactForm from "@/components/ContactForm.vue";
 import BluredEllipse from "@/components/UI/BluredEllipse.vue";
@@ -91,11 +90,6 @@ useHead({
         :active-power-unit="activePowerUnit"
         :set-active-power-unit="setActivePowerUnit"
       />
-      <UDivider class="my-5" />
-    </template>
-
-    <template v-if="car.colors?.length">
-      <Colors :colors="car.colors" />
       <UDivider class="my-5" />
     </template>
 
