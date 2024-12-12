@@ -23,10 +23,6 @@ const additionalMenuItems: HorizontalNavigationLink[] = [
     label: "Політика приватності",
     to: "/privacy",
   },
-  {
-    label: "Cookie Policy",
-    to: "/cookies",
-  },
 ];
 </script>
 
