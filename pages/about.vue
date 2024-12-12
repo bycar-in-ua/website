@@ -1,13 +1,15 @@
 <script setup lang="ts">
-import { generatePageTitle } from "@/utils/seo";
+import { generatePageTitle, generatePageDescription } from "@/utils/seo";
 import LogoWhiteBackground from "@/components/UI/Icons/LogoWhiteBackground.vue";
+
+const route = useRoute();
 
 useHead({
   title: generatePageTitle("Про нас"),
   meta: [
     {
       name: "description",
-      content: "Про нас | bycar-in-ua - Автомобільна спільнота України",
+      content: generatePageDescription("Про нас"),
     },
     {
       name: "og:title",
@@ -15,11 +17,11 @@ useHead({
     },
     {
       name: "og:url",
-      content: "https://bycar.in.ua/about",
+      content: route.fullPath,
     },
     {
       name: "og:image",
-      content: "/public/images/homepage-bg.jpg", // TODO
+      content: "/public/bycar-logo-light.png",
     },
   ],
 });

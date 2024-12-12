@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { generatePageTitle } from "@/utils/seo";
+import { generatePageTitle, generatePageDescription } from "@/utils/seo";
+
+const route = useRoute();
 
 useHead({
   title: generatePageTitle("Політика приватності"),
   meta: [
     {
       name: "description",
-      content:
-        "Політика приватності | bycar-in-ua - Автомобільна спільнота України",
+      content: generatePageDescription("Політика приватності"),
     },
     {
       name: "og:title",
@@ -15,11 +16,7 @@ useHead({
     },
     {
       name: "og:url",
-      content: "https://bycar.in.ua/privacy",
-    },
-    {
-      name: "og:image",
-      content: "/public/images/homepage-bg.jpg", // TODO
+      content: route.fullPath,
     },
   ],
 });
