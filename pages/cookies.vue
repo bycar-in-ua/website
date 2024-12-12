@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { generatePageTitle } from "@/utils/seo";
+import { generatePageTitle, generatePageDescription } from "@/utils/seo";
 
 useHead({
   title: generatePageTitle("Cookie Policy"),
   meta: [
     {
       name: "description",
-      content: "Cookie Policy | bycar-in-ua - Автомобільна спільнота України",
+      content: generatePageDescription("Cookie Policy"),
     },
     {
       name: "og:title",

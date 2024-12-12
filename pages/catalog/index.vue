@@ -5,14 +5,16 @@ import Headline from "@/components/Catalog/Headline.vue";
 import ContactForm from "@/components/ContactForm.vue";
 import BluredEllipse from "@/components/UI/BluredEllipse.vue";
 import { useCatalogStore } from "@/stores/catalog";
-import { generatePageTitle } from "@/utils/seo";
+import { generatePageTitle, generatePageDescription } from "@/utils/seo";
+
+const route = useRoute();
 
 useHead({
   title: generatePageTitle("Каталог авто"),
   meta: [
     {
       name: "description",
-      content: "Каталог авто | bycar-in-ua - Автомобільна спільнота України",
+      content: generatePageDescription("Каталог авто"),
     },
     {
       name: "og:title",
@@ -20,11 +22,11 @@ useHead({
     },
     {
       name: "og:url",
-      content: "https://bycar.in.ua/catalog",
+      content: route.fullPath,
     },
     {
       name: "og:image",
-      content: "/public/images/homepage-bg.jpg",
+      content: "/public/bycar-logo-light.png",
     },
   ],
 });
