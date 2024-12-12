@@ -1,13 +1,15 @@
 <script setup lang="ts">
-import { generatePageTitle } from "@/utils/seo";
+import { generatePageTitle, generatePageDescription } from "@/utils/seo";
 import LogoWhiteBackground from "@/components/UI/Icons/LogoWhiteBackground.vue";
+
+const route = useRoute();
 
 useHead({
   title: generatePageTitle("Про нас"),
   meta: [
     {
       name: "description",
-      content: "Про нас | bycar-in-ua - Автомобільна спільнота України",
+      content: generatePageDescription("Про нас"),
     },
     {
       name: "og:title",
@@ -15,18 +17,18 @@ useHead({
     },
     {
       name: "og:url",
-      content: "https://bycar.in.ua/about",
+      content: route.fullPath,
     },
     {
       name: "og:image",
-      content: "/public/images/homepage-bg.jpg", // TODO
+      content: "/public/bycar-logo-light.png",
     },
   ],
 });
 </script>
 
 <template>
-  <main class="container pt-32 pb-5 mb-auto flex flex-col gap-8">
+  <main class="container pt-32 pb-5 prose xl:prose-xl">
     <div class="flex justify-center">
       <LogoWhiteBackground class="max-w-lg w-full h-auto" />
     </div>
@@ -47,14 +49,12 @@ useHead({
       спеціалісти завжди будуть поруч, щоб вас підтримати. Ми мріємо створити
       сайт, якого заслуговує Україна!
     </p>
-    <div>
-      <p>Хто ми?</p>
-      <p>
-        ByCar — це команда професіоналів: дипломовані автомобільні інженери,
-        журналісти та люди з багаторічним досвідом в автобізнесі. Ми закохані в
-        автомобілі та прагнемо бути корисними нашій країні й людям.
-      </p>
-    </div>
+    <h3>Хто ми?</h3>
+    <p>
+      ByCar — це команда професіоналів: дипломовані автомобільні інженери,
+      журналісти та люди з багаторічним досвідом в автобізнесі. Ми закохані в
+      автомобілі та прагнемо бути корисними нашій країні й людям.
+    </p>
     <p>
       Важливою частиною (і родзинкою) нашого проєкту є наш YouTube-канал, який
       так і називається — ByCar. Там ми класно проводимо час, пізнаючи
@@ -69,12 +69,10 @@ useHead({
       час перегляду!
     </p>
 
-    <div>
-      <p>Вітаємо вас на сайті ByCar!</p>
-      <p>
-        Наразі ми активно працюємо над його запуском, і зовсім скоро ви зможете
-        оцінити всі його переваги.
-      </p>
-    </div>
+    <h4 class="text-center">Вітаємо вас на сайті ByCar!</h4>
+    <p>
+      Наразі ми активно працюємо над його запуском, і зовсім скоро ви зможете
+      оцінити всі його переваги.
+    </p>
   </main>
 </template>

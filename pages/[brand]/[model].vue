@@ -3,12 +3,11 @@ import type { Complectation, PowerUnit, Vehicle } from "@bycar-in-ua/sdk";
 import Media from "@/components/Single/Media.vue";
 import Complectations from "@/components/Single/Complectations.vue";
 import PowerUnits from "@/components/Single/PowerUnits.vue";
-import Colors from "@/components/Single/Colors.vue";
 import FullInfo from "@/components/Single/FullInfo.vue";
 import ContactForm from "@/components/ContactForm.vue";
 import BluredEllipse from "@/components/UI/BluredEllipse.vue";
 import { getCarTitle } from "@/utils/carHelpers";
-import { generatePageTitle } from "@/utils/seo";
+import { generatePageTitle, generatePageDescription } from "@/utils/seo";
 
 definePageMeta({
   name: "SingleCar",
@@ -28,7 +27,7 @@ const { data: car } = await useAsyncData(
 
 const activeComplectation = ref<Complectation | undefined>(
   car.value.complectations?.find((c) => c.base) ||
-    car.value.complectations?.[0],
+  car.value.complectations?.[0],
 );
 const activePowerUnit = ref<PowerUnit | undefined>(
   activeComplectation.value?.powerUnits?.[0],
@@ -48,7 +47,7 @@ useHead({
   meta: [
     {
       name: "description",
-      content: generatePageTitle(carTitle.value),
+      content: generatePageDescription(carTitle.value),
     },
     {
       name: "og:title",
@@ -91,11 +90,6 @@ useHead({
         :active-power-unit="activePowerUnit"
         :set-active-power-unit="setActivePowerUnit"
       />
-      <UDivider class="my-5" />
-    </template>
-
-    <template v-if="car.colors?.length">
-      <Colors :colors="car.colors" />
       <UDivider class="my-5" />
     </template>
 

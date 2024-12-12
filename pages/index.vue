@@ -5,24 +5,28 @@ import ContactForm from "@/components/ContactForm.vue";
 import Brands from "@/components/Home/Brands.vue";
 import { generatePageTitle } from "@/utils/seo";
 
+const route = useRoute();
+
+const pageTitie = generatePageTitle("Легкий шлях до нового авто");
+
 useHead({
-  title: generatePageTitle("Просто зручний каталог авто"),
+  title: pageTitie,
   meta: [
     {
       name: "description",
-      content: generatePageTitle("Просто зручний каталог авто"),
+      content: pageTitie,
     },
     {
       name: "og:title",
-      content: generatePageTitle("Просто зручний каталог авто"),
+      content: pageTitie,
     },
     {
       name: "og:url",
-      content: useRoute().fullPath,
+      content: route.fullPath,
     },
     {
       name: "og:image",
-      content: "public/homepage-bg.jpg",
+      content: "public/images/hero-image-mobile.png",
     },
   ],
 });
