@@ -7,16 +7,18 @@ import { generatePageTitle } from "@/utils/seo";
 
 const route = useRoute();
 
+const pageTitie = generatePageTitle("Легкий шлях до нового авто");
+
 useHead({
-  title: generatePageTitle("Просто зручний каталог авто"),
+  title: pageTitie,
   meta: [
     {
       name: "description",
-      content: generatePageTitle("Просто зручний каталог авто"),
+      content: pageTitie,
     },
     {
       name: "og:title",
-      content: generatePageTitle("Просто зручний каталог авто"),
+      content: pageTitie,
     },
     {
       name: "og:url",
