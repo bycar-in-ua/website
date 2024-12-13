@@ -1,8 +1,12 @@
 <script setup lang="ts">
-import BluredEllipse from "@/components/UI/BluredEllipse.vue";
 import type { FormError } from "#ui/types";
+import BluredEllipse from "@/components/UI/BluredEllipse.vue";
+import AffixCta from "./UI/AffixCta.vue";
 
-const props = defineProps<{ page: string }>();
+const props = withDefaults(
+  defineProps<{ page: string; showAffix?: boolean }>(),
+  { showAffix: true },
+);
 
 type FormState = {
   name: string;
@@ -63,10 +67,19 @@ const { status, refresh: submitForm } = useAsyncData(
 );
 
 const messageSent = computed(() => status.value === "success");
+
+const sectionRef = ref<HTMLElement | undefined>();
+const nameInputRef = ref();
+
+const affixClickHandler = () => {
+  sectionRef.value?.scrollIntoView({ behavior: "smooth" });
+  nameInputRef.value?.input.focus();
+};
 </script>
 
 <template>
   <section
+    ref="sectionRef"
     class="my-4 md:my-24 flex flex-wrap md:flex-nowrap justify-center md:justify-normal gap-8 py-6 md:py-12 relative"
   >
     <slot name="ellipse">
@@ -104,6 +117,8 @@ const messageSent = computed(() => status.value === "success");
     >
       <UFormGroup name="name">
         <UInput
+          id="contact-form-name"
+          ref="nameInputRef"
           v-model:model-value="formState.name"
           placeholder="Ваше ім’я"
           size="lg"
@@ -113,6 +128,7 @@ const messageSent = computed(() => status.value === "success");
 
       <UFormGroup name="phone">
         <UInput
+          id="contact-form-phone"
           v-model:model-value="formState.phone"
           placeholder="Ваш номер телефону"
           size="lg"
@@ -137,5 +153,7 @@ const messageSent = computed(() => status.value === "success");
         Передзвоніть мені
       </UButton>
     </UForm>
+
+    <AffixCta v-if="showAffix" @affix-click="affixClickHandler" />
   </section>
 </template>
