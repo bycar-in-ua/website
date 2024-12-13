@@ -104,6 +104,7 @@ const messageSent = computed(() => status.value === "success");
     >
       <UFormGroup name="name">
         <UInput
+          id="contact-form-name"
           v-model:model-value="formState.name"
           placeholder="Ваше ім’я"
           size="lg"
@@ -113,6 +114,7 @@ const messageSent = computed(() => status.value === "success");
 
       <UFormGroup name="phone">
         <UInput
+          id="contact-form-phone"
           v-model:model-value="formState.phone"
           placeholder="Ваш номер телефону"
           size="lg"
