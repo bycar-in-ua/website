@@ -59,6 +59,10 @@ const toggleFullScreen = (value = !fullScreen.value) => {
 };
 
 const zoomListener = (e: KeyboardEvent) => {
+  if (e.target !== document.body) {
+    return;
+  }
+
   switch (e.code) {
     case "Escape":
       toggleFullScreen(false);
