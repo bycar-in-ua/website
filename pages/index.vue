@@ -59,7 +59,7 @@ const { data } = await useAsyncData(
   <main class="container pt-20 md:pt-10 lg:pt-0">
     <Hero :total-cars="data.totalItems" />
     <Latest :latest-items="data.latestItems" />
-    <ContactForm page="Головна сторінка" />
+    <ContactForm page="Головна сторінка" :show-affix="false" />
     <Brands :established-brands="data.establishedBrands" />
   </main>
 </template>
