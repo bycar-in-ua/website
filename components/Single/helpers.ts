@@ -116,12 +116,25 @@ export function getBodyTypeIcon(bodyType?: BodyType): Component {
 }
 
 export function getPowerUnitTitle(powerUnit: PowerUnit): string {
-  return [
+  const parts: Array<string | undefined> = [
     getDisplacement(powerUnit.engine?.displacement),
-    powerUnit.engine?.tradename,
-  ]
-    .filter(Boolean)
-    .join(" ");
+  ];
+
+  if (powerUnit.engine?.isHybrid) {
+    if (powerUnit.engine.hybrid.hybridRechargeable) {
+      parts.push("Plug-in Hybrid");
+    } else {
+      parts.push("Hybrid");
+    }
+  }
+
+  if (powerUnit.engine?.isSoftHybrid) {
+    parts.push("Mild Hybrid");
+  }
+
+  parts.push(powerUnit.engine?.tradename);
+
+  return parts.filter(Boolean).join(" ");
 }
 
 function getDisplacement(displacement: Engine["displacement"]) {
@@ -296,6 +309,29 @@ export function getPetrolEngineBlock(
       ]
     : [];
 
+  const hybridFields: InfoBlock["items"] = [];
+
+  if (engine.isHybrid) {
+    hybridFields.push(
+      {
+        title: t("vehicle.engine.hybridElectricPower") + ", кВт",
+        value: getSafeValue(engine.hybrid.hybridElectricPower),
+      },
+      {
+        title: t("vehicle.engine.hybridElectricTorque") + ", Нм",
+        value: getSafeValue(engine.hybrid.hybridElectricTorque),
+      },
+      {
+        title: t("vehicle.engine.hybridTotalPower") + ", к.с.",
+        value: getSafeValue(engine.hybrid.hybridTotalPower),
+      },
+      {
+        title: t("vehicle.engine.hybridRechargeable"),
+        value: engine.hybrid.hybridRechargeable ? "+" : "-",
+      },
+    );
+  }
+
   return {
     title: t("vehicle.engine.title"),
     defaultOpen: true,
@@ -352,6 +388,7 @@ export function getPetrolEngineBlock(
           }`,
         ),
       },
+      ...hybridFields,
       {
         title: t("tradename"),
         value: getSafeValue(engine?.tradename),

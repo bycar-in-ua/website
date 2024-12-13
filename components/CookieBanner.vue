@@ -4,7 +4,7 @@ defineEmits(["acceptCookie"]);
 
 <template>
   <div
-    class="max-w-[700px] fixed bottom-4 left-1/2 -translate-x-1/2 z-40 p-4 rounded-xl shadow-sm bg-white prose-sm"
+    class="max-w-[700px] w-full fixed bottom-4 left-1/2 -translate-x-1/2 z-40 p-4 rounded-xl shadow-sm bg-white prose-sm"
   >
     <h3 class="text-center">Ми використовуємо "Сookie"</h3>
 
