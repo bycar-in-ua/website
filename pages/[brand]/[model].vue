@@ -100,7 +100,7 @@ useHead({
     />
 
     <!-- eslint-disable vue/no-v-html -->
-    <section class="my-6 md:my-10" v-html="car.description"></section>
+    <section class="my-6 md:my-10 mx-auto prose max-w-full" v-html="car.description"></section>
 
     <ContactForm :page="carTitle">
       <template #ellipse>
