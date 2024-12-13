@@ -20,15 +20,21 @@ const menuItems: HorizontalNavigationLink[] = [
 
 const additionalMenuItems: HorizontalNavigationLink[] = [
   {
-    label: "Політика приватності",
-    to: "/privacy",
+    label: "Політика конфіденційності",
+    to: "/privacy-policy",
+  },
+  {
+    label: "Політика використання файлів Cookie",
+    to: "/cookie-policy",
   },
 ];
 </script>
 
 <template>
   <UVerticalNavigation
-    :links="menuItems"
+    v-for="(links, i) in [menuItems, additionalMenuItems]"
+    :key="i"
+    :links="links"
     :ui="{
       base: 'hover:text-primary',
       padding: 'pt-0 px-0',
@@ -37,18 +43,7 @@ const additionalMenuItems: HorizontalNavigationLink[] = [
       before: 'hover:before:bg-transparent',
       after: 'after:mt-1',
       size: 'text-base',
-    }"
-  />
-  <UVerticalNavigation
-    :links="additionalMenuItems"
-    :ui="{
-      base: 'hover:text-primary',
-      padding: 'pt-0 px-0',
-      active: 'text-primary before:bg-tranparent',
-      inactive: 'text-gray-900 hover:before:bg-transparent',
-      before: 'hover:before:bg-transparent',
-      after: 'after:mt-1',
-      size: 'text-base',
+      label: '',
     }"
   />
 </template>
