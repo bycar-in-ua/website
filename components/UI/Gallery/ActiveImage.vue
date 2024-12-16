@@ -130,11 +130,14 @@ const itemsTrackTranslate = computed(
         transitionDuration: `${transitionDuration}ms`,
       }"
     >
-      <img
+      <NuxtImg
         v-for="item in galleryItems"
         :key="item.id"
+        :provider="item.provider"
         :src="item.source"
         :alt="item.alt"
+        :width="isFullScreen ? undefined : 900"
+        :height="isFullScreen ? 1200 : 600"
         class="bycar-gallery-image"
       />
     </div>

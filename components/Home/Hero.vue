@@ -2,6 +2,8 @@
 import BluredEllipse from "@/components/UI/BluredEllipse.vue";
 
 defineProps<{ totalCars?: number }>();
+
+const heroImgAlt = "bycar.in.un - Легкий шлях до нового авто";
 </script>
 
 <template>
@@ -30,7 +32,11 @@ defineProps<{ totalCars?: number }>();
         {{ totalCars }} активних пропозицій
       </h3>
 
-      <img src="/public/images/hero-image-mobile.png" class="mb-6 sm:hidden" />
+      <NuxtImg
+        src="/images/hero-image-mobile.png"
+        :alt="heroImgAlt"
+        class="mb-6 w-full sm:hidden"
+      />
 
       <UButton
         icon="i-heroicons-magnifying-glass"
@@ -51,9 +57,10 @@ defineProps<{ totalCars?: number }>();
       <div
         class="relative w-[130%] md:w-[160%] -right-1/3 sm:right-0 md:right-32 lg:right-52 bottom-14 sm:bottom-2 md:-bottom-16 lg:bottom-0 z-0"
       >
-        <img
-          src="/public/images/hero-image.png"
-          class="absolute inset-0 top-1/2 -translate-y-1/2"
+        <NuxtImg
+          src="/images/hero-image.png"
+          :alt="heroImgAlt"
+          class="absolute w-full top-1/2 -translate-y-1/2"
         />
       </div>
     </div>
