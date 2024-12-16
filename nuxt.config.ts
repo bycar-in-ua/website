@@ -5,6 +5,7 @@ export default defineNuxtConfig({
     "@nuxt/eslint",
     "@nuxt/ui",
     "@nuxt/fonts",
+    "nuxt-gtag",
   ],
   devtools: { enabled: true },
 
