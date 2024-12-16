@@ -6,7 +6,9 @@ const props = defineProps<{ pagination: PaginationMeta }>();
 const page = defineModel<number>("page", { default: 1 });
 
 const canGoFirstOrPrev = computed(() => page.value > 1);
-const canGoLastOrNext = computed(() => page.value < props.pagination.totalPages);
+const canGoLastOrNext = computed(
+  () => page.value < props.pagination.totalPages,
+);
 </script>
 
 <template>
@@ -18,29 +20,31 @@ const canGoLastOrNext = computed(() => page.value < props.pagination.totalPages)
     :ui="{ rounded: 'first-of-type:rounded-s-md last-of-type:rounded-e-md' }"
   >
     <template #prev="{ onClick }">
-      <UTooltip :text="$t('pagination.prev')">
+      <div>
         <UButton
           icon="i-heroicons-chevron-left"
           color="primary"
           :ui="{ rounded: 'rounded-full' }"
           class="mr-2"
+          :title="$t('pagination.prev')"
           :disabled="!canGoFirstOrPrev"
           @click="onClick"
         />
-      </UTooltip>
+      </div>
     </template>
 
     <template #next="{ onClick }">
-      <UTooltip :text="$t('pagination.next')">
+      <div>
         <UButton
           icon="i-heroicons-chevron-right"
           color="primary"
           :ui="{ rounded: 'rounded-full' }"
           class="ml-2"
           :disabled="!canGoLastOrNext"
+          :title="$t('pagination.next')"
           @click="onClick"
         />
-      </UTooltip>
+      </div>
     </template>
   </UPagination>
 </template>

@@ -33,8 +33,9 @@ const infoBullets = computed(() => getVehicleInfoBullets(props.car, t));
   >
     <img
       :src="imageUrl"
-      class="car-card-img transition-all duration-300 object-cover rounded-3xl"
       :alt="carTitle"
+      loading="lazy"
+      class="car-card-img transition-all duration-300 object-cover rounded-3xl"
     />
     <div class="p-4 text-white absolute inset-0 flex flex-col z-10">
       <h3>{{ carTitle }}</h3>

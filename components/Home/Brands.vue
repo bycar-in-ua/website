@@ -22,8 +22,9 @@ defineProps<{ establishedBrands: Brand[] }>();
         :title="brand.displayName"
       >
         <img
-          :src="$cdnLink(brand.logo, 0, 150)"
+          :src="$cdnLink(brand.logo, 150, 150)"
           :alt="brand.displayName"
+          loading="lazy"
           class="object-contain"
         />
       </NuxtLink>
