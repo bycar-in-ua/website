@@ -7,13 +7,9 @@ const props = defineProps<{
   car: Vehicle;
 }>();
 
-const { $cdnLink } = useNuxtApp();
 const { t } = useI18n();
 
 const carTitle = getCarTitle(props.car);
-const imageUrl = props.car.featureImage
-  ? $cdnLink(props.car.featureImage.path, 600, 1200)
-  : "/images/placeholder-image.jpg";
 
 const priceRange = computed(() => getPriceRange(props.car.complectations));
 
@@ -31,12 +27,16 @@ const infoBullets = computed(() => getVehicleInfoBullets(props.car, t));
     }"
     class="car-card aspect-w-9 aspect-h-9 xs:aspect-h-12 rounded-3xl shadow-xl after:absolute after:block after:inset-0 after:rounded-3xl hover:after:opacity-30 after:transition-all duration-300 overflow-hidden"
   >
-    <img
-      :src="imageUrl"
+    <NuxtImg
+      v-if="car.featureImage?.path"
+      provider="bycar"
+      :src="car.featureImage.path"
       :alt="carTitle"
+      height="360"
       loading="lazy"
-      class="car-card-img transition-all duration-300 object-cover rounded-3xl"
+      class="car-card-img transition-all duration-300 object-cover"
     />
+    <NuxtImg v-else src="/images/placeholder-image.jpg" class="object-cover" />
     <div class="p-4 text-white absolute inset-0 flex flex-col z-10">
       <h3>{{ carTitle }}</h3>
       <div class="font-semibold">

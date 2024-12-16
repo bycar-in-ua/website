@@ -32,10 +32,10 @@ const heroImgAlt = "bycar.in.un - Легкий шлях до нового авт
         {{ totalCars }} активних пропозицій
       </h3>
 
-      <img
-        src="/public/images/hero-image-mobile.png"
+      <NuxtImg
+        src="/images/hero-image-mobile.png"
         :alt="heroImgAlt"
-        class="mb-6 sm:hidden"
+        class="mb-6 w-full sm:hidden"
       />
 
       <UButton
@@ -57,10 +57,10 @@ const heroImgAlt = "bycar.in.un - Легкий шлях до нового авт
       <div
         class="relative w-[130%] md:w-[160%] -right-1/3 sm:right-0 md:right-32 lg:right-52 bottom-14 sm:bottom-2 md:-bottom-16 lg:bottom-0 z-0"
       >
-        <img
-          src="/public/images/hero-image.png"
+        <NuxtImg
+          src="/images/hero-image.png"
           :alt="heroImgAlt"
-          class="absolute inset-0 top-1/2 -translate-y-1/2"
+          class="absolute w-full top-1/2 -translate-y-1/2"
         />
       </div>
     </div>

@@ -21,9 +21,12 @@ defineProps<{ establishedBrands: Brand[] }>();
         class="w-20 h-20 shadow-xl rounded-xl flex items-center justify-center p-3 brightness-90 hover:brightness-100 transition-all duration-300"
         :title="brand.displayName"
       >
-        <img
-          :src="$cdnLink(brand.logo, 150, 150)"
+        <NuxtImg
+          provider="bycar"
+          :src="brand.logo"
           :alt="brand.displayName"
+          width="150"
+          height="150"
           loading="lazy"
           class="object-contain"
         />

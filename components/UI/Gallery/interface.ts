@@ -1,15 +1,10 @@
 import type { DeepReadonly, InjectionKey } from "vue";
 
-export enum GalleryItemVariant {
-  image = "image",
-  video = "video",
-}
-
 export interface IGalleryItem {
   id: number;
-  variant: GalleryItemVariant;
   source: string;
   alt?: string;
+  provider?: string;
 }
 
 export const GalleryItemsKey: InjectionKey<IGalleryItem[]> =
