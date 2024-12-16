@@ -13,7 +13,7 @@ definePageMeta({
   name: "SingleCar",
 });
 
-const { $cdnLink, $bycarApi } = useNuxtApp();
+const { $bycarApi } = useNuxtApp();
 
 const route = useRoute();
 
@@ -42,6 +42,8 @@ const setActivePowerUnit = (powerUnit: PowerUnit) => {
 
 const carTitle = computed(() => getCarTitle(car.value));
 
+const img = useImage();
+
 useHead({
   title: generatePageTitle(carTitle.value),
   meta: [
@@ -59,9 +61,9 @@ useHead({
     },
     {
       name: "og:image",
-      content: $cdnLink(
+      content: img(
         car.value.featureImage?.path || car.value.images?.[0]?.path || "",
-        300,
+        { width: 300, height: 300 },
       ),
     },
   ],
@@ -100,7 +102,10 @@ useHead({
     />
 
     <!-- eslint-disable vue/no-v-html -->
-    <section class="my-6 md:my-10 mx-auto prose max-w-full" v-html="car.description"></section>
+    <section
+      class="my-6 md:my-10 mx-auto prose max-w-full"
+      v-html="car.description"
+    ></section>
 
     <ContactForm :page="carTitle">
       <template #ellipse>

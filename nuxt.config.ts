@@ -6,6 +6,7 @@ export default defineNuxtConfig({
     "@nuxt/ui",
     "@nuxt/fonts",
     "nuxt-gtag",
+    "@nuxt/image",
   ],
   devtools: { enabled: true },
 
@@ -44,6 +45,18 @@ export default defineNuxtConfig({
     provider: "google",
     defaults: {
       weights: [400, 500, 600, 700, 800],
+    },
+  },
+
+  image: {
+    providers: {
+      bycar: {
+        name: "bycar",
+        provider: "~/providers/bycar-cdn.ts",
+        options: {
+          baseURL: process.env.CDN_URL,
+        },
+      },
     },
   },
 });

@@ -35,7 +35,12 @@ const setActiveItem = () => setGalleryActiveItem?.(props.index);
     "
     @click="setActiveItem"
   >
-    <img :src="item.source" class="w-full h-full object-cover" />
+    <NuxtImg
+      :provider="item.provider"
+      :src="item.source"
+      width="200"
+      class="w-full h-full object-cover"
+    />
   </div>
 </template>
 

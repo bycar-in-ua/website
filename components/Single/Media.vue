@@ -2,7 +2,6 @@
 import { Gallery } from "@/components/UI/Gallery";
 import type { IGalleryItem } from "@/components/UI/Gallery";
 import type { PowerUnit, Vehicle } from "@bycar-in-ua/sdk";
-import { GalleryItemVariant } from "@/components/UI/Gallery/interface";
 import ShortSummary from "./ShortSummary.vue";
 
 const props = defineProps<{
@@ -10,8 +9,6 @@ const props = defineProps<{
   title: string;
   activePowerUnit?: PowerUnit;
 }>();
-
-const { $cdnLink } = useNuxtApp();
 
 const items = computed<IGalleryItem[]>(() => {
   const images = props.car.images ?? [];
@@ -27,16 +24,23 @@ const items = computed<IGalleryItem[]>(() => {
 
   return images.map((image) => ({
     id: image.id as number,
-    source: $cdnLink(image.path),
-    variant: GalleryItemVariant.image,
+    source: image.path,
+    alt: image.alt || props.title,
+    provider: "bycar",
   }));
 });
 </script>
 
 <template>
-  <Gallery v-if="items.length" :items class="mb-6 md:mb-10 md:h-[500px] lg:h-[600px]">
+  <Gallery
+    v-if="items.length"
+    :items
+    class="mb-6 md:mb-10 md:h-[500px] lg:h-[600px]"
+  >
     <template #active-image-top>
-      <h1 class="p-4 lg:p-6 text-white font-semibold text-base sm:text-2xl md:text-3xl">
+      <h1
+        class="p-4 lg:p-6 text-white font-semibold text-base sm:text-2xl md:text-3xl"
+      >
         {{ title }}
       </h1>
     </template>
