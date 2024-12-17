@@ -4,26 +4,12 @@ import LogoWhiteBackground from "@/components/UI/Icons/LogoWhiteBackground.vue";
 
 const route = useRoute();
 
-useHead({
+useSeoMeta({
   title: generatePageTitle("Про нас"),
-  meta: [
-    {
-      name: "description",
-      content: generatePageDescription("Про нас"),
-    },
-    {
-      name: "og:title",
-      content: generatePageTitle("Про нас"),
-    },
-    {
-      name: "og:url",
-      content: route.fullPath,
-    },
-    {
-      name: "og:image",
-      content: "/public/bycar-logo-light.png",
-    },
-  ],
+  description: generatePageDescription("Про нас"),
+  ogTitle: generatePageTitle("Про нас"),
+  ogUrl: route.fullPath,
+  ogImage: "/public/bycar-logo-light.png",
 });
 </script>
 

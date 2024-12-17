@@ -1,26 +1,14 @@
 <script setup lang="ts">
 import { generatePageTitle, generatePageDescription } from "@/utils/seo";
 
-useHead({
+const route = useRoute();
+
+useSeoMeta({
   title: generatePageTitle("Cookie Policy"),
-  meta: [
-    {
-      name: "description",
-      content: generatePageDescription("Cookie Policy"),
-    },
-    {
-      name: "og:title",
-      content: generatePageTitle("Cookie Policy"),
-    },
-    {
-      name: "og:url",
-      content: "https://bycar.in.ua/cookies",
-    },
-    {
-      name: "og:image",
-      content: "/public/images/homepage-bg.jpg", // TODO
-    },
-  ],
+  description: generatePageDescription("Cookie Policy"),
+  ogTitle: generatePageTitle("Cookie Policy"),
+  ogUrl: route.fullPath,
+  ogImage: "/public/images/homepage-bg.jpg", // TODO
 });
 </script>
 

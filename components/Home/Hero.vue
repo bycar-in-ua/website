@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import BluredEllipse from "@/components/UI/BluredEllipse.vue";
+import { defaultDescription } from "@/utils/seo";
 
 defineProps<{ totalCars?: number }>();
-
-const heroImgAlt = "bycar.in.un - Легкий шлях до нового авто";
 </script>
 
 <template>
@@ -34,7 +33,7 @@ const heroImgAlt = "bycar.in.un - Легкий шлях до нового авт
 
       <NuxtImg
         src="/images/hero-image-mobile.png"
-        :alt="heroImgAlt"
+        :alt="defaultDescription"
         class="mb-6 w-full sm:hidden"
       />
 
@@ -59,7 +58,7 @@ const heroImgAlt = "bycar.in.un - Легкий шлях до нового авт
       >
         <NuxtImg
           src="/images/hero-image.png"
-          :alt="heroImgAlt"
+          :alt="defaultDescription"
           class="absolute w-full top-1/2 -translate-y-1/2"
         />
       </div>

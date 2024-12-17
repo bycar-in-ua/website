@@ -9,26 +9,12 @@ import { generatePageTitle, generatePageDescription } from "@/utils/seo";
 
 const route = useRoute();
 
-useHead({
+useSeoMeta({
   title: generatePageTitle("Каталог авто"),
-  meta: [
-    {
-      name: "description",
-      content: generatePageDescription("Каталог авто"),
-    },
-    {
-      name: "og:title",
-      content: generatePageTitle("Каталог авто"),
-    },
-    {
-      name: "og:url",
-      content: route.fullPath,
-    },
-    {
-      name: "og:image",
-      content: "/public/bycar-logo-light.png",
-    },
-  ],
+  description: generatePageDescription("Каталог авто"),
+  ogTitle: generatePageTitle("Каталог авто"),
+  ogUrl: route.fullPath,
+  ogImage: "/public/bycar-logo-light.png",
 });
 
 const catalogStore = useCatalogStore();

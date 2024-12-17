@@ -3,22 +3,11 @@ import { generatePageTitle, generatePageDescription } from "@/utils/seo";
 
 const route = useRoute();
 
-useHead({
+useSeoMeta({
   title: generatePageTitle("Політика приватності"),
-  meta: [
-    {
-      name: "description",
-      content: generatePageDescription("Політика приватності"),
-    },
-    {
-      name: "og:title",
-      content: generatePageTitle("Політика приватності"),
-    },
-    {
-      name: "og:url",
-      content: route.fullPath,
-    },
-  ],
+  description: generatePageDescription("Політика приватності"),
+  ogTitle: generatePageTitle("Політика приватності"),
+  ogUrl: route.fullPath,
 });
 </script>
 

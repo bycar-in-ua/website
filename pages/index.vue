@@ -9,26 +9,12 @@ const route = useRoute();
 
 const pageTitie = generatePageTitle("Легкий шлях до нового авто");
 
-useHead({
+useSeoMeta({
   title: pageTitie,
-  meta: [
-    {
-      name: "description",
-      content: pageTitie,
-    },
-    {
-      name: "og:title",
-      content: pageTitie,
-    },
-    {
-      name: "og:url",
-      content: route.fullPath,
-    },
-    {
-      name: "og:image",
-      content: "public/images/hero-image-mobile.png",
-    },
-  ],
+  description: pageTitie,
+  ogTitle: pageTitie,
+  ogUrl: route.fullPath,
+  ogImage: "public/images/hero-image-mobile.png",
 });
 
 const { $bycarApi } = useNuxtApp();
