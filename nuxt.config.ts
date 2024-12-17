@@ -7,6 +7,8 @@ export default defineNuxtConfig({
     "@nuxt/fonts",
     "nuxt-gtag",
     "@nuxt/image",
+    "@nuxtjs/robots",
+    "@nuxtjs/sitemap",
   ],
   devtools: { enabled: true },
 
@@ -48,6 +50,11 @@ export default defineNuxtConfig({
     },
   },
 
+  gtag: {
+    enabled: !!process.env.GTAG_ID,
+    id: process.env.GTAG_ID,
+  },
+
   image: {
     providers: {
       bycar: {
@@ -58,5 +65,15 @@ export default defineNuxtConfig({
         },
       },
     },
+  },
+
+  robots: {
+    disallow: process.env.STAGE === "production" ? undefined : "/",
+  },
+
+  sitemap: {
+    sources: ["/api/__sitemap__/urls"],
+    includeAppSources: true,
+    cacheMaxAgeSeconds: 3600,
   },
 });
