@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     "nuxt-gtag",
     "@nuxt/image",
     "@nuxtjs/robots",
+    "@nuxtjs/sitemap",
   ],
   devtools: { enabled: true },
 
@@ -63,5 +64,10 @@ export default defineNuxtConfig({
 
   robots: {
     disallow: ["catalog?*"],
+  },
+
+  sitemap: {
+    sources: ["/api/__sitemap__/urls"],
+    includeAppSources: true,
   },
 });
