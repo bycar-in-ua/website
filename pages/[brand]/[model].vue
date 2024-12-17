@@ -44,29 +44,24 @@ const carTitle = computed(() => getCarTitle(car.value));
 
 const img = useImage();
 
-useHead({
-  title: generatePageTitle(carTitle.value),
-  meta: [
-    {
-      name: "description",
-      content: generatePageDescription(carTitle.value),
-    },
-    {
-      name: "og:title",
-      content: generatePageTitle(carTitle.value),
-    },
-    {
-      name: "og:url",
-      content: route.fullPath,
-    },
-    {
-      name: "og:image",
-      content: img(
-        car.value.featureImage?.path || car.value.images?.[0]?.path || "",
-        { width: 300, height: 300 },
-      ),
-    },
-  ],
+const seoTitle = generatePageTitle(
+  [
+    carTitle.value,
+    [car.value.yearFrom, car.value.yearTo].filter(Boolean).join(" - "),
+  ]
+    .filter(Boolean)
+    .join(" "),
+);
+
+useSeoMeta({
+  title: seoTitle,
+  description: generatePageDescription(seoTitle),
+  ogTitle: seoTitle,
+  ogUrl: route.fullPath,
+  ogImage: img(
+    car.value.featureImage?.path || car.value.images?.[0]?.path || "",
+    { width: 300, height: 300 },
+  ),
 });
 </script>
 
