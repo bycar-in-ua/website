@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     "@nuxt/fonts",
     "nuxt-gtag",
     "@nuxt/image",
+    "@nuxtjs/robots",
   ],
   devtools: { enabled: true },
 
@@ -58,5 +59,9 @@ export default defineNuxtConfig({
         },
       },
     },
+  },
+
+  robots: {
+    disallow: ["catalog?*"],
   },
 });
