@@ -50,6 +50,11 @@ export default defineNuxtConfig({
     },
   },
 
+  gtag: {
+    enabled: !!process.env.GTAG_ID,
+    id: process.env.GTAG_ID,
+  },
+
   image: {
     providers: {
       bycar: {
@@ -63,7 +68,7 @@ export default defineNuxtConfig({
   },
 
   robots: {
-    disallow: ["catalog?*"],
+    disallow: process.env.STAGE === "production" ? undefined : "/",
   },
 
   sitemap: {
