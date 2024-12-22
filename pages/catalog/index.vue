@@ -5,16 +5,26 @@ import Headline from "@/components/Catalog/Headline.vue";
 import ContactForm from "@/components/ContactForm.vue";
 import BluredEllipse from "@/components/UI/BluredEllipse.vue";
 import { useCatalogStore } from "@/stores/catalog";
-import { generatePageTitle, generatePageDescription } from "@/utils/seo";
+import { generatePageTitle } from "@/utils/seo";
 
 const route = useRoute();
 
+const pageTitie = generatePageTitle("Каталог авто");
+const pageDescription =
+  "Каталог нових автомобілів від офіційних дилерів в Україні. Звертайтеся за допомогою у підборі нових авто або пишіть в чат для консультації.";
+
+const img = useImage();
+
 useSeoMeta({
-  title: generatePageTitle("Каталог авто"),
-  description: generatePageDescription("Каталог авто"),
-  ogTitle: generatePageTitle("Каталог авто"),
+  title: pageTitie,
+  description: pageDescription,
+  ogTitle: pageTitie,
   ogUrl: route.fullPath,
-  ogImage: "/public/bycar-logo-light.png",
+  ogImage: {
+    url: img("/bycar-logo-light.png"),
+    alt: pageTitie,
+  },
+  ogDescription: pageDescription,
 });
 
 const catalogStore = useCatalogStore();

@@ -13,6 +13,19 @@ import Header from "@/components/Header/index.vue";
 import Footer from "@/components/Footer/index.vue";
 import CookieBanner from "@/components/CookieBanner.vue";
 
+useHead({
+  htmlAttrs: {
+    lang: "ua",
+  },
+  link: [
+    {
+      rel: "icon",
+      type: "image/png",
+      href: "/favicon.ico",
+    },
+  ],
+});
+
 const nuxtApp = useNuxtApp();
 
 const cookieAccepted = ref(true);

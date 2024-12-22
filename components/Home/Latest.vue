@@ -11,20 +11,25 @@ defineProps<{ latestItems: Vehicle[] }>();
     <SectionTitle title="Нові авто в каталозі" />
 
     <div
-      class="cards-container grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 md:gap-4 lg:gap-5 md:"
+      class="cards-container grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4 lg:gap-5"
     >
-      <CarCard v-for="car in latestItems" :key="car.id" :car="car" />
+      <CarCard
+        v-for="car in latestItems"
+        :key="car.id"
+        :car="car"
+        class="car-card"
+      />
     </div>
   </section>
 </template>
 
 <style scoped>
-.cards-container > *:nth-child(7n + 1) {
+.car-card:nth-child(n + 7) {
   @apply hidden;
 }
 
-@screen md {
-  .cards-container > *:nth-child(7n + 1) {
+@screen lg {
+  .car-card:nth-child(n + 7) {
     @apply block;
   }
 }

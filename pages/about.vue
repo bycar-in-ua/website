@@ -1,15 +1,25 @@
 <script setup lang="ts">
-import { generatePageTitle, generatePageDescription } from "@/utils/seo";
+import { generatePageTitle } from "@/utils/seo";
 import LogoWhiteBackground from "@/components/UI/Icons/LogoWhiteBackground.vue";
 
 const route = useRoute();
 
+const pageTitie = generatePageTitle("Про нас");
+const pageDescription =
+  "Хто ми? ByCar — це команда професіоналів: дипломовані автомобільні інженери, журналісти та люди з багаторічним досвідом в автобізнесі. Ми закохані в автомобілі та прагнемо бути корисними нашій країні й людям";
+
+const img = useImage();
+
 useSeoMeta({
-  title: generatePageTitle("Про нас"),
-  description: generatePageDescription("Про нас"),
-  ogTitle: generatePageTitle("Про нас"),
+  title: pageTitie,
+  description: pageDescription,
+  ogTitle: pageTitie,
   ogUrl: route.fullPath,
-  ogImage: "/public/bycar-logo-light.png",
+  ogImage: {
+    url: img("/bycar-logo-light.png"),
+    alt: pageTitie,
+  },
+  ogDescription: pageDescription,
 });
 </script>
 
