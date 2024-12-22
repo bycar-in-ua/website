@@ -8,13 +8,21 @@ import { generatePageTitle } from "@/utils/seo";
 const route = useRoute();
 
 const pageTitie = generatePageTitle("Легкий шлях до нового авто");
+const pageDescription =
+  "Каталог нових автомобілів від офіційних дилерів в Україні. Звертайтеся за допомогою у підборі нових авто або пишіть в чат для консультації.";
+
+const img = useImage();
 
 useSeoMeta({
   title: pageTitie,
-  description: pageTitie,
+  description: pageDescription,
   ogTitle: pageTitie,
   ogUrl: route.fullPath,
-  ogImage: "public/images/hero-image-mobile.png",
+  ogImage: {
+    url: img("/bycar-logo-light.png"),
+    alt: pageTitie,
+  },
+  ogDescription: pageDescription,
 });
 
 const { $bycarApi } = useNuxtApp();

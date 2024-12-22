@@ -1,14 +1,23 @@
 <script setup lang="ts">
-import { generatePageTitle, generatePageDescription } from "@/utils/seo";
+import { generatePageTitle } from "@/utils/seo";
 
 const route = useRoute();
 
+const pageTitie = generatePageTitle("Політика використання файлів Cookie");
+const pageDescription = "Політика використання файлів Cookie";
+
+const img = useImage();
+
 useSeoMeta({
-  title: generatePageTitle("Cookie Policy"),
-  description: generatePageDescription("Cookie Policy"),
-  ogTitle: generatePageTitle("Cookie Policy"),
+  title: pageTitie,
+  description: pageDescription,
+  ogTitle: pageTitie,
   ogUrl: route.fullPath,
-  ogImage: "/public/images/homepage-bg.jpg", // TODO
+  ogImage: {
+    url: img("/bycar-logo-light.png"),
+    alt: pageTitie,
+  },
+  ogDescription: pageDescription,
 });
 </script>
 
@@ -82,10 +91,10 @@ useSeoMeta({
 
     <h3>Які файли cookie використовує сайт БАЙКАР ЮКРЕЙН</h3>
     <p>
-      На нашому веб-сайті встановлена служба Google Analytics, Meta (Facebook)
-      Pixel, яка дозволяє нам відстежувати і складати статистику анонімних
-      відвідувачів. Зібрана інформація варіюється від простого обсягу трафіку до
-      типу браузера, за допомогою якого ви переглядаєте наш веб-сайт.
+      На нашому веб-сайті встановлена служба Google Analytics, яка дозволяє нам
+      відстежувати і складати статистику анонімних відвідувачів. Зібрана
+      інформація варіюється від простого обсягу трафіку до типу браузера, за
+      допомогою якого ви переглядаєте наш веб-сайт.
     </p>
 
     <h3>Як відключити кукі</h3>

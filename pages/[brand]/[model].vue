@@ -6,8 +6,8 @@ import PowerUnits from "@/components/Single/PowerUnits.vue";
 import FullInfo from "@/components/Single/FullInfo.vue";
 import ContactForm from "@/components/ContactForm.vue";
 import BluredEllipse from "@/components/UI/BluredEllipse.vue";
-import { getCarTitle } from "@/utils/carHelpers";
-import { generatePageTitle, generatePageDescription } from "@/utils/seo";
+import { getCarTitle, getComplectationsSummary } from "@/utils/carHelpers";
+import { generatePageTitle } from "@/utils/seo";
 
 definePageMeta({
   name: "SingleCar",
@@ -17,13 +17,18 @@ const { $bycarApi } = useNuxtApp();
 
 const route = useRoute();
 
-const { data: car } = await useAsyncData(
-  `${route.params.model}`,
-  () => $bycarApi.getVehicleBySlug(route.params.model as string),
-  {
-    default: () => ({} as Vehicle),
-  },
+const { data, error } = await useAsyncData(`${route.params.model}`, () =>
+  $bycarApi.getVehicleBySlug(route.params.model as string),
 );
+
+if (!data.value) {
+  throw createError({
+    statusCode: error.value?.statusCode || 404,
+    fatal: true,
+  });
+}
+
+const car = computed(() => data.value as Vehicle);
 
 const activeComplectation = ref<Complectation | undefined>(
   car.value.complectations?.find((c) => c.base) ||
@@ -40,28 +45,37 @@ const setActivePowerUnit = (powerUnit: PowerUnit) => {
   activePowerUnit.value = powerUnit;
 };
 
-const carTitle = computed(() => getCarTitle(car.value));
+const carTitle = getCarTitle(car.value);
+const years = [car.value.yearFrom, car.value.yearTo]
+  .filter(Boolean)
+  .join(" - ");
+
+const seoTitle = generatePageTitle(
+  [carTitle, years].filter(Boolean).join(" ").trim(),
+);
+const complectations = getComplectationsSummary(car.value.complectations);
+const seoDescription = `${carTitle} ${years} - доступні комплектації та ціни, характеристики та фото. ${complectations}`;
 
 const img = useImage();
 
-const seoTitle = generatePageTitle(
-  [
-    carTitle.value,
-    [car.value.yearFrom, car.value.yearTo].filter(Boolean).join(" - "),
-  ]
-    .filter(Boolean)
-    .join(" "),
-);
-
 useSeoMeta({
   title: seoTitle,
-  description: generatePageDescription(seoTitle),
-  ogTitle: seoTitle,
+  description: seoDescription,
+  ogTitle: carTitle,
   ogUrl: route.fullPath,
-  ogImage: img(
-    car.value.featureImage?.path || car.value.images?.[0]?.path || "",
-    { width: 300, height: 300 },
-  ),
+  ogImage: {
+    type: "image/jpeg",
+    url: img(
+      car.value.featureImage?.path || car.value.images?.[0]?.path || "",
+      {
+        width: 500,
+        height: 300,
+      },
+      { provider: "bycar" },
+    ),
+    alt: carTitle,
+  },
+  ogDescription: seoDescription,
 });
 </script>
 
