@@ -1,13 +1,24 @@
 <script setup lang="ts">
-import { generatePageTitle, generatePageDescription } from "@/utils/seo";
+import { generatePageTitle } from "@/utils/seo";
 
 const route = useRoute();
 
+const pageTitie = generatePageTitle("Політика конфіденційності");
+const pageDescription =
+  'Угода та правила використання веб-сайту розроблені і прийняті ТОВ "БАЙКАР ЮКРЕЙН"';
+
+const img = useImage();
+
 useSeoMeta({
-  title: generatePageTitle("Політика приватності"),
-  description: generatePageDescription("Політика приватності"),
-  ogTitle: generatePageTitle("Політика приватності"),
+  title: pageTitie,
+  description: pageDescription,
+  ogTitle: pageTitie,
   ogUrl: route.fullPath,
+  ogImage: {
+    url: img("/bycar-logo-light.png"),
+    alt: pageTitie,
+  },
+  ogDescription: pageDescription,
 });
 </script>
 
