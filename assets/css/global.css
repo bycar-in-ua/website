@@ -61,3 +61,7 @@ body {
     display: none;
   }
 }
+
+.responsive-video-iframe-container {
+  @apply aspect-w-16 aspect-h-9;
+}
