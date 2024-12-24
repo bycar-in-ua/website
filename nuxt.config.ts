@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "@nuxtjs/robots",
     "@nuxtjs/sitemap",
+    "@sentry/nuxt/module",
   ],
   devtools: { enabled: true },
 
@@ -20,9 +21,11 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
+      stage: process.env.STAGE ?? "dev",
       apiHost: process.env.API_URL,
       cdnHost: process.env.CDN_URL,
       tgBotUrl: process.env.TG_BOT_URL,
+      sentryDsn: process.env.SENTRY_DSN,
     },
   },
 
@@ -69,6 +72,16 @@ export default defineNuxtConfig({
 
   robots: {
     disallow: process.env.STAGE === "production" ? undefined : "/",
+  },
+
+  sentry: {
+    sourceMapsUploadOptions: {
+      enabled: false,
+    },
+    unstable_sentryBundlerPluginOptions: {
+      telemetry: false,
+    },
+    debug: true,
   },
 
   sitemap: {
