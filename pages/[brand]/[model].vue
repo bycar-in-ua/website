@@ -56,7 +56,7 @@ const seoTitle = generatePageTitle(
 const complectations = getComplectationsSummary(car.value.complectations);
 const seoDescription = `${carTitle} ${years} - доступні комплектації та ціни, характеристики та фото. ${complectations}`;
 
-const img = useImage();
+const img = useCdnImage();
 
 useSeoMeta({
   title: seoTitle,
@@ -67,11 +67,7 @@ useSeoMeta({
     type: "image/jpeg",
     url: img(
       car.value.featureImage?.path || car.value.images?.[0]?.path || "",
-      {
-        width: 500,
-        height: 300,
-      },
-      { provider: "bycar" },
+      "small",
     ),
     alt: carTitle,
   },
