@@ -6,7 +6,6 @@ export default defineNuxtConfig({
     "@nuxt/ui",
     "@nuxt/fonts",
     "nuxt-gtag",
-    "@nuxt/image",
     "@nuxtjs/robots",
     "@nuxtjs/sitemap",
     "@sentry/nuxt/module",
@@ -56,18 +55,6 @@ export default defineNuxtConfig({
   gtag: {
     enabled: !!process.env.GTAG_ID,
     id: process.env.GTAG_ID,
-  },
-
-  image: {
-    providers: {
-      bycar: {
-        name: "bycar",
-        provider: "~/providers/bycar-cdn.ts",
-        options: {
-          baseURL: process.env.CDN_URL,
-        },
-      },
-    },
   },
 
   robots: {

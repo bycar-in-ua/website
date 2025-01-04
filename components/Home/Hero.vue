@@ -33,8 +33,8 @@ const heroAlt = generatePageTitle("Легкий шлях до нового ав�
         {{ totalCars }} активних пропозицій
       </h3>
 
-      <NuxtImg
-        src="/hero-image-mobile.png"
+      <img
+        src="/images/hero-image-mobile.png"
         :alt="heroAlt"
         provider="bycar"
         class="mb-6 w-full sm:hidden"
@@ -59,8 +59,8 @@ const heroAlt = generatePageTitle("Легкий шлях до нового ав�
       <div
         class="relative w-[130%] md:w-[160%] -right-1/3 sm:right-0 md:right-32 lg:right-52 bottom-14 sm:bottom-2 md:-bottom-16 lg:bottom-0 z-0"
       >
-        <NuxtImg
-          src="/hero-image.png"
+        <img
+          src="/images/hero-image.png"
           :alt="heroAlt"
           provider="bycar"
           class="absolute w-full top-1/2 -translate-y-1/2"
