@@ -7,15 +7,13 @@ const pageTitie = generatePageTitle("Політика конфіденційно
 const pageDescription =
   'Угода та правила використання веб-сайту розроблені і прийняті ТОВ "БАЙКАР ЮКРЕЙН"';
 
-const img = useImage();
-
 useSeoMeta({
   title: pageTitie,
   description: pageDescription,
   ogTitle: pageTitie,
   ogUrl: route.fullPath,
   ogImage: {
-    url: img("/bycar-logo-light.png"),
+    url: "/bycar-logo-light.png",
     alt: pageTitie,
   },
   ogDescription: pageDescription,

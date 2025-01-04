@@ -35,10 +35,9 @@ const setActiveItem = () => setGalleryActiveItem?.(props.index);
     "
     @click="setActiveItem"
   >
-    <NuxtImg
-      :provider="item.provider"
+    <CdnImage
       :src="item.source"
-      width="200"
+      size="thumbnail"
       class="w-full h-full object-cover"
     />
   </div>

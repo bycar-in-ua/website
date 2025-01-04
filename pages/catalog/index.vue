@@ -13,15 +13,13 @@ const pageTitie = generatePageTitle("Каталог авто");
 const pageDescription =
   "Каталог нових автомобілів від офіційних дилерів в Україні. Звертайтеся за допомогою у підборі нових авто або пишіть в чат для консультації.";
 
-const img = useImage();
-
 useSeoMeta({
   title: pageTitie,
   description: pageDescription,
   ogTitle: pageTitie,
   ogUrl: route.fullPath,
   ogImage: {
-    url: img("/bycar-logo-light.png"),
+    url: "/bycar-logo-light.png",
     alt: pageTitie,
   },
   ogDescription: pageDescription,

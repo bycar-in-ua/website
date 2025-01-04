@@ -27,16 +27,16 @@ const infoBullets = computed(() => getVehicleInfoBullets(props.car, t));
     }"
     class="car-card aspect-w-9 aspect-h-9 xs:aspect-h-12 rounded-3xl shadow-xl after:absolute after:block after:inset-0 after:rounded-3xl hover:after:opacity-30 after:transition-all duration-300 overflow-hidden"
   >
-    <NuxtImg
+    <CdnImage
       v-if="car.featureImage?.path"
-      provider="bycar"
       :src="car.featureImage.path"
       :alt="carTitle"
-      height="360"
+      size="small"
+      :densities="['small:1x', 'medium:2x']"
       loading="lazy"
       class="car-card-img transition-all duration-300 object-cover"
     />
-    <NuxtImg v-else src="/images/placeholder-image.jpg" class="object-cover" />
+    <img v-else src="/images/placeholder-image.jpg" class="object-cover" />
     <div class="p-4 text-white absolute inset-0 flex flex-col z-10">
       <h3>{{ carTitle }}</h3>
       <div class="font-semibold">

@@ -4,7 +4,6 @@ export interface IGalleryItem {
   id: number;
   source: string;
   alt?: string;
-  provider?: string;
 }
 
 export const GalleryItemsKey: InjectionKey<IGalleryItem[]> =
