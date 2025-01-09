@@ -1,12 +1,9 @@
 <script setup lang="ts">
 import type { FormError } from "#ui/types";
 import BluredEllipse from "@/components/UI/BluredEllipse.vue";
-import AffixCta from "./UI/AffixCta.vue";
+import HelpCta from "./UI/HelpCta.client.vue";
 
-const props = withDefaults(
-  defineProps<{ page: string; showAffix?: boolean }>(),
-  { showAffix: true },
-);
+const props = defineProps<{ page: string }>();
 
 type FormState = {
   name: string;
@@ -154,6 +151,6 @@ const affixClickHandler = () => {
       </UButton>
     </UForm>
 
-    <AffixCta v-if="showAffix" @affix-click="affixClickHandler" />
+    <HelpCta @affix-click="affixClickHandler" />
   </section>
 </template>
