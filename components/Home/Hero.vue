@@ -16,17 +16,15 @@ const heroAlt = generatePageTitle("Легкий шлях до нового ав�
     />
     <div class="md:basis-3/5 flex flex-col md:justify-center items-start z-10">
       <h1 class="text-3xl md:text-5xl font-semibold mb-4">
-        Обрати нове
+        Bycar - сервіс з вибору нових
         <span
-          class="relative inline-block before:block before:absolute before:-z-10 before:w-28 before:h-28 before:left-1/2 before:-translate-x-1/2 before:top-1/2 before:-translate-y-[45%] before:rounded-full before:bg-bycar-secondary-500"
+          class="relative inline-block before:block before:absolute before:-z-10 before:w-14 before:h-14 md:before:w-24 md:before:h-24 before:left-1/2 before:-translate-x-1/2 before:top-1/2 before:-translate-y-[45%] before:rounded-full before:bg-bycar-secondary-500"
         >
           авто
         </span>
-        <br />
-        - це просто
       </h1>
       <h2 class="text-sm md:text-base font-medium mb-6 sm:mb-8 md:mb-12">
-        Від мрії до купівлі. Погнали зробимо це!
+        Тисни кнопку і давай почнемо
       </h2>
 
       <h3 v-if="totalCars && totalCars > 0" class="mb-2 hidden sm:block">
@@ -45,6 +43,7 @@ const heroAlt = generatePageTitle("Легкий шлях до нового ав�
         trailing
         :to="{ name: 'catalog' }"
         class="w-full sm:w-auto flex justify-center items-center"
+        size="xl"
       >
         Пошук авто
       </UButton>
