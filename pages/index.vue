@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Hero from "@/components/Home/Hero.vue";
+import LatestVideos from "@/components/Home/LatestVideos.vue";
 import Latest from "@/components/Home/Latest.vue";
 import ContactForm from "@/components/ContactForm.vue";
 import Brands from "@/components/Home/Brands.vue";
@@ -50,6 +51,7 @@ const { data } = await useAsyncData(
 <template>
   <main class="container pt-20 md:pt-10 lg:pt-0">
     <Hero :total-cars="data.totalItems" />
+    <LatestVideos />
     <Latest :latest-items="data.latestItems" />
     <ContactForm page="Головна сторінка" :show-affix="false" />
     <Brands :established-brands="data.establishedBrands" />
