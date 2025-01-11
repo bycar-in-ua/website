@@ -1,5 +1,6 @@
 export type YouTubeVideoItem = {
-  src: string;
+  // src: string;
+  videoId: string;
   title: string;
   description: string;
 };
