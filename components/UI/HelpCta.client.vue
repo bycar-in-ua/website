@@ -1,14 +1,22 @@
 <script setup lang="ts">
 import { useLocalStorage } from "@vueuse/core";
 
-defineEmits(["affixClick"]);
+const emit = defineEmits(["affixClick"]);
 
-const showHelp = useLocalStorage<boolean>("help-viewed", false);
-const helpClosed = useLocalStorage<boolean>("help-closed", false);
+const showHelp = useLocalStorage<boolean>("helpViewed", false);
+const helpClosed = useLocalStorage<boolean>("helpClosed", false);
 
 const showPopover = ref(false);
 
 let timeoutId: number | undefined;
+
+const clickHandler = () => {
+  emit("affixClick");
+
+  setTimeout(() => {
+    helpClosed.value = true;
+  }, 1000);
+};
 
 onMounted(() => {
   if (!showHelp.value) {
@@ -52,12 +60,12 @@ onBeforeUnmount(() => {
       }"
       size="xl"
       circle
-      @click="$emit('affixClick')"
+      @click="clickHandler"
     />
 
     <template #panel>
       <div v-if="helpClosed" class="p-2">Замовити консультацію</div>
-      <div v-else class="relative p-2 pr-8 max-w-56">
+      <div v-else class="relative p-2 pr-8 max-w-64">
         <UButton
           icon="i-heroicons-x-mark"
           :padded="false"
@@ -75,8 +83,9 @@ onBeforeUnmount(() => {
             }
           "
         />
-        Потрібна допомога з вибором авто? Залиште заявку і наш експерт
-        зв'яжеться із Вами найближчим часом.
+        <span class="font-semibold">Потрібна допомога з вибором авто?</span>
+        <br />
+        Залиште заявку і наш експерт зв'яжеться із Вами найближчим часом.
       </div>
     </template>
   </UPopover>
