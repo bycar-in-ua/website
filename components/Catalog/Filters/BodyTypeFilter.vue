@@ -1,15 +1,32 @@
 <script setup lang="ts">
 import { defineProps, defineEmits } from "vue";
-import type { BodyType } from "@bycar-in-ua/sdk";
+import { BodyType } from "@bycar-in-ua/sdk";
 import Collapsible from "@/components/UI/Collapsible.vue";
 
 const { t } = useI18n();
 
-defineProps<{ bodyTypes: BodyType[]; selectedFilters?: BodyType[] }>();
+const props = defineProps<{
+  bodyTypes: BodyType[];
+  selectedFilters?: BodyType[];
+}>();
 
 const emit = defineEmits<{
   (e: "change", checked: boolean, bodyType: BodyType): void;
 }>();
+
+const bodyTypesWeights: Partial<Record<BodyType, number>> = {
+  [BodyType.SUV]: 0,
+  [BodyType.sedan]: 1,
+  [BodyType.hatchback]: 2,
+  [BodyType.universal]: 3,
+};
+
+const sortedBodyTypes = computed(() => {
+  return [...props.bodyTypes].sort(
+    (a, b) =>
+      (bodyTypesWeights[a] ?? Infinity) - (bodyTypesWeights[b] ?? Infinity),
+  );
+});
 </script>
 
 <template>
@@ -17,7 +34,7 @@ const emit = defineEmits<{
     <template #content>
       <div class="max-h-32 overflow-y-auto">
         <UCheckbox
-          v-for="bodyType in bodyTypes"
+          v-for="bodyType in sortedBodyTypes"
           :key="bodyType"
           :label="t(`vehicle.bodyTypes.items.${bodyType}`)"
           :value="bodyType"

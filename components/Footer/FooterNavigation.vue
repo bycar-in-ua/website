@@ -27,6 +27,11 @@ const additionalMenuItems: HorizontalNavigationLink[] = [
     label: "Політика використання файлів Cookie",
     to: "/cookie-policy",
   },
+  {
+    label: "Форма зворотнього зв'язку",
+    to: "https://coda.io/form/Bycar_dQUuO3ebNz6",
+    target: "_blank",
+  },
 ];
 </script>
 
