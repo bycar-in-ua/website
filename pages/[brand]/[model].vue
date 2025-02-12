@@ -4,6 +4,7 @@ import Media from "@/components/Single/Media.vue";
 import Complectations from "@/components/Single/Complectations.vue";
 import PowerUnits from "@/components/Single/PowerUnits.vue";
 import FullInfo from "@/components/Single/FullInfo.vue";
+import CtaButton from "@/components/Single/CtaButton.vue";
 import ContactForm from "@/components/ContactForm.vue";
 import BluredEllipse from "@/components/UI/BluredEllipse.vue";
 import { getCarTitle, getComplectationsSummary } from "@/utils/carHelpers";
@@ -81,6 +82,10 @@ useSeoMeta({
       class="absolute w-[410px] h-[220px] left-0 md:left-40 top-40 -z-10"
     />
     <Media :car :title="carTitle" :active-power-unit="activePowerUnit" />
+
+    <div class="flex justify-end items-center mb-4 md:mb-5">
+      <CtaButton />
+    </div>
 
     <template v-if="car.complectations?.length">
       <Complectations
