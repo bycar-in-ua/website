@@ -1,5 +1,5 @@
 import type { Component } from "vue";
-import type { Image } from "@bycar-in-ua/sdk";
+import type { Image, Vehicle } from "@bycar-in-ua/sdk";
 
 export type InfoBulletProps = {
   title: string;
@@ -29,4 +29,9 @@ type Dealer = {
 export type Availability = {
   dealers: Dealer[];
   images: Image[];
+};
+
+export type AvailableCar = Vehicle & {
+  title: string;
+  availability: Availability;
 };

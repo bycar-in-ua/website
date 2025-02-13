@@ -3,7 +3,8 @@ import type { Vehicle } from "@bycar-in-ua/sdk";
 import CarCard from "@/components/UI/CarCard/CarCard.vue";
 import { getCarTitle } from "@/utils/carHelpers";
 import SectionTitle from "./SectionTitle.vue";
-import type { Availability } from "./interface";
+import AvailableCarModal from "./AvailableCarModal.vue";
+import type { Availability, AvailableCar } from "./interface";
 
 const props = defineProps<{
   car: Vehicle;
@@ -11,8 +12,6 @@ const props = defineProps<{
 }>();
 
 const carTitle = getCarTitle(props.car);
-
-type AvailableCar = Vehicle & { title: string; availability: Availability };
 
 const availableCars = computed<AvailableCar[]>(() => {
   return Object.entries(props.availability)
@@ -35,10 +34,18 @@ const availableCars = computed<AvailableCar[]>(() => {
     })
     .filter(Boolean) as AvailableCar[];
 });
+
+const open = ref(false);
+const targetCar = ref<AvailableCar | null>(null);
+
+function openModal(car: AvailableCar) {
+  targetCar.value = car;
+  open.value = true;
+}
 </script>
 
 <template>
-  <section>
+  <section id="available-cars">
     <SectionTitle class="mb-4">
       Авто в наявності
     </SectionTitle>
@@ -51,7 +58,10 @@ const availableCars = computed<AvailableCar[]>(() => {
         :key="availableCar.id"
         :car="availableCar"
         :title="availableCar.title"
+        class="cursor-pointer"
+        @click="() => openModal(availableCar)"
       />
     </div>
+    <AvailableCarModal v-model:open="open" :car="targetCar" />
   </section>
 </template>

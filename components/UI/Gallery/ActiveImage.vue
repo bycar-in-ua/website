@@ -7,7 +7,7 @@ import {
   GalleryItemsKey,
 } from "./interface.js";
 
-defineProps<{ isFullScreen: boolean }>();
+defineProps<{ isFullScreen: boolean; fullScreenAvailable: boolean }>();
 
 const trackRef = ref<HTMLElement>();
 const transitionDuration = ref<number>(300);
@@ -22,6 +22,7 @@ const arrowsKeydownListener = (e: KeyboardEvent) => {
   if (!activeItem) {
     return;
   }
+  e.stopPropagation();
 
   if (e.key === "ArrowRight" && activeItem.value.nextItemIndex !== null) {
     setGalleryActiveItem?.(activeItem.value.nextItemIndex, "next");
@@ -108,6 +109,7 @@ const itemsTrackTranslate = computed(
       </div>
 
       <div
+        v-if="fullScreenAvailable"
         class="absolute top-0 left-14 right-14 cursor-pointer z-20"
         :class="$slots.bottom ? 'bottom-16' : 'bottom-0'"
         :title="$t('gallery.toggleFullScreen')"

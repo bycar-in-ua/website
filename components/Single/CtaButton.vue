@@ -1,13 +1,11 @@
 <script setup lang="ts">
 function clickHandler() {
-  const container = document?.getElementById("contact-form-container");
-  const targetInput = document?.getElementById("contact-form-name");
+  const container = document?.getElementById("available-cars");
 
   container?.scrollIntoView({ behavior: "smooth" });
-  targetInput?.focus();
 }
 </script>
 
 <template>
-  <UButton @click="clickHandler">Замовити консультацію</UButton>
+  <UButton @click="clickHandler">Обрати з наявності</UButton>
 </template>
