@@ -1,6 +1,10 @@
+<script setup lang="ts">
+withDefaults(defineProps<{ color?: string }>(), { color: "white" });
+</script>
+
 <template>
   <svg
-    fill="white"
+    :fill="color"
     viewBox="0 -14.14 122.88 122.88"
     version="1.1"
     xmlns="http://www.w3.org/2000/svg"

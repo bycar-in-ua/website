@@ -29,6 +29,8 @@ type Dealer = {
 export type Availability = {
   dealers: Dealer[];
   images: Image[];
+  powerUnitId: number;
+  priceUah: number;
 };
 
 export type AvailableCar = Vehicle & {

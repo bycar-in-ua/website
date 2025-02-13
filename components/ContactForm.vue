@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { FormError } from "#ui/types";
-import BluredEllipse from "@/components/UI/BluredEllipse.vue";
-import HelpCta from "./UI/HelpCta.client.vue";
 
-const props = defineProps<{ page: string }>();
+const props = withDefaults(defineProps<{ page: string; id?: string }>(), {
+  id: "contact-form",
+});
 
 type FormState = {
   name: string;
@@ -64,94 +64,52 @@ const { status, refresh: submitForm } = useAsyncData(
 );
 
 const messageSent = computed(() => status.value === "success");
-
-const sectionRef = ref<HTMLElement | undefined>();
-const nameInputRef = ref();
-
-const affixClickHandler = () => {
-  sectionRef.value?.scrollIntoView({ behavior: "smooth" });
-  nameInputRef.value?.input.focus();
-};
 </script>
 
 <template>
-  <section
-    id="contact-form-container"
-    ref="sectionRef"
-    class="my-4 md:my-24 flex flex-wrap md:flex-nowrap justify-center md:justify-normal gap-8 py-6 md:py-12 relative"
+  <UForm
+    :state="formState"
+    :validate="validate"
+    class="p-5 flex flex-col gap-4 shadow-xl rounded-2xl bg-white max-w-[340px] w-full"
+    :validate-on="['submit']"
+    :disabled="true"
+    @submit="submitForm"
   >
-    <slot name="ellipse">
-      <BluredEllipse
-        class="absolute w-[410px] h-[220px] right-14 -bottom-14 -z-10"
+    <UFormGroup name="name">
+      <UInput
+        :id="`${id}-name`"
+        v-model:model-value="formState.name"
+        placeholder="Ваше ім’я"
+        size="lg"
+        :disabled="messageSent"
       />
-    </slot>
-    <div>
-      <h3 class="text-2xl font-bold mb-2">
-        Не впевнений, яке авто тобі підходить?<br />
-        Запитай у експерта!
-      </h3>
-      <p class="text-base text-gray-500 mb-4">
-        Сьогодні на зв'язку Євген. Справжній автофанат,<br />
-        любить БМВ і свого песика Тобі
-      </p>
-      <UButton
-        icon="i-heroicons-chat-bubble-bottom-center"
-        trailing
-        variant="outline"
-        to="https://t.me/AJ201997"
-        target="_blank"
-      >
-        Написати в чат
-      </UButton>
-    </div>
+    </UFormGroup>
 
-    <UForm
-      :state="formState"
-      :validate="validate"
-      class="p-5 md:ml-auto flex flex-col gap-4 shadow-xl rounded-2xl bg-white max-w-[340px] w-full"
-      :validate-on="['submit']"
-      :disabled="true"
-      @submit="submitForm"
+    <UFormGroup name="phone">
+      <UInput
+        :id="`${id}-phone`"
+        v-model:model-value="formState.phone"
+        placeholder="Ваш номер телефону"
+        size="lg"
+        mask="+38 (###) ###-##-##"
+        type="tel"
+        :disabled="messageSent"
+      />
+    </UFormGroup>
+
+    <UButton v-if="messageSent" block disabled>
+      Заявку надіслано!<br />
+      Дякуємо за звернення
+    </UButton>
+    <UButton
+      v-else
+      icon="i-heroicons-phone"
+      trailing
+      block
+      type="submit"
+      :loading="status === 'pending'"
     >
-      <UFormGroup name="name">
-        <UInput
-          id="contact-form-name"
-          ref="nameInputRef"
-          v-model:model-value="formState.name"
-          placeholder="Ваше ім’я"
-          size="lg"
-          :disabled="messageSent"
-        />
-      </UFormGroup>
-
-      <UFormGroup name="phone">
-        <UInput
-          id="contact-form-phone"
-          v-model:model-value="formState.phone"
-          placeholder="Ваш номер телефону"
-          size="lg"
-          mask="+38 (###) ###-##-##"
-          type="tel"
-          :disabled="messageSent"
-        />
-      </UFormGroup>
-
-      <UButton v-if="messageSent" block disabled>
-        Заявку надіслано!<br />
-        Дякуємо за звернення
-      </UButton>
-      <UButton
-        v-else
-        icon="i-heroicons-phone"
-        trailing
-        block
-        type="submit"
-        :loading="status === 'pending'"
-      >
-        Передзвоніть мені
-      </UButton>
-    </UForm>
-
-    <HelpCta @affix-click="affixClickHandler" />
-  </section>
+      Передзвоніть мені
+    </UButton>
+  </UForm>
 </template>

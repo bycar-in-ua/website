@@ -24,11 +24,16 @@ const availableCars = computed<AvailableCar[]>(() => {
         return;
       }
 
+      const powerUnit =
+        complectation.powerUnits?.find(
+          ({ id }) => id === availability.powerUnitId,
+        ) ?? complectation.powerUnits?.[0];
+
       return {
         ...props.car,
         title: `${carTitle} ${complectation.displayName}`,
         featureImage: availability.images?.[0],
-        complectations: [complectation],
+        complectations: [{ ...complectation, powerUnits: [powerUnit] }],
         availability,
       };
     })
@@ -46,9 +51,7 @@ function openModal(car: AvailableCar) {
 
 <template>
   <section id="available-cars">
-    <SectionTitle class="mb-4">
-      Авто в наявності
-    </SectionTitle>
+    <SectionTitle class="mb-4"> Авто в наявності </SectionTitle>
 
     <div
       class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
@@ -62,6 +65,6 @@ function openModal(car: AvailableCar) {
         @click="() => openModal(availableCar)"
       />
     </div>
-    <AvailableCarModal v-model:open="open" :car="targetCar" />
+    <AvailableCarModal v-if="targetCar" v-model:open="open" :car="targetCar" />
   </section>
 </template>

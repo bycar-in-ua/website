@@ -1,13 +1,25 @@
 <script setup lang="ts">
 import { Gallery, type IGalleryItem } from "@/components/UI/Gallery";
-import type { AvailableCar } from "./interface";
+import ContactForm from "~/components/ContactForm.vue";
 import { getPriceRange } from "../UI/CarCard/helpers";
+import InfoBullet from "./InfoBullet.vue";
+import type { AvailableCar } from "./interface";
+import { getInfoBullets, getPowerUnitTitle } from "./helpers";
 
-const props = defineProps<{ car: AvailableCar | null }>();
+const props = defineProps<{ car: AvailableCar }>();
 
 const open = defineModel<boolean>("open");
 
 const priceRange = computed(() => getPriceRange(props.car?.complectations));
+const powerUnitTitle = computed(() => {
+  const powerUnit = props.car.complectations?.[0]?.powerUnits?.[0];
+
+  if (!powerUnit) {
+    return "";
+  }
+
+  return getPowerUnitTitle(powerUnit);
+});
 
 const img = useCdnImage();
 
@@ -21,6 +33,18 @@ const galleryItems = computed<IGalleryItem[]>(() => {
     source: img(image.path, "large"),
   }));
 });
+
+const { t } = useI18n();
+
+const infoBullets = computed(() =>
+  getInfoBullets(
+    {
+      car: props.car,
+      powerUnit: props.car.complectations?.[0]?.powerUnits?.[0],
+    },
+    t,
+  ),
+);
 </script>
 
 <template>
@@ -51,9 +75,35 @@ const galleryItems = computed<IGalleryItem[]>(() => {
         </div>
 
         <div>
-          <h2 class="text-xl sm:text-2xl font-bold">
-            Новий {{ car.title }} в наявності за ціною {{ priceRange }}
+          <h2 class="text-xl sm:text-2xl">
+            Новий <strong>{{ car.title }} {{ powerUnitTitle }}</strong> в
+            наявності
           </h2>
+          <div class="font-semibold italic text-xl">~ {{ priceRange }}</div>
+          <div class="grid sm:grid-cols-2 gap-4 mt-8">
+            <InfoBullet
+              v-for="(infoBullet, i) in infoBullets"
+              :key="i"
+              :title="infoBullet.title"
+              :value="infoBullet.value"
+              :icon="infoBullet.icon"
+              color="black"
+            />
+          </div>
+          <div class="mt-8 flex">
+            <div class="bg-slate-100 p-8 rounded-xl">
+              <h3 class="font-bold text-xl mb-2">Роздрібна ціна</h3>
+
+              <span class="font-bold text-4xl">
+                UAH {{ car.availability.priceUah.toLocaleString() }}
+              </span>
+            </div>
+          </div>
+          <ContactForm
+            id="available-car-contact-form"
+            :page="`${car.title} ${powerUnitTitle} available car modal`"
+            class="mt-8 mx-auto"
+          />
         </div>
       </div>
     </UCard>

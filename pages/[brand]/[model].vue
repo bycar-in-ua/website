@@ -6,7 +6,7 @@ import PowerUnits from "@/components/Single/PowerUnits.vue";
 import FullInfo from "@/components/Single/FullInfo.vue";
 import CtaButton from "@/components/Single/CtaButton.vue";
 import AvailableCars from "@/components/Single/AvailableCars.vue";
-import ContactForm from "@/components/ContactForm.vue";
+import ContactForm from "~/components/ContactFormSection.vue";
 import BluredEllipse from "@/components/UI/BluredEllipse.vue";
 import { getCarTitle, getComplectationsSummary } from "@/utils/carHelpers";
 import { generatePageTitle } from "@/utils/seo";
