@@ -1,0 +1,47 @@
+{
+  "comment": "This is temporary solution for providing cars availability data. It will be replaced by real API in the future.",
+  "data": {
+    "5": {
+      "8": {
+        "dealers": [
+          {
+            "id": 1,
+            "name": "Порше Інтер Авто",
+            "availability": "available",
+            "location": "м. Київ"
+          }
+        ],
+        "images": [
+          {
+            "id": 1,
+            "path": "images/1639156355055-Volkswagen-T-Roc-2018-1024-0a.jpeg"
+          },
+          {
+            "id": 2,
+            "path": "images/1639156355057-Volkswagen-T-Roc-2018-1024-47.jpeg"
+          }
+        ]
+      },
+      "9": {
+        "dealers": [
+          {
+            "id": 1,
+            "name": "Порше Інтер Авто",
+            "availability": "available",
+            "location": "м. Київ"
+          }
+        ],
+        "images": [
+          {
+            "id": 3,
+            "path": "images/1639156355056-Volkswagen-T-Roc-2018-1024-01.jpeg"
+          },
+          {
+            "id": 4,
+            "path": "images/1639156355058-Volkswagen-T-Roc-2018-1024-59.jpeg"
+          }
+        ]
+      }
+    }
+  }
+}

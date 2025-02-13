@@ -1,4 +1,5 @@
 import type { Component } from "vue";
+import type { Image } from "@bycar-in-ua/sdk";
 
 export type InfoBulletProps = {
   title: string;
@@ -13,4 +14,19 @@ export type InfoBlock = {
     title: string;
     value: string | number;
   }>;
+};
+
+type Dealer = {
+  id: number;
+  name: string;
+  availability: string;
+  location: string;
+};
+
+/**
+ * @description Temporary solution, will be reworked to SDK
+ */
+export type Availability = {
+  dealers: Dealer[];
+  images: Image[];
 };
