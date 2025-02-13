@@ -48,8 +48,11 @@ const infoBullets = computed(() =>
 </script>
 
 <template>
-  <UModal v-model="open" :ui="{ width: 'lg:max-w-[75vw]' }">
-    <UCard v-if="car">
+  <UModal v-model="open" :ui="{ width: 'sm:max-w-[90vw] xl:max-w-[80vw]' }">
+    <UCard
+      v-if="car"
+      :ui="{ body: { base: 'max-h-[85vh] sm:max-h-[80vh] overflow-y-auto' } }"
+    >
       <template #header>
         <div class="flex items-center justify-between">
           <h3 class="text-base font-semibold leading-6">
@@ -75,7 +78,7 @@ const infoBullets = computed(() =>
         </div>
 
         <div>
-          <h2 class="text-xl sm:text-2xl">
+          <h2 class="text-lg lg:text-xl sm:text-2xl">
             Новий <strong>{{ car.title }} {{ powerUnitTitle }}</strong> в
             наявності
           </h2>
@@ -90,19 +93,35 @@ const infoBullets = computed(() =>
               color="black"
             />
           </div>
-          <div class="mt-8 flex justify-center">
-            <div class="bg-slate-100 p-8 rounded-xl">
+
+          <div class="mt-8">
+            В наявності в
+            {{ car.availability.dealers.map((d) => d.location).join(", ") }}
+          </div>
+
+          <div class="mt-4 flex justify-center">
+            <div class="bg-slate-100 p-6 sm:p-8 rounded-xl">
               <h3 class="font-bold text-xl mb-2">Роздрібна ціна</h3>
 
-              <span class="font-bold text-4xl">
+              <div class="font-bold text-xl md:text-2xl lg:text-4xl">
                 UAH {{ car.availability.priceUah.toLocaleString() }}
-              </span>
+              </div>
+
+              <div class="text-xs mt-2 text-gray-600">
+                <UIcon name="i-heroicons-information-circle" />
+                Фактична ціна може відрізнятися від вказанної на сайті
+              </div>
             </div>
           </div>
+
+          <h4 class="text-center mt-8 font-semibold text-xl">
+            Зв`язатися зі спеціалістом
+          </h4>
+
           <ContactForm
             id="available-car-contact-form"
             :page="`${car.title} ${powerUnitTitle} available car modal`"
-            class="mt-8 mx-auto"
+            class="mt-4 mx-auto"
           />
         </div>
       </div>

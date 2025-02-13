@@ -40,7 +40,10 @@ const activeItem = ref<IActiveGalleryItem>({
   nextItemIndex: props.items.length > 1 ? 1 : null,
 });
 
-const setActiveItem: TSetGalleryActiveItem = (itemIndex) => {
+const setActiveItem: TSetGalleryActiveItem = (
+  itemIndex,
+  scrollIntoView = true,
+) => {
   const prevIndex = itemIndex - 1;
   const nextIndex = itemIndex + 1;
   activeItem.value = {
@@ -48,9 +51,11 @@ const setActiveItem: TSetGalleryActiveItem = (itemIndex) => {
     prevItemIndex: prevIndex >= 0 ? prevIndex : null,
     nextItemIndex: nextIndex < props.items.length ? nextIndex : null,
   };
-  thumbsListRef.value?.[itemIndex].htmlRef.scrollIntoView({
-    block: "nearest",
-  });
+  if (scrollIntoView) {
+    thumbsListRef.value?.[itemIndex].htmlRef.scrollIntoView({
+      block: "nearest",
+    });
+  }
 };
 
 const toggleFullScreen = (value = !fullScreen.value) => {
@@ -106,12 +111,8 @@ provide(ToggleGalleryFullScreenKey, toggleFullScreen);
 // Autoplay
 let intevalId: number | NodeJS.Timeout | undefined;
 
-const nextHandler = () => {
-  setActiveItem(activeItem.value.nextItemIndex ?? 0);
-};
-
 const autoplayCallback = () => {
-  nextHandler();
+  setActiveItem(activeItem.value.nextItemIndex ?? 0, false);
 };
 
 const startIntevalHandler = () => {

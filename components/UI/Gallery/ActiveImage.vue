@@ -25,10 +25,10 @@ const arrowsKeydownListener = (e: KeyboardEvent) => {
   e.stopPropagation();
 
   if (e.key === "ArrowRight" && activeItem.value.nextItemIndex !== null) {
-    setGalleryActiveItem?.(activeItem.value.nextItemIndex, "next");
+    setGalleryActiveItem?.(activeItem.value.nextItemIndex);
     return;
   } else if (e.key === "ArrowLeft" && activeItem.value.prevItemIndex !== null) {
-    setGalleryActiveItem?.(activeItem.value.prevItemIndex, "prev");
+    setGalleryActiveItem?.(activeItem.value.prevItemIndex);
     return;
   }
 
@@ -90,7 +90,7 @@ const itemsTrackTranslate = computed(
       v-if="activeItem?.prevItemIndex !== null"
       title="&#129044;"
       class="bycar-gallery-chewron-wrapper justify-end left-0"
-      @click="setGalleryActiveItem(activeItem?.prevItemIndex ?? 0, 'prev')"
+      @click="setGalleryActiveItem(activeItem?.prevItemIndex ?? 0)"
     >
       <span class="bycar-gallery-icon-container">
         <UIcon
@@ -149,7 +149,7 @@ const itemsTrackTranslate = computed(
       v-if="activeItem?.nextItemIndex !== null"
       title="&#10141;"
       class="bycar-gallery-chewron-wrapper justify-start right-0"
-      @click="setGalleryActiveItem(activeItem?.nextItemIndex ?? 0, 'next')"
+      @click="setGalleryActiveItem(activeItem?.nextItemIndex ?? 0)"
     >
       <span class="bycar-gallery-icon-container">
         <UIcon

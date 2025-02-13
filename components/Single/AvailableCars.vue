@@ -8,14 +8,14 @@ import type { Availability, AvailableCar } from "./interface";
 
 const props = defineProps<{
   car: Vehicle;
-  availability: Record<string, Availability>;
+  availability: Record<string, Availability[]>;
 }>();
 
 const carTitle = getCarTitle(props.car);
 
 const availableCars = computed<AvailableCar[]>(() => {
   return Object.entries(props.availability)
-    .map(([complectationId, availability]) => {
+    .flatMap(([complectationId, availability]) => {
       const complectation = props.car.complectations?.find(
         (c) => c.id === Number(complectationId),
       );
@@ -24,18 +24,20 @@ const availableCars = computed<AvailableCar[]>(() => {
         return;
       }
 
-      const powerUnit =
-        complectation.powerUnits?.find(
-          ({ id }) => id === availability.powerUnitId,
-        ) ?? complectation.powerUnits?.[0];
+      return availability.map((avlbl) => {
+        const powerUnit =
+          complectation.powerUnits?.find(
+            ({ id }) => id === avlbl.powerUnitId,
+          ) ?? complectation.powerUnits?.[0];
 
-      return {
-        ...props.car,
-        title: `${carTitle} ${complectation.displayName}`,
-        featureImage: availability.images?.[0],
-        complectations: [{ ...complectation, powerUnits: [powerUnit] }],
-        availability,
-      };
+        return {
+          ...props.car,
+          title: `${carTitle} ${complectation.displayName}`,
+          featureImage: avlbl.images?.[0],
+          complectations: [{ ...complectation, powerUnits: [powerUnit] }],
+          availability: avlbl,
+        };
+      });
     })
     .filter(Boolean) as AvailableCar[];
 });
@@ -51,7 +53,9 @@ function openModal(car: AvailableCar) {
 
 <template>
   <section id="available-cars">
-    <SectionTitle class="mb-4"> Авто в наявності </SectionTitle>
+    <SectionTitle class="mb-4">
+      Авто в наявності
+    </SectionTitle>
 
     <div
       class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"

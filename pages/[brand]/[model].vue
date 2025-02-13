@@ -33,7 +33,7 @@ if (!data.value) {
 }
 
 const car = computed(() => data.value as Vehicle);
-const availability = computed<Record<string, Availability> | undefined>(
+const availability = computed<Record<string, Availability[]> | undefined>(
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
   () => availabilityData.data[car.value.id],
