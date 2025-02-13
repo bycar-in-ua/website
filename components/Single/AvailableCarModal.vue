@@ -74,6 +74,7 @@ const infoBullets = computed(() =>
             :items="galleryItems"
             :full-screen-available="false"
             :autoplay-interval="5_000"
+            class="md:h-[500px] lg:h-[600px]"
           />
         </div>
 
