@@ -110,7 +110,7 @@ const infoBullets = computed(() =>
 
               <div class="text-xs mt-2 text-gray-600">
                 <UIcon name="i-heroicons-information-circle" />
-                Фактична ціна може відрізнятися від вказанної на сайті
+                Фактична ціна може відрізнятися від вказаної на сайті
               </div>
             </div>
           </div>
