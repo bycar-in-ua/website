@@ -13,12 +13,19 @@ defineProps<{ latestItems: Vehicle[] }>();
     <div
       class="cards-container grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4 lg:gap-5"
     >
-      <CarCard
+      <NuxtLink
         v-for="car in latestItems"
         :key="car.id"
-        :car="car"
-        class="car-card"
-      />
+        :to="{
+          name: 'SingleCar',
+          params: {
+            brand: car.brand?.slug ?? '',
+            model: car.slug,
+          },
+        }"
+      >
+        <CarCard :car="car" />
+      </NuxtLink>
     </div>
   </section>
 </template>

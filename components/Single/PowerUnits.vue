@@ -19,7 +19,7 @@ defineProps<{ powerUnits: PowerUnit[]; activePowerUnit?: PowerUnit; setActivePow
         :key="powerUnit.id"
         :title="getPowerUnitTitle(powerUnit)"
         :subtitle="getPowerUnitSubtitle(powerUnit, $t)"
-        :value="`$${powerUnit.price}`"
+        :value="`$${powerUnit.price.toLocaleString()}`"
         :active="powerUnit.id === activePowerUnit?.id"
         @click="() => setActivePowerUnit(powerUnit)"
       />

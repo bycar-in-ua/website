@@ -20,6 +20,14 @@ import {
 import type { Component } from "vue";
 import Drive from "~/components/UI/Icons/Drive.vue";
 
+function getSafeValue<TCheck, TValue>(
+  checkable: TCheck,
+  value?: TValue,
+  nonValue = "-",
+): NonNullable<TValue> | string {
+  return checkable ? ((value ?? checkable) as NonNullable<TValue>) : nonValue;
+}
+
 export function getInfoBullets(
   {
     car,
@@ -43,9 +51,17 @@ export function getInfoBullets(
   ];
 
   if (powerUnit?.engine?.power) {
+    const fuelType = getSafeValue(
+      powerUnit.engine.fuelType,
+      t(`vehicle.engine.fuelTypes.${powerUnit.engine.fuelType}`),
+      "",
+    );
+
     bullets.push({
       title: t("vehicle.engine.power"),
-      value: `${powerUnit.engine.power} ${t("units.power")}`,
+      value: [`${powerUnit.engine.power} ${t("units.power")}`, fuelType].join(
+        ", ",
+      ),
       icon: EngineIcon,
     });
   }
@@ -161,13 +177,6 @@ export function getPowerUnitSubtitle(powerUnit: PowerUnit, t: Composer["t"]) {
   }
 
   return parts.filter(Boolean).join(" ");
-}
-
-function getSafeValue<TCheck, TValue>(
-  checkable: TCheck,
-  value?: TValue,
-): NonNullable<TValue> | string {
-  return checkable ? ((value ?? checkable) as NonNullable<TValue>) : "-";
 }
 
 export function getGeneralInfoBlock(car: Vehicle, t: Composer["t"]): InfoBlock {

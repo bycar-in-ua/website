@@ -7,7 +7,7 @@ import {
   GalleryItemsKey,
 } from "./interface.js";
 
-defineProps<{ isFullScreen: boolean }>();
+defineProps<{ isFullScreen: boolean; fullScreenAvailable: boolean }>();
 
 const trackRef = ref<HTMLElement>();
 const transitionDuration = ref<number>(300);
@@ -22,12 +22,13 @@ const arrowsKeydownListener = (e: KeyboardEvent) => {
   if (!activeItem) {
     return;
   }
+  e.stopPropagation();
 
   if (e.key === "ArrowRight" && activeItem.value.nextItemIndex !== null) {
-    setGalleryActiveItem?.(activeItem.value.nextItemIndex, "next");
+    setGalleryActiveItem?.(activeItem.value.nextItemIndex);
     return;
   } else if (e.key === "ArrowLeft" && activeItem.value.prevItemIndex !== null) {
-    setGalleryActiveItem?.(activeItem.value.prevItemIndex, "prev");
+    setGalleryActiveItem?.(activeItem.value.prevItemIndex);
     return;
   }
 
@@ -89,7 +90,7 @@ const itemsTrackTranslate = computed(
       v-if="activeItem?.prevItemIndex !== null"
       title="&#129044;"
       class="bycar-gallery-chewron-wrapper justify-end left-0"
-      @click="setGalleryActiveItem(activeItem?.prevItemIndex ?? 0, 'prev')"
+      @click="setGalleryActiveItem(activeItem?.prevItemIndex ?? 0)"
     >
       <span class="bycar-gallery-icon-container">
         <UIcon
@@ -108,6 +109,7 @@ const itemsTrackTranslate = computed(
       </div>
 
       <div
+        v-if="fullScreenAvailable"
         class="absolute top-0 left-14 right-14 cursor-pointer z-20"
         :class="$slots.bottom ? 'bottom-16' : 'bottom-0'"
         :title="$t('gallery.toggleFullScreen')"
@@ -147,7 +149,7 @@ const itemsTrackTranslate = computed(
       v-if="activeItem?.nextItemIndex !== null"
       title="&#10141;"
       class="bycar-gallery-chewron-wrapper justify-start right-0"
-      @click="setGalleryActiveItem(activeItem?.nextItemIndex ?? 0, 'next')"
+      @click="setGalleryActiveItem(activeItem?.nextItemIndex ?? 0)"
     >
       <span class="bycar-gallery-icon-container">
         <UIcon
