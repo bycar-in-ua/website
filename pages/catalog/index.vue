@@ -2,7 +2,7 @@
 import Sidebar from "@/components/Catalog/Sidebar.vue";
 import List from "@/components/Catalog/List.vue";
 import Headline from "@/components/Catalog/Headline.vue";
-import ContactForm from "@/components/ContactForm.vue";
+import ContactForm from "~/components/ContactFormSection.vue";
 import BluredEllipse from "@/components/UI/BluredEllipse.vue";
 import { useCatalogStore } from "@/stores/catalog";
 import { generatePageTitle } from "@/utils/seo";

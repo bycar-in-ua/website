@@ -2,7 +2,7 @@
 import Hero from "@/components/Home/Hero.vue";
 import LatestVideos from "@/components/Home/LatestVideos.vue";
 import Latest from "@/components/Home/Latest.vue";
-import ContactForm from "@/components/ContactForm.vue";
+import ContactForm from "~/components/ContactFormSection.vue";
 import Brands from "@/components/Home/Brands.vue";
 import { generatePageTitle } from "@/utils/seo";
 

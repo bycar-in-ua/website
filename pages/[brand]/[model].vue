@@ -4,10 +4,14 @@ import Media from "@/components/Single/Media.vue";
 import Complectations from "@/components/Single/Complectations.vue";
 import PowerUnits from "@/components/Single/PowerUnits.vue";
 import FullInfo from "@/components/Single/FullInfo.vue";
-import ContactForm from "@/components/ContactForm.vue";
+import CtaButton from "@/components/Single/CtaButton.vue";
+import AvailableCars from "@/components/Single/AvailableCars.vue";
+import ContactForm from "~/components/ContactFormSection.vue";
 import BluredEllipse from "@/components/UI/BluredEllipse.vue";
 import { getCarTitle, getComplectationsSummary } from "@/utils/carHelpers";
 import { generatePageTitle } from "@/utils/seo";
+import availabilityData from "@/public/availability.json";
+import type { Availability } from "~/components/Single/interface";
 
 definePageMeta({
   name: "SingleCar",
@@ -29,6 +33,11 @@ if (!data.value) {
 }
 
 const car = computed(() => data.value as Vehicle);
+const availability = computed<Record<string, Availability[]> | undefined>(
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
+  () => availabilityData.data[car.value.id],
+);
 
 const activeComplectation = ref<Complectation | undefined>(
   car.value.complectations?.find((c) => c.base) ||
@@ -82,6 +91,10 @@ useSeoMeta({
     />
     <Media :car :title="carTitle" :active-power-unit="activePowerUnit" />
 
+    <div v-if="availability" class="flex justify-end items-center mb-4 md:mb-5">
+      <CtaButton />
+    </div>
+
     <template v-if="car.complectations?.length">
       <Complectations
         :compectations="car.complectations"
@@ -104,6 +117,13 @@ useSeoMeta({
       :car
       :complectation="activeComplectation"
       :power-unit="activePowerUnit"
+    />
+
+    <AvailableCars
+      v-if="availability"
+      :car="car"
+      :availability="availability"
+      class="my-5"
     />
 
     <!-- eslint-disable vue/no-v-html -->

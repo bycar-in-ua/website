@@ -17,8 +17,17 @@ import ActiveImage from "./ActiveImage.vue";
 import { bodyScrollWatcher } from "@/utils/htmlUtils";
 
 const props = withDefaults(
-  defineProps<{ items: IGalleryItem[]; height?: string }>(),
-  { height: "auto" },
+  defineProps<{
+    items: IGalleryItem[];
+    height?: string;
+    withThumbnials?: boolean;
+    fullScreenAvailable?: boolean;
+    /**
+     * @description Interval in milliseconds
+     */
+    autoplayInterval?: number;
+  }>(),
+  { height: "auto", withThumbnials: true, fullScreenAvailable: true },
 );
 
 const thumbsListRef = ref<Array<{ htmlRef: HTMLElement }>>();
@@ -31,7 +40,10 @@ const activeItem = ref<IActiveGalleryItem>({
   nextItemIndex: props.items.length > 1 ? 1 : null,
 });
 
-const setActiveItem: TSetGalleryActiveItem = (itemIndex) => {
+const setActiveItem: TSetGalleryActiveItem = (
+  itemIndex,
+  scrollIntoView = true,
+) => {
   const prevIndex = itemIndex - 1;
   const nextIndex = itemIndex + 1;
   activeItem.value = {
@@ -39,12 +51,18 @@ const setActiveItem: TSetGalleryActiveItem = (itemIndex) => {
     prevItemIndex: prevIndex >= 0 ? prevIndex : null,
     nextItemIndex: nextIndex < props.items.length ? nextIndex : null,
   };
-  thumbsListRef.value?.[itemIndex].htmlRef.scrollIntoView({
-    block: "nearest",
-  });
+  if (scrollIntoView) {
+    thumbsListRef.value?.[itemIndex].htmlRef.scrollIntoView({
+      block: "nearest",
+    });
+  }
 };
 
 const toggleFullScreen = (value = !fullScreen.value) => {
+  if (!props.fullScreenAvailable) {
+    return;
+  }
+
   fullScreen.value = value;
 
   if (thumbsListRef.value?.length && activeItem.value.currentItemIndex) {
@@ -62,6 +80,7 @@ const zoomListener = (e: KeyboardEvent) => {
   if (e.target !== document.body) {
     return;
   }
+  e.stopPropagation();
 
   switch (e.code) {
     case "Escape":
@@ -76,17 +95,6 @@ const zoomListener = (e: KeyboardEvent) => {
   }
 };
 
-if (import.meta.client) {
-  onMounted(() => {
-    document.addEventListener("keyup", zoomListener);
-  });
-  onBeforeUnmount(() => {
-    document.removeEventListener("keyup", zoomListener);
-  });
-
-  watch(fullScreen, bodyScrollWatcher);
-}
-
 const backdropClickHandler = (e: Event) => {
   if (e.target !== backdropRef.value) {
     return;
@@ -99,6 +107,40 @@ provide(SetGalleryActiveItemKey, setActiveItem);
 provide(ActiveItemKey, readonly(activeItem));
 provide(GalleryItemsKey, props.items);
 provide(ToggleGalleryFullScreenKey, toggleFullScreen);
+
+// Autoplay
+let intevalId: number | NodeJS.Timeout | undefined;
+
+const autoplayCallback = () => {
+  setActiveItem(activeItem.value.nextItemIndex ?? 0, false);
+};
+
+const startIntevalHandler = () => {
+  if (!props.autoplayInterval) {
+    return;
+  }
+
+  intevalId = setInterval(autoplayCallback, props.autoplayInterval);
+};
+
+const mouseoverHandler = () => {
+  clearInterval(intevalId);
+  intevalId = undefined;
+};
+
+// CLient listeners
+if (import.meta.client) {
+  onMounted(() => {
+    document.addEventListener("keyup", zoomListener);
+    startIntevalHandler();
+  });
+  onBeforeUnmount(() => {
+    document.removeEventListener("keyup", zoomListener);
+    clearInterval(intevalId);
+  });
+
+  watch(fullScreen, bodyScrollWatcher);
+}
 </script>
 
 <template>
@@ -106,6 +148,8 @@ provide(ToggleGalleryFullScreenKey, toggleFullScreen);
     ref="backdropRef"
     :class="fullScreen ? 'full-screen' : 'regular-gallery'"
     @click.stop="backdropClickHandler"
+    @mouseenter="mouseoverHandler"
+    @mouseleave="startIntevalHandler"
   >
     <div
       v-if="fullScreen"
@@ -117,8 +161,8 @@ provide(ToggleGalleryFullScreenKey, toggleFullScreen);
         class="bycar-gallery-icon w-12 h-12 p-2 bg-white"
       />
     </div>
-    <div class="bycar-gallery">
-      <ActiveImage :is-full-screen="fullScreen">
+    <div class="bycar-gallery" :class="{ 'with-thumbnamils': withThumbnials }">
+      <ActiveImage :is-full-screen="fullScreen" :full-screen-available>
         <template v-if="$slots['active-image-top']" #top>
           <slot name="active-image-top" />
         </template>
@@ -127,7 +171,10 @@ provide(ToggleGalleryFullScreenKey, toggleFullScreen);
           <slot name="active-image-bottom" />
         </template>
       </ActiveImage>
-      <div class="bycar-gallery-thumnails-list-wrapper">
+      <div
+        v-if="withThumbnials || fullScreen"
+        class="bycar-gallery-thumnails-list-wrapper"
+      >
         <ThubmnailsList>
           <Thumbnail
             v-for="(item, index) in items"
@@ -146,11 +193,14 @@ provide(ToggleGalleryFullScreenKey, toggleFullScreen);
 .regular-gallery {
   max-height: 95vh;
 }
-.bycar-gallery {
-  @apply grid gap-2 md:gap-5 overflow-hidden h-full transition-all;
+.bycar-gallery.with-thumbnamils {
   @screen md {
     grid-template-columns: 1fr 160px;
   }
+}
+
+.bycar-gallery {
+  @apply grid gap-2 md:gap-5 overflow-hidden h-full transition-all;
   .bycar-gallery-image-wrapper {
     @apply rounded-2xl;
   }

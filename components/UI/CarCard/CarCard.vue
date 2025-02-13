@@ -5,11 +5,12 @@ import { getCarTitle } from "@/utils/carHelpers";
 
 const props = defineProps<{
   car: Vehicle;
+  title?: string;
 }>();
 
 const { t } = useI18n();
 
-const carTitle = getCarTitle(props.car);
+const carTitle = computed(() => props.title ?? getCarTitle(props.car));
 
 const priceRange = computed(() => getPriceRange(props.car.complectations));
 
@@ -17,15 +18,8 @@ const infoBullets = computed(() => getVehicleInfoBullets(props.car, t));
 </script>
 
 <template>
-  <NuxtLink
-    :to="{
-      name: 'SingleCar',
-      params: {
-        brand: car.brand?.slug ?? '',
-        model: car.slug,
-      },
-    }"
-    class="car-card aspect-w-9 aspect-h-9 xs:aspect-h-12 rounded-3xl shadow-xl after:absolute after:block after:inset-0 after:rounded-3xl hover:after:opacity-30 after:transition-all duration-300 overflow-hidden"
+  <div
+    class="car-card aspect-w-9 aspect-h-9 xs:aspect-h-10 rounded-3xl shadow-xl after:absolute after:block after:inset-0 after:rounded-3xl hover:after:opacity-30 after:transition-all duration-300 overflow-hidden"
   >
     <CdnImage
       v-if="car.featureImage?.path"
@@ -57,7 +51,7 @@ const infoBullets = computed(() => getVehicleInfoBullets(props.car, t));
         </div>
       </div>
     </div>
-  </NuxtLink>
+  </div>
 </template>
 
 <style>

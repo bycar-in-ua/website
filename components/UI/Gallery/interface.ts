@@ -21,7 +21,7 @@ export const ActiveItemKey: InjectionKey<
 
 export type TSetGalleryActiveItem = (
   itemIndex: number,
-  direction?: "next" | "prev" | null,
+  scrollIntoView?: boolean,
 ) => void;
 
 export const SetGalleryActiveItemKey: InjectionKey<TSetGalleryActiveItem> =
