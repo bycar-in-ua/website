@@ -26,11 +26,19 @@ const list = ref();
       class="grid xs:grid-cols-2 sm:grid-cols-3 gap-5"
       :class="{ 'blur-sm': catalogStore.pending }"
     >
-      <CarCard
+      <NuxtLink
         v-for="car in catalogStore.data.items"
         :key="car.id"
-        :car="car"
-      />
+        :to="{
+          name: 'SingleCar',
+          params: {
+            brand: car.brand?.slug ?? '',
+            model: car.slug,
+          },
+        }"
+      >
+        <CarCard :car="car" />
+      </NuxtLink>
     </div>
     <Pagination
       class="mt-10 justify-center"

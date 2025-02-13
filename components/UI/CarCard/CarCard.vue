@@ -18,14 +18,7 @@ const infoBullets = computed(() => getVehicleInfoBullets(props.car, t));
 </script>
 
 <template>
-  <NuxtLink
-    :to="{
-      name: 'SingleCar',
-      params: {
-        brand: car.brand?.slug ?? '',
-        model: car.slug,
-      },
-    }"
+  <div
     class="car-card aspect-w-9 aspect-h-9 xs:aspect-h-10 rounded-3xl shadow-xl after:absolute after:block after:inset-0 after:rounded-3xl hover:after:opacity-30 after:transition-all duration-300 overflow-hidden"
   >
     <CdnImage
@@ -58,7 +51,7 @@ const infoBullets = computed(() => getVehicleInfoBullets(props.car, t));
         </div>
       </div>
     </div>
-  </NuxtLink>
+  </div>
 </template>
 
 <style>
