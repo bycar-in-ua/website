@@ -79,7 +79,7 @@ const infoBullets = computed(() =>
             Новий <strong>{{ car.title }} {{ powerUnitTitle }}</strong> в
             наявності
           </h2>
-          <div class="font-semibold italic text-xl">~ {{ priceRange }}</div>
+          <div class="font-semibold text-xl">~ {{ priceRange }}</div>
           <div class="grid sm:grid-cols-2 gap-4 mt-8">
             <InfoBullet
               v-for="(infoBullet, i) in infoBullets"
@@ -90,7 +90,7 @@ const infoBullets = computed(() =>
               color="black"
             />
           </div>
-          <div class="mt-8 flex">
+          <div class="mt-8 flex justify-center">
             <div class="bg-slate-100 p-8 rounded-xl">
               <h3 class="font-bold text-xl mb-2">Роздрібна ціна</h3>
 

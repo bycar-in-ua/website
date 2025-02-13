@@ -103,11 +103,11 @@ export function getPriceRange(complectations?: Complectation[]): string {
   }
 
   if (prices.length === 1) {
-    return `$${prices[0]}`;
+    return `$${prices[0].toLocaleString()}`;
   }
 
   const min = Math.min(...prices);
   const max = Math.max(...prices);
 
-  return `$${min} - $${max}`;
+  return `$${min.toLocaleString()} - $${max.toLocaleString()}`;
 }
