@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     "@nuxtjs/robots",
     "@nuxtjs/sitemap",
     "@sentry/nuxt/module",
+    "nuxt-meta-pixel",
   ],
   devtools: { enabled: true },
 
@@ -25,6 +26,9 @@ export default defineNuxtConfig({
       cdnHost: process.env.CDN_URL,
       tgBotUrl: process.env.TG_BOT_URL,
       sentryDsn: process.env.SENTRY_DSN,
+      metapixel: process.env.META_PIXEL_ID
+        ? { default: { id: process.env.META_PIXEL_ID } }
+        : undefined,
     },
   },
 
