@@ -10,9 +10,10 @@ const props = defineProps<{ car: AvailableCar }>();
 
 const open = defineModel<boolean>("open");
 
-const priceRange = computed(() => getPriceRange(props.car?.complectations));
+const priceRange = computed(() => getPriceRange([props.car.complectation!]));
+
 const powerUnitTitle = computed(() => {
-  const powerUnit = props.car.complectations?.[0]?.powerUnits?.[0];
+  const powerUnit = props.car.complectation?.powerUnits?.[0];
 
   if (!powerUnit) {
     return "";
@@ -24,11 +25,11 @@ const powerUnitTitle = computed(() => {
 const img = useCdnImage();
 
 const galleryItems = computed<IGalleryItem[]>(() => {
-  if (!props.car) {
+  if (!props.car?.images) {
     return [];
   }
 
-  return props.car.availability.images.map((image) => ({
+  return props.car.images.map((image) => ({
     id: image.id,
     source: img(image.path, "large"),
   }));
@@ -40,7 +41,7 @@ const infoBullets = computed(() =>
   getInfoBullets(
     {
       car: props.car,
-      powerUnit: props.car.complectations?.[0]?.powerUnits?.[0],
+      powerUnit: props.car.complectation?.powerUnits?.[0],
     },
     t,
   ),
@@ -95,9 +96,9 @@ const infoBullets = computed(() =>
             />
           </div>
 
-          <div class="mt-8">
+          <div v-if="car.dealer?.location" class="mt-8">
             В наявності в
-            {{ car.availability.dealers.map((d) => d.location).join(", ") }}
+            {{ car.dealer.location }}
           </div>
 
           <div class="mt-4 flex justify-center">
@@ -105,7 +106,7 @@ const infoBullets = computed(() =>
               <h3 class="font-bold text-xl mb-2">Роздрібна ціна</h3>
 
               <div class="font-bold text-xl md:text-2xl lg:text-4xl">
-                UAH {{ car.availability.priceUah.toLocaleString() }}
+                UAH {{ car.price.toLocaleString() }}
               </div>
 
               <div class="text-xs mt-2 text-gray-600">
