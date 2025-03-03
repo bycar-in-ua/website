@@ -10,14 +10,13 @@ import ContactForm from "~/components/ContactFormSection.vue";
 import BluredEllipse from "@/components/UI/BluredEllipse.vue";
 import { getCarTitle, getComplectationsSummary } from "@/utils/carHelpers";
 import { generatePageTitle } from "@/utils/seo";
-import availabilityData from "@/public/availability.json";
-import type { Availability } from "~/components/Single/interface";
 
 definePageMeta({
   name: "SingleCar",
 });
 
 const { $bycarApi } = useNuxtApp();
+const availableVehiclesService = useAvailableVehiclesService();
 
 const route = useRoute();
 
@@ -32,12 +31,29 @@ if (!data.value) {
   });
 }
 
-const car = computed(() => data.value as Vehicle);
-const availability = computed<Record<string, Availability[]> | undefined>(
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-expect-error
-  () => availabilityData.data[car.value.id],
+const { data: availableVehicles } = useAsyncData(
+  `${route.params.model}-availability`,
+  async () => {
+    if (!data.value) {
+      return [];
+    }
+
+    const response = await availableVehiclesService.searchAvailableVehicles({
+      filters: { vehicleId: data.value.id },
+      pagination: {
+        limit: 100,
+        page: 1,
+      },
+    });
+
+    return response.items;
+  },
+  {
+    default: () => [],
+  },
 );
+
+const car = computed(() => data.value as Vehicle);
 
 const activeComplectation = ref<Complectation | undefined>(
   car.value.complectations?.find((c) => c.base) ||
@@ -91,7 +107,10 @@ useSeoMeta({
     />
     <Media :car :title="carTitle" :active-power-unit="activePowerUnit" />
 
-    <div v-if="availability" class="flex justify-end items-center mb-4 md:mb-5">
+    <div
+      v-if="availableVehicles.length > 0"
+      class="flex justify-end items-center mb-4 md:mb-5"
+    >
       <CtaButton />
     </div>
 
@@ -120,9 +139,9 @@ useSeoMeta({
     />
 
     <AvailableCars
-      v-if="availability"
+      v-if="availableVehicles.length > 0"
       :car="car"
-      :availability="availability"
+      :availability="availableVehicles"
       class="my-5"
     />
 
