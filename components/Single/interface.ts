@@ -1,5 +1,5 @@
 import type { Component } from "vue";
-import type { Image, Vehicle } from "@bycar-in-ua/sdk";
+import type { Vehicle, AvailableVehicle } from "@bycar-in-ua/sdk";
 
 export type InfoBulletProps = {
   title: string;
@@ -16,24 +16,7 @@ export type InfoBlock = {
   }>;
 };
 
-type Dealer = {
-  id: number;
-  name: string;
-  availability: string;
-  location: string;
-};
-
-/**
- * @description Temporary solution, will be reworked to SDK
- */
-export type Availability = {
-  dealers: Dealer[];
-  images: Image[];
-  powerUnitId: number;
-  priceUah: number;
-};
-
-export type AvailableCar = Vehicle & {
-  title: string;
-  availability: Availability;
-};
+export type AvailableCar = Vehicle &
+  AvailableVehicle & {
+    title: string;
+  };
