@@ -13,19 +13,10 @@ const props = defineProps<{
 const items = computed<IGalleryItem[]>(() => {
   const images = props.car.images ?? [];
 
-  const featuredImageIndex = images.findIndex(
-    (image) => image.id === props.car.featureImage?.id,
-  );
-
-  if (featuredImageIndex !== -1) {
-    const featuredImage = images.splice(featuredImageIndex, 1)[0];
-    images.unshift(featuredImage);
-  }
-
-  return images.map((image) => ({
-    id: image.id as number,
-    source: image.path,
-    alt: image.alt || props.title,
+  return images.map(({ imageId, image }) => ({
+    id: imageId,
+    source: image!.path,
+    alt: image?.alt || props.title,
     provider: "bycar",
   }));
 });
@@ -38,11 +29,11 @@ const items = computed<IGalleryItem[]>(() => {
     class="mb-6 md:mb-10 md:h-[500px] lg:h-[600px]"
   >
     <template #active-image-top>
-      <h1
+      <h2
         class="p-4 lg:p-6 text-white font-semibold text-base sm:text-2xl md:text-3xl"
       >
         {{ title }}
-      </h1>
+      </h2>
     </template>
 
     <template #active-image-bottom>
