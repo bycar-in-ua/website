@@ -91,7 +91,7 @@ useSeoMeta({
   ogImage: {
     type: "image/jpeg",
     url: img(
-      car.value.featureImage?.path || car.value.images?.[0]?.path || "",
+      car.value.featureImage?.path || car.value.images?.[0].image?.path || "",
       "small",
     ),
     alt: carTitle,
