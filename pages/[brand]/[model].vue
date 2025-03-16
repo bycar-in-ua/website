@@ -75,18 +75,21 @@ const years = [car.value.yearFrom, car.value.yearTo]
   .filter(Boolean)
   .join(" - ");
 
-const seoTitle = generatePageTitle(
-  [carTitle, years].filter(Boolean).join(" ").trim(),
-);
+const seoTitle =
+  car.value.metaTitle ??
+  generatePageTitle([carTitle, years].filter(Boolean).join(" ").trim());
 const complectations = getComplectationsSummary(car.value.complectations);
-const seoDescription = `${carTitle} ${years} - доступні комплектації та ціни, характеристики та фото. ${complectations}`;
+const seoDescription =
+  car.value.metaDescription ??
+  `${carTitle} ${years} - доступні комплектації та ціни, характеристики та фото. ${complectations}`;
 
 const img = useCdnImage();
 
 useSeoMeta({
   title: seoTitle,
+  ogTitle: seoTitle,
   description: seoDescription,
-  ogTitle: carTitle,
+  ogDescription: seoDescription,
   ogUrl: route.fullPath,
   ogImage: {
     type: "image/jpeg",
@@ -96,12 +99,14 @@ useSeoMeta({
     ),
     alt: carTitle,
   },
-  ogDescription: seoDescription,
 });
 </script>
 
 <template>
   <main class="container pt-24 md:pt-32 pb-5 relative">
+    <h1 class="sr-only">
+      {{ car.h1 ?? carTitle }}
+    </h1>
     <BluredEllipse
       class="absolute w-[410px] h-[220px] left-0 md:left-40 top-40 -z-10"
     />

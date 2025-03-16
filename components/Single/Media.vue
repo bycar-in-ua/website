@@ -29,11 +29,11 @@ const items = computed<IGalleryItem[]>(() => {
     class="mb-6 md:mb-10 md:h-[500px] lg:h-[600px]"
   >
     <template #active-image-top>
-      <h1
+      <h2
         class="p-4 lg:p-6 text-white font-semibold text-base sm:text-2xl md:text-3xl"
       >
         {{ title }}
-      </h1>
+      </h2>
     </template>
 
     <template #active-image-bottom>
