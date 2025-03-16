@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { defineProps, defineEmits } from "vue";
 import Collapsible from "@/components/UI/Collapsible.vue";
 
 const { t } = useI18n();

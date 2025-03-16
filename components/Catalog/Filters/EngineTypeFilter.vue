@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { defineProps, defineEmits } from "vue";
 import type { VehiclesFilters } from "@bycar-in-ua/sdk";
 import Collapsible from "@/components/UI/Collapsible.vue";
 

@@ -29,9 +29,9 @@ const galleryItems = computed<IGalleryItem[]>(() => {
     return [];
   }
 
-  return props.car.images.map((image) => ({
-    id: image.id,
-    source: img(image.path, "large"),
+  return props.car.images.map(({ imageId, image }) => ({
+    id: imageId,
+    source: img(image!.path, "large"),
   }));
 });
 

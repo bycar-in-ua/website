@@ -37,7 +37,7 @@ const availableCars = computed<AvailableCar[]>(() => {
         ...props.car,
         ...availableVehicle,
         title: `${carTitle} ${complectation.displayName}`,
-        featureImage: availableVehicle.images?.[0],
+        featureImage: availableVehicle.images?.[0].image,
         complectations: [availableComplectation],
         complectation: availableComplectation,
       };
