@@ -29,18 +29,10 @@ const galleryItems = computed<IGalleryItem[]>(() => {
     return [];
   }
 
-  const images = [...props.car.images];
-
-  return images
-    .sort(
-      (a, b) =>
-        (a.order ?? Number.MAX_SAFE_INTEGER) -
-        (b.order ?? Number.MAX_SAFE_INTEGER),
-    )
-    .map(({ imageId, image }) => ({
-      id: imageId,
-      source: img(image!.path, "large"),
-    }));
+  return props.car.images.map(({ imageId, image }) => ({
+    id: imageId,
+    source: img(image!.path, "large"),
+  }));
 });
 
 const { t } = useI18n();
