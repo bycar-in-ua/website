@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { VehiclesFilters } from "@bycar-in-ua/sdk";
 import QuestionContainer from "./QuestionContainer.vue";
-import Slider from "../Slider.vue";
+import Slider from "@/components/UI/Slider.vue";
 
 const isOpen = ref(false);
 
@@ -123,7 +123,7 @@ const priceSliderModel = computed({
   <UModal v-model="isOpen" fullscreen>
     <UCard
       :ui="{
-        base: 'h-full flex flex-col',
+        base: 'h-fit flex flex-col grow',
         rounded: '',
         body: {
           base: 'flex justify-center grow',
@@ -148,7 +148,7 @@ const priceSliderModel = computed({
         <QuestionContainer
           v-if="quizStore.isUserKnow === null"
           step="Крок 1"
-          title="Вже знаєш яке авто хочеш?"
+          title="Вже знаєш, яке авто хочеш?"
         >
           <div class="flex flex-col sm:flex-row gap-4">
             <UButton
@@ -246,6 +246,7 @@ const priceSliderModel = computed({
               :min="0"
               :max="200000"
               :step="1000"
+              :size="6"
               class="h-3"
             />
           </div>

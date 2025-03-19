@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import BluredEllipse from "@/components/UI/BluredEllipse.vue";
-import QuizButton from "@/components/UI/Quiz/QuizButton.vue";
+import Quiz from "~/components/Quiz/Quiz.vue";
 import { generatePageTitle } from "@/utils/seo";
 
 defineProps<{ totalCars?: number }>();
@@ -40,7 +40,7 @@ const heroAlt = generatePageTitle("Легкий шлях до нового ав�
         class="mb-6 w-full sm:hidden"
       />
 
-      <QuizButton>Пошук авто</QuizButton>
+      <Quiz>Пошук авто</Quiz>
 
       <h3
         v-if="totalCars && totalCars > 0"
