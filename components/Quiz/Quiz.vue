@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { VehiclesFilters } from "@bycar-in-ua/sdk";
 import QuestionContainer from "./QuestionContainer.vue";
-import Slider from "@/components/UI/Slider.vue";
+import PriceStep from "./PriceStep.vue";
 
 const isOpen = ref(false);
 
@@ -9,6 +9,10 @@ const { t } = useI18n();
 
 const quizStore = useQuizStore();
 const catalogStore = useCatalogStore();
+
+const openModal = () => {
+  isOpen.value = true;
+};
 
 function checkHandler<TValue extends string | number>(
   field: keyof FiltersState,
@@ -53,11 +57,6 @@ function finishQuiz() {
     },
     "",
   );
-  // console.log("catalogStore.filters", catalogStore.filters);
-
-  // catalogStore.filters = { ...catalogStore.filters, ...quizStore.filters };
-
-  // navigateTo("catalog");
   isOpen.value = false;
   quizStore.resetState();
   navigateTo(`catalog?${query}`);
@@ -69,56 +68,20 @@ const engineTypes: NonNullable<VehiclesFilters["engineType"]> = [
   "hybrid",
   "electric",
 ];
-
-const updatePriceFrom = (value?: number) => {
-  if (
-    typeof value !== "number" ||
-    (quizStore.filters.priceTo && value > quizStore.filters.priceTo)
-  ) {
-    quizStore.filters.priceFrom = 0;
-    return;
-  }
-
-  quizStore.filters.priceFrom = value > 0 ? value : 0;
-};
-
-const updatePriceTo = (value?: number | number) => {
-  if (
-    typeof value !== "number" ||
-    (quizStore.filters.priceFrom && value < quizStore.filters.priceFrom)
-  ) {
-    quizStore.filters.priceTo = undefined;
-    return;
-  }
-
-  quizStore.filters.priceTo = value > 0 ? value : 0;
-};
-
-const priceSliderModel = computed({
-  get: () => [
-    Number(quizStore.filters.priceFrom ?? 0),
-    Number(quizStore.filters.priceTo ?? Infinity),
-  ],
-  set: ([from, to]: number[]) => {
-    updatePriceFrom(from);
-
-    if (isFinite(to)) {
-      updatePriceTo(to);
-    }
-  },
-});
 </script>
 
 <template>
-  <UButton
-    icon="i-heroicons-magnifying-glass"
-    trailing
-    class="w-full sm:w-auto flex justify-center items-center"
-    size="xl"
-    @click="isOpen = true"
-  >
-    <slot />
-  </UButton>
+  <slot name="trigger" :open="openModal">
+    <UButton
+      icon="i-heroicons-magnifying-glass"
+      trailing
+      class="w-full sm:w-auto flex justify-center items-center"
+      size="xl"
+      @click="isOpen = true"
+    >
+      Пошук авто
+    </UButton>
+  </slot>
 
   <UModal v-model="isOpen" fullscreen>
     <UCard
@@ -166,7 +129,7 @@ const priceSliderModel = computed({
           </div>
 
           <template #footer>
-            <p class="mt-2 text-center">
+            <p class="mt-2 mb-auto xs:mb-0 text-center">
               Невелике оптування, щоб ми зрозуміли яке авто підходить для тебе.
             </p>
           </template>
@@ -176,7 +139,6 @@ const priceSliderModel = computed({
           v-if="quizStore.isUserKnow === true"
           step="Крок 2/2"
           title="Обери бренд:"
-          description=""
         >
           <div class="flex flex-col gap-4">
             <UCheckbox
@@ -195,7 +157,7 @@ const priceSliderModel = computed({
           </div>
 
           <template #footer>
-            <div class="flex justify-end gap-2 mt-6">
+            <div class="flex justify-end gap-2 mt-auto xs:mt-6">
               <UButton
                 class="flex justify-center text-xl"
                 variant="outline"
@@ -210,65 +172,7 @@ const priceSliderModel = computed({
           </template>
         </QuestionContainer>
 
-        <QuestionContainer
-          v-if="quizStore.isUserKnow === false && quizStore.step === 0"
-          step="Крок 1/3"
-          title="Обери бюджет:"
-        >
-          <div class="flex flex-col gap-4">
-            <div class="flex gap-2 items-center mb-4 pl-1 pt-1">
-              <UInput
-                :model-value="quizStore.filters.priceFrom"
-                size="xs"
-                type="number"
-                :step="1000"
-                :min="0"
-                :max="200000"
-                class="flex-grow"
-                @update:model-value="updatePriceFrom"
-              />
-              <span>-</span>
-              <UInput
-                :model-value="quizStore.filters.priceTo"
-                size="xs"
-                type="number"
-                :step="1000"
-                :min="1000"
-                :max="200000"
-                class="flex-grow"
-                @update:model-value="updatePriceTo"
-              />
-              <span>$</span>
-            </div>
-
-            <Slider
-              v-model="priceSliderModel"
-              :min="0"
-              :max="200000"
-              :step="1000"
-              :size="6"
-              class="h-3"
-            />
-          </div>
-
-          <template #footer>
-            <div class="flex justify-end gap-2 mt-6">
-              <UButton
-                class="flex justify-center text-xl"
-                variant="outline"
-                @click="quizStore.resetState()"
-              >
-                Назад
-              </UButton>
-              <UButton
-                class="flex justify-center text-xl"
-                @click="quizStore.step += 1"
-              >
-                Далі
-              </UButton>
-            </div>
-          </template>
-        </QuestionContainer>
+        <PriceStep />
 
         <QuestionContainer
           v-if="quizStore.isUserKnow === false && quizStore.step === 1"
@@ -292,7 +196,7 @@ const priceSliderModel = computed({
           </div>
 
           <template #footer>
-            <div class="flex justify-end gap-2 mt-6">
+            <div class="flex justify-end gap-2 mt-auto xs:mt-6">
               <UButton
                 class="flex justify-center text-xl"
                 variant="outline"
@@ -332,7 +236,7 @@ const priceSliderModel = computed({
           </div>
 
           <template #footer>
-            <div class="flex justify-end gap-2 mt-6">
+            <div class="flex justify-end gap-2 mt-auto xs:mt-6">
               <UButton
                 class="flex justify-center text-xl"
                 variant="outline"
