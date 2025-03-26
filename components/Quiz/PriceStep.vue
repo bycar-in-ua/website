@@ -98,11 +98,7 @@ const selectedPriceToTemplate = computed(() => {
 </script>
 
 <template>
-  <QuestionContainer
-    v-if="quizStore.isUserKnow === false && quizStore.step === 0"
-    step="Крок 1/3"
-    title="Обери бюджет:"
-  >
+  <QuestionContainer step="Крок 1/3" title="Обери бюджет:">
     <div class="flex flex-col gap-4">
       <div class="flex gap-2 items-center mb-4 pl-1 pt-1">
         <UInput

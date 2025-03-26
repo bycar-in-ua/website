@@ -2,6 +2,7 @@
 import type { VehiclesFilters } from "@bycar-in-ua/sdk";
 import QuestionContainer from "./QuestionContainer.vue";
 import PriceStep from "./PriceStep.vue";
+import ModelsStep from "./ModelsStep.vue";
 
 const isOpen = ref(false);
 
@@ -38,7 +39,19 @@ function checkHandler<TValue extends string | number>(
   }
 }
 
-function finishQuiz() {
+function finishQuiz(_: Event, model?: string) {
+  if (quizStore.filters.brand?.length === 1 && !model) {
+    quizStore.step += 1;
+    return;
+  }
+
+  if (quizStore.filters.brand?.length === 1 && model) {
+    isOpen.value = false;
+    quizStore.resetState();
+    navigateTo(`${quizStore.filters.brand[0]}/${model}`);
+    return;
+  }
+
   const query = Object.entries(quizStore.filters).reduce(
     (acc, [key, value]) => {
       if (key === "priceFrom" || key === "priceTo") {
@@ -136,7 +149,7 @@ const engineTypes: NonNullable<VehiclesFilters["engineType"]> = [
         </QuestionContainer>
 
         <QuestionContainer
-          v-if="quizStore.isUserKnow === true"
+          v-if="quizStore.isUserKnow === true && quizStore.step === 0"
           step="Крок 2/2"
           title="Обери бренд:"
         >
@@ -172,7 +185,13 @@ const engineTypes: NonNullable<VehiclesFilters["engineType"]> = [
           </template>
         </QuestionContainer>
 
-        <PriceStep />
+        <ModelsStep
+          v-if="quizStore.isUserKnow === true && quizStore.step === 1"
+        />
+
+        <PriceStep
+          v-if="quizStore.isUserKnow === false && quizStore.step === 0"
+        />
 
         <QuestionContainer
           v-if="quizStore.isUserKnow === false && quizStore.step === 1"
