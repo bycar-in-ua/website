@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { priceFromTemplates, priceToTemplates } from "~/constants/quizPrice";
 import QuestionContainer from "./QuestionContainer.vue";
 import Slider from "@/components/UI/Slider.vue";
 
@@ -42,58 +43,20 @@ const priceSliderModel = computed({
   },
 });
 
-const priceFromTemplates = [
-  {
-    value: 20_000,
-    label: "20.000 $",
-  },
-  {
-    value: 40_000,
-    label: "40.000 $",
-  },
-  {
-    value: 60_000,
-    label: "60.000 $",
-  },
-];
+const availablePriceFrom = computed(() => {
+  const value = quizStore.filters.priceTo;
 
-const selectedPriceFromTemplate = computed(() => {
-  const sameValue = priceFromTemplates.find(
-    (template) => template.value === quizStore.filters.priceFrom,
-  );
-
-  if (sameValue) {
-    return sameValue.value;
-  }
-
-  return undefined;
+  return value
+    ? priceFromTemplates.filter((item) => item.value < value)
+    : priceFromTemplates;
 });
 
-const priceToTemplates = [
-  {
-    value: 100_000,
-    label: "100.000 $",
-  },
-  {
-    value: 150_000,
-    label: "150.000 $",
-  },
-  {
-    value: 200_000,
-    label: "200.000 $",
-  },
-];
+const availablePriceTo = computed(() => {
+  const value = quizStore.filters.priceFrom;
 
-const selectedPriceToTemplate = computed(() => {
-  const sameValue = priceToTemplates.find(
-    (template) => template.value === quizStore.filters.priceTo,
-  );
-
-  if (sameValue) {
-    return sameValue.value;
-  }
-
-  return undefined;
+  return value
+    ? priceToTemplates.filter((item) => item.value > value)
+    : priceToTemplates;
 });
 </script>
 
@@ -135,34 +98,26 @@ const selectedPriceToTemplate = computed(() => {
       />
     </div>
 
-    <div class="flex mt-10">
-      <URadioGroup
-        v-model="selectedPriceFromTemplate"
-        legend="Від"
-        :options="priceFromTemplates"
-        class="w-1/2"
-        :ui="{
-          legend: 'text-lg font-medium text-gray-700 mb-4',
-        }"
-        :ui-radio="{
-          wrapper: 'mb-4',
-        }"
-        @change="(value: number | undefined) => (quizStore.filters.priceFrom = value)"
-      />
+    <div class="flex justify-between mt-10">
+      <div class="flex items-center gap-4">
+        Від:
+        <USelect
+          v-model="quizStore.filters.priceFrom"
+          :options="availablePriceFrom"
+          class="w-40"
+          @change="(value: number | undefined) => (quizStore.filters.priceFrom = value)"
+        />
+      </div>
 
-      <URadioGroup
-        v-model="selectedPriceToTemplate"
-        legend="До"
-        :options="priceToTemplates"
-        class="w-1/2"
-        :ui="{
-          legend: 'text-lg font-medium text-gray-700 mb-4',
-        }"
-        :ui-radio="{
-          wrapper: 'mb-4',
-        }"
-        @change="(value: number | undefined) => (quizStore.filters.priceTo = value)"
-      />
+      <div class="flex items-center gap-4">
+        До:
+        <USelect
+          v-model="quizStore.filters.priceTo"
+          :options="availablePriceTo"
+          class="w-40"
+          @change="(value: number | undefined) => (quizStore.filters.priceTo = value)"
+        />
+      </div>
     </div>
 
     <template #footer>
