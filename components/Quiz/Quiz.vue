@@ -178,7 +178,11 @@ const engineTypes: NonNullable<VehiclesFilters["engineType"]> = [
               >
                 Назад
               </UButton>
-              <UButton class="flex justify-center text-xl" @click="finishQuiz">
+              <UButton
+                class="flex justify-center text-xl"
+                :disabled="!quizStore.filters.brand?.length"
+                @click="finishQuiz"
+              >
                 Далі
               </UButton>
             </div>
@@ -263,7 +267,14 @@ const engineTypes: NonNullable<VehiclesFilters["engineType"]> = [
               >
                 Назад
               </UButton>
-              <UButton class="flex justify-center text-xl" @click="finishQuiz">
+              <UButton
+                class="flex justify-center text-xl"
+                :disabled="
+                  !quizStore.filters.engineType?.length
+                    && !quizStore.filters.bodyType?.length
+                "
+                @click="finishQuiz"
+              >
                 Далі
               </UButton>
             </div>

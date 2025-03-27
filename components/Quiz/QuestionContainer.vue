@@ -15,7 +15,9 @@ const props = defineProps<{
       </div>
 
       <div class="p-4 xs:p-10 ring-1 rounded-2xl">
-        <h1 class="text-3xl font-semibold mb-10">{{ title }}</h1>
+        <h1 class="text-3xl font-semibold mb-10">
+          {{ title }}
+        </h1>
 
         <slot />
       </div>
