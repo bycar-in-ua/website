@@ -46,7 +46,7 @@ function handleClearOrder() {
             }"
           >
             <UIcon
-              name="i-heroicons-exclamation-circle"
+              name="i-heroicons-magnifying-glass-circle"
               class="cursor-pointer text-bycar-primary-400 w-6 h-6"
               @click="open"
             />
