@@ -19,12 +19,4 @@ const initialState = {
 
 export const useQuizStore = defineStore("quiz", {
   state: (): QuizState => JSON.parse(JSON.stringify(initialState)),
-
-  actions: {
-    resetState() {
-      // this.$state.filters.priceFrom = undefined;
-      // this.$state.filters.priceTo = undefined;
-      this.$state = JSON.parse(JSON.stringify(initialState));
-    },
-  },
 });

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { priceFromTemplates, priceToTemplates } from "~/constants/quizPrice";
+import { priceTemplates } from "./priceTemplates";
 import QuestionContainer from "./QuestionContainer.vue";
 import Slider from "@/components/UI/Slider.vue";
 
@@ -47,16 +47,16 @@ const availablePriceFrom = computed(() => {
   const value = quizStore.filters.priceTo;
 
   return value
-    ? priceFromTemplates.filter((item) => item.value < value)
-    : priceFromTemplates;
+    ? [...priceTemplates].reverse().filter((item) => item.value < value)
+    : [...priceTemplates].reverse();
 });
 
 const availablePriceTo = computed(() => {
   const value = quizStore.filters.priceFrom;
 
   return value
-    ? priceToTemplates.filter((item) => item.value > value)
-    : priceToTemplates;
+    ? priceTemplates.filter((item) => item.value > value)
+    : priceTemplates;
 });
 </script>
 
@@ -125,7 +125,7 @@ const availablePriceTo = computed(() => {
         <UButton
           class="flex justify-center text-xl"
           variant="outline"
-          @click="quizStore.resetState()"
+          @click="quizStore.$reset"
         >
           Назад
         </UButton>

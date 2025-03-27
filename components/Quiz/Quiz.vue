@@ -39,39 +39,29 @@ function checkHandler<TValue extends string | number>(
   }
 }
 
-function finishQuiz(_: Event, model?: string) {
-  if (quizStore.filters.brand?.length === 1 && !model) {
+function finishQuiz(_?: Event) {
+  if (quizStore.filters.brand?.length === 1 && quizStore.step === 0) {
     quizStore.step += 1;
     return;
   }
 
-  if (quizStore.filters.brand?.length === 1 && model) {
-    isOpen.value = false;
-    quizStore.resetState();
-    navigateTo(`${quizStore.filters.brand[0]}/${model}`);
-    return;
-  }
-
-  const query = Object.entries(quizStore.filters).reduce(
-    (acc, [key, value]) => {
+  const query = Object.entries(quizStore.filters)
+    .reduce((acc, [key, value]) => {
       if (key === "priceFrom" || key === "priceTo") {
-        return (acc += `${key}=${value}&`);
-      }
-
-      if (!Array.isArray(value)) {
+        acc.push(`${key}=${value}`);
         return acc;
       }
 
-      if (!value.length) {
-        return acc;
+      if (Array.isArray(value) && value.length) {
+        acc.push(`${key}=${value.join(",")}`);
       }
 
-      return (acc += `${key}=${value.join(",")}&`);
-    },
-    "",
-  );
+      return acc;
+    }, [] as string[])
+    .join("&");
+
   isOpen.value = false;
-  quizStore.resetState();
+  quizStore.$reset();
   navigateTo(`catalog?${query}`);
 }
 
@@ -174,7 +164,7 @@ const engineTypes: NonNullable<VehiclesFilters["engineType"]> = [
               <UButton
                 class="flex justify-center text-xl"
                 variant="outline"
-                @click="quizStore.resetState()"
+                @click="quizStore.$reset"
               >
                 Назад
               </UButton>
@@ -191,6 +181,7 @@ const engineTypes: NonNullable<VehiclesFilters["engineType"]> = [
 
         <ModelsStep
           v-if="quizStore.isUserKnow === true && quizStore.step === 1"
+          @finish="finishQuiz()"
         />
 
         <PriceStep
@@ -270,8 +261,8 @@ const engineTypes: NonNullable<VehiclesFilters["engineType"]> = [
               <UButton
                 class="flex justify-center text-xl"
                 :disabled="
-                  !quizStore.filters.engineType?.length
-                    && !quizStore.filters.bodyType?.length
+                  !quizStore.filters.engineType?.length &&
+                  !quizStore.filters.bodyType?.length
                 "
                 @click="finishQuiz"
               >

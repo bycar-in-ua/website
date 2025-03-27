@@ -34,6 +34,8 @@ const { data, refresh } = useAsyncData(
     immediate: true,
   },
 );
+
+const emit = defineEmits(["finish"]);
 </script>
 
 <template>
@@ -78,6 +80,13 @@ const { data, refresh } = useAsyncData(
           @click="quizStore.step -= 1"
         >
           Назад
+        </UButton>
+        <UButton
+          class="flex justify-center text-xl"
+          :disabled="!quizStore.filters.brand?.length"
+          @click="emit('finish')"
+        >
+          Дивитись каталог
         </UButton>
       </div>
     </template>
