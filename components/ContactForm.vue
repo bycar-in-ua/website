@@ -5,6 +5,8 @@ const props = withDefaults(defineProps<{ page: string; id?: string }>(), {
   id: "contact-form",
 });
 
+const { gtag } = useGtag();
+
 type FormState = {
   name: string;
   phone: string;
@@ -56,6 +58,10 @@ const { status, refresh: submitForm } = useAsyncData(
         phone: formState.phone,
         page: props.page,
       },
+    });
+    gtag("event", "contact_form_submit", {
+      event_category: "engagement",
+      event_label: props.page,
     });
   },
   {

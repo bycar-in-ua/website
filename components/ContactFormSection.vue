@@ -4,6 +4,7 @@ import HelpCta from "./UI/HelpCta.client.vue";
 import ContactForm from "./ContactForm.vue";
 
 defineProps<{ page: string }>();
+const { gtag } = useGtag();
 
 const sectionRef = ref<HTMLElement | undefined>();
 
@@ -41,6 +42,12 @@ const affixClickHandler = () => {
         variant="outline"
         to="https://t.me/AJ201997"
         target="_blank"
+        @click="
+          gtag('event', 'telegram_chat_click', {
+            event_category: 'engagement',
+            event_label: page,
+          })
+        "
       >
         Написати в чат
       </UButton>

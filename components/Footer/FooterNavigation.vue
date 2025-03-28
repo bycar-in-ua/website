@@ -3,6 +3,10 @@ import type { HorizontalNavigationLink } from "#ui/types";
 
 const { t } = useI18n();
 
+defineOptions({
+  inheritAttrs: false,
+});
+
 const menuItems: HorizontalNavigationLink[] = [
   {
     label: t("menu.home"),
@@ -50,5 +54,6 @@ const additionalMenuItems: HorizontalNavigationLink[] = [
       size: 'text-base',
       label: '',
     }"
+    v-bind:="$attrs"
   />
 </template>

@@ -8,6 +8,13 @@ import { getInfoBullets, getPowerUnitTitle } from "./helpers";
 
 const props = defineProps<{ car: AvailableCar }>();
 
+const { gtag } = useGtag();
+
+gtag("event", "available_car_modal_open", {
+  event_category: "engagement",
+  event_label: props.car.slug,
+});
+
 const open = defineModel<boolean>("open");
 
 const priceRange = computed(() => getPriceRange([props.car.complectation!]));
