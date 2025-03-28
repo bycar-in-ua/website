@@ -2,6 +2,7 @@
 import { useCatalogStore } from "@/stores/catalog.js";
 import AppliedFilters from "./AppliedFilters.vue";
 import type { VehiclesOrder } from "@bycar-in-ua/sdk";
+import Quiz from "../Quiz/Quiz.vue";
 
 const { t } = useI18n();
 
@@ -30,9 +31,29 @@ function handleClearOrder() {
   <div
     class="flex md:items-center md:justify-between gap-5 flex-col md:flex-row flex-wrap"
   >
-    <h2 class="font-semibold text-2xl md:text-3xl">
-      {{ t("catalog.title") }}
-    </h2>
+    <div class="flex gap-4 items-center">
+      <h2 class="font-semibold text-2xl md:text-3xl">
+        {{ t("catalog.title") }}
+      </h2>
+
+      <Quiz>
+        <template #trigger="{ open }">
+          <UTooltip
+            text="Тисни, щоб дізнатись яке авто підходить тобі"
+            :ui="{
+              width: 'max-w-xs w-fit',
+              base: 'h-fit p-2 text-md text-wrap text-center',
+            }"
+          >
+            <UIcon
+              name="i-heroicons-magnifying-glass-circle"
+              class="cursor-pointer text-bycar-primary-400 w-6 h-6"
+              @click="open"
+            />
+          </UTooltip>
+        </template>
+      </Quiz>
+    </div>
 
     <AppliedFilters class="md:order-3 basis-full" />
 

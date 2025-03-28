@@ -3,25 +3,28 @@ import { SliderRange, SliderRoot, SliderThumb, SliderTrack } from "radix-vue";
 
 const model = defineModel<number[]>();
 
-withDefaults(defineProps<{ min?: number; max?: number; step?: number }>(), {
-  min: 0,
-  max: 100,
-  step: 1,
-});
+withDefaults(
+  defineProps<{ min?: number; max?: number; step?: number; size?: number }>(),
+  {
+    min: 0,
+    max: 100,
+    step: 1,
+    size: 3,
+  },
+);
 </script>
 
 <template>
-  <SliderRoot
-    v-model="model"
-    class="slider-root"
-    :min
-    :max
-    :step
-  >
+  <SliderRoot v-model="model" class="slider-root" :min :max :step>
     <SliderTrack class="slider-track">
       <SliderRange class="slider-range" />
     </SliderTrack>
-    <SliderThumb v-for="i in model?.length" :key="i" class="slider-thumb" />
+    <SliderThumb
+      v-for="i in model?.length"
+      :key="i"
+      class="slider-thumb"
+      :class="`w-${size} h-${size}`"
+    />
   </SliderRoot>
 </template>
 
@@ -56,6 +59,6 @@ withDefaults(defineProps<{ min?: number; max?: number; step?: number }>(), {
 }
 
 .slider-thumb {
-  @apply block w-3 h-3 bg-white rounded-full border-2 border-primary cursor-pointer;
+  @apply block bg-white rounded-full border-2 border-primary cursor-pointer;
 }
 </style>
