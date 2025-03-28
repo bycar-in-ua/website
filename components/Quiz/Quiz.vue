@@ -8,6 +8,7 @@ import ModelsStep from "./ModelsStep.vue";
 const isOpen = ref(false);
 
 const { t } = useI18n();
+const { gtag } = useGtag();
 
 const quizStore = useQuizStore();
 const catalogStore = useCatalogStore();
@@ -16,6 +17,11 @@ const openModal = () => {
   quizStore.$reset();
 
   isOpen.value = true;
+
+  gtag("event", "quiz_open", {
+    event_category: "quiz",
+    event_label: "open",
+  });
 };
 
 function checkHandler<TValue extends string | number>(
@@ -62,6 +68,11 @@ function finishQuiz() {
       return acc;
     }, [] as string[])
     .join("&");
+
+  gtag("event", "quiz_finished", {
+    event_category: "quiz",
+    event_label: "finished",
+  });
 
   isOpen.value = false;
   quizStore.$reset();
@@ -223,9 +234,8 @@ const checkboxUi = {
 
           <template v-if="!quizStore.canFinishQuiz" #extra>
             <p class="text-center mt-2">
-              Схоже, що не було вибрано жодного фільтру.
-              <br />
-              В такому випадку цей помічник не зможе нічим допомогти.
+              Схоже, що не було вибрано жодного фільтру. В такому випадку цей
+              помічник не зможе нічим допомогти.
             </p>
           </template>
 

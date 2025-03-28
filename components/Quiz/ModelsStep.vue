@@ -5,6 +5,7 @@ import CdnImage from "../CdnImage.vue";
 import { getPriceRange } from "../UI/CarCard/helpers";
 
 const { $bycarApi } = useNuxtApp();
+const { gtag } = useGtag();
 
 const quizStore = useQuizStore();
 
@@ -50,6 +51,13 @@ const emit = defineEmits(["finish"]);
             model: car.slug,
           },
         }"
+        @click="
+          gtag('event', 'model_selected', {
+            event_category: 'quiz',
+            event_label: 'model_selected',
+            value: car.slug,
+          })
+        "
       >
         <div>
           <span class="font-semibold">{{ car.model }}</span>
