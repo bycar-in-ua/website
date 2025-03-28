@@ -5,7 +5,7 @@ const priceStep = 5_000;
 export const priceTemplates = Array.from(
   { length: (maxPrice - (minPrice - priceStep)) / priceStep },
   (_, i) => {
-    const value = i * 5000 + 15000;
+    const value = i * priceStep + minPrice;
     return { value, label: `${value.toLocaleString()} $` };
   },
 );

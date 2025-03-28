@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { VehiclesFilters } from "@bycar-in-ua/sdk";
 import QuestionContainer from "./QuestionContainer.vue";
+import QuizButton from "./QuizButton.vue";
 import PriceStep from "./PriceStep.vue";
 import ModelsStep from "./ModelsStep.vue";
 
@@ -12,6 +13,8 @@ const quizStore = useQuizStore();
 const catalogStore = useCatalogStore();
 
 const openModal = () => {
+  quizStore.$reset();
+
   isOpen.value = true;
 };
 
@@ -39,7 +42,7 @@ function checkHandler<TValue extends string | number>(
   }
 }
 
-function finishQuiz(_?: Event) {
+function finishQuiz() {
   if (quizStore.filters.brand?.length === 1 && quizStore.step === 0) {
     quizStore.step += 1;
     return;
@@ -71,6 +74,12 @@ const engineTypes: NonNullable<VehiclesFilters["engineType"]> = [
   "hybrid",
   "electric",
 ];
+
+const checkboxUi = {
+  wrapper: "flex items-center",
+  label:
+    "text-md sm:text-xl md:text-2xl font-medium text-gray-700 dark:text-gray-200",
+};
 </script>
 
 <template>
@@ -80,17 +89,16 @@ const engineTypes: NonNullable<VehiclesFilters["engineType"]> = [
       trailing
       class="w-full sm:w-auto flex justify-center items-center"
       size="xl"
-      @click="isOpen = true"
+      @click="openModal"
     >
       Пошук авто
     </UButton>
   </slot>
 
-  <UModal v-model="isOpen" fullscreen>
+  <UModal v-model="isOpen" fullscreen :ui="{ fullscreen: 'h-[100dvh]' }">
     <UCard
       :ui="{
         base: 'h-fit flex flex-col grow',
-        rounded: '',
         body: {
           base: 'flex justify-center grow',
         },
@@ -108,30 +116,22 @@ const engineTypes: NonNullable<VehiclesFilters["engineType"]> = [
         </div>
       </template>
 
-      <div
-        class="flex flex-col items-center justify-center h-full w-full max-w-2xl"
-      >
+      <div class="flex flex-col items-center justify-center w-full max-w-2xl">
         <QuestionContainer
           v-if="quizStore.isUserKnow === null"
           step="Крок 1"
           title="Вже знаєш, яке авто хочеш?"
         >
-          <div class="flex flex-col sm:flex-row gap-4">
-            <UButton
-              class="flex grow justify-center text-xl"
-              @click="quizStore.isUserKnow = true"
-            >
+          <div class="grid sm:grid-cols-2 gap-4">
+            <QuizButton block @click="quizStore.isUserKnow = true">
               Так
-            </UButton>
-            <UButton
-              class="flex grow justify-center text-xl"
-              @click="quizStore.isUserKnow = false"
-            >
+            </QuizButton>
+            <QuizButton block @click="quizStore.isUserKnow = false">
               Ні
-            </UButton>
+            </QuizButton>
           </div>
 
-          <template #footer>
+          <template #extra>
             <p class="mt-2 mb-auto xs:mb-0 text-center">
               Невелике оптування, щоб ми зрозуміли яке авто підходить для тебе.
             </p>
@@ -150,32 +150,21 @@ const engineTypes: NonNullable<VehiclesFilters["engineType"]> = [
               :label="brand.displayName"
               :value="brand.id"
               :model-value="quizStore.filters.brand"
-              :ui="{
-                wrapper: 'flex items-center ',
-                base: 'h-8 w-8',
-                label: 'text-2xl font-medium text-gray-700 dark:text-gray-200',
-              }"
+              :ui="checkboxUi"
               @change="(checked: boolean) => checkHandler('brand', checked, brand.id)"
             />
           </div>
 
           <template #footer>
-            <div class="flex justify-end gap-2 mt-auto xs:mt-6">
-              <UButton
-                class="flex justify-center text-xl"
-                variant="outline"
-                @click="quizStore.$reset"
-              >
-                Назад
-              </UButton>
-              <UButton
-                class="flex justify-center text-xl"
-                :disabled="!quizStore.filters.brand?.length"
-                @click="finishQuiz"
-              >
-                Далі
-              </UButton>
-            </div>
+            <QuizButton variant="outline" @click="quizStore.$reset()">
+              Назад
+            </QuizButton>
+            <QuizButton
+              :disabled="!quizStore.filters.brand?.length"
+              @click="finishQuiz"
+            >
+              Далі
+            </QuizButton>
           </template>
         </QuestionContainer>
 
@@ -200,30 +189,17 @@ const engineTypes: NonNullable<VehiclesFilters["engineType"]> = [
               :label="t(`vehicle.bodyTypes.items.${bodyType}`)"
               :value="bodyType"
               :model-value="quizStore.filters.bodyType"
-              :ui="{
-                wrapper: 'flex items-center ',
-                base: 'h-8 w-8',
-                label: 'text-2xl font-medium text-gray-700 dark:text-gray-200',
-              }"
+              :ui="checkboxUi"
               @change="(checked: boolean) => checkHandler('bodyType', checked, bodyType)"
             />
           </div>
 
           <template #footer>
             <div class="flex justify-end gap-2 mt-auto xs:mt-6">
-              <UButton
-                class="flex justify-center text-xl"
-                variant="outline"
-                @click="quizStore.step -= 1"
-              >
+              <QuizButton variant="outline" @click="quizStore.step -= 1">
                 Назад
-              </UButton>
-              <UButton
-                class="flex justify-center text-xl"
-                @click="quizStore.step += 1"
-              >
-                Далі
-              </UButton>
+              </QuizButton>
+              <QuizButton @click="quizStore.step += 1"> Далі </QuizButton>
             </div>
           </template>
         </QuestionContainer>
@@ -240,34 +216,30 @@ const engineTypes: NonNullable<VehiclesFilters["engineType"]> = [
               :label="t(`filters.engineType.${engineType}`)"
               :value="engineType"
               :model-value="quizStore.filters.engineType"
-              :ui="{
-                wrapper: 'flex items-center ',
-                base: 'h-8 w-8',
-                label: 'text-2xl font-medium text-gray-700 dark:text-gray-200',
-              }"
+              :ui="checkboxUi"
               @change="(checked: boolean) => checkHandler('engineType', checked, engineType)"
             />
           </div>
 
+          <template v-if="!quizStore.canFinishQuiz" #extra>
+            <p class="text-center mt-2">
+              Схоже, що не було вибрано жодного фільтру.
+              <br />
+              В такому випадку цей помічник не зможе нічим допомогти.
+            </p>
+          </template>
+
           <template #footer>
             <div class="flex justify-end gap-2 mt-auto xs:mt-6">
-              <UButton
-                class="flex justify-center text-xl"
-                variant="outline"
-                @click="quizStore.step -= 1"
-              >
+              <QuizButton variant="outline" @click="quizStore.step -= 1">
                 Назад
-              </UButton>
-              <UButton
-                class="flex justify-center text-xl"
-                :disabled="
-                  !quizStore.filters.engineType?.length &&
-                  !quizStore.filters.bodyType?.length
-                "
+              </QuizButton>
+              <QuizButton
+                :disabled="!quizStore.canFinishQuiz"
                 @click="finishQuiz"
               >
                 Далі
-              </UButton>
+              </QuizButton>
             </div>
           </template>
         </QuestionContainer>
