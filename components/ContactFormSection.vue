@@ -27,33 +27,36 @@ const affixClickHandler = () => {
         class="absolute w-[410px] h-[220px] right-14 -bottom-14 -z-10"
       />
     </slot>
-    <div>
-      <h3 class="text-2xl font-bold mb-2">
-        Не впевнений, яке авто тобі підходить?<br />
-        Запитай у експерта!
-      </h3>
-      <p class="text-base text-gray-500 mb-4">
-        Сьогодні на зв'язку Євген. Справжній автофанат,<br />
-        любить БМВ і свого песика Тобі
-      </p>
-      <UButton
-        icon="i-heroicons-chat-bubble-bottom-center"
-        trailing
-        variant="outline"
-        to="https://t.me/AJ201997"
-        target="_blank"
-        @click="
-          gtag('event', 'telegram_chat_click', {
-            event_category: 'engagement',
-            event_label: page,
-          })
-        "
-      >
-        Написати в чат
-      </UButton>
-    </div>
 
-    <ContactForm :page class="md:ml-auto" />
+    <slot name="headline">
+      <div>
+        <h3 class="text-2xl font-bold mb-2">
+          Не впевнений, яке авто тобі підходить?<br />
+          Запитай у експерта!
+        </h3>
+        <p class="text-base text-gray-500 mb-4">
+          Сьогодні на зв'язку Євген. Справжній автофанат,<br />
+          любить БМВ і свого песика Тобі
+        </p>
+        <UButton
+          icon="i-heroicons-chat-bubble-bottom-center"
+          trailing
+          variant="outline"
+          to="https://t.me/AJ201997"
+          target="_blank"
+          @click="
+            gtag('event', 'telegram_chat_click', {
+              event_category: 'engagement',
+              event_label: page,
+            })
+          "
+        >
+          Написати в чат
+        </UButton>
+      </div>
+    </slot>
+
+    <ContactForm :page />
 
     <HelpCta @affix-click="affixClickHandler" />
   </section>
