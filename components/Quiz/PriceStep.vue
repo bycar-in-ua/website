@@ -20,6 +20,8 @@ const priceSliderModel = computed({
   },
 });
 
+type OptionType = (typeof priceTemplates)[number];
+
 const availablePriceFrom = computed(() => {
   const value = quizStore.filters.priceTo;
 
@@ -31,11 +33,9 @@ const availablePriceFrom = computed(() => {
 const availablePriceTo = computed(() => {
   const value = quizStore.filters.priceFrom;
 
-  return (
-    value
-      ? [...priceTemplates].filter((item) => item.value > value)
-      : [...priceTemplates]
-  ).reverse();
+  return value
+    ? [...priceTemplates].filter((item) => item.value > value)
+    : [...priceTemplates];
 });
 </script>
 
@@ -77,24 +77,24 @@ const availablePriceTo = computed(() => {
       />
     </div>
 
-    <div class="flex gap-4 flex-wrap md:flex-nowrap mt-10">
+    <div class="grid gap-4 xs:grid-cols-2 mt-10">
       <div class="flex items-center grow gap-4">
         <span class="w-8"> Від: </span>
-        <USelect
+        <USelectMenu
           v-model="quizStore.filters.priceFrom"
           :options="availablePriceFrom"
           class="w-full"
-          @change="(value: number | undefined) => (quizStore.filters.priceFrom = value)"
+          @change="(option: OptionType | undefined) => (quizStore.filters.priceFrom = option?.value)"
         />
       </div>
 
       <div class="flex items-center grow gap-4">
         <span class="w-8"> До: </span>
-        <USelect
+        <USelectMenu
           v-model="quizStore.filters.priceTo"
           :options="availablePriceTo"
           class="w-full"
-          @change="(value: number | undefined) => (quizStore.filters.priceTo = value)"
+          @change="(option: OptionType | undefined) => (quizStore.filters.priceTo = option?.value)"
         />
       </div>
     </div>
