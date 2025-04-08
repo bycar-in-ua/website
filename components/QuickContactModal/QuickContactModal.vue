@@ -24,7 +24,7 @@ const openModal = () => {
       class="w-48 sm:w-fit flex justify-center bg-bycar-secondary-400 hover:bg-bycar-secondary-500 text-black"
       @click="openModal"
     >
-      Хочу!
+      Отримати пропозицію
     </UButton>
   </slot>
 
@@ -33,7 +33,7 @@ const openModal = () => {
       :ui="{
         base: 'h-fit flex flex-col grow',
         body: {
-          base: 'flex  justify-center grow',
+          base: 'flex flex-col gap-8 justify-center items-center grow',
         },
       }"
     >
@@ -53,31 +53,35 @@ const openModal = () => {
         <template #headline>
           <div class="flex flex-col items-center">
             <h3 class="text-2xl font-bold mb-2 text-center">
-              Не впевнений, яке авто тобі підходить?<br />
-              Запитай у експерта!
+              Хочеш дізнатись про {{ page }}, наявність, спецпропозиції та
+              найвигідніші варіанти?
             </h3>
             <p class="text-base text-gray-500 mb-4 text-center">
-              Сьогодні на зв'язку Євген. Справжній автофанат, любить БМВ і свого
-              песика Тобі
+              Залиш свій номер — наш менеджер зв'яжеться з тобою найближчим
+              часом і підбере найкращий варіант для тебе.
             </p>
-            <UButton
-              icon="i-heroicons-chat-bubble-bottom-center"
-              trailing
-              variant="outline"
-              to="https://t.me/AJ201997"
-              target="_blank"
-              @click="
-                gtag('event', 'telegram_chat_click', {
-                  event_category: 'engagement',
-                  event_label: page,
-                })
-              "
-            >
-              Написати в чат
-            </UButton>
           </div>
         </template>
       </ContactFormSection>
+
+      <UDivider label="або" />
+
+      <UButton
+        icon="i-heroicons-chat-bubble-bottom-center"
+        trailing
+        variant="outline"
+        to="https://t.me/AJ201997"
+        target="_blank"
+        class="w-fit mb-2"
+        @click="
+          gtag('event', 'telegram_chat_click', {
+            event_category: 'engagement',
+            event_label: page,
+          })
+        "
+      >
+        Написати в чат
+      </UButton>
     </UCard>
   </UModal>
 </template>
