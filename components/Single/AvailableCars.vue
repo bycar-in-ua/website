@@ -56,7 +56,9 @@ function openModal(car: AvailableCar) {
 
 <template>
   <section id="available-cars">
-    <SectionTitle class="mb-4">Авто в наявності</SectionTitle>
+    <SectionTitle class="mb-4">
+      Авто в наявності
+    </SectionTitle>
 
     <div
       class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
@@ -67,6 +69,7 @@ function openModal(car: AvailableCar) {
         :car="availableCar"
         :title="availableCar.title"
         class="cursor-pointer"
+        discount
         @click="() => openModal(availableCar)"
       />
     </div>

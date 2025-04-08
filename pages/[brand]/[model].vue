@@ -114,8 +114,17 @@ useSeoMeta({
     <Media :car :title="carTitle" :active-power-unit="activePowerUnit" />
 
     <div
-      class="flex flex-col sm:flex-row justify-end items-center gap-4 mb-4 md:mb-5"
+      v-if="availableVehicles.length > 0"
+      class="flex justify-end items-end sm:items-center flex-col sm:flex-row gap-2 mb-4 md:mb-5 "
     >
+      <UBadge
+        color="white"
+        variant="soft"
+      >
+        Доступні спецпропозиції
+        <UIcon name="i-heroicons-solid-currency-dollar" class="ml-2 w-4 h-4" />
+      </UBadge>
+
       <CtaButton v-if="availableVehicles.length > 0" />
       <QuickContactModal :page="carTitle" />
     </div>

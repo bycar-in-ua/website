@@ -91,7 +91,9 @@ const infoBullets = computed(() =>
             Новий <strong>{{ car.title }} {{ powerUnitTitle }}</strong> в
             наявності
           </h2>
-          <div class="font-semibold text-xl">~ {{ priceRange }}</div>
+          <div class="font-semibold text-xl">
+            ~ {{ priceRange }}
+          </div>
           <div class="grid sm:grid-cols-2 gap-4 mt-8">
             <InfoBullet
               v-for="(infoBullet, i) in infoBullets"
@@ -110,11 +112,22 @@ const infoBullets = computed(() =>
 
           <div class="mt-4 flex justify-center">
             <div class="bg-slate-100 p-6 sm:p-8 rounded-xl">
-              <h3 class="font-bold text-xl mb-2">Роздрібна ціна</h3>
+              <h3 class="font-bold text-xl mb-2">
+                Роздрібна ціна
+              </h3>
 
               <div class="font-bold text-xl md:text-2xl lg:text-4xl">
                 UAH {{ car.price.toLocaleString() }}
               </div>
+
+              <UAlert
+                color="primary"
+                variant="soft"
+                class="mt-4"
+                icon="i-heroicons-information-circle"
+                title="Спецпропозиція"
+                description="Знижка 100 000 грн. на авто в наявності. За деталями звертайтесь до менеджера"
+              />
 
               <div class="text-xs mt-2 text-gray-600">
                 <UIcon name="i-heroicons-information-circle" />
