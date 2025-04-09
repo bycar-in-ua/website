@@ -8,9 +8,9 @@ import CtaButton from "@/components/Single/CtaButton.vue";
 import AvailableCars from "@/components/Single/AvailableCars.vue";
 import ContactFormSection from "~/components/ContactFormSection.vue";
 import BluredEllipse from "@/components/UI/BluredEllipse.vue";
+import QuickContactModal from "@/components/Single/QuickContactModal.vue";
 import { getCarTitle, getComplectationsSummary } from "@/utils/carHelpers";
 import { generatePageTitle } from "@/utils/seo";
-import QuickContactModal from "~/components/QuickContactModal/QuickContactModal.vue";
 
 definePageMeta({
   name: "SingleCar",
@@ -58,7 +58,7 @@ const car = computed(() => data.value as Vehicle);
 
 const activeComplectation = ref<Complectation | undefined>(
   car.value.complectations?.find((c) => c.base) ||
-    car.value.complectations?.[0],
+  car.value.complectations?.[0],
 );
 const activePowerUnit = ref<PowerUnit | undefined>(
   activeComplectation.value?.powerUnits?.[0],
@@ -115,17 +115,10 @@ useSeoMeta({
 
     <div
       v-if="availableVehicles.length > 0"
-      class="flex justify-end items-end sm:items-center flex-col sm:flex-row gap-2 mb-4 md:mb-5 "
+      class="flex justify-end items-end flex-wrap gap-2 mb-4 md:mb-5 "
     >
-      <UBadge
-        color="white"
-        variant="soft"
-      >
-        Доступні спецпропозиції
-        <UIcon name="i-heroicons-solid-currency-dollar" class="ml-2 w-4 h-4" />
-      </UBadge>
-
       <CtaButton v-if="availableVehicles.length > 0" />
+
       <QuickContactModal :page="carTitle" />
     </div>
 
