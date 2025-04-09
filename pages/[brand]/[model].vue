@@ -6,10 +6,11 @@ import PowerUnits from "@/components/Single/PowerUnits.vue";
 import FullInfo from "@/components/Single/FullInfo.vue";
 import CtaButton from "@/components/Single/CtaButton.vue";
 import AvailableCars from "@/components/Single/AvailableCars.vue";
-import ContactForm from "~/components/ContactFormSection.vue";
+import ContactFormSection from "~/components/ContactFormSection.vue";
 import BluredEllipse from "@/components/UI/BluredEllipse.vue";
 import { getCarTitle, getComplectationsSummary } from "@/utils/carHelpers";
 import { generatePageTitle } from "@/utils/seo";
+import QuickContactModal from "~/components/QuickContactModal/QuickContactModal.vue";
 
 definePageMeta({
   name: "SingleCar",
@@ -57,7 +58,7 @@ const car = computed(() => data.value as Vehicle);
 
 const activeComplectation = ref<Complectation | undefined>(
   car.value.complectations?.find((c) => c.base) ||
-  car.value.complectations?.[0],
+    car.value.complectations?.[0],
 );
 const activePowerUnit = ref<PowerUnit | undefined>(
   activeComplectation.value?.powerUnits?.[0],
@@ -113,10 +114,10 @@ useSeoMeta({
     <Media :car :title="carTitle" :active-power-unit="activePowerUnit" />
 
     <div
-      v-if="availableVehicles.length > 0"
-      class="flex justify-end items-center mb-4 md:mb-5"
+      class="flex flex-col sm:flex-row justify-end items-center gap-4 mb-4 md:mb-5"
     >
-      <CtaButton />
+      <CtaButton v-if="availableVehicles.length > 0" />
+      <QuickContactModal :page="carTitle" />
     </div>
 
     <template v-if="car.complectations?.length">
@@ -156,12 +157,12 @@ useSeoMeta({
       v-html="car.description"
     ></section>
 
-    <ContactForm :page="carTitle">
+    <ContactFormSection :page="carTitle" class="md:justify-between">
       <template #ellipse>
         <BluredEllipse
           class="absolute w-[410px] h-[220px] right-0 md:right-24 top-32 md:-top-24 -z-10"
         />
       </template>
-    </ContactForm>
+    </ContactFormSection>
   </main>
 </template>
