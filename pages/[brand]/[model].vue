@@ -117,7 +117,7 @@ useSeoMeta({
       v-if="availableVehicles.length > 0"
       class="flex justify-end items-end flex-wrap gap-2 mb-4 md:mb-5 "
     >
-      <CtaButton v-if="availableVehicles.length > 0" />
+      <CtaButton />
 
       <QuickContactModal :page="carTitle" />
     </div>
@@ -159,7 +159,11 @@ useSeoMeta({
       v-html="car.description"
     ></section>
 
-    <ContactFormSection :page="carTitle" class="md:justify-between">
+    <ContactFormSection
+      :page="carTitle"
+      class="md:justify-between"
+      :tg-link-message="`Вітаю! Цікавить авто ${carTitle}. Хочу дізнатись більше деталей`"
+    >
       <template #ellipse>
         <BluredEllipse
           class="absolute w-[410px] h-[220px] right-0 md:right-24 top-32 md:-top-24 -z-10"

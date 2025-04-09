@@ -3,7 +3,7 @@ import BluredEllipse from "@/components/UI/BluredEllipse.vue";
 import HelpCta from "./UI/HelpCta.client.vue";
 import ContactForm from "./ContactForm.vue";
 import TelegramChatButton from "./TelegramChatButton.vue";
-defineProps<{ page: string }>();
+defineProps<{ page: string; tgLinkMessage?: string }>();
 
 const sectionRef = ref<HTMLElement | undefined>();
 
@@ -37,7 +37,7 @@ const affixClickHandler = () => {
         любить БМВ і свого песика Тобі
       </p>
 
-      <TelegramChatButton :page="page" />
+      <TelegramChatButton :page="page" :message="tgLinkMessage" />
     </div>
 
     <ContactForm :page />

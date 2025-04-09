@@ -21,8 +21,8 @@ const openModal = () => {
 <template>
   <slot name="trigger" :open="openModal">
     <UButton
-      trailing
-      class="flex justify-center bg-bycar-secondary-400 hover:bg-bycar-secondary-500 text-primary-900 font-bold"
+      color="bycar-secondary"
+      class="flex justify-center text-black font-bold"
       @click="openModal"
     >
       Отримати спецпропозицію!
@@ -63,7 +63,7 @@ const openModal = () => {
 
       <UDivider label="або" class="my-4 md:my-0" />
 
-      <TelegramChatButton :page="page" />
+      <TelegramChatButton :page="page" :message="`Вітаю! Хочу дізнатись умови спецпропозиції на ${page}`" />
     </UCard>
   </UModal>
 </template>

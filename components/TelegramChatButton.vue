@@ -1,9 +1,16 @@
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   page: string;
+  message?: string;
 }>();
 
 const { gtag } = useGtag();
+
+const tgUrl = new URL("https://t.me/AJ201997");
+
+if (props.message) {
+  tgUrl.searchParams.set("text", props.message ?? "");
+}
 </script>
 
 <template>
@@ -11,7 +18,7 @@ const { gtag } = useGtag();
     icon="i-heroicons-chat-bubble-bottom-center"
     trailing
     variant="outline"
-    to="https://t.me/AJ201997"
+    :to="tgUrl.toString()"
     target="_blank"
     @click="
       gtag('event', 'telegram_chat_click', {
