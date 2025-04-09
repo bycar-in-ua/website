@@ -9,7 +9,7 @@ const { gtag } = useGtag();
 const tgUrl = new URL("https://t.me/AJ201997");
 
 if (props.message) {
-  tgUrl.searchParams.set("text", props.message ?? "");
+  tgUrl.searchParams.set("text", encodeURIComponent(props.message ?? ""));
 }
 </script>
 
@@ -18,7 +18,7 @@ if (props.message) {
     icon="i-heroicons-chat-bubble-bottom-center"
     trailing
     variant="outline"
-    :to="tgUrl.toString()"
+    :to="decodeURI(tgUrl.toString())"
     target="_blank"
     @click="
       gtag('event', 'telegram_chat_click', {
