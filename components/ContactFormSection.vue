@@ -40,7 +40,7 @@ const affixClickHandler = () => {
       <TelegramChatButton :page="page" :message="tgLinkMessage" />
     </div>
 
-    <ContactForm :page />
+    <ContactForm :page class="md:ml-auto" />
 
     <HelpCta @affix-click="affixClickHandler" />
   </section>

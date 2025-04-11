@@ -43,7 +43,9 @@ const infoBullets = computed(() => getVehicleInfoBullets(props.car, t));
         {{ carTitle }}
       </h3>
       <div class="font-semibold">
-        {{ priceRange }}
+        <slot name="price">
+          {{ priceRange }}
+        </slot>
       </div>
 
       <div class="mt-auto flex gap-1 justify-between">

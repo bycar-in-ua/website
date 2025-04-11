@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import type { Vehicle, AvailableVehicle } from "@bycar-in-ua/sdk";
 import CarCard from "@/components/UI/CarCard/CarCard.vue";
+import DiscountPrice from "@/components/UI/CarCard/DiscountPrice.vue";
 import { getCarTitle } from "@/utils/carHelpers";
 import SectionTitle from "./SectionTitle.vue";
 import AvailableCarModal from "./AvailableCarModal.vue";
 import type { AvailableCar } from "./interface";
-
+import { discounts } from "./discounts.temp";
 const props = defineProps<{
   car: Vehicle;
   availability: AvailableVehicle[];
@@ -33,6 +34,8 @@ const availableCars = computed<AvailableCar[]>(() => {
         powerUnits: [powerUnit],
       };
 
+      const discount = discounts[availableVehicle.id];
+
       return {
         ...props.car,
         ...availableVehicle,
@@ -40,6 +43,7 @@ const availableCars = computed<AvailableCar[]>(() => {
         featureImage: availableVehicle.images?.[0].image,
         complectations: [availableComplectation],
         complectation: availableComplectation,
+        ...discount,
       };
     })
     .filter(Boolean) as AvailableCar[];
@@ -69,9 +73,13 @@ function openModal(car: AvailableCar) {
         :car="availableCar"
         :title="availableCar.title"
         class="cursor-pointer"
-        discount
+        :discount="!!availableCar.discountPrice"
         @click="() => openModal(availableCar)"
-      />
+      >
+        <template #price>
+          <DiscountPrice :price="`UAH ${availableCar.price.toLocaleString()}`" :discount-price="availableCar.discountPrice ? `UAH ${availableCar.discountPrice?.toLocaleString()}` : undefined" />
+        </template>
+      </CarCard>
     </div>
     <AvailableCarModal v-if="targetCar" v-model:open="open" :car="targetCar" />
   </section>
