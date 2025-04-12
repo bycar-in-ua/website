@@ -2,9 +2,8 @@
 import BluredEllipse from "@/components/UI/BluredEllipse.vue";
 import HelpCta from "./UI/HelpCta.client.vue";
 import ContactForm from "./ContactForm.vue";
-
-defineProps<{ page: string }>();
-const { gtag } = useGtag();
+import TelegramChatButton from "./TelegramChatButton.vue";
+defineProps<{ page: string; tgLinkMessage?: string }>();
 
 const sectionRef = ref<HTMLElement | undefined>();
 
@@ -27,6 +26,7 @@ const affixClickHandler = () => {
         class="absolute w-[410px] h-[220px] right-14 -bottom-14 -z-10"
       />
     </slot>
+
     <div>
       <h3 class="text-2xl font-bold mb-2">
         Не впевнений, яке авто тобі підходить?<br />
@@ -36,21 +36,8 @@ const affixClickHandler = () => {
         Сьогодні на зв'язку Євген. Справжній автофанат,<br />
         любить БМВ і свого песика Тобі
       </p>
-      <UButton
-        icon="i-heroicons-chat-bubble-bottom-center"
-        trailing
-        variant="outline"
-        to="https://t.me/AJ201997"
-        target="_blank"
-        @click="
-          gtag('event', 'telegram_chat_click', {
-            event_category: 'engagement',
-            event_label: page,
-          })
-        "
-      >
-        Написати в чат
-      </UButton>
+
+      <TelegramChatButton :page="page" :message="tgLinkMessage" />
     </div>
 
     <ContactForm :page class="md:ml-auto" />

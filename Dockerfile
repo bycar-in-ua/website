@@ -1,3 +1,5 @@
+# For staging environment only
+
 ARG NODE_VERSION=22
 
 FROM node:${NODE_VERSION}-alpine
@@ -15,12 +17,10 @@ COPY ./.npmrc .
 
 RUN npm install
 
-COPY --link . .
-
-RUN npm run build
+# Note: .output directory will be mounted as a volume
+# No need to copy source files since we're not building inside container
 
 ENV NODE_ENV=$NODE_ENV
-
 ENV PORT=$PORT
 
 EXPOSE $PORT
