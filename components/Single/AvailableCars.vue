@@ -6,7 +6,6 @@ import { getCarTitle } from "@/utils/carHelpers";
 import SectionTitle from "./SectionTitle.vue";
 import AvailableCarModal from "./AvailableCarModal.vue";
 import type { AvailableCar } from "./interface";
-import { discounts } from "./discounts.temp";
 const props = defineProps<{
   car: Vehicle;
   availability: AvailableVehicle[];
@@ -34,8 +33,6 @@ const availableCars = computed<AvailableCar[]>(() => {
         powerUnits: [powerUnit],
       };
 
-      const discount = discounts[availableVehicle.id];
-
       return {
         ...props.car,
         ...availableVehicle,
@@ -43,7 +40,6 @@ const availableCars = computed<AvailableCar[]>(() => {
         featureImage: availableVehicle.images?.[0].image,
         complectations: [availableComplectation],
         complectation: availableComplectation,
-        ...discount,
       };
     })
     .filter(Boolean) as AvailableCar[];

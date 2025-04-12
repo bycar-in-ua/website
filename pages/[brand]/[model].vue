@@ -11,6 +11,7 @@ import BluredEllipse from "@/components/UI/BluredEllipse.vue";
 import QuickContactModal from "@/components/Single/QuickContactModal.vue";
 import { getCarTitle, getComplectationsSummary } from "@/utils/carHelpers";
 import { generatePageTitle } from "@/utils/seo";
+import { discounts } from "@/components/Single/discounts.temp";
 
 definePageMeta({
   name: "SingleCar",
@@ -47,7 +48,10 @@ const { data: availableVehicles } = useAsyncData(
       },
     });
 
-    return response.items;
+    return response.items.map((item) => ({
+      ...item,
+      ...(discounts[item.id] ?? {}),
+    }));
   },
   {
     default: () => [],
@@ -55,6 +59,7 @@ const { data: availableVehicles } = useAsyncData(
 );
 
 const car = computed(() => data.value as Vehicle);
+const hasSpecialOfferings = computed(() => availableVehicles.value.some((item) => item.discountDescription));
 
 const activeComplectation = ref<Complectation | undefined>(
   car.value.complectations?.find((c) => c.base) ||
@@ -113,13 +118,10 @@ useSeoMeta({
     />
     <Media :car :title="carTitle" :active-power-unit="activePowerUnit" />
 
-    <div
-      v-if="availableVehicles.length > 0"
-      class="flex justify-end items-end flex-wrap gap-2 mb-4 md:mb-5 "
-    >
-      <CtaButton />
+    <div class="flex justify-end items-end flex-wrap gap-2 mb-4 md:mb-5 ">
+      <CtaButton v-if="availableVehicles.length > 0" />
 
-      <QuickContactModal :page="carTitle" />
+      <QuickContactModal v-if="hasSpecialOfferings" :page="carTitle" />
     </div>
 
     <template v-if="car.complectations?.length">
