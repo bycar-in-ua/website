@@ -19,4 +19,6 @@ export type InfoBlock = {
 export type AvailableCar = Vehicle &
   AvailableVehicle & {
     title: string;
+    discountPrice?: number;
+    discountDescription?: string;
   };

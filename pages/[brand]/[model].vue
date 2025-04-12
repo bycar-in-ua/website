@@ -8,9 +8,10 @@ import CtaButton from "@/components/Single/CtaButton.vue";
 import AvailableCars from "@/components/Single/AvailableCars.vue";
 import ContactFormSection from "~/components/ContactFormSection.vue";
 import BluredEllipse from "@/components/UI/BluredEllipse.vue";
+import QuickContactModal from "@/components/Single/QuickContactModal.vue";
 import { getCarTitle, getComplectationsSummary } from "@/utils/carHelpers";
 import { generatePageTitle } from "@/utils/seo";
-import QuickContactModal from "~/components/QuickContactModal/QuickContactModal.vue";
+import { discounts } from "@/components/Single/discounts.temp";
 
 definePageMeta({
   name: "SingleCar",
@@ -47,7 +48,10 @@ const { data: availableVehicles } = useAsyncData(
       },
     });
 
-    return response.items;
+    return response.items.map((item) => ({
+      ...item,
+      ...(discounts[item.id] ?? {}),
+    }));
   },
   {
     default: () => [],
@@ -55,10 +59,11 @@ const { data: availableVehicles } = useAsyncData(
 );
 
 const car = computed(() => data.value as Vehicle);
+const hasSpecialOfferings = computed(() => availableVehicles.value.some((item) => item.discountDescription));
 
 const activeComplectation = ref<Complectation | undefined>(
   car.value.complectations?.find((c) => c.base) ||
-    car.value.complectations?.[0],
+  car.value.complectations?.[0],
 );
 const activePowerUnit = ref<PowerUnit | undefined>(
   activeComplectation.value?.powerUnits?.[0],
@@ -113,11 +118,10 @@ useSeoMeta({
     />
     <Media :car :title="carTitle" :active-power-unit="activePowerUnit" />
 
-    <div
-      class="flex flex-col sm:flex-row justify-end items-center gap-4 mb-4 md:mb-5"
-    >
+    <div class="flex justify-end items-end flex-wrap gap-2 mb-4 md:mb-5 ">
       <CtaButton v-if="availableVehicles.length > 0" />
-      <QuickContactModal :page="carTitle" />
+
+      <QuickContactModal v-if="hasSpecialOfferings" :page="carTitle" />
     </div>
 
     <template v-if="car.complectations?.length">
@@ -157,7 +161,11 @@ useSeoMeta({
       v-html="car.description"
     ></section>
 
-    <ContactFormSection :page="carTitle" class="md:justify-between">
+    <ContactFormSection
+      :page="carTitle"
+      class="md:justify-between"
+      :tg-link-message="`Вітаю! Цікавить авто ${carTitle}. Хочу дізнатись більше деталей`"
+    >
       <template #ellipse>
         <BluredEllipse
           class="absolute w-[410px] h-[220px] right-0 md:right-24 top-32 md:-top-24 -z-10"

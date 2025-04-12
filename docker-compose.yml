@@ -9,6 +9,8 @@ services:
     environment:
       - API_URL=${API_URL}
       - CDN_URL=${CDN_URL}
+    volumes:
+      - ./.output:/app/.output
     networks:
       - proxy
 

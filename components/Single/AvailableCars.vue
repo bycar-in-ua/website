@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import type { Vehicle, AvailableVehicle } from "@bycar-in-ua/sdk";
 import CarCard from "@/components/UI/CarCard/CarCard.vue";
+import DiscountPrice from "@/components/UI/CarCard/DiscountPrice.vue";
 import { getCarTitle } from "@/utils/carHelpers";
 import SectionTitle from "./SectionTitle.vue";
 import AvailableCarModal from "./AvailableCarModal.vue";
 import type { AvailableCar } from "./interface";
-
 const props = defineProps<{
   car: Vehicle;
   availability: AvailableVehicle[];
@@ -56,7 +56,9 @@ function openModal(car: AvailableCar) {
 
 <template>
   <section id="available-cars">
-    <SectionTitle class="mb-4">Авто в наявності</SectionTitle>
+    <SectionTitle class="mb-4">
+      Авто в наявності
+    </SectionTitle>
 
     <div
       class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
@@ -67,8 +69,13 @@ function openModal(car: AvailableCar) {
         :car="availableCar"
         :title="availableCar.title"
         class="cursor-pointer"
+        :discount="!!availableCar.discountPrice"
         @click="() => openModal(availableCar)"
-      />
+      >
+        <template #price>
+          <DiscountPrice :price="`UAH ${availableCar.price.toLocaleString()}`" :discount-price="availableCar.discountPrice ? `UAH ${availableCar.discountPrice?.toLocaleString()}` : undefined" />
+        </template>
+      </CarCard>
     </div>
     <AvailableCarModal v-if="targetCar" v-model:open="open" :car="targetCar" />
   </section>
