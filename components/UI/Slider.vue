@@ -29,6 +29,7 @@ withDefaults(
 </template>
 
 <style>
+@reference "@/assets/css/tailwind.css";
 .slider-root {
   position: relative;
   display: flex;
@@ -55,10 +56,10 @@ withDefaults(
 }
 
 .slider-range {
-  @apply absolute bg-primary rounded-lg;
+  /* @apply absolute bg-primary rounded-lg; */
 }
 
 .slider-thumb {
-  @apply block bg-white rounded-full border-2 border-primary cursor-pointer;
+  /* @apply block bg-white rounded-full border-2 border-primary cursor-pointer; */
 }
 </style>

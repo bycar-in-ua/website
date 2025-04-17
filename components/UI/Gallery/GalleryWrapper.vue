@@ -190,6 +190,8 @@ if (import.meta.client) {
 </template>
 
 <style>
+@reference "@/assets/css/tailwind.css";
+
 .regular-gallery {
   max-height: 95vh;
 }
@@ -217,7 +219,7 @@ if (import.meta.client) {
   }
 }
 .full-screen {
-  @apply fixed bg-gray-900 bg-opacity-90 w-full h-full left-0 top-0 right-0 bottom-0 z-40 flex justify-center items-center;
+  @apply fixed bg-gray-900/90 w-full h-full left-0 top-0 right-0 bottom-0 z-40 flex justify-center items-center;
   .bycar-gallery {
     @apply mx-auto p-2 md:p-5 w-full;
     max-height: 100%;

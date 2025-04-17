@@ -44,6 +44,8 @@ const setActiveItem = () => setGalleryActiveItem?.(props.index);
 </template>
 
 <style>
+@reference "@/assets/css/tailwind.css";
+
 .bycar-gallery-thumbnail {
   @apply bg-cover bg-center cursor-pointer rounded-xl overflow-hidden transition-all w-full border-4 border-transparent outline outline-2 -outline-offset-2;
 }

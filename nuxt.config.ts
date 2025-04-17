@@ -13,7 +13,7 @@ export default defineNuxtConfig({
   ],
   devtools: { enabled: true },
 
-  css: ["@/assets/css/global.css"],
+  css: ["@/assets/css/tailwind.css", "@/assets/css/global.css"],
 
   colorMode: {
     preference: "light",

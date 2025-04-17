@@ -18,6 +18,8 @@ defineExpose({
 </template>
 
 <style>
+@reference "@/assets/css/tailwind.css";
+
 .bycar-gallery-thumnails-list {
   @apply flex gap-1 md:gap-4 content-start overflow-auto;
 }

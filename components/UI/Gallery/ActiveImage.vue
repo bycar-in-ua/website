@@ -162,6 +162,8 @@ const itemsTrackTranslate = computed(
 </template>
 
 <style>
+@reference "@/assets/css/tailwind.css";
+
 .bycar-gallery-icon {
   @apply h-8 w-8 md:h-12 md:w-12;
 }
