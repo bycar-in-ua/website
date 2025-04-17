@@ -94,166 +94,170 @@ const checkboxUi = {
 </script>
 
 <template>
-  <slot name="trigger" :open="openModal">
-    <UButton
-      icon="i-heroicons-magnifying-glass"
-      trailing
-      class="w-full sm:w-auto flex justify-center items-center"
-      size="xl"
-      @click="openModal"
-    >
-      Пошук авто
-    </UButton>
-  </slot>
+  <UModal v-model:open="isOpen" fullscreen :ui="{ fullscreen: 'h-[100dvh]' }">
+    <slot name="trigger" :open="openModal">
+      <UButton
+        icon="i-heroicons-magnifying-glass"
+        trailing
+        class="w-full sm:w-auto flex justify-center items-center"
+        size="xl"
+        @click="openModal"
+      >
+        Пошук авто
+      </UButton>
+    </slot>
 
-  <UModal v-model="isOpen" fullscreen :ui="{ fullscreen: 'h-[100dvh]' }">
-    <UCard
-      :ui="{
-        base: 'h-fit flex flex-col grow',
-        body: {
-          base: 'flex justify-center grow',
-        },
-      }"
-    >
-      <template #header>
-        <div class="flex items-center justify-end">
-          <UButton
-            color="gray"
-            variant="ghost"
-            icon="i-heroicons-x-mark-20-solid"
-            class="-my-1"
-            @click="isOpen = false"
-          />
-        </div>
-      </template>
-
-      <div class="flex flex-col items-center justify-center w-full max-w-2xl">
-        <QuestionContainer
-          v-if="quizStore.isUserKnow === null"
-          step="Крок 1"
-          title="Вже знаєш, яке авто хочеш?"
-        >
-          <div class="grid sm:grid-cols-2 gap-4">
-            <QuizButton block @click="quizStore.isUserKnow = true">
-              Так
-            </QuizButton>
-            <QuizButton block @click="quizStore.isUserKnow = false">
-              Ні
-            </QuizButton>
-          </div>
-
-          <template #extra>
-            <p class="mt-2 mb-auto xs:mb-0 text-center">
-              Невелике оптування, щоб ми зрозуміли яке авто підходить для тебе.
-            </p>
-          </template>
-        </QuestionContainer>
-
-        <QuestionContainer
-          v-if="quizStore.isUserKnow === true && quizStore.step === 0"
-          step="Крок 2/2"
-          title="Обери бренд:"
-        >
-          <div class="flex flex-col gap-4">
-            <UCheckbox
-              v-for="brand in catalogStore.dictionary.brands"
-              :key="brand.id"
-              :label="brand.displayName"
-              :value="brand.id"
-              :model-value="quizStore.filters.brand"
-              :ui="checkboxUi"
-              @change="(checked: boolean) => checkHandler('brand', checked, brand.id)"
+    <template #content>
+      <UCard
+        :ui="{
+          base: 'h-fit flex flex-col grow',
+          body: {
+            base: 'flex justify-center grow',
+          },
+        }"
+      >
+        <template #header>
+          <div class="flex items-center justify-end">
+            <UButton
+              color="gray"
+              variant="ghost"
+              icon="i-heroicons-x-mark-20-solid"
+              class="-my-1"
+              @click="isOpen = false"
             />
           </div>
+        </template>
 
-          <template #footer>
-            <QuizButton variant="outline" @click="quizStore.$reset()">
-              Назад
-            </QuizButton>
-            <QuizButton
-              :disabled="!quizStore.filters.brand?.length"
-              @click="finishQuiz"
-            >
-              Далі
-            </QuizButton>
-          </template>
-        </QuestionContainer>
-
-        <ModelsStep
-          v-if="quizStore.isUserKnow === true && quizStore.step === 1"
-          @finish="finishQuiz()"
-        />
-
-        <PriceStep
-          v-if="quizStore.isUserKnow === false && quizStore.step === 0"
-        />
-
-        <QuestionContainer
-          v-if="quizStore.isUserKnow === false && quizStore.step === 1"
-          step="Крок 2/3"
-          title="Обери тип кузова:"
-        >
-          <div class="flex flex-col gap-4">
-            <UCheckbox
-              v-for="bodyType in catalogStore.dictionary.bodyTypes"
-              :key="bodyType"
-              :label="t(`vehicle.bodyTypes.items.${bodyType}`)"
-              :value="bodyType"
-              :model-value="quizStore.filters.bodyType"
-              :ui="checkboxUi"
-              @change="(checked: boolean) => checkHandler('bodyType', checked, bodyType)"
-            />
-          </div>
-
-          <template #footer>
-            <div class="flex justify-end gap-2 mt-auto xs:mt-6">
-              <QuizButton variant="outline" @click="quizStore.step -= 1">
-                Назад
+        <div class="flex flex-col items-center justify-center w-full max-w-2xl">
+          <QuestionContainer
+            v-if="quizStore.isUserKnow === null"
+            step="Крок 1"
+            title="Вже знаєш, яке авто хочеш?"
+          >
+            <div class="grid sm:grid-cols-2 gap-4">
+              <QuizButton block @click="quizStore.isUserKnow = true">
+                Так
               </QuizButton>
-              <QuizButton @click="quizStore.step += 1"> Далі </QuizButton>
+              <QuizButton block @click="quizStore.isUserKnow = false">
+                Ні
+              </QuizButton>
             </div>
-          </template>
-        </QuestionContainer>
 
-        <QuestionContainer
-          v-if="quizStore.isUserKnow === false && quizStore.step === 2"
-          step="Крок 3/3"
-          title="Обери тип двигуна:"
-        >
-          <div class="flex flex-col gap-4">
-            <UCheckbox
-              v-for="engineType in engineTypes"
-              :key="engineType"
-              :label="t(`filters.engineType.${engineType}`)"
-              :value="engineType"
-              :model-value="quizStore.filters.engineType"
-              :ui="checkboxUi"
-              @change="(checked: boolean) => checkHandler('engineType', checked, engineType)"
-            />
-          </div>
+            <template #extra>
+              <p class="mt-2 mb-auto xs:mb-0 text-center">
+                Невелике оптування, щоб ми зрозуміли яке авто підходить для тебе.
+              </p>
+            </template>
+          </QuestionContainer>
 
-          <template v-if="!quizStore.canFinishQuiz" #extra>
-            <p class="text-center mt-2">
-              Схоже, що не було вибрано жодного фільтру. В такому випадку цей
-              помічник не зможе нічим допомогти.
-            </p>
-          </template>
+          <QuestionContainer
+            v-if="quizStore.isUserKnow === true && quizStore.step === 0"
+            step="Крок 2/2"
+            title="Обери бренд:"
+          >
+            <div class="flex flex-col gap-4">
+              <UCheckbox
+                v-for="brand in catalogStore.dictionary.brands"
+                :key="brand.id"
+                :label="brand.displayName"
+                :value="brand.id"
+                :model-value="quizStore.filters.brand"
+                :ui="checkboxUi"
+                @change="(checked: boolean) => checkHandler('brand', checked, brand.id)"
+              />
+            </div>
 
-          <template #footer>
-            <div class="flex justify-end gap-2 mt-auto xs:mt-6">
-              <QuizButton variant="outline" @click="quizStore.step -= 1">
+            <template #footer>
+              <QuizButton variant="outline" @click="quizStore.$reset()">
                 Назад
               </QuizButton>
               <QuizButton
-                :disabled="!quizStore.canFinishQuiz"
+                :disabled="!quizStore.filters.brand?.length"
                 @click="finishQuiz"
               >
                 Далі
               </QuizButton>
+            </template>
+          </QuestionContainer>
+
+          <ModelsStep
+            v-if="quizStore.isUserKnow === true && quizStore.step === 1"
+            @finish="finishQuiz()"
+          />
+
+          <PriceStep
+            v-if="quizStore.isUserKnow === false && quizStore.step === 0"
+          />
+
+          <QuestionContainer
+            v-if="quizStore.isUserKnow === false && quizStore.step === 1"
+            step="Крок 2/3"
+            title="Обери тип кузова:"
+          >
+            <div class="flex flex-col gap-4">
+              <UCheckbox
+                v-for="bodyType in catalogStore.dictionary.bodyTypes"
+                :key="bodyType"
+                :label="t(`vehicle.bodyTypes.items.${bodyType}`)"
+                :value="bodyType"
+                :model-value="quizStore.filters.bodyType"
+                :ui="checkboxUi"
+                @change="(checked: boolean) => checkHandler('bodyType', checked, bodyType)"
+              />
             </div>
-          </template>
-        </QuestionContainer>
-      </div>
-    </UCard>
+
+            <template #footer>
+              <div class="flex justify-end gap-2 mt-auto xs:mt-6">
+                <QuizButton variant="outline" @click="quizStore.step -= 1">
+                  Назад
+                </QuizButton>
+                <QuizButton @click="quizStore.step += 1">
+                  Далі
+                </QuizButton>
+              </div>
+            </template>
+          </QuestionContainer>
+
+          <QuestionContainer
+            v-if="quizStore.isUserKnow === false && quizStore.step === 2"
+            step="Крок 3/3"
+            title="Обери тип двигуна:"
+          >
+            <div class="flex flex-col gap-4">
+              <UCheckbox
+                v-for="engineType in engineTypes"
+                :key="engineType"
+                :label="t(`filters.engineType.${engineType}`)"
+                :value="engineType"
+                :model-value="quizStore.filters.engineType"
+                :ui="checkboxUi"
+                @change="(checked: boolean) => checkHandler('engineType', checked, engineType)"
+              />
+            </div>
+
+            <template v-if="!quizStore.canFinishQuiz" #extra>
+              <p class="text-center mt-2">
+                Схоже, що не було вибрано жодного фільтру. В такому випадку цей
+                помічник не зможе нічим допомогти.
+              </p>
+            </template>
+
+            <template #footer>
+              <div class="flex justify-end gap-2 mt-auto xs:mt-6">
+                <QuizButton variant="outline" @click="quizStore.step -= 1">
+                  Назад
+                </QuizButton>
+                <QuizButton
+                  :disabled="!quizStore.canFinishQuiz"
+                  @click="finishQuiz"
+                >
+                  Далі
+                </QuizButton>
+              </div>
+            </template>
+          </QuestionContainer>
+        </div>
+      </UCard>
+    </template>
   </UModal>
 </template>

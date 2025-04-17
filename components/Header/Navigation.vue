@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { HorizontalNavigationLink } from "#ui/types";
+import type { NavigationMenuItem } from "#ui/types";
 import MenuToggler from "@/components/UI/Menu/MenuToggler.vue";
 import Socials from "@/components/Footer/Socials.vue";
 import Copyright from "@/components/Footer/Copyright.vue";
@@ -9,7 +9,7 @@ const { t } = useI18n();
 
 const showMobileMenu = useMenuShowing();
 
-const menuItems: HorizontalNavigationLink[] = [
+const menuItems: NavigationMenuItem[] = [
   {
     label: t("menu.home"),
     to: "/",
@@ -26,8 +26,9 @@ const menuItems: HorizontalNavigationLink[] = [
 </script>
 
 <template>
-  <UHorizontalNavigation
-    :links="menuItems"
+  <UNavigationMenu
+    orientation="horizontal"
+    :items="menuItems"
     :ui="{
       wrapper: 'hidden md:flex',
       base: 'py-2 hover:text-primary',
@@ -42,34 +43,37 @@ const menuItems: HorizontalNavigationLink[] = [
     <MenuToggler class="ml-auto md:hidden" />
   </ClientOnly>
 
-  <USlideover v-model="showMobileMenu" class="md:hidden">
-    <div class="flex justify-end py-6 px-2.5">
-      <UButton
-        icon="i-heroicons-x-mark"
-        size="xl"
-        square
-        color="primary"
-        variant="link"
-        @click="showMobileMenu = false"
-      />
-    </div>
-
-    <div class="flex flex-col px-6 pb-6 justify-between flex-1">
-      <UVerticalNavigation
-        :links="menuItems"
-        :ui="{
-          active:
-            'text-primary before:bg-transparent underline underline-offset-4 decoration-2',
-          inactive: 'text-gray-900',
-          label: 'text-lg',
-          padding: 'px-0 py-2',
-        }"
-      />
-
-      <div class="flex flex-col gap-8">
-        <Socials />
-        <Copyright />
+  <USlideover v-model:open="showMobileMenu" class="md:hidden">
+    <template #content>
+      <div class="flex justify-end py-6 px-2.5">
+        <UButton
+          icon="i-heroicons-x-mark"
+          size="xl"
+          square
+          color="primary"
+          variant="link"
+          @click="showMobileMenu = false"
+        />
       </div>
-    </div>
+
+      <div class="flex flex-col px-6 pb-6 justify-between flex-1">
+        <UNavigationMenu
+          orientation="vertical"
+          :items="menuItems"
+          :ui="{
+            active:
+              'text-primary before:bg-transparent underline underline-offset-4 decoration-2',
+            inactive: 'text-gray-900',
+            label: 'text-lg',
+            padding: 'px-0 py-2',
+          }"
+        />
+
+        <div class="flex flex-col gap-8">
+          <Socials />
+          <Copyright />
+        </div>
+      </div>
+    </template>
   </USlideover>
 </template>

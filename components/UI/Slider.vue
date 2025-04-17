@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { SliderRange, SliderRoot, SliderThumb, SliderTrack } from "radix-vue";
+import { SliderRange, SliderRoot, SliderThumb, SliderTrack } from "reka-ui";
 
 const model = defineModel<number[]>();
 
@@ -29,7 +29,7 @@ withDefaults(
 </template>
 
 <style>
-@reference "@/assets/css/tailwind.css";
+@reference "@/assets/css/global.css";
 .slider-root {
   position: relative;
   display: flex;

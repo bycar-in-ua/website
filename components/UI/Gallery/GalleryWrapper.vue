@@ -190,7 +190,7 @@ if (import.meta.client) {
 </template>
 
 <style>
-@reference "@/assets/css/tailwind.css";
+@reference "@/assets/css/global.css";
 
 .regular-gallery {
   max-height: 95vh;

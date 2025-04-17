@@ -40,7 +40,7 @@ const heroAlt = generatePageTitle("Легкий шлях до нового ав�
         class="mb-6 w-full sm:hidden"
       />
 
-      <Quiz>Пошук авто</Quiz>
+      <Quiz />
 
       <h3
         v-if="totalCars && totalCars > 0"
