@@ -15,11 +15,11 @@ const heroAlt = generatePageTitle("Легкий шлях до нового ав�
     <BluredEllipse
       class="absolute w-[410px] h-[220px] bottom-32 sm:bottom-12 sm:left-24 md:left-[220px] md:bottom-[67px]"
     />
-    <div class="md:basis-3/5 flex flex-col md:justify-center items-start z-10">
+    <div class="sm:basis-1/2 md:basis-3/5 flex flex-col md:justify-center items-start z-10">
       <h1 class="text-3xl md:text-5xl font-semibold mb-4">
         Bycar - мультибрендовий
         <span
-          class="relative inline-block before:block before:absolute before:-z-10 before:w-14 before:h-14 md:before:w-24 md:before:h-24 before:left-1/2 before:-translate-x-1/2 before:top-1/2 before:-translate-y-[45%] before:rounded-full before:bg-bycar-secondary-500"
+          class="relative inline-block before:block before:absolute before:-z-10 before:w-14 before:h-14 md:before:w-24 md:before:h-24 before:left-1/2 before:-translate-x-1/2 before:top-1/2 before:-translate-y-[45%] before:rounded-full before:bg-secondary-500"
         >
           онлайн
         </span>

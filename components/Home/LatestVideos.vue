@@ -22,49 +22,14 @@ const items: YouTubeVideoItem[] = [
   },
 ];
 
-const carouselRef = ref();
-
-let intevalId: number | NodeJS.Timeout | undefined;
-
-const nextHandler = () => {
-  if (carouselRef.value.page === carouselRef.value.pages) {
-    return carouselRef.value.select(1);
-  }
-
-  carouselRef.value.next();
-};
-
-const prevHandler = () => {
-  if (carouselRef.value.page === 1) {
-    return carouselRef.value.select(carouselRef.value.pages);
-  }
-
-  carouselRef.value.prev();
-};
-
-const autoplayCallback = () => {
-  if (!carouselRef.value) return;
-
-  nextHandler();
-};
-
-const autoplayInterval = 5_000;
-
-onMounted(() => {
-  intevalId = setInterval(autoplayCallback, autoplayInterval);
-});
-
-onBeforeUnmount(() => {
-  clearInterval(intevalId);
-});
+const carouselRef = useTemplateRef("carouselRef");
 
 const mouseoverHandler = () => {
-  clearInterval(intevalId);
-  intevalId = undefined;
+  carouselRef.value?.emblaApi?.plugins().autoplay.stop();
 };
 
 const mouseleaveHandler = () => {
-  intevalId = setInterval(autoplayCallback, autoplayInterval);
+  carouselRef.value?.emblaApi?.plugins().autoplay.play();
 };
 </script>
 
@@ -82,12 +47,12 @@ const mouseleaveHandler = () => {
           <UButton
             variant="ghost"
             icon="i-heroicons-chevron-left"
-            @click="prevHandler"
+            @click="carouselRef?.emblaApi?.scrollPrev()"
           />
           <UButton
             variant="ghost"
             icon="i-heroicons-chevron-right"
-            @click="nextHandler"
+            @click="carouselRef?.emblaApi?.scrollNext()"
           />
         </UButtonGroup>
       </template>
@@ -97,24 +62,21 @@ const mouseleaveHandler = () => {
       ref="carouselRef"
       :items="items"
       :ui="{
-        item: 'basis-full',
-        arrows: { wrapper: 'opacity-40 hover:opacity-100 transition-opacity' },
-        indicators: { wrapper: 'static mt-4' },
+        root: 'basis-full',
+        arrows: 'opacity-40 hover:opacity-100 transition-opacity',
+        dots: 'static mt-4',
+
       }"
       class="overflow-hidden"
-      indicators
+      style="--ui-border-inverted: var(--ui-primary)"
+      dots
+      loop
+      :autoplay="{
+        delay: 5000,
+      }"
     >
       <template #default="{ item }">
         <YouTubeVideoCard :item />
-      </template>
-
-      <template #indicator="{ onClick, page, active }">
-        <UButton
-          :variant="active ? 'solid' : 'soft'"
-          size="xs"
-          class="rounded-full"
-          @click="onClick(page)"
-        />
       </template>
     </UCarousel>
   </section>

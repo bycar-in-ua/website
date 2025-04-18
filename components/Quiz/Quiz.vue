@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { CheckboxProps } from "@nuxt/ui";
 import type { VehiclesFilters } from "@bycar-in-ua/sdk";
 import QuestionContainer from "./QuestionContainer.vue";
 import QuizButton from "./QuizButton.vue";
@@ -26,7 +27,7 @@ const openModal = () => {
 
 function checkHandler<TValue extends string | number>(
   field: keyof FiltersState,
-  checked: boolean,
+  checked: boolean | "indeterminate",
   value: TValue,
 ) {
   const existedValue = quizStore.filters[field] ?? [];
@@ -86,15 +87,15 @@ const engineTypes: NonNullable<VehiclesFilters["engineType"]> = [
   "electric",
 ];
 
-const checkboxUi = {
-  wrapper: "flex items-center",
+const checkboxUi: CheckboxProps["ui"] = {
+  root: "items-center",
   label:
     "text-md sm:text-xl md:text-2xl font-medium text-gray-700 dark:text-gray-200",
 };
 </script>
 
 <template>
-  <UModal v-model:open="isOpen" fullscreen :ui="{ fullscreen: 'h-[100dvh]' }">
+  <UModal v-model:open="isOpen" fullscreen :ui="{ body: 'flex flex-col items-center justify-center' }">
     <slot name="trigger" :open="openModal">
       <UButton
         icon="i-heroicons-magnifying-glass"
@@ -107,28 +108,14 @@ const checkboxUi = {
       </UButton>
     </slot>
 
-    <template #content>
+    <template #body>
       <UCard
         :ui="{
-          base: 'h-fit flex flex-col grow',
-          body: {
-            base: 'flex justify-center grow',
-          },
+          root: 'ring-0 w-full max-w-2xl flex-grow flex flex-col',
+          body: 'p-0 sm:p-0 flex-grow flex flex-col justify-center',
         }"
       >
-        <template #header>
-          <div class="flex items-center justify-end">
-            <UButton
-              color="gray"
-              variant="ghost"
-              icon="i-heroicons-x-mark-20-solid"
-              class="-my-1"
-              @click="isOpen = false"
-            />
-          </div>
-        </template>
-
-        <div class="flex flex-col items-center justify-center w-full max-w-2xl">
+        <div class="flex flex-col items-center justify-center flex-grow">
           <QuestionContainer
             v-if="quizStore.isUserKnow === null"
             step="Крок 1"
@@ -161,9 +148,10 @@ const checkboxUi = {
                 :key="brand.id"
                 :label="brand.displayName"
                 :value="brand.id"
-                :model-value="quizStore.filters.brand"
+                :model-value="quizStore.filters.brand?.includes(brand.id)"
                 :ui="checkboxUi"
-                @change="(checked: boolean) => checkHandler('brand', checked, brand.id)"
+                size="xl"
+                @update:model-value="(checked) => checkHandler('brand', checked, brand.id)"
               />
             </div>
 
@@ -200,9 +188,10 @@ const checkboxUi = {
                 :key="bodyType"
                 :label="t(`vehicle.bodyTypes.items.${bodyType}`)"
                 :value="bodyType"
-                :model-value="quizStore.filters.bodyType"
+                :model-value="quizStore.filters.bodyType?.includes(bodyType)"
                 :ui="checkboxUi"
-                @change="(checked: boolean) => checkHandler('bodyType', checked, bodyType)"
+                size="xl"
+                @update:model-value="(checked) => checkHandler('bodyType', checked, bodyType)"
               />
             </div>
 
@@ -229,9 +218,10 @@ const checkboxUi = {
                 :key="engineType"
                 :label="t(`filters.engineType.${engineType}`)"
                 :value="engineType"
-                :model-value="quizStore.filters.engineType"
+                :model-value="quizStore.filters.engineType?.includes(engineType)"
                 :ui="checkboxUi"
-                @change="(checked: boolean) => checkHandler('engineType', checked, engineType)"
+                size="xl"
+                @update:model-value="(checked) => checkHandler('engineType', checked, engineType)"
               />
             </div>
 

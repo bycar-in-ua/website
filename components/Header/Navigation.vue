@@ -29,13 +29,11 @@ const menuItems: NavigationMenuItem[] = [
   <UNavigationMenu
     orientation="horizontal"
     :items="menuItems"
+    variant="link"
+    highlight
     :ui="{
-      wrapper: 'hidden md:flex',
-      base: 'py-2 hover:text-primary',
-      active: 'text-primary',
-      inactive: 'text-gray-900',
-      before: 'hover:before:bg-transparent',
-      after: 'after:mt-1',
+      root: 'hidden md:block header-nav',
+      link: 'after:h-0.5',
     }"
   />
 
@@ -45,7 +43,7 @@ const menuItems: NavigationMenuItem[] = [
 
   <USlideover v-model:open="showMobileMenu" class="md:hidden">
     <template #content>
-      <div class="flex justify-end py-6 px-2.5">
+      <div class="flex justify-end py-4 px-2.5">
         <UButton
           icon="i-heroicons-x-mark"
           size="xl"
@@ -56,17 +54,12 @@ const menuItems: NavigationMenuItem[] = [
         />
       </div>
 
-      <div class="flex flex-col px-6 pb-6 justify-between flex-1">
+      <div class="flex flex-col p-4 sm:p-6 justify-between flex-1">
         <UNavigationMenu
           orientation="vertical"
+          variant="link"
           :items="menuItems"
-          :ui="{
-            active:
-              'text-primary before:bg-transparent underline underline-offset-4 decoration-2',
-            inactive: 'text-gray-900',
-            label: 'text-lg',
-            padding: 'px-0 py-2',
-          }"
+          class="header-nav"
         />
 
         <div class="flex flex-col gap-8">
@@ -77,3 +70,10 @@ const menuItems: NavigationMenuItem[] = [
     </template>
   </USlideover>
 </template>
+
+<style>
+.header-nav {
+  --ui-text-muted: var(--color-black);
+  --ui-text-highlighted: var(--ui-primary);
+}
+</style>

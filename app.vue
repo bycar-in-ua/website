@@ -1,7 +1,7 @@
 <template>
   <UApp>
     <NuxtLayout>
-      <NuxtLoadingIndicator />
+      <NuxtLoadingIndicator color="var(--ui-primary)" />
       <Header />
       <NuxtPage />
       <Footer />

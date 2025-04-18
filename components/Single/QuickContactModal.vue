@@ -21,7 +21,7 @@ const openModal = () => {
 <template>
   <slot name="trigger" :open="openModal">
     <UButton
-      color="bycar-secondary"
+      color="secondary"
       class="flex justify-center text-black font-bold"
       @click="openModal"
     >
