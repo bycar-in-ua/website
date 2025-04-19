@@ -29,7 +29,7 @@ function handleClearOrder() {
 
 <template>
   <div
-    class="flex md:items-center md:justify-between gap-5 flex-col md:flex-row flex-wrap"
+    class="flex sm:items-center sm:justify-between gap-4 flex-col sm:flex-row flex-wrap"
   >
     <div class="flex gap-4 items-center">
       <h2 class="font-semibold text-2xl md:text-3xl">
@@ -40,10 +40,6 @@ function handleClearOrder() {
         <template #trigger="{ open }">
           <UTooltip
             text="Тисни, щоб дізнатись яке авто підходить тобі"
-            :ui="{
-              width: 'max-w-xs w-fit',
-              base: 'h-fit p-2 text-md text-wrap text-center',
-            }"
           >
             <UIcon
               name="i-heroicons-magnifying-glass-circle"
@@ -55,29 +51,15 @@ function handleClearOrder() {
       </Quiz>
     </div>
 
-    <AppliedFilters class="md:order-3 basis-full" />
-
-    <USelect
-      v-model:model-value="catalogStore.order"
+    <USelectMenu
+      v-model="catalogStore.order"
       placeholder="Сортувати"
+      :items="options"
       variant="none"
-      :options
+      value-key="value"
+      :search-input="false"
       :ui="{
-        wrapper: 'max-w-80',
-        base: 'truncate text-ellipsis',
-        placeholder: 'text-primary',
-        color: { white: { none: 'text-primary bg-transparent' } },
-        icon: {
-          color: 'text-black',
-          trailing: {
-            pointer: 'pointer-events-none',
-          },
-        },
-        trailing: {
-          padding: {
-            sm: 'pe-12',
-          },
-        },
+        base: 'w-full max-w-80',
       }"
     >
       <template #trailing>
@@ -91,6 +73,8 @@ function handleClearOrder() {
           @click.prevent="handleClearOrder"
         />
       </template>
-    </USelect>
+    </USelectMenu>
+
+    <AppliedFilters class="basis-full" />
   </div>
 </template>

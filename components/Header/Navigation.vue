@@ -41,7 +41,10 @@ const menuItems: NavigationMenuItem[] = [
     <MenuToggler class="ml-auto md:hidden" />
   </ClientOnly>
 
-  <USlideover v-model:open="showMobileMenu" class="md:hidden">
+  <USlideover
+    v-model:open="showMobileMenu"
+    :ui="{ overlay: 'md:hidden', content: 'md:hidden' }"
+  >
     <template #content>
       <div class="flex justify-end py-4 px-2.5">
         <UButton

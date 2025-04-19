@@ -46,6 +46,7 @@ function checkHandler<TValue extends string | number>(
     :selected-filters="catalogStore.filters.brand"
     @change="(checked: boolean, brandId: number) => checkHandler('brand', checked, brandId)"
   />
+  <USeparator />
 
   <BodyTypeFilter
     :body-types="catalogStore.dictionary.bodyTypes"
@@ -53,10 +54,14 @@ function checkHandler<TValue extends string | number>(
     @change="(checked: boolean, bodyType: BodyType) => checkHandler('bodyType', checked, bodyType)"
   />
 
+  <USeparator />
+
   <EngineTypeFilter
     :selected-filters="catalogStore.filters.engineType"
     @change="(checked: boolean, engineType:string) => checkHandler('engineType', checked, engineType)"
   />
+
+  <USeparator />
 
   <DriveFilter
     :selected-filters="catalogStore.filters.drive"
