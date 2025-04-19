@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref, provide, readonly, onMounted, onBeforeUnmount } from "vue";
 import type {
   IActiveGalleryItem,
   IGalleryItem,
@@ -31,8 +30,8 @@ const props = withDefaults(
 );
 
 const thumbsListRef = ref<Array<{ htmlRef: HTMLElement }>>();
-const backdropRef = ref();
 const fullScreen = ref<boolean>(false);
+const backdropRef = useTemplateRef("backdropRef");
 
 const activeItem = ref<IActiveGalleryItem>({
   currentItemIndex: 0,
@@ -196,13 +195,13 @@ if (import.meta.client) {
   max-height: 95vh;
 }
 .bycar-gallery.with-thumbnamils {
-  @screen md {
+  @media (min-width: theme(--breakpoint-lg)) {
     grid-template-columns: 1fr 160px;
   }
 }
 
 .bycar-gallery {
-  @apply grid gap-2 md:gap-5 overflow-hidden h-full transition-all;
+  @apply grid gap-2 lg:gap-4 overflow-hidden h-full transition-all;
   .bycar-gallery-image-wrapper {
     @apply rounded-2xl;
   }
@@ -213,7 +212,7 @@ if (import.meta.client) {
   .bycar-gallery-thumnails-list {
     @apply flex-row overflow-x-auto overflow-y-hidden w-full;
     max-height: 100%;
-    @screen md {
+    @media (min-width: theme(--breakpoint-lg)) {
       @apply flex-col overflow-x-hidden overflow-y-auto h-full;
     }
   }
@@ -225,7 +224,7 @@ if (import.meta.client) {
     max-height: 100%;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 80px;
-    @screen md {
+    @media (min-width: theme(--breakpoint-md)) {
       grid-template-rows: 1fr 110px;
     }
     .bycar-gallery-thumnails-list-wrapper {

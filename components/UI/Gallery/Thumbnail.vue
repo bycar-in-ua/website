@@ -47,19 +47,20 @@ const setActiveItem = () => setGalleryActiveItem?.(props.index);
 @reference "@/assets/css/global.css";
 
 .bycar-gallery-thumbnail {
-  @apply bg-cover bg-center cursor-pointer rounded-xl overflow-hidden transition-all w-full border-4 border-transparent outline outline-2 -outline-offset-2;
+  @apply bg-cover bg-center cursor-pointer rounded-xl overflow-hidden transition-all w-full border-4 border-transparent outline-2 -outline-offset-2;
 }
 
 .full-screen .bycar-gallery-thumbnail {
   flex: 110px 0 0;
-  @screen md {
+  @media (min-width: theme(--breakpoint-md)) {
     flex: 170px 0 0;
   }
+
 }
 
 .regular-gallery .bycar-gallery-thumbnail {
   flex: 90px 0 0;
-  @screen md {
+  @media (min-width: theme(--breakpoint-md)) {
     flex: 110px 0 0;
   }
 }

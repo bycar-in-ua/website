@@ -21,6 +21,6 @@ defineExpose({
 @reference "@/assets/css/global.css";
 
 .bycar-gallery-thumnails-list {
-  @apply flex gap-1 md:gap-4 content-start overflow-auto;
+  @apply flex gap-1 lg:gap-3 content-start overflow-auto;
 }
 </style>

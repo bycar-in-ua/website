@@ -130,7 +130,7 @@ useSeoMeta({
         :active-complectation="activeComplectation"
         :set-active-complectation="setActiveComplectation"
       />
-      <UDivider class="my-5" />
+      <USeparator class="my-5" />
     </template>
 
     <template v-if="activeComplectation?.powerUnits?.length">
@@ -139,7 +139,7 @@ useSeoMeta({
         :active-power-unit="activePowerUnit"
         :set-active-power-unit="setActivePowerUnit"
       />
-      <UDivider class="my-5" />
+      <USeparator class="my-5" />
     </template>
 
     <FullInfo

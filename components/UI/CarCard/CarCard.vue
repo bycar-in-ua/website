@@ -34,7 +34,7 @@ const infoBullets = computed(() => getVehicleInfoBullets(props.car, t));
     <img v-else src="/images/placeholder-image.jpg" class="object-cover h-full" />
 
     <div class="p-4 text-white absolute inset-0 flex flex-col z-10" :class="discount ? 'pt-8' : ''">
-      <div v-if="discount" class="bg-red-500 text-white font-bold text-center text-xs px-2 py-1 absolute top-0 right-0 left-0 flex items-center justify-center gap-1">
+      <div v-if="discount" class="bg-primary-500/30 text-white font-bold text-center text-xs px-2 py-1 absolute top-0 right-0 left-0 flex items-center justify-center gap-1">
         <UIcon name="i-heroicons-solid-currency-dollar" class="w-4 h-4" />
         Доступна спецпропозиція
       </div>

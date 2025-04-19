@@ -61,7 +61,10 @@
   display: none;
 }
 
-html,
+/* html {
+  overflow-x: hidden;
+} */
+
 body {
   scroll-behavior: smooth;
   letter-spacing: 0.08em;
