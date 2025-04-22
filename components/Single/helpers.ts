@@ -76,8 +76,8 @@ export function getInfoBullets(
       `${drive} ${driveWord}`,
       powerUnit.transmission.gearbox.type
         ? t(
-          `vehicle.transmission.gearbox.types.${powerUnit.transmission.gearbox.type}`,
-        )
+            `vehicle.transmission.gearbox.types.${powerUnit.transmission.gearbox.type}`,
+          )
         : null,
     ].filter(Boolean);
 
@@ -476,8 +476,8 @@ export function getTransmissionBlock(
     transmission.gearbox.technology,
     transmission.gearbox.subType
       ? t(
-        `vehicle.transmission.gearbox.subTypes.${transmission.gearbox.subType}`,
-      )
+          `vehicle.transmission.gearbox.subTypes.${transmission.gearbox.subType}`,
+        )
       : null,
   ]
     .filter(Boolean)
@@ -486,13 +486,13 @@ export function getTransmissionBlock(
   const frontSuspension = [
     transmission.suspensionTypeFront
       ? t(
-        `vehicle.transmission.suspensions.allTypes.${transmission.suspensionTypeFront}`,
-      )
+          `vehicle.transmission.suspensions.allTypes.${transmission.suspensionTypeFront}`,
+        )
       : null,
     transmission.suspensionWorkItemFront
       ? t(
-        `vehicle.transmission.suspensions.workItems.${transmission.suspensionWorkItemFront}`,
-      )
+          `vehicle.transmission.suspensions.workItems.${transmission.suspensionWorkItemFront}`,
+        )
       : null,
   ]
     .filter(Boolean)
@@ -501,13 +501,13 @@ export function getTransmissionBlock(
   const rearSuspension = [
     transmission.suspensionTypeRear
       ? t(
-        `vehicle.transmission.suspensions.allTypes.${transmission.suspensionTypeRear}`,
-      )
+          `vehicle.transmission.suspensions.allTypes.${transmission.suspensionTypeRear}`,
+        )
       : null,
     transmission.suspensionWorkItemRear
       ? t(
-        `vehicle.transmission.suspensions.workItems.${transmission.suspensionWorkItemRear}`,
-      )
+          `vehicle.transmission.suspensions.workItems.${transmission.suspensionWorkItemRear}`,
+        )
       : null,
   ]
     .filter(Boolean)

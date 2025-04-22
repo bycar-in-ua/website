@@ -8,7 +8,7 @@ defineProps<{ item: YouTubeVideoItem }>();
   <div class="flex gap-4 sm:gap-8 flex-col sm:flex-row">
     <div class="sm:basis-2/3 sm:flex-shrink-0">
       <div
-        class="responsive-video-iframe-container rounded-3xl overflow-hidden"
+        class="aspect-video rounded-3xl overflow-hidden"
       >
         <iframe
           width="560"
@@ -19,12 +19,15 @@ defineProps<{ item: YouTubeVideoItem }>();
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           referrerpolicy="strict-origin-when-cross-origin"
           allowfullscreen
+          class="w-full h-full"
         ></iframe>
       </div>
     </div>
 
     <div>
-      <h2 class="text-xl font-semibold mb-2 sm:basis-1/3">{{ item.title }}</h2>
+      <h2 class="text-xl font-semibold mb-2 sm:basis-1/3">
+        {{ item.title }}
+      </h2>
       <p>{{ item.description }}</p>
       <UButton
         variant="link"

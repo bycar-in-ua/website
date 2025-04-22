@@ -26,7 +26,7 @@ const items = computed<IGalleryItem[]>(() => {
   <Gallery
     v-if="items.length"
     :items
-    class="mb-6 md:mb-10 md:h-[500px] lg:h-[600px]"
+    class="mb-6 md:mb-10 lg:h-[600px]"
   >
     <template #active-image-top>
       <h2

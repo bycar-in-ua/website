@@ -14,7 +14,7 @@ const props = defineProps<{
         {{ props.step }}
       </div>
 
-      <div class="p-4 xs:p-10 ring-1 rounded-2xl">
+      <div class="p-4 xs:p-10 ring-1 ring-neutral-200 rounded-2xl">
         <h2
           class="text-xl md:text-2xl lg:text-3xl font-semibold mb-4 md:mb-8 lg:mb-10"
         >

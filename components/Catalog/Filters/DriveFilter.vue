@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Collapsible from "@/components/UI/Collapsible.vue";
+import CollapsibleTitle from "@/components/UI/CollapsibleTitle.vue";
 
 const { t } = useI18n();
 
@@ -13,17 +13,21 @@ const drives = ["FWD", "RWD", "AWD"];
 </script>
 
 <template>
-  <Collapsible :title="t('filters.drive.title')" :default-open="true">
+  <UCollapsible :default-open="true" :ui="{ content: 'pl-1 pt-1 max-h-40 overflow-y-auto' }">
+    <template #default="{ open }">
+      <CollapsibleTitle :title="t('filters.drive.title')" :open />
+    </template>
+
     <template #content>
       <UCheckbox
         v-for="drive in drives"
         :key="drive"
         :label="t(`filters.drive.${drive}`)"
         :value="drive"
-        :model-value="selectedFilters"
+        :model-value="selectedFilters?.includes(drive)"
         class="mb-2"
-        @change="(checked: boolean) => emit('change', checked, drive)"
+        @update:model-value="(checked) => emit('change', !!checked, drive)"
       />
     </template>
-  </Collapsible>
+  </UCollapsible>
 </template>

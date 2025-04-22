@@ -41,7 +41,7 @@ onUnmounted(() => {
     />
     <Headline class="mb-6" />
     <div
-      class="lg:flex gap-10 relative blured-ellipse-bg after:left-56 after:top-5"
+      class="lg:flex gap-10 relative blured-ellipse-bg"
     >
       <Sidebar />
 

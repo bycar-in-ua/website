@@ -19,37 +19,18 @@ const openModal = () => {
 </script>
 
 <template>
-  <slot name="trigger" :open="openModal">
-    <UButton
-      color="bycar-secondary"
-      class="flex justify-center text-black font-bold"
-      @click="openModal"
-    >
-      Отримати спецпропозицію!
-    </UButton>
-  </slot>
-
-  <UModal v-model="isOpen">
-    <UCard
-      :ui="{
-        base: 'h-fit flex flex-col grow',
-        body: {
-          base: 'flex flex-col gap-2 sm:gap-4 md:gap-6 justify-center items-center grow',
-        },
-      }"
-    >
-      <template #header>
-        <div class="flex items-center justify-end">
-          <UButton
-            color="gray"
-            variant="ghost"
-            icon="i-heroicons-x-mark-20-solid"
-            class="-my-1"
-            @click="isOpen = false"
-          />
-        </div>
-      </template>
-
+  <UModal v-model:open="isOpen" :ui="{ body: 'flex flex-col gap-2 sm:gap-4 md:gap-6 justify-center items-center' }">
+    <slot name="trigger" :open="openModal">
+      <UButton
+        color="secondary"
+        size="lg"
+        class="flex justify-center text-black font-bold"
+        @click="openModal"
+      >
+        Отримати спецпропозицію!
+      </UButton>
+    </slot>
+    <template #body>
       <div class="flex flex-col items-center">
         <h3 class="text-md md:text-lg font-bold mb-2 text-center">
           Щоб отримати детальну інформацію про {{ page }} — наявність, спеціальні пропозиції та найвигідніші умови залиште, будь ласка, свій номер телефону
@@ -61,9 +42,9 @@ const openModal = () => {
 
       <ContactForm :page />
 
-      <UDivider label="або" class="my-4 md:my-0" />
+      <USeparator label="або" class="my-4 md:my-0" />
 
       <TelegramChatButton :page="page" :message="`Вітаю! Хочу дізнатись умови спецпропозиції на ${page}`" />
-    </UCard>
+    </template>
   </UModal>
 </template>

@@ -18,6 +18,7 @@ if (props.message) {
     icon="i-heroicons-chat-bubble-bottom-center"
     trailing
     variant="outline"
+    size="lg"
     :to="decodeURI(tgUrl.toString())"
     target="_blank"
     @click="

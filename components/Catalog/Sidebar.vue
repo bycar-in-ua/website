@@ -7,25 +7,24 @@ const isSidebarShowing = ref(false);
 
 <template>
   <div
-    class="overflow-y-auto max-h-full relative shrink-0 basis-64 hidden lg:block overflow-x-hidden"
+    class="overflow-y-auto max-h-full relative shrink-0 basis-72 hidden lg:flex flex-col gap-6"
   >
     <Filters />
   </div>
 
-  <USlideover v-model="isSidebarShowing" class="lg:hidden">
-    <div class="flex flex-col gap-5 py-6 px-2 relative overflow-x-auto">
-      <UButton
-        icon="i-heroicons-x-mark"
-        size="xl"
-        square
-        color="primary"
-        variant="link"
-        class="ml-auto"
-        @click="isSidebarShowing = false"
-      />
-      <div class="overflow-auto px-3">
+  <USlideover
+    v-model:open="isSidebarShowing"
+    :ui="{
+      overlay: 'lg:hidden',
+      content: 'lg:hidden',
+      body: 'flex flex-col gap-4 justify-between pr-2 sm:pr-2',
+    }"
+  >
+    <template #body>
+      <div class="flex flex-col gap-4 flex-grow overflow-y-auto pb-4 pr-2">
         <Filters />
       </div>
+
       <UButton
         block
         icon="i-heroicons-funnel"
@@ -34,7 +33,7 @@ const isSidebarShowing = ref(false);
       >
         Застосувати
       </UButton>
-    </div>
+    </template>
   </USlideover>
 
   <FloatingFiltersButton

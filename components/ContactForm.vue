@@ -17,7 +17,7 @@ const formState = reactive<FormState>({
   phone: "",
 });
 
-const validate = (state: FormState): FormError[] => {
+const validate = (state: Partial<FormState>): FormError[] => {
   const errors = [];
 
   if (!state.name) {
@@ -31,14 +31,14 @@ const validate = (state: FormState): FormError[] => {
     });
   }
 
-  if (!/^\d{10,12}$/.test(state.phone.replace(/\D/g, ""))) {
+  if (!/^\d{10,12}$/.test(state?.phone?.replace(/\D/g, "") ?? "")) {
     errors.push({
       path: "phone",
       message: "Введіть коректний номер телефону",
     });
   }
 
-  if (/[a-zA-Z]/.test(state.phone)) {
+  if (/[a-zA-Z]/.test(state?.phone ?? "")) {
     errors.push({
       path: "phone",
       message: "Номер телефону не повинен містити літер",
@@ -77,21 +77,21 @@ const messageSent = computed(() => status.value === "success");
     :state="formState"
     :validate="validate"
     class="p-5 flex flex-col gap-4 shadow-xl rounded-2xl bg-white max-w-[340px] w-full"
-    :validate-on="['submit']"
-    :disabled="true"
+    :validate-on="['blur']"
     @submit="submitForm"
   >
-    <UFormGroup name="name">
+    <UFormField name="name">
       <UInput
         :id="`${id}-name`"
         v-model:model-value="formState.name"
         placeholder="Ваше ім’я"
         size="lg"
         :disabled="messageSent"
+        class="w-full"
       />
-    </UFormGroup>
+    </UFormField>
 
-    <UFormGroup name="phone">
+    <UFormField name="phone">
       <UInput
         :id="`${id}-phone`"
         v-model:model-value="formState.phone"
@@ -100,8 +100,9 @@ const messageSent = computed(() => status.value === "success");
         mask="+38 (###) ###-##-##"
         type="tel"
         :disabled="messageSent"
+        class="w-full"
       />
-    </UFormGroup>
+    </UFormField>
 
     <UButton v-if="messageSent" block disabled>
       Заявку надіслано!<br />
@@ -110,9 +111,9 @@ const messageSent = computed(() => status.value === "success");
     <UButton
       v-else
       icon="i-heroicons-phone"
-      trailing
       block
       type="submit"
+      size="lg"
       :loading="status === 'pending'"
     >
       Передзвоніть мені

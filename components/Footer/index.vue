@@ -7,7 +7,7 @@ import Copyright from "./Copyright.vue";
 <template>
   <footer class="my-10">
     <div class="container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-5 gap-y-8">
-      <FooterNavigation class="sm:col-span-2" />
+      <FooterNavigation />
       <Socials />
       <Copyright />
     </div>

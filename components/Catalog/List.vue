@@ -5,7 +5,7 @@ import { useCatalogStore } from "~/stores/catalog";
 
 const catalogStore = useCatalogStore();
 
-const list = ref();
+const list = useTemplateRef<HTMLDivElement>("list");
 </script>
 
 <template>
@@ -41,7 +41,7 @@ const list = ref();
       </NuxtLink>
     </div>
     <Pagination
-      class="mt-10 justify-center"
+      class="mt-10 flex justify-center"
       :page="catalogStore.pagination.page"
       :pagination="catalogStore.data.meta"
       @update:page="
