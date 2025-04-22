@@ -30,7 +30,7 @@ const setActiveItem = () => setGalleryActiveItem?.(props.index);
     class="bycar-gallery-thumbnail"
     :class="
       activeItem?.currentItemIndex === index
-        ? 'outline-primary'
+        ? 'outline-primary-500'
         : 'outline-transparent'
     "
     @click="setActiveItem"
