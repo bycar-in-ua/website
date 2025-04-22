@@ -115,8 +115,7 @@ const removeFilterHandler = (
 
 <template>
   <div
-    v-if="appliedFilters.length > 0"
-    class="flex flex-wrap gap-1 items-center"
+    class="flex flex-wrap gap-1 items-center min-h-6"
   >
     <UButton
       v-for="(item, i) in appliedFilters"

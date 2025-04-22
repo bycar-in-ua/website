@@ -11,7 +11,7 @@ const touaregDiscountMessage =
   "Знижка 100 000 грн. на авто в наявності. За деталями звертайтесь до спеціаліста";
 
 export const discounts: Record<number, Discount> = Object.freeze({
-  5: {
+  4: {
     discountPrice: 2855761,
     discountDescription: touaregDiscountMessage,
   },

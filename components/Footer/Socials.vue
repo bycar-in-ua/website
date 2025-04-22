@@ -63,7 +63,9 @@
 </template>
 
 <style>
+ @reference "@/assets/css/global.css";
+
 .social-icon {
-  @apply inline-flex justify-center items-center w-6 h-6 bg-primary p-[5px] rounded-full;
+  @apply inline-flex justify-center items-center w-6 h-6 bg-primary-500 p-[5px] rounded-full;
 }
 </style>

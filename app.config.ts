@@ -4,10 +4,13 @@ export default defineAppConfig({
     fallbackLocale: "ua",
   },
   ui: {
-    primary: "bycar-primary",
+    colors: {
+      primary: "primary",
+      secondary: "secondary",
+    },
     button: {
-      padding: {
-        sm: "py-2.5 px-4",
+      slots: {
+        base: "cursor-pointer",
       },
     },
   },

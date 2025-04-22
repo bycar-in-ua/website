@@ -1,11 +1,13 @@
 <template>
-  <NuxtLayout>
-    <NuxtLoadingIndicator />
-    <Header />
-    <NuxtPage />
-    <Footer />
-    <CookieBanner v-if="!cookieAccepted" @accept-cookie="acceptCookieHandler" />
-  </NuxtLayout>
+  <UApp>
+    <NuxtLayout>
+      <NuxtLoadingIndicator color="var(--ui-primary)" />
+      <Header />
+      <NuxtPage />
+      <Footer />
+      <CookieBanner v-if="!cookieAccepted" @accept-cookie="acceptCookieHandler" />
+    </NuxtLayout>
+  </UApp>
 </template>
 
 <script setup lang="ts">

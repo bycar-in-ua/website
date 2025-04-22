@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { BodyType } from "@bycar-in-ua/sdk";
-import Collapsible from "@/components/UI/Collapsible.vue";
-
+import CollapsibleTitle from "@/components/UI/CollapsibleTitle.vue";
 const { t } = useI18n();
 
 const props = defineProps<{
@@ -29,19 +28,21 @@ const sortedBodyTypes = computed(() => {
 </script>
 
 <template>
-  <Collapsible :title="t('vehicle.bodyTypes.title')" :default-open="true">
-    <template #content>
-      <div class="max-h-32 overflow-y-auto">
-        <UCheckbox
-          v-for="bodyType in sortedBodyTypes"
-          :key="bodyType"
-          :label="t(`vehicle.bodyTypes.items.${bodyType}`)"
-          :value="bodyType"
-          :model-value="selectedFilters"
-          class="mb-2"
-          @change="(checked: boolean) => emit('change', checked, bodyType)"
-        />
-      </div>
+  <UCollapsible :default-open="true" :ui="{ content: 'pl-1 pt-1 max-h-40 overflow-y-auto' }">
+    <template #default="{ open }">
+      <CollapsibleTitle :title="t('vehicle.bodyTypes.title')" :open />
     </template>
-  </Collapsible>
+
+    <template #content>
+      <UCheckbox
+        v-for="bodyType in sortedBodyTypes"
+        :key="bodyType"
+        :label="t(`vehicle.bodyTypes.items.${bodyType}`)"
+        :value="bodyType"
+        :model-value="selectedFilters?.includes(bodyType)"
+        class="mb-2"
+        @update:model-value="(checked) => emit('change', !!checked, bodyType)"
+      />
+    </template>
+  </UCollapsible>
 </template>

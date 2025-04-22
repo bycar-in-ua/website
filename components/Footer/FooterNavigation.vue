@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import type { HorizontalNavigationLink } from "#ui/types";
+import { UNavigationMenu } from "#components";
+import type { NavigationMenuItem } from "#ui/types";
 
 const { t } = useI18n();
 
@@ -7,7 +8,7 @@ defineOptions({
   inheritAttrs: false,
 });
 
-const menuItems: HorizontalNavigationLink[] = [
+const menuItems: NavigationMenuItem[] = [
   {
     label: t("menu.home"),
     to: "/",
@@ -22,7 +23,7 @@ const menuItems: HorizontalNavigationLink[] = [
   },
 ];
 
-const additionalMenuItems: HorizontalNavigationLink[] = [
+const additionalMenuItems: NavigationMenuItem[] = [
   {
     label: "Політика конфіденційності",
     to: "/privacy-policy",
@@ -40,20 +41,24 @@ const additionalMenuItems: HorizontalNavigationLink[] = [
 </script>
 
 <template>
-  <UVerticalNavigation
+  <UNavigationMenu
     v-for="(links, i) in [menuItems, additionalMenuItems]"
     :key="i"
-    :links="links"
+    :items="links"
+    orientation="vertical"
+    variant="link"
+    :external-icon="false"
     :ui="{
-      base: 'hover:text-primary',
-      padding: 'pt-0 px-0',
-      active: 'text-primary before:bg-tranparent',
-      inactive: 'text-gray-900 hover:before:bg-transparent',
-      before: 'hover:before:bg-transparent',
-      after: 'after:mt-1',
-      size: 'text-base',
-      label: '',
+      root: 'footer-nav',
+      linkLabel: 'whitespace-break-spaces',
     }"
     v-bind:="$attrs"
   />
 </template>
+
+<style>
+.footer-nav {
+  --ui-text-muted: var(--color-black);
+  --ui-text-highlighted: var(--ui-primary);
+}
+</style>

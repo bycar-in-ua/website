@@ -17,6 +17,8 @@ export default defineNuxtConfig({
 
   colorMode: {
     preference: "light",
+    fallback: "light",
+    storageKey: "bycar-color-theme",
   },
 
   runtimeConfig: {
@@ -61,6 +63,12 @@ export default defineNuxtConfig({
     id: process.env.GTAG_ID,
   },
 
+  i18n: {
+    defaultLocale: "ua",
+    locales: ["ua"],
+    strategy: "no_prefix",
+  },
+
   robots: {
     disallow: process.env.STAGE === "production" ? undefined : "/",
   },
@@ -72,7 +80,6 @@ export default defineNuxtConfig({
     unstable_sentryBundlerPluginOptions: {
       telemetry: false,
     },
-    debug: true,
   },
 
   sitemap: {

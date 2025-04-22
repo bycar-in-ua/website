@@ -1,7 +1,6 @@
 import { general, vehicle, colors, options } from "@bycar-in-ua/sdk";
 
 export default defineI18nConfig(() => ({
-  legacy: false,
   locale: "ua",
   messages: {
     ua: {

@@ -7,5 +7,7 @@ function clickHandler() {
 </script>
 
 <template>
-  <UButton @click="clickHandler">Обрати з наявності</UButton>
+  <UButton size="lg" @click="clickHandler">
+    Обрати з наявності
+  </UButton>
 </template>

@@ -90,7 +90,7 @@ const itemsTrackTranslate = computed(
       v-if="activeItem?.prevItemIndex !== null"
       title="&#129044;"
       class="bycar-gallery-chewron-wrapper justify-end left-0"
-      @click="setGalleryActiveItem(activeItem?.prevItemIndex ?? 0)"
+      @click="setGalleryActiveItem?.(activeItem?.prevItemIndex ?? 0)"
     >
       <span class="bycar-gallery-icon-container">
         <UIcon
@@ -149,7 +149,7 @@ const itemsTrackTranslate = computed(
       v-if="activeItem?.nextItemIndex !== null"
       title="&#10141;"
       class="bycar-gallery-chewron-wrapper justify-start right-0"
-      @click="setGalleryActiveItem(activeItem?.nextItemIndex ?? 0)"
+      @click="setGalleryActiveItem?.(activeItem?.nextItemIndex ?? 0)"
     >
       <span class="bycar-gallery-icon-container">
         <UIcon
@@ -162,6 +162,8 @@ const itemsTrackTranslate = computed(
 </template>
 
 <style>
+@reference "@/assets/css/global.css";
+
 .bycar-gallery-icon {
   @apply h-8 w-8 md:h-12 md:w-12;
 }

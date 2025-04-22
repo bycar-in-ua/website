@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import Collapsible from "@/components/UI/Collapsible.vue";
-
+import CollapsibleTitle from "@/components/UI/CollapsibleTitle.vue";
 const { t } = useI18n();
 
 defineProps<{
@@ -14,19 +13,21 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <Collapsible :title="t('brand')" :default-open="true">
-    <template #content>
-      <div class="max-h-32 overflow-y-auto">
-        <UCheckbox
-          v-for="brand in brands"
-          :key="brand.id"
-          :label="brand.displayName"
-          :value="brand.id"
-          :model-value="selectedFilters"
-          class="mb-2"
-          @change="(checked: boolean) => emit('change', checked, brand.id)"
-        />
-      </div>
+  <UCollapsible :default-open="true" :ui="{ content: 'pl-1 pt-1 max-h-40 overflow-y-auto' }">
+    <template #default="{ open }">
+      <CollapsibleTitle :title="t('brand')" :open />
     </template>
-  </Collapsible>
+
+    <template #content>
+      <UCheckbox
+        v-for="brand in brands"
+        :key="brand.id"
+        :label="brand.displayName"
+        :value="brand.id"
+        :model-value="selectedFilters?.includes(brand.id)"
+        class="mb-2"
+        @update:model-value="(checked) => emit('change', !!checked, brand.id)"
+      />
+    </template>
+  </UCollapsible>
 </template>

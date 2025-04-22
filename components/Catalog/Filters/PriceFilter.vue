@@ -1,80 +1,78 @@
 <script setup lang="ts">
-import Slider from "@/components/UI/Slider.vue";
-import Collapsible from "@/components/UI/Collapsible.vue";
+import CollapsibleTitle from "@/components/UI/CollapsibleTitle.vue";
+import { MAX_PRICE, MIN_PRICE, PRICE_STEP } from "@/components/Quiz/priceTemplates";
 
 const { t } = useI18n();
 
 const priceFrom = defineModel<number>("priceFrom");
 const priceTo = defineModel<number>("priceTo");
 
-const updatePriceFrom = (value?: number) => {
-  if (typeof value !== "number" || (priceTo.value && value > priceTo.value)) {
-    priceFrom.value = 0;
-    return;
-  }
-
-  priceFrom.value = value > 0 ? value : 0;
-};
-
-const updatePriceTo = (value?: number | number) => {
-  if (
-    typeof value !== "number" ||
-    (priceFrom.value && value < priceFrom.value)
-  ) {
-    priceTo.value = undefined;
-    return;
-  }
-
-  priceTo.value = value > 0 ? value : 0;
-};
+const maxPriceFrom = computed(() => {
+  return priceTo.value ? priceTo.value - PRICE_STEP : MAX_PRICE;
+});
+const minPriceTo = computed(() => {
+  return priceFrom.value ? priceFrom.value + PRICE_STEP : MIN_PRICE;
+});
 
 const priceSliderModel = computed({
   get: () => [Number(priceFrom.value ?? 0), Number(priceTo.value ?? Infinity)],
   set: ([from, to]: number[]) => {
-    updatePriceFrom(from);
-
+    priceFrom.value = from;
     if (isFinite(to)) {
-      updatePriceTo(to);
+      priceTo.value = to;
     }
   },
 });
 </script>
 
 <template>
-  <Collapsible :title="t('price')" :default-open="true">
+  <UCollapsible :default-open="true" :ui="{ content: 'pb-2' }">
+    <template #default="{ open }">
+      <CollapsibleTitle :title="t('price')" :open />
+    </template>
+
     <template #content>
-      <div class="flex gap-2 items-center mb-4 pl-1 pt-1">
-        <UInput
-          :model-value="priceFrom"
-          size="xs"
-          type="number"
-          :step="1000"
-          :min="0"
-          :max="200000"
-          class="flex-grow"
-          @update:model-value="updatePriceFrom"
+      <div class="flex gap-2 items-center mb-4">
+        <UInputNumber
+          v-model="priceFrom"
+          :step="PRICE_STEP"
+          :min="MIN_PRICE"
+          :max="maxPriceFrom"
+          size="sm"
+          :format-options="{
+            style: 'currency',
+            currency: 'USD',
+            currencyDisplay: 'symbol',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+          }"
         />
-        <span>-</span>
-        <UInput
-          :model-value="priceTo"
-          size="xs"
-          type="number"
-          :step="1000"
-          :min="1000"
-          :max="200000"
-          class="flex-grow"
-          @update:model-value="updatePriceTo"
+        <span class="basis-2">-</span>
+        <UInputNumber
+          v-model="priceTo"
+          :step="PRICE_STEP"
+          :min="minPriceTo"
+          :max="MAX_PRICE"
+          size="sm"
+          :format-options="{
+            style: 'currency',
+            currency: 'USD',
+            currencyDisplay: 'symbol',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+          }"
         />
-        <span>$</span>
       </div>
 
-      <Slider
+      <USlider
         v-model="priceSliderModel"
-        :min="0"
-        :max="200000"
-        :step="1000"
-        class="h-3"
+        :min="MIN_PRICE"
+        :max="MAX_PRICE"
+        :step="PRICE_STEP"
+        :ui="{
+          root: 'w-[95%] mx-auto',
+        }"
       />
     </template>
-  </Collapsible>
+  </UCollapsible>
 </template>

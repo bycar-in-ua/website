@@ -20,7 +20,7 @@ const infoBullets = computed(() => getVehicleInfoBullets(props.car, t));
 
 <template>
   <div
-    class="car-card aspect-w-9 aspect-h-9 xs:aspect-h-10 rounded-3xl shadow-xl after:absolute after:block after:inset-0 after:rounded-3xl hover:after:opacity-30 after:transition-all duration-300 overflow-hidden"
+    class="car-card relative aspect-[9/9] xs:aspect-[9/10] rounded-3xl shadow-xl after:absolute after:block after:inset-0 after:rounded-3xl after:hover:opacity-30 after:transition-all after:duration-300 overflow-hidden"
   >
     <CdnImage
       v-if="car.featureImage?.path"
@@ -29,12 +29,12 @@ const infoBullets = computed(() => getVehicleInfoBullets(props.car, t));
       size="small"
       :densities="['small:1x', 'medium:2x']"
       loading="lazy"
-      class="car-card-img transition-all duration-300 object-cover"
+      class="car-card-img transition-all duration-300 object-cover h-full"
     />
-    <img v-else src="/images/placeholder-image.jpg" class="object-cover" />
+    <img v-else src="/images/placeholder-image.jpg" class="object-cover h-full" />
 
     <div class="p-4 text-white absolute inset-0 flex flex-col z-10" :class="discount ? 'pt-8' : ''">
-      <div v-if="discount" class="bg-primary/50 text-white font-bold text-center text-xs px-2 py-1 absolute top-0 right-0 left-0 flex items-center justify-center gap-1">
+      <div v-if="discount" class="bg-primary-500/30 text-white font-bold text-center text-xs px-2 py-1 absolute top-0 right-0 left-0 flex items-center justify-center gap-1">
         <UIcon name="i-heroicons-solid-currency-dollar" class="w-4 h-4" />
         Доступна спецпропозиція
       </div>

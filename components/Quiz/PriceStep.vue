@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { priceTemplates } from "./priceTemplates";
+import { priceTemplates, MIN_PRICE, MAX_PRICE, PRICE_STEP } from "./priceTemplates";
 import QuestionContainer from "./QuestionContainer.vue";
 import QuizButton from "./QuizButton.vue";
-import Slider from "@/components/UI/Slider.vue";
 
 const quizStore = useQuizStore();
 
@@ -12,15 +11,20 @@ const priceSliderModel = computed({
     Number(quizStore.filters.priceTo ?? Infinity),
   ],
   set: ([from, to]: number[]) => {
-    quizStore.updatePriceFrom(from);
+    quizStore.filters.priceFrom = from;
 
     if (isFinite(to)) {
-      quizStore.updatePriceTo(to);
+      quizStore.filters.priceTo = to;
     }
   },
 });
 
-type OptionType = (typeof priceTemplates)[number];
+const maxPriceFrom = computed(() => {
+  return quizStore.filters.priceTo ? quizStore.filters.priceTo - PRICE_STEP : MAX_PRICE;
+});
+const minPriceTo = computed(() => {
+  return quizStore.filters.priceFrom ? quizStore.filters.priceFrom + PRICE_STEP : MIN_PRICE;
+});
 
 const availablePriceFrom = computed(() => {
   const value = quizStore.filters.priceTo;
@@ -41,61 +45,71 @@ const availablePriceTo = computed(() => {
 
 <template>
   <QuestionContainer step="Крок 1/3" title="Обери бюджет:">
-    <div class="flex flex-col gap-4">
-      <div class="flex gap-2 items-center mb-4 pl-1 pt-1">
-        <UInput
-          :model-value="quizStore.filters.priceFrom"
-          size="lg"
-          type="number"
-          :step="5000"
-          :min="15000"
-          :max="200000"
-          class="flex-grow"
-          @update:model-value="quizStore.updatePriceFrom"
-        />
-        <span>-</span>
-        <UInput
-          :model-value="quizStore.filters.priceTo"
-          size="lg"
-          type="number"
-          :step="5000"
-          :min="15000"
-          :max="200000"
-          class="flex-grow"
-          @update:model-value="quizStore.updatePriceTo"
-        />
-        <span>$</span>
-      </div>
-
-      <Slider
-        v-model="priceSliderModel"
-        :min="15000"
-        :max="200000"
-        :step="5000"
-        :size="6"
-        class="h-3"
+    <div class="flex gap-2 items-center mb-8">
+      <UInputNumber
+        v-model="quizStore.filters.priceFrom"
+        size="lg"
+        :step="PRICE_STEP"
+        :min="MIN_PRICE"
+        :max="maxPriceFrom"
+        class="flex-grow"
+        :format-options="{
+          style: 'currency',
+          currency: 'USD',
+          currencyDisplay: 'symbol',
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0,
+        }"
+      />
+      <span class="basis-2">-</span>
+      <UInputNumber
+        v-model="quizStore.filters.priceTo"
+        size="lg"
+        :step="PRICE_STEP"
+        :min="minPriceTo"
+        :max="MAX_PRICE"
+        class="flex-grow"
+        :format-options="{
+          style: 'currency',
+          currency: 'USD',
+          currencyDisplay: 'symbol',
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0,
+        }"
       />
     </div>
 
-    <div class="grid gap-4 xs:grid-cols-2 mt-10">
+    <USlider
+      v-model="priceSliderModel"
+      :min="MIN_PRICE"
+      :max="MAX_PRICE"
+      :step="PRICE_STEP"
+      class="mb-8"
+    />
+
+    <div class="grid gap-4 xs:gap-6 xs:grid-cols-2">
       <div class="flex items-center grow gap-4">
-        <span class="w-8"> Від: </span>
-        <USelectMenu
-          v-model="quizStore.filters.priceFrom"
-          :options="availablePriceFrom"
-          class="w-full"
-          @change="(option: OptionType | undefined) => (quizStore.filters.priceFrom = option?.value)"
-        />
+        <UFormField label="Від:" class="w-full">
+          <USelectMenu
+            v-model="quizStore.filters.priceFrom"
+            :items="availablePriceFrom"
+            class="w-full"
+            :search-input="false"
+            value-key="value"
+          />
+        </UFormField>
       </div>
 
       <div class="flex items-center grow gap-4">
-        <span class="w-8"> До: </span>
-        <USelectMenu
-          v-model="quizStore.filters.priceTo"
-          :options="availablePriceTo"
-          class="w-full"
-          @change="(option: OptionType | undefined) => (quizStore.filters.priceTo = option?.value)"
-        />
+        <UFormField label="До:" class="w-full">
+          <USelectMenu
+            v-model="quizStore.filters.priceTo"
+            :items="availablePriceTo"
+            class="w-full"
+            :search-input="false"
+            value-key="value"
+          />
+        </UFormField>
       </div>
     </div>
 
@@ -103,7 +117,9 @@ const availablePriceTo = computed(() => {
       <QuizButton variant="outline" @click="quizStore.$reset()">
         Назад
       </QuizButton>
-      <QuizButton @click="quizStore.step += 1"> Далі </QuizButton>
+      <QuizButton @click="quizStore.step += 1">
+        Далі
+      </QuizButton>
     </template>
   </QuestionContainer>
 </template>
