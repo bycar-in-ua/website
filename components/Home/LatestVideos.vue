@@ -2,6 +2,14 @@
 import SectionTitle from "@/components/UI/SectionTitle.vue";
 import { type YouTubeVideoItem, YouTubeVideoCard } from "../UI/VideoCard";
 
+const CHANNEL_ID = "UCNRibUtlCxkC7jI3kywGLHA";
+// const res = await fetch(`https://www.googleapis.com/youtube/v3/search?key=YOUR_API_KEY&channelId=CHANNEL_ID&part=snippet&order=date&maxResults=3`);
+
+// GET https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=UCNRibUtlCxkC7jI3kywGLHA&maxResults=3&order=date&key=[YOUR_API_KEY] HTTP/1.1
+
+// Authorization: Bearer [YOUR_ACCESS_TOKEN]
+// Accept: application/json
+
 const items: YouTubeVideoItem[] = [
   {
     videoId: "OCQcHq2Htj8",
@@ -11,7 +19,8 @@ const items: YouTubeVideoItem[] = [
   {
     videoId: "ekup2bPGYw8",
     title: "Чому VW Touareg найпопулярніший новий Volkswagen в Україні?",
-    description: "VW Touareg є найбільш продаваємим новим Volkswagen в Україні вже дуже багато років. І це й не дивно, адже він є фактично найдешевшим квитком до преміальних VAG-ів. Touareg побудовано на платформі MLB-evo, на якій також базуються такі авто як Audi Q7, Q8, Porsche Cayenne, Bentley Bentayga і навіть Lamborghini Urus. То що це за автомобіль? Розбираємось в тест-драйві від ByCar.",
+    description:
+      "VW Touareg є найбільш продаваємим новим Volkswagen в Україні вже дуже багато років. І це й не дивно, адже він є фактично найдешевшим квитком до преміальних VAG-ів. Touareg побудовано на платформі MLB-evo, на якій також базуються такі авто як Audi Q7, Q8, Porsche Cayenne, Bentley Bentayga і навіть Lamborghini Urus. То що це за автомобіль? Розбираємось в тест-драйві від ByCar.",
   },
   {
     videoId: "o07p4TYqZ-Y",
