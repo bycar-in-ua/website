@@ -5,98 +5,6 @@ const { t } = useI18n();
 
 const catalogStore = useCatalogStore();
 
-type Filterbutton = {
-  key: keyof FiltersState;
-  label: string;
-  value: string | number;
-};
-
-const appliedFilters = computed<Filterbutton[]>(() => {
-  return Object.entries(catalogStore.filters).reduce((acc, [k, value]) => {
-    if (!value) {
-      return acc;
-    }
-
-    const key = k as keyof FiltersState;
-
-    switch (key as keyof FiltersState) {
-      case "priceFrom":
-      case "priceTo": {
-        const labelTranslation = t(`filters.price.${key}`);
-
-        acc.push({
-          key,
-          label: `${labelTranslation} ${value} $`,
-          value: value as number,
-        });
-        break;
-      }
-
-      case "brand": {
-        const brandIds = value as number[];
-
-        brandIds.forEach((item) => {
-          const brand = catalogStore.dictionary.brands.find(
-            (brand) => brand.id === item,
-          );
-
-          acc.push({
-            key,
-            label: brand?.displayName ?? String(item),
-            value: item,
-          });
-        });
-
-        break;
-      }
-
-      case "bodyType": {
-        const bodyTypes = value as string[];
-
-        bodyTypes.forEach((item) => {
-          acc.push({
-            key,
-            label: t(`vehicle.bodyTypes.items.${item}`),
-            value: item,
-          });
-        });
-
-        break;
-      }
-
-      case "engineType": {
-        const engineTypes = value as string[];
-
-        engineTypes.forEach((item) => {
-          acc.push({
-            key,
-            label: t(`filters.engineType.${item}`),
-            value: item,
-          });
-        });
-
-        break;
-      }
-
-      case "drive": {
-        const drives = value as string[];
-
-        drives.forEach((item) => {
-          acc.push({ key, label: t(`filters.drive.${item}`), value: item });
-        });
-
-        break;
-      }
-
-      default: {
-        break;
-      }
-    }
-
-    return acc;
-  }, [] as Filterbutton[]);
-});
-
 const removeFilterHandler = (
   key: keyof FiltersState,
   value: string | number,
@@ -114,11 +22,9 @@ const removeFilterHandler = (
 </script>
 
 <template>
-  <div
-    class="flex flex-wrap gap-1 items-center min-h-6"
-  >
+  <div class="flex flex-wrap gap-1 items-center min-h-6">
     <UButton
-      v-for="(item, i) in appliedFilters"
+      v-for="(item, i) in catalogStore.appliedFilters"
       :key="i"
       :label="item.label"
       icon="i-heroicons-x-mark"
@@ -129,7 +35,7 @@ const removeFilterHandler = (
     />
 
     <UButton
-      v-if="appliedFilters.length > 1"
+      v-if="catalogStore.appliedFilters.length > 1"
       :label="t('filters.clearAll')"
       icon="i-heroicons-x-mark"
       trailing

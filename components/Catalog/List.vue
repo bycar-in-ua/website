@@ -2,10 +2,23 @@
 import CarCard from "@/components/UI/CarCard/CarCard.vue";
 import Pagination from "@/components/UI/Pagination.vue";
 import { useCatalogStore } from "~/stores/catalog";
+import ContactFormSection from "../ContactFormSection.vue";
 
 const catalogStore = useCatalogStore();
 
 const list = useTemplateRef<HTMLDivElement>("list");
+
+const tgMessage = computed(() => {
+  if (!catalogStore.appliedFilters.length && !catalogStore.data.items.length) {
+    return "Вітаю! В каталозі немає жодного авто.";
+  }
+
+  const userFilters = catalogStore.appliedFilters
+    .map((filter) => filter.label)
+    .join(", ");
+
+  return `Вітаю! Цікавить авто з параметрами: **${userFilters}**. Але в каталозі такого авто не знайдено.`;
+});
 </script>
 
 <template>
@@ -16,11 +29,24 @@ const list = useTemplateRef<HTMLDivElement>("list");
       class="absolute -top-4 left-0 right-0"
     />
 
-    <p
-      v-if="!catalogStore.data.items.length"
-      class="text-center p-4 text-xl"
-      v-text="$t('emptyCatalog')"
-    />
+    <template v-if="!catalogStore.data.items.length">
+      <p class="text-center p-4 text-xl" v-text="$t('emptyCatalog')" />
+      <ContactFormSection
+        page="Каталог"
+        class="md:justify-between"
+        :tg-link-message="tgMessage"
+      >
+        <template #message>
+          <h3 class="text-2xl font-bold mb-2">
+            Не вдалось знайти бажане авто в каталозі?<br />
+            Запитай у експерта!
+          </h3>
+          <p class="text-base text-gray-500 mb-4">
+            Можливо, є додаткова інформація або ще не все оновлено в каталозі.
+          </p>
+        </template>
+      </ContactFormSection>
+    </template>
     <div
       ref="list"
       class="grid xs:grid-cols-2 sm:grid-cols-3 gap-5"
