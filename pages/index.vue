@@ -5,6 +5,7 @@ import Latest from "@/components/Home/Latest.vue";
 import ContactForm from "~/components/ContactFormSection.vue";
 import Brands from "@/components/Home/Brands.vue";
 import { generatePageTitle } from "@/utils/seo";
+// import * as OrganizationJsonld from "@/jsonld/organization.json";
 
 const route = useRoute();
 
@@ -23,6 +24,19 @@ useSeoMeta({
   },
   ogDescription: pageDescription,
 });
+
+// useHead({
+//   script: [{ innerHTML: "console.log('Hello, world!');" }],
+// });
+
+// useHead({
+//   script: [
+//     {
+//       type: "application/ld+json",
+//       innerHTML: JSON.stringify(OrganizationJsonld),
+//     },
+//   ],
+// });
 
 const { $bycarApi } = useNuxtApp();
 
@@ -49,7 +63,9 @@ const { data } = await useAsyncData(
 </script>
 
 <template>
-  <main class="container pt-20 md:pt-10 lg:pt-0 overflow-x-hidden lg:overflow-x-visible">
+  <main
+    class="container pt-20 md:pt-10 lg:pt-0 overflow-x-hidden lg:overflow-x-visible"
+  >
     <Hero :total-cars="data.totalItems" />
     <LatestVideos />
     <Latest :latest-items="data.latestItems" />
