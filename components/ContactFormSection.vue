@@ -28,14 +28,16 @@ const affixClickHandler = () => {
     </slot>
 
     <div>
-      <h3 class="text-2xl font-bold mb-2">
-        Не впевнений, яке авто тобі підходить?<br />
-        Запитай у експерта!
-      </h3>
-      <p class="text-base text-gray-500 mb-4">
-        Сьогодні на зв'язку Євген. Справжній автофанат,<br />
-        любить БМВ і свого песика Тобі
-      </p>
+      <slot name="message">
+        <h3 class="text-2xl font-bold mb-2">
+          Не впевнений, яке авто тобі підходить?<br />
+          Запитай у експерта!
+        </h3>
+        <p class="text-base text-gray-500 mb-4">
+          Сьогодні на зв'язку Євген. Справжній автофанат,<br />
+          любить БМВ і свого песика Тобі
+        </p>
+      </slot>
 
       <TelegramChatButton :page="page" :message="tgLinkMessage" />
     </div>
