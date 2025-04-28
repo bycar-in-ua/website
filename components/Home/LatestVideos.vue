@@ -17,7 +17,7 @@ const mouseleaveHandler = () => {
 
 <template>
   <section
-    v-if="items"
+    v-if="items?.length"
     class="my-10 md:my-24"
     @mouseover="mouseoverHandler"
     @mouseleave="mouseleaveHandler"
