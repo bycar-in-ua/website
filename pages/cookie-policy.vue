@@ -17,6 +17,17 @@ useSeoMeta({
   },
   ogDescription: pageDescription,
 });
+
+useHead({
+  script: [
+    {
+      type: "application/ld+json",
+      innerHTML: JSON.stringify(
+        generateBreadcrumbsJsonLd([{ name: pageTitie, path: route.fullPath }]),
+      ),
+    },
+  ],
+});
 </script>
 
 <template>
