@@ -2,8 +2,7 @@
 import SectionTitle from "@/components/UI/SectionTitle.vue";
 import { YouTubeVideoCard } from "../UI/VideoCard";
 
-const { data } = await useFetch("/api/latest-youtube-videos");
-const items = data.value;
+const { data: items } = await useFetch("/api/latest-youtube-videos");
 
 const carouselRef = useTemplateRef("carouselRef");
 
