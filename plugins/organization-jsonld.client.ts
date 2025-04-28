@@ -6,7 +6,7 @@ export default defineNuxtPlugin(() => {
     "url": "https://bycar.in.ua",
     "logo": "https://bycar.in.ua/logo.png",
     "description":
-      "ByCar — автомобільний портал для пошуку, оренди та купівлі автомобілів в Україні.",
+      "Каталог нових автомобілів від офіційних дилерів в Україні. Звертайтеся за допомогою у підборі нових авто або пишіть в чат для консультації.",
     "contactPoint": {
       "@type": "ContactPoint",
       "contactType": "Обслуговування клієнтів",

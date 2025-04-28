@@ -5,7 +5,6 @@ import Latest from "@/components/Home/Latest.vue";
 import ContactForm from "~/components/ContactFormSection.vue";
 import Brands from "@/components/Home/Brands.vue";
 import { generatePageTitle } from "@/utils/seo";
-// import * as OrganizationJsonld from "@/jsonld/organization.json";
 
 const route = useRoute();
 
