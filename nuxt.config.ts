@@ -31,6 +31,8 @@ export default defineNuxtConfig({
       metapixel: process.env.META_PIXEL_ID
         ? { default: { id: process.env.META_PIXEL_ID } }
         : undefined,
+      bycarChannelId: process.env.BYCAR_CHANNEL_ID,
+      youtubeApiKey: process.env.YOUTUBE_API_KEY,
     },
   },
 
