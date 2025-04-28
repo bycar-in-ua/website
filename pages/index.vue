@@ -25,19 +25,6 @@ useSeoMeta({
   ogDescription: pageDescription,
 });
 
-// useHead({
-//   script: [{ innerHTML: "console.log('Hello, world!');" }],
-// });
-
-// useHead({
-//   script: [
-//     {
-//       type: "application/ld+json",
-//       innerHTML: JSON.stringify(OrganizationJsonld),
-//     },
-//   ],
-// });
-
 const { $bycarApi } = useNuxtApp();
 
 const { data } = await useAsyncData(
