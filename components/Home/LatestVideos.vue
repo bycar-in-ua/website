@@ -1,33 +1,9 @@
 <script setup lang="ts">
 import SectionTitle from "@/components/UI/SectionTitle.vue";
-import { type YouTubeVideoItem, YouTubeVideoCard } from "../UI/VideoCard";
+import { YouTubeVideoCard } from "../UI/VideoCard";
 
-const { data, error } = await useFetch<YouTubeVideoItem[], unknown>(
-  "/api/get-last-three-video",
-);
-
-const mockItems: YouTubeVideoItem[] = [
-  {
-    videoId: "OCQcHq2Htj8",
-    title: "Toyota CH-R 2025 за 50 000 $ - це жарт?",
-    description:
-      'Клас компактних кросоверів стає все популярнішим, і при цьому все дорожчим. Причому, часто причину цієї дороговизни визначити складно. Все ніби зводиться до банальної думки: "ну це ж кросовер". От і нова Toyota C-HR безумовно вражає своїм виглядом, але чи може вона дати щось окрім цього вау-фактора за свої вже дуже немаленькі гроші? Розбираємося в тест-драйві ByCar.',
-  },
-  {
-    videoId: "ekup2bPGYw8",
-    title: "Чому VW Touareg найпопулярніший новий Volkswagen в Україні?",
-    description:
-      "VW Touareg є найбільш продаваємим новим Volkswagen в Україні вже дуже багато років. І це й не дивно, адже він є фактично найдешевшим квитком до преміальних VAG-ів. Touareg побудовано на платформі MLB-evo, на якій також базуються такі авто як Audi Q7, Q8, Porsche Cayenne, Bentley Bentayga і навіть Lamborghini Urus. То що це за автомобіль? Розбираємось в тест-драйві від ByCar.",
-  },
-  {
-    videoId: "o07p4TYqZ-Y",
-    title: "В чому секрет Mitsubishi Lancer Evolution?",
-    description:
-      "На базі Mitsubishi Lancer Evolution досі будують спортивні авто буквально для всіх дисциплін автоспорту. Це означає, що в цих авто є точно щось особливе. І як правило, за такими машинами стоять люди, які мали мрію. У цьому випуску знайомимося із історією моделі Lancer Evolution, дізнаємося, як живеться цим авто і їх власникам сьогодні в Україні, а також катаємося по звичайних і грунтових дорогах. Mitsubishi Lancer Evolution 10 на тесті ByCar.",
-  },
-];
-
-const items = error.value || !data.value ? mockItems : data.value;
+const { data } = await useFetch("/api/latest-youtube-videos");
+const items = data.value;
 
 const carouselRef = useTemplateRef("carouselRef");
 
@@ -42,6 +18,7 @@ const mouseleaveHandler = () => {
 
 <template>
   <section
+    v-if="items"
     class="my-10 md:my-24"
     @mouseover="mouseoverHandler"
     @mouseleave="mouseleaveHandler"
