@@ -2,19 +2,16 @@
 import SectionTitle from "@/components/UI/SectionTitle.vue";
 import { type YouTubeVideoItem, YouTubeVideoCard } from "../UI/VideoCard";
 
-const CHANNEL_ID = "UCNRibUtlCxkC7jI3kywGLHA";
-// const res = await fetch(`https://www.googleapis.com/youtube/v3/search?key=YOUR_API_KEY&channelId=CHANNEL_ID&part=snippet&order=date&maxResults=3`);
+const { data, error } = await useFetch<YouTubeVideoItem[], unknown>(
+  "/api/get-last-three-video",
+);
 
-// GET https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=UCNRibUtlCxkC7jI3kywGLHA&maxResults=3&order=date&key=[YOUR_API_KEY] HTTP/1.1
-
-// Authorization: Bearer [YOUR_ACCESS_TOKEN]
-// Accept: application/json
-
-const items: YouTubeVideoItem[] = [
+const mockItems: YouTubeVideoItem[] = [
   {
     videoId: "OCQcHq2Htj8",
     title: "Toyota CH-R 2025 за 50 000 $ - це жарт?",
-    description: "Клас компактних кросоверів стає все популярнішим, і при цьому все дорожчим. Причому, часто причину цієї дороговизни визначити складно. Все ніби зводиться до банальної думки: \"ну це ж кросовер\". От і нова Toyota C-HR безумовно вражає своїм виглядом, але чи може вона дати щось окрім цього вау-фактора за свої вже дуже немаленькі гроші? Розбираємося в тест-драйві ByCar.",
+    description:
+      'Клас компактних кросоверів стає все популярнішим, і при цьому все дорожчим. Причому, часто причину цієї дороговизни визначити складно. Все ніби зводиться до банальної думки: "ну це ж кросовер". От і нова Toyota C-HR безумовно вражає своїм виглядом, але чи може вона дати щось окрім цього вау-фактора за свої вже дуже немаленькі гроші? Розбираємося в тест-драйві ByCar.',
   },
   {
     videoId: "ekup2bPGYw8",
@@ -29,6 +26,8 @@ const items: YouTubeVideoItem[] = [
       "На базі Mitsubishi Lancer Evolution досі будують спортивні авто буквально для всіх дисциплін автоспорту. Це означає, що в цих авто є точно щось особливе. І як правило, за такими машинами стоять люди, які мали мрію. У цьому випуску знайомимося із історією моделі Lancer Evolution, дізнаємося, як живеться цим авто і їх власникам сьогодні в Україні, а також катаємося по звичайних і грунтових дорогах. Mitsubishi Lancer Evolution 10 на тесті ByCar.",
   },
 ];
+
+const items = error.value || !data.value ? mockItems : data.value;
 
 const carouselRef = useTemplateRef("carouselRef");
 
@@ -73,7 +72,6 @@ const mouseleaveHandler = () => {
         root: 'basis-full',
         arrows: 'opacity-40 hover:opacity-100 transition-opacity',
         dots: 'static mt-4',
-
       }"
       class="overflow-hidden"
       style="--ui-border-inverted: var(--ui-primary)"
