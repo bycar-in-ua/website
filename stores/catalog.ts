@@ -11,8 +11,15 @@ export type FiltersState = Omit<
   priceTo?: number;
 };
 
+type Filterbutton = {
+  key: keyof FiltersState;
+  label: string;
+  value: string | number;
+};
+
 export const useCatalogStore = defineStore("catalog", () => {
   const router = useRouter();
+  const { t } = useI18n();
 
   // #region filters
   const filters = computed<FiltersState>({
@@ -27,6 +34,92 @@ export const useCatalogStore = defineStore("catalog", () => {
         },
       });
     },
+  });
+
+  const appliedFilters = computed<Filterbutton[]>(() => {
+    return Object.entries(filters.value).reduce((acc, [k, value]) => {
+      if (!value) {
+        return acc;
+      }
+
+      const key = k as keyof FiltersState;
+
+      switch (key as keyof FiltersState) {
+        case "priceFrom":
+        case "priceTo": {
+          const labelTranslation = t(`filters.price.${key}`);
+
+          acc.push({
+            key,
+            label: `${labelTranslation} ${value} $`,
+            value: value as number,
+          });
+          break;
+        }
+
+        case "brand": {
+          const brandIds = value as number[];
+
+          brandIds.forEach((item) => {
+            const brand = dictionary.value.brands.find(
+              (brand) => brand.id === item,
+            );
+
+            acc.push({
+              key,
+              label: brand?.displayName ?? String(item),
+              value: item,
+            });
+          });
+
+          break;
+        }
+
+        case "bodyType": {
+          const bodyTypes = value as string[];
+
+          bodyTypes.forEach((item) => {
+            acc.push({
+              key,
+              label: t(`vehicle.bodyTypes.items.${item}`),
+              value: item,
+            });
+          });
+
+          break;
+        }
+
+        case "engineType": {
+          const engineTypes = value as string[];
+
+          engineTypes.forEach((item) => {
+            acc.push({
+              key,
+              label: t(`filters.engineType.${item}`),
+              value: item,
+            });
+          });
+
+          break;
+        }
+
+        case "drive": {
+          const drives = value as string[];
+
+          drives.forEach((item) => {
+            acc.push({ key, label: t(`filters.drive.${item}`), value: item });
+          });
+
+          break;
+        }
+
+        default: {
+          break;
+        }
+      }
+
+      return acc;
+    }, [] as Filterbutton[]);
   });
 
   const pagination = computed<NonNullable<VehiclesSearchSchema["pagination"]>>({
@@ -118,6 +211,7 @@ export const useCatalogStore = defineStore("catalog", () => {
 
   return {
     filters,
+    appliedFilters,
     pagination,
     order,
     status,

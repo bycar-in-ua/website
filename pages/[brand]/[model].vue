@@ -59,11 +59,13 @@ const { data: availableVehicles } = useAsyncData(
 );
 
 const car = computed(() => data.value as Vehicle);
-const hasSpecialOfferings = computed(() => availableVehicles.value.some((item) => item.discountDescription));
+const hasSpecialOfferings = computed(() =>
+  availableVehicles.value.some((item) => item.discountDescription),
+);
 
 const activeComplectation = ref<Complectation | undefined>(
   car.value.complectations?.find((c) => c.base) ||
-  car.value.complectations?.[0],
+    car.value.complectations?.[0],
 );
 const activePowerUnit = ref<PowerUnit | undefined>(
   activeComplectation.value?.powerUnits?.[0],
@@ -106,6 +108,17 @@ useSeoMeta({
     alt: carTitle,
   },
 });
+
+useHead({
+  script: [
+    {
+      type: "application/ld+json",
+      innerHTML: JSON.stringify(
+        generateBreadcrumbsJsonLd([{ name: seoTitle, path: route.fullPath }]),
+      ),
+    },
+  ],
+});
 </script>
 
 <template>
@@ -118,7 +131,7 @@ useSeoMeta({
     />
     <Media :car :title="carTitle" :active-power-unit="activePowerUnit" />
 
-    <div class="flex justify-end items-end flex-wrap gap-2 mb-4 md:mb-5 ">
+    <div class="flex justify-end items-end flex-wrap gap-2 mb-4 md:mb-5">
       <CtaButton v-if="availableVehicles.length > 0" />
 
       <QuickContactModal v-if="hasSpecialOfferings" :page="carTitle" />
