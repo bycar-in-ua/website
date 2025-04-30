@@ -33,25 +33,45 @@ type SearchResourceItem = {
   };
 };
 
-export default defineEventHandler(async (event) => {
-  const config = useRuntimeConfig(event);
+const GOOGLE_API_HOST = "https://www.googleapis.com";
 
-  const key = config.public.youtubeApiKey;
-  const channelId = config.public.bycarChannelId;
-  const url = `https://www.googleapis.com/youtube/v3/search?key=${key}&channelId=${channelId}&part=snippet&order=date&maxResults=3`;
+export default defineCachedEventHandler(
+  async (event) => {
+    const config = useRuntimeConfig(event);
 
-  try {
-    const lastThreeVideos: YouTubeSearchResponse = await $fetch(url);
+    const key = config.public.youtubeApiKey;
+    const channelId = config.public.bycarChannelId;
 
-    const data: YouTubeVideoItem[] = lastThreeVideos.items.map((item) => ({
-      videoId: item.id.videoId,
-      title: item.snippet.title,
-      description: item.snippet.description,
-    }));
+    try {
+      const lastThreeVideos: YouTubeSearchResponse = await $fetch(
+        "youtube/v3/search",
+        {
+          baseURL: GOOGLE_API_HOST,
+          query: {
+            key,
+            channelId,
+            part: "snippet",
+            order: "date",
+            maxResults: 3,
+          },
+        },
+      );
 
-    return data;
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
-});
+      return lastThreeVideos.items.map(
+        (item): YouTubeVideoItem => ({
+          videoId: item.id.videoId,
+          title: item.snippet.title,
+          description: item.snippet.description,
+        }),
+      );
+    } catch (error) {
+      console.error(error);
+
+      return [];
+    }
+  },
+  {
+    name: "latest-youtube-videos",
+    maxAge: 60 * 60, // 1 hour
+  },
+);
