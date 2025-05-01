@@ -47,6 +47,9 @@ export default defineCachedEventHandler(
         "youtube/v3/search",
         {
           baseURL: GOOGLE_API_HOST,
+          headers: {
+            referer: "bycar.in.ua",
+          },
           query: {
             key,
             channelId,
