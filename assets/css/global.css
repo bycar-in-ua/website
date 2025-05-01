@@ -108,3 +108,7 @@ body {
     display: none; /* Chrome, Safari and Opera */
   }
 }
+
+.responsive-video-iframe {
+  @apply w-full aspect-video;
+}
