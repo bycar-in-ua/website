@@ -1,7 +1,7 @@
 import { ofetch } from "ofetch";
 import type { Brand, Vehicle, VehiclesSearchSchema } from "@bycar-in-ua/sdk";
 import { BodyType, BycarPublicApi } from "@bycar-in-ua/sdk";
-import sample from "lodash/sample";
+import sample from "lodash/sample.js";
 import type { YouTubeVideoItem } from "@/components/UI/VideoCard";
 
 export type HomepageData = {
