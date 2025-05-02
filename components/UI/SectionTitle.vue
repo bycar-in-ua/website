@@ -1,5 +1,5 @@
 <script setup lang="ts">
-defineProps<{ title: string }>();
+defineProps<{ title: string; extraLink?: string }>();
 </script>
 
 <template>
@@ -15,7 +15,7 @@ defineProps<{ title: string }>();
         icon="i-heroicons-arrow-right"
         trailing
         class=""
-        :to="{ name: 'catalog' }"
+        :to="extraLink ?? { name: 'catalog' }"
       >
         Переглянути всі
       </UButton>
