@@ -53,6 +53,8 @@ export default defineCachedEventHandler(
           query: {
             key,
             channelId,
+            type: "video",
+            videoDuration: "long",
             part: "snippet",
             order: "date",
             maxResults: 3,
