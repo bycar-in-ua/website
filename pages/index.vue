@@ -5,6 +5,7 @@ import Latest from "@/components/Home/Latest.vue";
 import ContactForm from "~/components/ContactFormSection.vue";
 import Brands from "@/components/Home/Brands.vue";
 import { generatePageTitle } from "@/utils/seo";
+import type { HomepageData } from "@/server/api/homepage-data.get";
 
 const route = useRoute();
 
@@ -24,28 +25,19 @@ useSeoMeta({
   ogDescription: pageDescription,
 });
 
-const { $bycarApi } = useNuxtApp();
-
-const { data } = await useAsyncData(
-  async () => {
-    const [vehicles, brands] = await Promise.all([
-      $bycarApi.searchVehicles({ pagination: { limit: 8 } }),
-      $bycarApi.getBrands(),
-    ]);
-
-    return {
-      latestItems: vehicles.items,
-      totalItems: vehicles.meta.totalItems,
-      establishedBrands: brands,
-    };
-  },
-  {
-    default: () => ({ latestItems: [], establishedBrands: [], totalItems: 0 }),
-    getCachedData(key, nuxtApp) {
-      return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
+const { data } = await useFetch<HomepageData>("/api/homepage-data", {
+  default: () => ({
+    latestYoutubeVideos: [],
+    latestItems: {
+      title: "",
+      queryString: "",
+      items: [],
     },
-  },
-);
+    totalItems: 0,
+    establishedBrands: [],
+  }),
+
+});
 </script>
 
 <template>
@@ -53,8 +45,8 @@ const { data } = await useAsyncData(
     class="container pt-20 md:pt-10 lg:pt-0 overflow-x-hidden lg:overflow-x-visible"
   >
     <Hero :total-cars="data.totalItems" />
-    <LatestVideos />
-    <Latest :latest-items="data.latestItems" />
+    <LatestVideos :videos="data.latestYoutubeVideos" />
+    <Latest v-bind="data.latestItems" />
     <ContactForm page="Головна сторінка" :show-affix="false" />
     <Brands :established-brands="data.establishedBrands" />
   </main>
