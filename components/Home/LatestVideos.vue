@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import SectionTitle from "@/components/UI/SectionTitle.vue";
-import { YouTubeVideoCard } from "../UI/VideoCard";
+import { YouTubeVideoCard, type YouTubeVideoItem } from "../UI/VideoCard";
 
-const { data: items } = await useFetch("/api/latest-youtube-videos");
+defineProps<{
+  videos: YouTubeVideoItem[];
+}>();
 
 const carouselRef = useTemplateRef("carouselRef");
 
@@ -17,7 +19,7 @@ const mouseleaveHandler = () => {
 
 <template>
   <section
-    v-if="items?.length"
+    v-if="videos?.length"
     class="my-10 md:my-24"
     @mouseover="mouseoverHandler"
     @mouseleave="mouseleaveHandler"
@@ -43,7 +45,7 @@ const mouseleaveHandler = () => {
 
     <UCarousel
       ref="carouselRef"
-      :items="items"
+      :items="videos"
       :ui="{
         root: 'basis-full',
         arrows: 'opacity-40 hover:opacity-100 transition-opacity',
