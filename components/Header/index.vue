@@ -1,12 +1,26 @@
 <script setup lang="ts">
 import Logo from "../UI/Logo.vue";
 import Navigation from "./Navigation.vue";
+import LoginModal from "./LoginModal.vue";
 import { useScrollListener } from "./useScrollListener";
+import RegisterModal from "./RegisterModal.vue";
 
 const scrolled = ref(false);
+const isLoginModalOpen = ref(false);
+const isRegisterModalOpen = ref(false);
 
 if (import.meta.client) {
   useScrollListener(scrolled);
+}
+
+function openModal(modal: "login" | "register") {
+  if (modal === "login") {
+    isLoginModalOpen.value = true;
+    isRegisterModalOpen.value = false;
+  } else {
+    isLoginModalOpen.value = false;
+    isRegisterModalOpen.value = true;
+  }
 }
 </script>
 
@@ -22,6 +36,14 @@ if (import.meta.client) {
     <div class="container flex items-center">
       <Logo class="mr-16" />
       <Navigation />
+      <LoginModal
+        v-model:open="isLoginModalOpen"
+        @open-register-modal="openModal('register')"
+      />
+      <RegisterModal
+        v-model:open="isRegisterModalOpen"
+        @open-login-modal="openModal('login')"
+      />
     </div>
   </header>
 </template>
