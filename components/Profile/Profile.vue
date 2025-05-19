@@ -19,13 +19,7 @@ function openModal(modal: "login" | "signup") {
 </script>
 
 <template>
-  <UModal
-    v-model:open="open"
-    :ui="{
-      overlay: ' ',
-      content: 'overflow-y-scroll ',
-    }"
-  >
+  <UModal v-model:open="open" :ui="{ content: 'overflow-y-scroll' }">
     <UButton>Увійти</UButton>
 
     <template #content>
