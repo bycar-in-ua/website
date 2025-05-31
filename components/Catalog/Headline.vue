@@ -38,9 +38,7 @@ function handleClearOrder() {
 
       <Quiz>
         <template #trigger="{ open }">
-          <UTooltip
-            text="Тисни, щоб дізнатись яке авто підходить тобі"
-          >
+          <UTooltip text="Тисни, щоб дізнатись яке авто підходить тобі">
             <UIcon
               name="i-heroicons-magnifying-glass-circle"
               class="cursor-pointer text-primary-400 w-6 h-6"
@@ -59,7 +57,9 @@ function handleClearOrder() {
       value-key="value"
       :search-input="false"
       :ui="{
-        base: 'w-full max-w-80',
+        base: `w-full max-w-80 justify-end cursor-pointer ${
+          catalogStore.order ? 'pe-14' : 'pe-9'
+        }`,
       }"
     >
       <template #trailing>

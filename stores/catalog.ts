@@ -1,6 +1,11 @@
 import { defineStore } from "pinia";
+import { ofetch } from "ofetch";
 import debounce from "lodash/debounce";
-import type { VehiclesSearchSchema, VehiclesOrder } from "@bycar-in-ua/sdk";
+import {
+  type VehiclesSearchSchema,
+  type VehiclesOrder,
+  BrandPublicService,
+} from "@bycar-in-ua/sdk";
 import type { LocationQueryRaw } from "vue-router";
 
 export type FiltersState = Omit<
@@ -20,6 +25,10 @@ type Filterbutton = {
 export const useCatalogStore = defineStore("catalog", () => {
   const router = useRouter();
   const { t } = useI18n();
+
+  const config = useRuntimeConfig();
+
+  const brandService = new BrandPublicService(config.public.apiHost, ofetch);
 
   // #region filters
   const filters = computed<FiltersState>({
@@ -191,7 +200,7 @@ export const useCatalogStore = defineStore("catalog", () => {
     "filters",
     async () => {
       const [brands, bodyTypes] = await Promise.all([
-        $bycarApi.getBrands(),
+        brandService.getBrands(),
         $bycarApi.getBodyTypes(),
       ]);
 

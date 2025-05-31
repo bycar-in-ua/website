@@ -1,6 +1,6 @@
 import { ofetch } from "ofetch";
 import type { Brand, Vehicle, VehiclesSearchSchema } from "@bycar-in-ua/sdk";
-import { BodyType, BycarPublicApi } from "@bycar-in-ua/sdk";
+import { BodyType, BrandPublicService, BycarPublicApi } from "@bycar-in-ua/sdk";
 import sample from "lodash/sample.js";
 import type { YouTubeVideoItem } from "@/components/UI/VideoCard";
 
@@ -60,6 +60,8 @@ export default defineCachedEventHandler(
   async (event): Promise<HomepageData> => {
     const config = useRuntimeConfig(event);
 
+    const brandService = new BrandPublicService(config.public.apiHost, ofetch);
+
     const bycarApi = new BycarPublicApi(
       { apiHost: config.public.apiHost },
       ofetch,
@@ -76,7 +78,7 @@ export default defineCachedEventHandler(
           pagination: { limit: 8 },
           order: ["yearFrom-desc"],
         }),
-        bycarApi.getBrands(),
+        brandService.getBrands(),
         getLatestYoutubeVideos({
           channelId: config.public.bycarChannelId,
           apiKey: config.public.youtubeApiKey,
