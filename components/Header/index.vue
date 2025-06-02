@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Logo from "../UI/Logo.vue";
 import Navigation from "./Navigation.vue";
-import Profile from "@/components/Profile/Profile.vue";
+import AuthProfile from "~/components/Profile/AuthProfile.vue";
 import { useScrollListener } from "./useScrollListener";
 
 const scrolled = ref(false);
@@ -20,13 +20,15 @@ if (import.meta.client) {
         : 'top-2 md:top-8'
     "
   >
-    <div class="container flex items-center justify-between">
-      <div class="flex items-center">
-        <Logo class="mr-16" />
-        <Navigation />
+    <div class="container flex items-center">
+      <Logo class="mr-16" />
+      <Navigation />
+      <div
+        class="flex justify-end md:w-full"
+        :class="scrolled ? '' : 'md:w-full'"
+      >
+        <AuthProfile />
       </div>
-
-      <Profile />
     </div>
   </header>
 </template>

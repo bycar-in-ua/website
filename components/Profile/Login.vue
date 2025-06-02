@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { z } from "zod";
-import type { FormSubmitEvent } from "@nuxt/ui";
+import type { FetchError } from "ofetch";
 import Google from "../UI/Icons/Google.vue";
 import InputPassword from "../UI/InputPassword.vue";
 import ModalHeader from "./ModalHeader.vue";
 
+const open = defineModel<boolean>("open");
 defineEmits(["open-signup-modal"]);
+
+const authStore = useAuthStore();
 
 const schema = z.object({
   email: z
@@ -16,7 +19,6 @@ const schema = z.object({
     .min(8, "Має бути хочаб 8 символів")
     .regex(/\p{L}/u, "Пароль має містити хоча б одну літеру")
     .regex(/\d/, "Пароль має містити хоча б одну цифру"),
-  rememberMe: z.boolean(),
 });
 
 type Schema = z.output<typeof schema>;
@@ -24,19 +26,37 @@ type Schema = z.output<typeof schema>;
 const state = reactive<Partial<Schema>>({
   email: undefined,
   password: undefined,
-  rememberMe: false,
 });
 
 const toast = useToast();
-async function onSubmit(event: FormSubmitEvent<Schema>) {
-  // TODO:
-  toast.add({
-    title: "Success",
-    description: "The form has been submitted.",
-    color: "success",
-  });
-  console.log(event.data);
+
+async function onSubmit() {
+  const { email, password } = state;
+
+  if (!email || !password) {
+    return;
+  }
+
+  try {
+    await authStore.login({ email, password });
+
+    open.value = false;
+
+    navigateTo("/profile");
+  } catch (error) {
+    const fetchError = error as FetchError<{ message?: string }>;
+
+    const message =
+      fetchError.response?._data?.message ?? "Упс, щось пішло не так.";
+
+    toast.add({
+      title: "Помилка",
+      description: message,
+      color: "error",
+    });
+  }
 }
+
 async function googleLogin() {
   // TODO:
 }

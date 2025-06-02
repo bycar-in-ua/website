@@ -1,6 +1,9 @@
 <script setup lang="ts">
 const password = defineModel<string>();
-const props = defineProps<{ placeholder?: string }>();
+const props = defineProps<{
+  placeholder?: string;
+  size?: "xs" | "sm" | "md" | "lg" | "xl";
+}>();
 const show = ref(false);
 </script>
 
@@ -9,7 +12,7 @@ const show = ref(false);
     v-model="password"
     :placeholder="props.placeholder ?? 'Введіть ваш пароль'"
     class="w-full"
-    size="xl"
+    :size="props.size ?? 'xl'"
     :type="show ? 'text' : 'password'"
   >
     <template #trailing>
