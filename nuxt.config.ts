@@ -22,6 +22,8 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
+    youtubeApiKey: process.env.YOUTUBE_API_KEY,
+
     public: {
       stage: process.env.STAGE ?? "dev",
       apiHost: process.env.API_URL,
