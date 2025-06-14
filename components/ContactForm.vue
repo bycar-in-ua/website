@@ -24,24 +24,33 @@ const validate = (state: Partial<FormState>): FormError[] => {
     errors.push({ path: "name", message: "Будь ласка, вкажіть ім'я" });
   }
 
-  if (!state.phone) {
+  const phone = state?.phone;
+
+  if (!phone) {
     errors.push({
       path: "phone",
       message: "Будь ласка, вкажіть номер телефону",
     });
+
+    return errors;
   }
 
-  if (!/^\d{10,12}$/.test(state?.phone?.replace(/\D/g, "") ?? "")) {
-    errors.push({
-      path: "phone",
-      message: "Введіть коректний номер телефону",
-    });
-  }
-
-  if (/[a-zA-Z]/.test(state?.phone ?? "")) {
+  if (/[a-zA-Z]/.test(phone)) {
     errors.push({
       path: "phone",
       message: "Номер телефону не повинен містити літер",
+    });
+  }
+
+  const isTooShort = phone.startsWith("0") && phone.length < 10;
+  const isNotMatchingFormat = !/^\d{10,12}$/.test(
+    state?.phone?.replace(/\D/g, "") ?? "",
+  );
+
+  if (isTooShort || isNotMatchingFormat) {
+    errors.push({
+      path: "phone",
+      message: "Введіть коректний номер телефону",
     });
   }
 
