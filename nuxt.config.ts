@@ -26,13 +26,14 @@ export default defineNuxtConfig({
       stage: process.env.STAGE ?? "dev",
       apiHost: process.env.API_URL,
       cdnHost: process.env.CDN_URL,
-      tgBotUrl: process.env.TG_BOT_URL,
       sentryDsn: process.env.SENTRY_DSN,
       metapixel: process.env.META_PIXEL_ID
         ? { default: { id: process.env.META_PIXEL_ID } }
         : undefined,
       bycarChannelId: process.env.BYCAR_CHANNEL_ID,
       youtubeApiKey: process.env.YOUTUBE_API_KEY,
+      tgBotToken: process.env.TG_BOT_TOKEN,
+      tgLeadsChannelId: process.env.TG_LEADS_CHANNEL_ID,
     },
   },
 
