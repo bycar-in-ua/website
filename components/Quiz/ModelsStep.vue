@@ -4,15 +4,16 @@ import QuizButton from "./QuizButton.vue";
 import CdnImage from "../CdnImage.vue";
 import { getPriceRange } from "../UI/CarCard/helpers";
 
-const { $bycarApi } = useNuxtApp();
 const { gtag } = useGtag();
 
 const quizStore = useQuizStore();
 
+const vehiclesService = useVehiclesService();
+
 const { data } = useAsyncData(
   "search-cars-by-brand",
   () =>
-    $bycarApi.searchVehicles({
+    vehiclesService.searchVehicles({
       filters: {
         brand: quizStore.filters.brand,
       },

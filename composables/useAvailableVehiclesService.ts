@@ -1,15 +1,13 @@
-import { ofetch } from "ofetch";
-import { AvailableVehiclesService } from "@bycar-in-ua/sdk";
+import { AvailableVehiclesPublicService } from "@bycar-in-ua/sdk";
 
-let availableVehicleService: AvailableVehiclesService;
+let availableVehicleService: AvailableVehiclesPublicService;
 
 export function useAvailableVehiclesService() {
   if (!availableVehicleService) {
     const config = useRuntimeConfig();
 
-    availableVehicleService = new AvailableVehiclesService(
+    availableVehicleService = AvailableVehiclesPublicService.create(
       config.public.apiHost,
-      ofetch,
     );
   }
 
