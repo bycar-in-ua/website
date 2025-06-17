@@ -1,5 +1,3 @@
-import { BrandPublicService } from "@bycar-in-ua/sdk";
-import { ofetch } from "ofetch";
 import { generatePageTitle } from "@/utils/seo";
 
 type SeoMetaInput = Parameters<typeof useSeoMeta>[0] & {
@@ -31,9 +29,7 @@ export async function useCatalogSeo(
     };
   }
 
-  const config = useRuntimeConfig();
-
-  const brandService = new BrandPublicService(config.public.apiHost, ofetch);
+  const brandService = useBrandService();
 
   const brand = await brandService.getBrand(Number(brandId));
 
