@@ -1,8 +1,9 @@
-import { ofetch } from "ofetch";
 import type { Brand, Vehicle, VehiclesSearchSchema } from "@bycar-in-ua/sdk";
-import { BodyType, BrandPublicService, BycarPublicApi } from "@bycar-in-ua/sdk";
+import { BodyType } from "@bycar-in-ua/sdk";
 import sample from "lodash/sample.js";
 import type { YouTubeVideoItem } from "@/components/UI/VideoCard";
+import { useBrandService } from "~/composables/useBrandServuce";
+import { useVehiclesService } from "~/composables/useVehiclesService";
 
 export type HomepageData = {
   latestYoutubeVideos: YouTubeVideoItem[];
@@ -60,20 +61,16 @@ export default defineCachedEventHandler(
   async (event): Promise<HomepageData> => {
     const config = useRuntimeConfig(event);
 
-    const brandService = new BrandPublicService(config.public.apiHost, ofetch);
-
-    const bycarApi = new BycarPublicApi(
-      { apiHost: config.public.apiHost },
-      ofetch,
-    );
+    const brandService = useBrandService();
+    const vehiclesService = useVehiclesService();
 
     const { filters, ...latestItemsData } =
       sample(recentVehiclesQueries) ?? recentVehiclesQueries[0];
 
     const [allVehicles, featuredVehicles, brands, youtubeVideos] =
       await Promise.all([
-        bycarApi.searchVehicles({ pagination: { limit: 1 } }),
-        bycarApi.searchVehicles({
+        vehiclesService.searchVehicles({ pagination: { limit: 1 } }),
+        vehiclesService.searchVehicles({
           filters,
           pagination: { limit: 8 },
           order: ["yearFrom-desc"],
