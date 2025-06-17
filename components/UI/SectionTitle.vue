@@ -1,13 +1,15 @@
 <script setup lang="ts">
-defineProps<{ title: string; extraLink?: string }>();
+defineProps<{ title?: string; extraLink?: string }>();
 </script>
 
 <template>
   <div class="flex items-center mb-7">
-    <h2
-      class="text-xl sm:text-2xl md:text-3xl font-bold flex-grow"
-      v-text="title"
-    />
+    <slot name="title">
+      <h2
+        class="text-xl sm:text-2xl md:text-3xl font-bold flex-grow"
+        v-text="title"
+      />
+    </slot>
 
     <slot name="extra">
       <UButton

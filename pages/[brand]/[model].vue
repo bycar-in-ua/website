@@ -9,6 +9,7 @@ import AvailableCars from "@/components/Single/AvailableCars.vue";
 import ContactFormSection from "~/components/ContactFormSection.vue";
 import BluredEllipse from "@/components/UI/BluredEllipse.vue";
 import QuickContactModal from "@/components/Single/QuickContactModal.vue";
+import SimilarCars from "@/components/Single/SimilarCars.vue";
 import { getCarTitle, getComplectationsSummary } from "@/utils/carHelpers";
 import { generatePageTitle } from "@/utils/seo";
 import { discounts } from "@/components/Single/discounts.temp";
@@ -17,13 +18,14 @@ definePageMeta({
   name: "SingleCar",
 });
 
-const { $bycarApi } = useNuxtApp();
+const vehiclesService = useVehiclesService();
+
 const availableVehiclesService = useAvailableVehiclesService();
 
 const route = useRoute();
 
 const { data, error } = await useAsyncData(`${route.params.model}`, () =>
-  $bycarApi.getVehicleBySlug(route.params.model as string),
+  vehiclesService.getVehicleBySlug(route.params.model as string),
 );
 
 if (!data.value) {
@@ -32,6 +34,11 @@ if (!data.value) {
     fatal: true,
   });
 }
+
+const { data: similarVehicles } = await useAsyncData(
+  `${route.params.model}-similar`,
+  () => vehiclesService.getSimilarVehicles(route.params.model as string),
+);
 
 const { data: availableVehicles } = useAsyncData(
   `${route.params.model}-availability`,
@@ -65,7 +72,7 @@ const hasSpecialOfferings = computed(() =>
 
 const activeComplectation = ref<Complectation | undefined>(
   car.value.complectations?.find((c) => c.base) ||
-    car.value.complectations?.[0],
+  car.value.complectations?.[0],
 );
 const activePowerUnit = ref<PowerUnit | undefined>(
   activeComplectation.value?.powerUnits?.[0],
@@ -185,5 +192,7 @@ useHead({
         />
       </template>
     </ContactFormSection>
+
+    <SimilarCars :cars="similarVehicles ?? []" :main-car="car" />
   </main>
 </template>
