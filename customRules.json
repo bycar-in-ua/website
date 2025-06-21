@@ -1,0 +1,12 @@
+[
+  {
+    "source": "https://www.bycar.in.ua/<*>",
+    "status": "301",
+    "target": "https://bycar.in.ua/<*>"
+  },
+  {
+    "source": "/<*>",
+    "status": "404-200",
+    "target": "/index.html"
+  }
+]
