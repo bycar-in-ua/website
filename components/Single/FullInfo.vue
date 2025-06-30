@@ -1,10 +1,6 @@
 <script setup lang="ts">
-import type {
-  Complectation,
-  OptionCategory,
-  PowerUnit,
-  Vehicle,
-} from "@bycar-in-ua/sdk";
+import type { Complectation, PowerUnit, Vehicle } from "@bycar-in-ua/sdk";
+import { OptionsPublicService } from "@bycar-in-ua/sdk";
 import CollapsibleTitle from "@/components/UI/CollapsibleTitle.vue";
 import groupBy from "lodash/groupBy.js";
 import SectionTitle from "./SectionTitle.vue";
@@ -24,14 +20,14 @@ const props = defineProps<{
   powerUnit?: PowerUnit | null;
 }>();
 
-const { $bycarApi } = useNuxtApp();
+const config = useRuntimeConfig();
+
+const optionsService = OptionsPublicService.create(config.public.apiHost);
 
 const { data: optionCategories } = useAsyncData(
   "option-categories",
   async () => {
-    const optCats = await $bycarApi.client<OptionCategory[]>(
-      "option-categories",
-    );
+    const optCats = await optionsService.getAllOptionCategories();
 
     return new Map(optCats.map((cat) => [cat.id, cat.displayName]));
   },
@@ -116,18 +112,22 @@ const optionsByCategories = computed(() => {
     </SectionTitle>
 
     <div v-for="(blocks, i) in optionsByCategories" :key="i">
-      <template
-        v-for="[catId, options] in blocks"
-        :key="catId"
-      >
+      <template v-for="[catId, options] in blocks" :key="catId">
         <UCollapsible :default-open="false">
           <template #default="{ open }">
-            <CollapsibleTitle :open="open" :title="optionCategories.get(Number(catId))" />
+            <CollapsibleTitle
+              :open="open"
+              :title="optionCategories.get(Number(catId))"
+            />
           </template>
 
           <template #content>
             <ul class="list-disc list-inside">
-              <li v-for="option in options" :key="option.id" class="text-sm my-2">
+              <li
+                v-for="option in options"
+                :key="option.id"
+                class="text-sm my-2"
+              >
                 {{ option.displayName }}
               </li>
             </ul>
