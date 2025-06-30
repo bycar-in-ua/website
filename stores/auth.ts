@@ -3,15 +3,15 @@ import type { LoginUserPayload, ReducedUser } from "@bycar-in-ua/sdk";
 export const useAuthStore = defineStore("auth", () => {
   const user = ref<ReducedUser | null>(null);
 
-  const { $auth } = useNuxtApp();
+  const authService = useAuthService();
 
   const login = async (payload: LoginUserPayload) => {
-    const currentUser = await $auth.login(payload);
+    const currentUser = await authService.login(payload);
     user.value = currentUser;
   };
 
   const logout = async () => {
-    await $auth.logout();
+    await authService.logout();
     user.value = null;
   };
 

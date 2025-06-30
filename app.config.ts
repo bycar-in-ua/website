@@ -12,6 +12,13 @@ export default defineAppConfig({
       slots: {
         base: "cursor-pointer",
       },
+      compoundVariants: {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        color: "secondary",
+        variant: "solid",
+        class: "text-gray-950",
+      },
     },
     input: {
       variants: {
