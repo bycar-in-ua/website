@@ -1,15 +1,31 @@
 <script setup lang="ts">
+import { useElementVisibility } from "@vueuse/core";
 import Quiz from "~/components/Quiz/Quiz.vue";
 
 defineProps<{ totalCars?: number }>();
+
+const { $setHeaderMode } = useNuxtApp();
+
+const heroSection = useTemplateRef("heroSection");
+
+if (import.meta.client) {
+  const targetIsVisible = useElementVisibility(heroSection);
+
+  watchEffect(() => {
+    $setHeaderMode(targetIsVisible.value ? "dark" : "light");
+  });
+}
 </script>
 
 <template>
   <section
+    ref="heroSection"
     class="hero-section h-screen sm:h-auto max-h-[1000px] sm:max-h-screen pt-32 lg:pt-40 xl:pt-[12%] pb-[33%] text-white bg-cover bg-position-[right_-16rem_bottom] sm:bg-position-[center_bottom]"
   >
     <div class="container flex flex-col sm:flex-row gap-2 sm:justify-between">
-      <h1 class="text-4xl md:text-5xl lg:text-7xl font-semibold break-all">
+      <h1
+        class="text-4xl md:text-5xl lg:text-7xl font-semibold break-all sm:break-normal"
+      >
         Мультибрендовий
         <br />
         онлайн автосалон

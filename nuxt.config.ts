@@ -11,7 +11,7 @@ export default defineNuxtConfig({
     "@sentry/nuxt/module",
     "nuxt-meta-pixel",
   ],
-  devtools: { enabled: true },
+  devtools: { enabled: Boolean(process.env.NUXT_DEVTOOLS_ENABLED) },
 
   css: ["@/assets/css/global.css"],
 
