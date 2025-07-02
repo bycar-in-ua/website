@@ -10,7 +10,7 @@ export function useHeaderStyle() {
 
   watchEffect(() => {
     floating.value = y.value > 0;
-    visible.value = y.value < prevY;
+    visible.value = y.value === 0 || y.value < prevY;
 
     prevY = y.value;
   });

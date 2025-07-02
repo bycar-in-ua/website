@@ -34,13 +34,13 @@ const menuItems: NavigationMenuItem[] = [
     variant="link"
     color="neutral"
     :ui="{
-      root: `hidden md:block desktop-nav ${preset}`,
+      root: `hidden md:block mr-auto desktop-nav ${preset}`,
       item: 'py-0',
     }"
   />
 
   <ClientOnly>
-    <MenuToggler class="ml-auto md:hidden" />
+    <MenuToggler class="md:hidden" />
   </ClientOnly>
 
   <USlideover
