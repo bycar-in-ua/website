@@ -14,6 +14,10 @@ if (import.meta.client) {
   watchEffect(() => {
     $setHeaderMode(targetIsVisible.value ? "dark" : "light");
   });
+
+  onBeforeUnmount(() => {
+    $setHeaderMode("light");
+  });
 }
 </script>
 
