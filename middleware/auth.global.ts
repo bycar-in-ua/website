@@ -1,8 +1,11 @@
 export default defineNuxtRouteMiddleware(async (to) => {
-  const app = useNuxtApp();
   const authStore = useAuthStore();
 
-  const user = await app.$auth.getUser();
+  const authService = useAuthService();
+
+  // const user = await authService.authenticate();
+
+  const user = null;
 
   console.log("user", user);
 

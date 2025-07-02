@@ -42,12 +42,12 @@ const { data } = await useFetch<HomepageData>("/api/homepage-data", {
 
 <template>
   <main
-    class="container pt-20 md:pt-10 lg:pt-0 overflow-x-hidden lg:overflow-x-visible"
+    class="overflow-x-hidden lg:overflow-x-visible"
   >
     <Hero :total-cars="data.totalItems" />
-    <LatestVideos :videos="data.latestYoutubeVideos" />
-    <Latest v-bind="data.latestItems" />
-    <ContactForm page="Головна сторінка" :show-affix="false" />
-    <Brands :established-brands="data.establishedBrands" />
+    <LatestVideos :videos="data.latestYoutubeVideos" class="container" />
+    <Latest v-bind="data.latestItems" class="container" />
+    <ContactForm page="Головна сторінка" :show-affix="false" class="container" />
+    <Brands :established-brands="data.establishedBrands" class="container" />
   </main>
 </template>

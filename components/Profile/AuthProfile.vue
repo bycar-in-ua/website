@@ -25,9 +25,8 @@ function openModal(modal: "login" | "signup") {
   <ProfileButton v-if="authStore.user" />
 
   <UModal v-else v-model:open="open" :ui="{ content: 'overflow-y-scroll' }">
-    <UButton variant="outline" size="xl" class="bg-white/90 p-2">
+    <UButton variant="outline">
       <UIcon name="i-heroicons-arrow-right-end-on-rectangle" class="w-6 h-6" />
-      <span class="hidden md:block"> Профіль </span>
     </UButton>
 
     <template #content>

@@ -5,6 +5,8 @@ import Socials from "@/components/Footer/Socials.vue";
 import Copyright from "@/components/Footer/Copyright.vue";
 import { useMenuShowing } from "@/composables/useMenuShowing";
 
+defineProps<{ preset?: "light" | "dark" }>();
+
 const { t } = useI18n();
 
 const showMobileMenu = useMenuShowing();
@@ -30,15 +32,15 @@ const menuItems: NavigationMenuItem[] = [
     orientation="horizontal"
     :items="menuItems"
     variant="link"
-    highlight
+    color="neutral"
     :ui="{
-      root: 'hidden md:block header-nav',
-      link: 'after:h-0.5',
+      root: `hidden md:block mr-auto desktop-nav ${preset}`,
+      item: 'py-0',
     }"
   />
 
   <ClientOnly>
-    <MenuToggler class="ml-auto md:hidden" />
+    <MenuToggler class="md:hidden" />
   </ClientOnly>
 
   <USlideover
@@ -75,8 +77,13 @@ const menuItems: NavigationMenuItem[] = [
 </template>
 
 <style>
-.header-nav {
-  --ui-text-muted: var(--color-black);
+.desktop-nav {
+  --ui-text-muted: var(--color-gray-600);
   --ui-text-highlighted: var(--ui-primary);
+}
+
+.dark .desktop-nav {
+  --ui-text-muted: var(--color-gray-300);
+  --ui-text-highlighted: var(--color-white);
 }
 </style>
