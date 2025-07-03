@@ -39,6 +39,10 @@ const menuItems: NavigationMenuItem[] = [
     }"
   />
 
+  <UButton to="/profile" variant="link" color="neutral">
+    Account
+  </UButton>
+
   <ClientOnly>
     <MenuToggler class="md:hidden" />
   </ClientOnly>

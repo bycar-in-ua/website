@@ -23,9 +23,7 @@ const { $headerMode } = useNuxtApp();
     >
       <Logo />
       <Navigation />
-      <div class="flex justify-end md:w-full">
-        <AuthProfile />
-      </div>
+      <AuthProfile />
     </div>
   </header>
 </template>
