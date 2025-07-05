@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import InputPassword from "../UI/InputPassword.vue";
+import InputPassword from "@/components/UI/InputPassword.vue";
 import SectionContainer from "./SectionContainer.vue";
 </script>
 

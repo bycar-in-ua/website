@@ -4,6 +4,7 @@ import MenuToggler from "@/components/UI/Menu/MenuToggler.vue";
 import Socials from "@/components/Footer/Socials.vue";
 import Copyright from "@/components/Footer/Copyright.vue";
 import { useMenuShowing } from "@/composables/useMenuShowing";
+import AccountButton from "@/layers/profile/components/AccountButton.vue";
 
 defineProps<{ preset?: "light" | "dark" }>();
 
@@ -34,17 +35,19 @@ const menuItems: NavigationMenuItem[] = [
     variant="link"
     color="neutral"
     :ui="{
-      root: `hidden md:block mr-auto desktop-nav ${preset}`,
+      root: `hidden md:block desktop-nav ${preset}`,
       item: 'py-0',
     }"
   />
 
-  <UButton to="/profile" variant="link" color="neutral">
-    Account
-  </UButton>
+  <AccountButton
+    class="desktop-nav text-muted hover:text-highlighted ml-auto"
+  />
 
   <ClientOnly>
-    <MenuToggler class="md:hidden" />
+    <MenuToggler
+      class="md:hidden desktop-nav text-muted hover:text-highlighted"
+    />
   </ClientOnly>
 
   <USlideover

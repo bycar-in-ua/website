@@ -1,7 +1,18 @@
 import type { LoginUserPayload, ReducedUser } from "@bycar-in-ua/sdk";
 
+type LoginModalState = {
+  open: boolean;
+  redirect?: string;
+};
+
 export const useAuthStore = defineStore("auth", () => {
+  const route = useRoute();
+
   const user = ref<ReducedUser | null>(null);
+  const loginModal = reactive<LoginModalState>({
+    open: route.query.loginModal === "open",
+    redirect: route.query.redirect as string | undefined,
+  });
 
   const authService = useAuthService();
 
@@ -15,24 +26,10 @@ export const useAuthStore = defineStore("auth", () => {
     user.value = null;
   };
 
-  const getProfileName = () => {
-    if (!user.value) {
-      return "Профіль";
-    }
-
-    const { email, firstName, lastName } = user.value;
-
-    if (!firstName && !lastName) {
-      return email;
-    }
-
-    return [firstName ?? "", lastName ?? ""].join(" ");
-  };
-
   return {
     user,
+    loginModal,
     login,
     logout,
-    getProfileName,
   };
 });

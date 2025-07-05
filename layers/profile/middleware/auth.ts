@@ -47,8 +47,12 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
   const authService = new AuthService(bycarFetchClient);
 
+  const authStore = useAuthStore();
+
   try {
     const user = await authService.authenticate();
+
+    authStore.user = user;
 
     if (!user) {
       throw new Error("User not authenticated");
@@ -56,10 +60,12 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
     return true;
   } catch {
+    authStore.loginModal.open = true;
+    authStore.loginModal.redirect = to.fullPath;
     const redirectPath =
       from.fullPath && from.fullPath !== to.fullPath ? from.fullPath : "/";
 
-    navigateTo({
+    return navigateTo({
       path: redirectPath,
       query: { redirect: to.fullPath, loginModal: "open" },
     });

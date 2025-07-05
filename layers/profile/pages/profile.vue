@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AccoutnSettings from "@/components/Profile/AccoutnSettings.vue";
+import AccountSettings from "~/layers/profile/components/AccountSettings.vue";
 import type { TabsItem } from "@nuxt/ui";
 
 definePageMeta({
@@ -37,14 +37,14 @@ const items: TabsItem[] = [
           <UIcon v-else name="i-heroicons-user-circle" class="min-w-20 h-20" />
 
           <div class="font-semibold text-xl sm:text-3xl text-gray-900">
-            {{ authStore.getProfileName() }}
+            <!-- {{ authStore.getProfileName() }} -->
           </div>
         </div>
       </div>
 
       <UTabs variant="link" :items="items" class="w-full gap-8">
         <template #personal>
-          <AccoutnSettings />
+          <AccountSettings />
         </template>
       </UTabs>
     </div>

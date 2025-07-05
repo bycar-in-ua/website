@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import ModalCloseButton from "./ModalCloseButton.vue";
-import Login from "./Login.vue";
-import Signup from "./Signup.vue";
-import ProfileButton from "./ProfileButton.vue";
+import Login from "./LogIn.vue";
+import Signup from "./SignUp.vue";
 
-const open = defineModel<boolean>("open");
 const isLoginModalOpen = ref(false);
 const isSignupModalOpen = ref(false);
 
@@ -22,24 +20,21 @@ function openModal(modal: "login" | "signup") {
 </script>
 
 <template>
-  <ProfileButton v-if="authStore.user" />
-
-  <UModal v-else v-model:open="open" :ui="{ content: 'overflow-y-scroll' }">
-    <UButton variant="outline">
-      <UIcon name="i-heroicons-arrow-right-end-on-rectangle" class="w-6 h-6" />
-    </UButton>
-
+  <UModal
+    v-model:open="authStore.loginModal.open"
+    :ui="{ content: 'overflow-y-scroll' }"
+  >
     <template #content>
-      <ModalCloseButton v-model:open="open" />
+      <ModalCloseButton v-model:open="authStore.loginModal.open" />
 
       <Signup
         v-if="isSignupModalOpen"
-        v-model:open="open"
+        v-model:open="authStore.loginModal.open"
         @open-login-modal="openModal('login')"
       />
       <Login
         v-else
-        v-model:open="open"
+        v-model:open="authStore.loginModal.open"
         @open-signup-modal="openModal('signup')"
       />
     </template>

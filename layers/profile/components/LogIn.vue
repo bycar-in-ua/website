@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { z } from "zod";
 import type { FetchError } from "ofetch";
-import Google from "../UI/Icons/Google.vue";
-import InputPassword from "../UI/InputPassword.vue";
+import Google from "@/components/UI/Icons/Google.vue";
+import InputPassword from "@/components/UI/InputPassword.vue";
 import ModalHeader from "./ModalHeader.vue";
 
 const open = defineModel<boolean>("open");
@@ -83,7 +83,9 @@ async function googleLogin() {
       </div>
 
       <div class="flex justify-center">
-        <UButton variant="link"> Забули пароль? </UButton>
+        <UButton variant="link">
+          Забули пароль?
+        </UButton>
       </div>
 
       <div class="flex flex-col gap-4">

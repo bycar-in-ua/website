@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { z } from "zod";
 import type { FormSubmitEvent } from "@nuxt/ui";
-import Google from "../UI/Icons/Google.vue";
-import InputPassword from "../UI/InputPassword.vue";
+import Google from "@/components/UI/Icons/Google.vue";
+import InputPassword from "@/components/UI/InputPassword.vue";
 import ModalHeader from "./ModalHeader.vue";
 
 defineEmits(["open-login-modal"]);

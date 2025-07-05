@@ -5,8 +5,12 @@
       <Header />
       <NuxtPage />
       <Footer />
-      <CookieBanner v-if="!cookieAccepted" @accept-cookie="acceptCookieHandler" />
+      <CookieBanner
+        v-if="!cookieAccepted"
+        @accept-cookie="acceptCookieHandler"
+      />
     </NuxtLayout>
+    <SignInModal />
   </UApp>
 </template>
 
@@ -14,6 +18,7 @@
 import Header from "@/components/Header/index.vue";
 import Footer from "@/components/Footer/index.vue";
 import CookieBanner from "@/components/CookieBanner.vue";
+import SignInModal from "@/layers/profile/components/SignInModal.vue";
 
 useHead({
   htmlAttrs: {
