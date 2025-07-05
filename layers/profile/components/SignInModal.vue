@@ -1,42 +1,54 @@
 <script setup lang="ts">
-import ModalCloseButton from "./ModalCloseButton.vue";
-import Login from "./LogIn.vue";
-import Signup from "./SignUp.vue";
+import BluredEllipseBlueAndYellow from "@/components/UI/BluredEllipseBlueAndYellow.vue";
+import Logo from "@/components/UI/Logo.vue";
+import LoginForm from "./LoginForm.vue";
+import SignUpForm from "./SignUpForm.vue";
 
-const isLoginModalOpen = ref(false);
-const isSignupModalOpen = ref(false);
+type Stage =
+  | "login"
+  | "signup"
+  | "confirm-email"
+  | "confirm-phone"
+  | "reset-password";
+
+const stage = ref<Stage>("login");
+
+const stageComponents: Record<Stage, Component> = {
+  "login": LoginForm,
+  "signup": SignUpForm,
+  "confirm-email": LoginForm,
+  "confirm-phone": LoginForm,
+  "reset-password": LoginForm,
+};
 
 const authStore = useAuthStore();
-
-function openModal(modal: "login" | "signup") {
-  if (modal === "login") {
-    isLoginModalOpen.value = true;
-    isSignupModalOpen.value = false;
-  } else {
-    isLoginModalOpen.value = false;
-    isSignupModalOpen.value = true;
-  }
-}
 </script>
 
 <template>
   <UModal
     v-model:open="authStore.loginModal.open"
-    :ui="{ content: 'overflow-y-scroll' }"
+    :loading="true"
+    :ui="{ content: 'overflow-y-auto divide-none' }"
   >
     <template #content>
-      <ModalCloseButton v-model:open="authStore.loginModal.open" />
+      <div class="relative flex justify-center pt-6">
+        <BluredEllipseBlueAndYellow
+          class="absolute top-0 left-1/2 -translate-x-1/2 -z-10"
+        />
 
-      <Signup
-        v-if="isSignupModalOpen"
-        v-model:open="authStore.loginModal.open"
-        @open-login-modal="openModal('login')"
-      />
-      <Login
-        v-else
-        v-model:open="authStore.loginModal.open"
-        @open-signup-modal="openModal('signup')"
-      />
+        <UButton
+          icon="i-heroicons-x-mark"
+          class="absolute top-2 right-2"
+          variant="ghost"
+          @click="authStore.loginModal.open = false"
+        />
+
+        <Logo />
+      </div>
+
+      <div class="p-6">
+        <component :is="stageComponents[stage]" />
+      </div>
     </template>
   </UModal>
 </template>

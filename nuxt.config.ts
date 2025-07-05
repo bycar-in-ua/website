@@ -75,6 +75,10 @@ export default defineNuxtConfig({
     strategy: "no_prefix",
   },
 
+  pinia: {
+    storesDirs: ["./stores/**", "./layers/**/stores/**"],
+  },
+
   robots: {
     disallow: process.env.STAGE === "production" ? undefined : "/",
   },

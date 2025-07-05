@@ -17,8 +17,7 @@ export const useAuthStore = defineStore("auth", () => {
   const authService = useAuthService();
 
   const login = async (payload: LoginUserPayload) => {
-    const currentUser = await authService.login(payload);
-    user.value = currentUser;
+    user.value = await authService.login(payload);
   };
 
   const logout = async () => {

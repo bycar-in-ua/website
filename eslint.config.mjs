@@ -7,11 +7,12 @@ export default withNuxt()
         "warn",
         {
           singleline: {
-            max: 3,
+            max: 4,
           },
         },
       ],
       "vue/html-self-closing": ["off"],
+      "vue/singleline-html-element-content-newline": ["off"],
     },
   })
   .override("nuxt/stylistic", {
@@ -21,7 +22,15 @@ export default withNuxt()
         "after",
         { overrides: { "?": "before", ":": "before" } },
       ],
-      "@stylistic/indent": ["error", 2, { FunctionExpression: { parameters: "off" }, SwitchCase: 1, offsetTernaryExpressions: true }],
+      "@stylistic/indent": [
+        "error",
+        2,
+        {
+          FunctionExpression: { parameters: "off" },
+          SwitchCase: 1,
+          offsetTernaryExpressions: true,
+        },
+      ],
       "@stylistic/quotes": ["error", "double", { avoidEscape: true }],
     },
   })

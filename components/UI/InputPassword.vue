@@ -1,19 +1,28 @@
 <script setup lang="ts">
 const password = defineModel<string>();
-const props = defineProps<{
-  placeholder?: string;
-  size?: "xs" | "sm" | "md" | "lg" | "xl";
-}>();
+
+withDefaults(
+  defineProps<{
+    placeholder?: string;
+    size?: "xs" | "sm" | "md" | "lg" | "xl";
+  }>(),
+  {
+    placeholder: "Введіть ваш пароль",
+    size: "xl",
+  },
+);
+
 const show = ref(false);
 </script>
 
 <template>
   <UInput
     v-model="password"
-    :placeholder="props.placeholder ?? 'Введіть ваш пароль'"
     class="w-full"
-    :size="props.size ?? 'xl'"
+    :placeholder
+    :size
     :type="show ? 'text' : 'password'"
+    autocomplete="password"
   >
     <template #trailing>
       <UButton

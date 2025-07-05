@@ -26,7 +26,8 @@
     "lodash": "^4.17.21",
     "nuxt": "^3.17.5",
     "nuxt-gtag": "^3.0.2",
-    "nuxt-meta-pixel": "^2.0.2"
+    "nuxt-meta-pixel": "^2.0.2",
+    "valibot": "^1.1.0"
   },
   "dependencies": {
     "@pinia/nuxt": "^0.11.0",

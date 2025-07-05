@@ -1,16 +1,14 @@
 <script setup lang="ts">
 import { z } from "zod";
-import type { FetchError } from "ofetch";
+import type { FormSubmitEvent } from "@nuxt/ui";
 import Google from "@/components/UI/Icons/Google.vue";
 import InputPassword from "@/components/UI/InputPassword.vue";
-import ModalHeader from "./ModalHeader.vue";
 
-const open = defineModel<boolean>("open");
-defineEmits(["open-signup-modal"]);
-
-const authStore = useAuthStore();
+defineEmits(["open-login-modal"]);
 
 const schema = z.object({
+  firstName: z.string().optional(),
+  secondName: z.string().optional(),
   email: z
     .string({ required_error: "Це обовʼязкове поле" })
     .email("Недійсний email"),
@@ -24,39 +22,22 @@ const schema = z.object({
 type Schema = z.output<typeof schema>;
 
 const state = reactive<Partial<Schema>>({
+  firstName: undefined,
+  secondName: undefined,
   email: undefined,
   password: undefined,
 });
 
 const toast = useToast();
-
-async function onSubmit() {
-  const { email, password } = state;
-
-  if (!email || !password) {
-    return;
-  }
-
-  try {
-    await authStore.login({ email, password });
-
-    open.value = false;
-
-    navigateTo("/profile");
-  } catch (error) {
-    const fetchError = error as FetchError<{ message?: string }>;
-
-    const message =
-      fetchError.response?._data?.message ?? "Упс, щось пішло не так.";
-
-    toast.add({
-      title: "Помилка",
-      description: message,
-      color: "error",
-    });
-  }
+async function onSubmit(event: FormSubmitEvent<Schema>) {
+  // TODO:
+  toast.add({
+    title: "Success",
+    description: "The form has been submitted.",
+    color: "success",
+  });
+  console.log(event.data);
 }
-
 async function googleLogin() {
   // TODO:
 }
@@ -64,10 +45,28 @@ async function googleLogin() {
 
 <template>
   <div class="flex flex-col gap-8 p-6">
-    <ModalHeader title="Вхід до акаунту" />
+    <!-- <ModalHeader title="Реєстрація" /> -->
 
     <UForm :schema="schema" :state="state" class="space-y-6" @submit="onSubmit">
       <div class="space-y-4">
+        <UFormField label="Імʼя" name="firstName">
+          <UInput
+            v-model="state.firstName"
+            placeholder="Введіть ваше імʼя"
+            class="w-full"
+            size="xl"
+            type="email"
+          />
+        </UFormField>
+        <UFormField label="Прізвище" name="secondName">
+          <UInput
+            v-model="state.secondName"
+            placeholder="Введіть ваше прізвище"
+            class="w-full"
+            size="xl"
+            type="email"
+          />
+        </UFormField>
         <UFormField label="Email" name="email">
           <UInput
             v-model="state.email"
@@ -78,19 +77,16 @@ async function googleLogin() {
           />
         </UFormField>
         <UFormField label="Пароль" name="password">
-          <InputPassword v-model="state.password" />
+          <InputPassword
+            v-model="state.password"
+            placeholder="Створіть пароль"
+          />
         </UFormField>
-      </div>
-
-      <div class="flex justify-center">
-        <UButton variant="link">
-          Забули пароль?
-        </UButton>
       </div>
 
       <div class="flex flex-col gap-4">
         <UButton class="flex justify-center h-11" type="submit">
-          Увійти
+          Зареєструватися
         </UButton>
         <UButton
           variant="outline"
@@ -98,14 +94,14 @@ async function googleLogin() {
           @click="googleLogin"
         >
           <Google />
-          <span>Увійти через Google</span>
+          <span>Зареєструватися через Google</span>
         </UButton>
       </div>
     </UForm>
     <div class="flex justify-center items-center text-sm">
-      <span class="text-gray-500">Немає акаунту?</span>
-      <UButton variant="link" @click="$emit('open-signup-modal')">
-        Зареєструватися
+      <span class="text-gray-500">Вже є акаунт?</span>
+      <UButton variant="link" @click="$emit('open-login-modal')">
+        Увійти
       </UButton>
     </div>
   </div>
