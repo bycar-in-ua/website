@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import AccoutnSettings from "../../components/Profile/AccoutnSettings.vue";
+import AccoutnSettings from "@/components/Profile/AccoutnSettings.vue";
 import type { TabsItem } from "@nuxt/ui";
+
+definePageMeta({
+  middleware: "auth",
+});
 
 const authStore = useAuthStore();
 
-const items = ref<TabsItem[]>([
+const items: TabsItem[] = [
   {
     label: "Персональні дані",
-    component: AccoutnSettings,
+    slot: "personal",
   },
-  {
-    label: "Пропозиції",
-    disabled: true,
-  },
-]);
+];
 </script>
 
 <template>
@@ -24,7 +24,7 @@ const items = ref<TabsItem[]>([
           <img
             src="/images/profile-bg.png"
             alt="Profile background"
-            class="h-full object-cover"
+            class="h-full w-full object-cover"
           />
         </div>
 
@@ -43,8 +43,8 @@ const items = ref<TabsItem[]>([
       </div>
 
       <UTabs variant="link" :items="items" class="w-full gap-8">
-        <template #content="{ item }">
-          <component :is="item.component" />
+        <template #personal>
+          <AccoutnSettings />
         </template>
       </UTabs>
     </div>
