@@ -9,8 +9,10 @@ const loginSchema = v.object({
   password: passwordSchema,
 });
 
+type LoginSchema = v.InferOutput<typeof loginSchema>;
+
 export function useLoginForm() {
-  const state = reactive({
+  const state = reactive<LoginSchema>({
     emailOrPhone: "",
     password: "",
   });

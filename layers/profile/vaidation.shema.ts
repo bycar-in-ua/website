@@ -24,5 +24,9 @@ export const emailOrPhoneSchema = v.union(
 
 export const passwordSchema = v.pipe(
   v.string(defaultMandatoryStringMessage),
-  v.minLength(1, "Пароль не може бути пустим"),
+  v.minLength(8, "Пароль не може бути коротшим за 8 символів"),
 );
+
+export function isEmail(value: string) {
+  return v.safeParse(emailShema, value).success;
+}

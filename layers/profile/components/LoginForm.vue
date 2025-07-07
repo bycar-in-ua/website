@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import Google from "@/components/UI/Icons/Google.vue";
 import InputPassword from "@/components/UI/InputPassword.vue";
 import { useLoginForm } from "@/layers/profile/composables/useLoginForm";
+import { useSignInStage } from "@/layers/profile/composables/useSignInStage";
+import GoogleSignIn from "./GoogleSignIn.vue";
 
 const { state, loginSchema, login, loading } = useLoginForm();
+
+const { setStage } = useSignInStage();
 </script>
 
 <template>
@@ -39,14 +42,13 @@ const { state, loginSchema, login, loading } = useLoginForm();
 
     <UButton size="xl" block type="submit" :loading> Увійти </UButton>
 
-    <UButton variant="outline" color="neutral" size="xl" block disabled>
-      <Google />
-      Увійти через Google
-    </UButton>
+    <GoogleSignIn disabled />
 
     <div class="flex justify-center items-center text-sm mt-4">
       <span class="text-gray-500">Немає акаунту?</span>
-      <UButton variant="link" disabled> Зареєструватися </UButton>
+      <UButton variant="link" @click="setStage('signup')">
+        Зареєструватися
+      </UButton>
     </div>
   </UForm>
 </template>
