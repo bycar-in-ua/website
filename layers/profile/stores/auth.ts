@@ -1,4 +1,4 @@
-import type { LoginUserPayload, ReducedUser } from "@bycar-in-ua/sdk";
+import type { LoginPayload, ReducedUser } from "@bycar-in-ua/sdk";
 
 type LoginModalState = {
   open: boolean;
@@ -16,7 +16,11 @@ export const useAuthStore = defineStore("auth", () => {
 
   const authService = useAuthService();
 
-  const login = async (payload: LoginUserPayload) => {
+  const { execute: authenticate } = useAsyncData("authenticate", async () => {
+    user.value = await authService.authenticate();
+  });
+
+  const login = async (payload: LoginPayload) => {
     user.value = await authService.login(payload);
   };
 
@@ -28,6 +32,7 @@ export const useAuthStore = defineStore("auth", () => {
   return {
     user,
     loginModal,
+    authenticate,
     login,
     logout,
   };

@@ -7,7 +7,7 @@ import {
 
 const signupSchema = v.object({
   name: v.optional(v.string()),
-  emailOrPhone: emailOrPhoneSchema,
+  login: emailOrPhoneSchema,
   password: passwordSchema,
 });
 
@@ -16,7 +16,7 @@ type SignUpSchema = v.InferOutput<typeof signupSchema>;
 export function useSignUpForm() {
   const state = reactive<SignUpSchema>({
     name: "",
-    emailOrPhone: "",
+    login: "",
     password: "",
   });
 
@@ -24,38 +24,39 @@ export function useSignUpForm() {
 
   const authService = useAuthService();
   const authStore = useAuthStore();
+  const { setStage } = useSignInStage();
 
   const { execute: signup, status } = useAsyncData(
     "signup",
     async () => {
-      const isEmailUsed = isEmail(state.emailOrPhone);
+      const isEmailUsed = isEmail(state.login);
 
       const [firstName, lastName] = state.name?.split(" ") || [];
 
       try {
         const newUser = await authService.register({
-          email: isEmailUsed ? state.emailOrPhone : null,
-          phone: isEmailUsed ? null : state.emailOrPhone,
+          email: isEmailUsed ? state.login : null,
+          phone: isEmailUsed ? null : state.login,
           password: state.password,
           firstName,
           lastName,
         });
 
-        authStore.user = await authService.login({
-          email: state.emailOrPhone,
-          password: state.password,
-        });
+        authStore.user = await authService.login(state);
 
         if (isEmailUsed) {
           toast.add({
             title: "Вітаємо з реєстрацією",
-            description: `На пошту ${state.emailOrPhone} було відправлено лист з посиланням для підтвердження реєстрації`,
+            description: `На пошту ${state.login} було відправлено лист з посиланням для підтвердження реєстрації`,
             color: "success",
           });
 
           authStore.loginModal.open = false;
-          navigateTo(authStore.loginModal.redirect || "/profile");
+        } else {
+          setStage("confirm-phone");
         }
+
+        navigateTo(authStore.loginModal.redirect || "/profile");
 
         return newUser;
       } catch (error) {

@@ -24,7 +24,7 @@ const { setStage } = useSignInStage();
 
     <UFormField label="Email або телефон" name="emailOrPhone">
       <UInput
-        v-model="state.emailOrPhone"
+        v-model="state.login"
         placeholder="Введіть ваш email або телефон"
         class="w-full"
         size="xl"

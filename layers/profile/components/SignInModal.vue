@@ -5,14 +5,14 @@ import type { SignInStage } from "@/layers/profile/composables/useSignInStage";
 import { useSignInStageProvider } from "@/layers/profile/composables/useSignInStage";
 import LoginForm from "./LoginForm.vue";
 import SignUpForm from "./SignUpForm.vue";
+import ConfirmPhoneNumber from "./ConfirmPhoneNumber.vue";
 
 const { stage } = useSignInStageProvider();
 
 const stageComponents: Record<SignInStage, Component> = {
   "login": LoginForm,
   "signup": SignUpForm,
-  "confirm-email": LoginForm,
-  "confirm-phone": LoginForm,
+  "confirm-phone": ConfirmPhoneNumber,
   "reset-password": LoginForm,
 };
 

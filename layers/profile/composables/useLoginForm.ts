@@ -5,7 +5,7 @@ import {
 } from "@/layers/profile/vaidation.shema";
 
 const loginSchema = v.object({
-  emailOrPhone: emailOrPhoneSchema,
+  login: emailOrPhoneSchema,
   password: passwordSchema,
 });
 
@@ -13,7 +13,7 @@ type LoginSchema = v.InferOutput<typeof loginSchema>;
 
 export function useLoginForm() {
   const state = reactive<LoginSchema>({
-    emailOrPhone: "",
+    login: "",
     password: "",
   });
 
@@ -24,10 +24,7 @@ export function useLoginForm() {
     "login",
     async () => {
       try {
-        const user = await authService.login({
-          email: state.emailOrPhone,
-          password: state.password,
-        });
+        const user = await authService.login(state);
 
         if (!user) {
           throw new Error("User not authenticated");
