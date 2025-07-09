@@ -1,7 +1,6 @@
 export type SignInStage =
   | "login"
   | "signup"
-  | "confirm-email"
   | "confirm-phone"
   | "reset-password";
 

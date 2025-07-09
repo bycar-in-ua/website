@@ -14,11 +14,19 @@ export const useAuthStore = defineStore("auth", () => {
     redirect: route.query.redirect as string | undefined,
   });
 
+  const name = computed(() =>
+    [user.value?.firstName, user.value?.lastName].filter(Boolean).join(" "),
+  );
+
   const authService = useAuthService();
 
-  const { execute: authenticate } = useAsyncData("authenticate", async () => {
-    user.value = await authService.authenticate();
-  });
+  const { execute: authenticate } = useAsyncData(
+    "authenticate",
+    async () => {
+      user.value = await authService.authenticate();
+    },
+    { immediate: false },
+  );
 
   const login = async (payload: LoginPayload) => {
     user.value = await authService.login(payload);
@@ -27,10 +35,13 @@ export const useAuthStore = defineStore("auth", () => {
   const logout = async () => {
     await authService.logout();
     user.value = null;
+
+    navigateTo("/");
   };
 
   return {
     user,
+    name,
     loginModal,
     authenticate,
     login,
