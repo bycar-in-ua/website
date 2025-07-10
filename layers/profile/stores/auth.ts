@@ -33,10 +33,10 @@ export const useAuthStore = defineStore("auth", () => {
   };
 
   const logout = async () => {
+    navigateTo("/");
+
     await authService.logout();
     user.value = null;
-
-    navigateTo("/");
   };
 
   return {

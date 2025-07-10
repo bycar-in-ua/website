@@ -31,7 +31,7 @@ const fileInput = useTemplateRef("fileInput");
       @submit="updatePersonalData"
     >
       <ProfileFormField label="Ваше фото" name="avatar">
-        <div class="flex justify-between w-lg">
+        <div class="flex justify-between">
           <UserAvatar :avatar="authStore.user?.avatar" class="w-40 h-40" />
           <UInput
             ref="fileInput"

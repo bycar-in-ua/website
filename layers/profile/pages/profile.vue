@@ -22,7 +22,7 @@ const items: TabsItem[] = [
 
 <template>
   <main class="container my-24 md:my-32">
-    <div class="rounded-3xl overflow-hidden h-60 relative">
+    <div class="rounded-3xl overflow-hidden h-24 sm:h-40 md:h-60 relative">
       <img
         src="/images/profile-bg.png"
         alt="Profile background"
@@ -30,12 +30,21 @@ const items: TabsItem[] = [
       />
     </div>
 
-    <div class="relative -top-10 z-10 px-8 space-y-2">
+    <div class="relative -top-10 z-10 px-4 sm:px-8 space-y-2">
       <UserAvatar :avatar="authStore.user?.avatar" class="w-20 h-20" />
 
-      <h3 class="font-semibold text-xl sm:text-3xl">
-        {{ authStore.name }}
-      </h3>
+      <div class="flex items-center justify-between">
+        <h3 class="font-semibold text-xl sm:text-3xl">
+          {{ authStore.name }}
+        </h3>
+        <UButton
+          icon="i-lucide-log-out"
+          variant="link"
+          color="neutral"
+          title="Вийти"
+          @click="authStore.logout()"
+        />
+      </div>
     </div>
 
     <UTabs variant="link" :items="items" class="w-full gap-8">
