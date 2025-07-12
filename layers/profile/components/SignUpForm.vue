@@ -46,7 +46,7 @@ const { setStage } = useSignInStage();
       Зареєструватися
     </UButton>
 
-    <GoogleSignIn disabled> Зареєструватися через Google </GoogleSignIn>
+    <GoogleSignIn> Зареєструватися через Google </GoogleSignIn>
 
     <div class="flex justify-center items-center text-sm mt-4">
       <span class="text-gray-500">Вже є акаунт?</span>

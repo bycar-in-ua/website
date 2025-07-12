@@ -9,8 +9,13 @@ export function useCdnImage() {
     public: { cdnHost },
   } = useRuntimeConfig();
 
-  return (src: string, size: SupportedSize) =>
-    joinURL(cdnHost, src.replace("images", size));
+  return (src: string, size: SupportedSize) => {
+    if (src.startsWith("http")) {
+      return src;
+    }
+
+    return joinURL(cdnHost, src.replace("images", size));
+  };
 }
 
 export default useCdnImage;

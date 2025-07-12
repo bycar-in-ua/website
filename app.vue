@@ -1,5 +1,5 @@
 <template>
-  <UApp>
+  <UApp :toaster="{ position: 'top-right' }">
     <NuxtLayout>
       <NuxtLoadingIndicator color="var(--ui-primary)" />
       <Header />
@@ -48,5 +48,11 @@ if (import.meta.client) {
   });
 
   cookieAccepted.value = localStorage.getItem("cookieAccepted") === "true";
+
+  const initialToast = useQueryToast();
+
+  if (initialToast) {
+    useToast().add(initialToast);
+  }
 }
 </script>

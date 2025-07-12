@@ -42,7 +42,7 @@ const { setStage } = useSignInStage();
 
     <UButton size="xl" block type="submit" :loading> Увійти </UButton>
 
-    <GoogleSignIn disabled />
+    <GoogleSignIn />
 
     <div class="flex justify-center items-center text-sm mt-4">
       <span class="text-gray-500">Немає акаунту?</span>

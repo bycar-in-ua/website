@@ -4,6 +4,7 @@ import type { TabsItem } from "@nuxt/ui";
 
 definePageMeta({
   middleware: "auth",
+  name: "profile",
 });
 
 const authStore = useAuthStore();
