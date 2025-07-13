@@ -2,7 +2,7 @@ import * as v from "valibot";
 
 const defaultMandatoryStringMessage = "Це обов'язкове поле";
 
-export const emailShema = v.pipe(
+export const emailSchema = v.pipe(
   v.string(defaultMandatoryStringMessage),
   v.minLength(1, defaultMandatoryStringMessage),
   v.email("Недійсний email"),
@@ -18,7 +18,7 @@ export const phoneSchema = v.pipe(
 );
 
 export const emailOrPhoneSchema = v.union(
-  [emailShema, phoneSchema],
+  [emailSchema, phoneSchema],
   "Введіть дійсний email або номер телефону",
 );
 
@@ -28,5 +28,5 @@ export const passwordSchema = v.pipe(
 );
 
 export function isEmail(value: string) {
-  return v.safeParse(emailShema, value).success;
+  return v.safeParse(emailSchema, value).success;
 }

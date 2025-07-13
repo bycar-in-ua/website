@@ -9,10 +9,7 @@ defineProps<{ title: string }>();
     </div>
 
     <div class="flex flex-col-reverse xs:flex-row justify-end gap-3">
-      <slot name="actions">
-        <UButton variant="outline" disabled>Скинути</UButton>
-        <UButton disabled> Зберегти </UButton>
-      </slot>
+      <slot name="actions" />
     </div>
   </div>
 

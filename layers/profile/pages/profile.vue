@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import PersonalDataSection from "~/layers/profile/components/PersonalDataSection.vue";
+import PersonalDataSection from "../components/PersonalDataSection.vue";
+import SecuritySection from "../components/SecuritySection.vue";
 import type { TabsItem } from "@nuxt/ui";
 
 definePageMeta({
@@ -17,6 +18,10 @@ const items: TabsItem[] = [
   {
     label: "Персональні дані",
     slot: "personal",
+  },
+  {
+    label: "Безпека",
+    slot: "security",
   },
 ];
 </script>
@@ -39,7 +44,9 @@ const items: TabsItem[] = [
           {{ authStore.name }}
         </h3>
         <UButton
+          label="Вийти"
           icon="i-lucide-log-out"
+          trailing
           variant="link"
           color="neutral"
           title="Вийти"
@@ -51,6 +58,9 @@ const items: TabsItem[] = [
     <UTabs variant="link" :items="items" class="w-full gap-8">
       <template #personal>
         <PersonalDataSection />
+      </template>
+      <template #security>
+        <SecuritySection />
       </template>
     </UTabs>
   </main>

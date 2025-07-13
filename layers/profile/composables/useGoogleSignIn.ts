@@ -1,3 +1,5 @@
+import { composeQueryToastUrl } from "~/utils/composeQueryToastUrl";
+
 export function useGoogleSignIn() {
   const authService = useAuthService();
 
@@ -11,18 +13,11 @@ export function useGoogleSignIn() {
         profileRoute.fullPath,
         window?.location.origin ?? "",
       );
-      const redirectOnError = new URL(
-        currentRoute.value.path,
-        window?.location.origin ?? "",
-      );
-      redirectOnError.searchParams.set("toast", "error");
-      redirectOnError.searchParams.set(
-        "message",
-        "Щось пішло не так. Скоріше за все аккаунт вже існує.",
-      );
-
-      console.log(redirectUrl.href, currentRoute.value.fullPath);
-      console.log(redirectOnError.href);
+      const redirectOnError = composeQueryToastUrl({
+        url: new URL(currentRoute.value.path, window?.location.origin ?? ""),
+        color: "error",
+        message: "Щось пішло не так. Скоріше за все аккаунт вже існує.",
+      });
 
       const googleLogin = await authService.googleLogin({
         redirectTo: redirectUrl.href,
