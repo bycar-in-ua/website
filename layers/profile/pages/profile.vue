@@ -14,13 +14,23 @@ useHead({
   title: [authStore.name, "Профіль", "Bycar"].filter(Boolean).join(" | "),
 });
 
+const activeTab = ref("personal");
+
 const items: TabsItem[] = [
   {
+    label: "Збережені авто (скоро...)",
+    value: "saved-cars",
+    slot: "saved-cars",
+    disabled: true,
+  },
+  {
     label: "Персональні дані",
+    value: "personal",
     slot: "personal",
   },
   {
     label: "Безпека",
+    value: "security",
     slot: "security",
   },
 ];
@@ -55,7 +65,16 @@ const items: TabsItem[] = [
       </div>
     </div>
 
-    <UTabs variant="link" :items="items" class="w-full gap-8">
+    <UTabs
+      v-model="activeTab"
+      variant="link"
+      :items="items"
+      class="w-full gap-8"
+    >
+      <template #saved-cars>
+        <SavedCarsSection />
+      </template>
+
       <template #personal>
         <PersonalDataSection />
       </template>

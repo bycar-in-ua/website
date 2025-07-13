@@ -6,6 +6,8 @@ import { useSignInStageProvider } from "@/layers/profile/composables/useSignInSt
 import LoginForm from "./LoginForm.vue";
 import SignUpForm from "./SignUpForm.vue";
 import ConfirmPhoneNumber from "./ConfirmPhoneNumber.vue";
+import ForgotPasswordForm from "./ForgotPasswordForm.vue";
+import ResetPasswordForm from "./ResetPasswordForm.vue";
 
 const { stage } = useSignInStageProvider();
 
@@ -13,7 +15,8 @@ const stageComponents: Record<SignInStage, Component> = {
   "login": LoginForm,
   "signup": SignUpForm,
   "confirm-phone": ConfirmPhoneNumber,
-  "reset-password": LoginForm,
+  "forgot-password": ForgotPasswordForm,
+  "reset-password": ResetPasswordForm,
 };
 
 const authStore = useAuthStore();

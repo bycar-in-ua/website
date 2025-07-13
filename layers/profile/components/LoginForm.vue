@@ -22,7 +22,7 @@ const { setStage } = useSignInStage();
       description="Доступ до вибраних авто та найкращих цін"
     />
 
-    <UFormField label="Email або телефон" name="emailOrPhone">
+    <UFormField label="Email або телефон" name="login">
       <UInput
         v-model="state.login"
         placeholder="Введіть ваш email або телефон"
@@ -37,7 +37,9 @@ const { setStage } = useSignInStage();
     </UFormField>
 
     <div class="flex justify-end my-6">
-      <UButton variant="link" disabled> Забули пароль? </UButton>
+      <UButton variant="link" @click="setStage('forgot-password')">
+        Забули пароль?
+      </UButton>
     </div>
 
     <UButton size="xl" block type="submit" :loading> Увійти </UButton>
