@@ -2,6 +2,7 @@
 import SectionContainer from "./SectionContainer.vue";
 import ProfileFormField from "./ProfileFormField.vue";
 import EmailForm from "./EmailForm.vue";
+import PhoneForm from "./PhoneForm.vue";
 </script>
 
 <template>
@@ -10,9 +11,7 @@ import EmailForm from "./EmailForm.vue";
 
     <USeparator class="my-6" />
 
-    <ProfileFormField label="Телефон">
-      <UInput class="w-full" />
-    </ProfileFormField>
+    <PhoneForm />
 
     <USeparator class="my-6" />
 
