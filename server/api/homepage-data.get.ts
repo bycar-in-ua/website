@@ -78,7 +78,7 @@ export default defineCachedEventHandler(
         brandService.getBrands(),
         getLatestYoutubeVideos({
           channelId: config.public.bycarChannelId,
-          apiKey: config.public.youtubeApiKey,
+          apiKey: config.youtubeApiKey,
         }),
       ]);
 

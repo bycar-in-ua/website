@@ -1,26 +1,28 @@
 <script setup lang="ts">
-import Logo from "../UI/Logo.vue";
+import Logo from "@/components/UI/Logo.vue";
 import Navigation from "./Navigation.vue";
-import { useScrollListener } from "./useScrollListener";
+import { useHeaderStyle } from "./useHeaderStyle";
 
-const scrolled = ref(false);
+const { floating, visible } = useHeaderStyle();
 
-if (import.meta.client) {
-  useScrollListener(scrolled);
-}
+const { $headerMode } = useNuxtApp();
 </script>
 
 <template>
   <header
-    class="z-40 fixed left-0 right-0 py-2 transition-all duration-300"
-    :class="
-      scrolled
-        ? 'top-0 backdrop-blur-md bg-white/40 shadow-md'
-        : 'top-2 md:top-8'
-    "
+    class="z-40 left-0 right-0 transition-all duration-300 p-1 sm:p-2 md:p-3"
+    :class="[
+      floating ? 'fixed' : 'absolute top-0',
+      visible ? 'top-0' : 'top-[-100px]',
+      $headerMode,
+    ]"
   >
-    <div class="container flex items-center">
-      <Logo class="mr-16" />
+    <div
+      class="container flex gap-2 md:gap-4 lg:gap-6 items-center px-4 py-3 rounded-xl border border-white/20 dark:bg-white/10 bg-white/80 shadow-lg backdrop-blur-lg"
+    >
+      <NuxtLink to="/">
+        <Logo />
+      </NuxtLink>
       <Navigation />
     </div>
   </header>

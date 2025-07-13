@@ -1,4 +1,5 @@
 export default defineNuxtConfig({
+  extends: ["./layers/profile/nuxt.config.ts"],
   modules: [
     "@pinia/nuxt",
     "@nuxtjs/i18n",
@@ -11,7 +12,7 @@ export default defineNuxtConfig({
     "@sentry/nuxt/module",
     "nuxt-meta-pixel",
   ],
-  devtools: { enabled: true },
+  devtools: { enabled: Boolean(process.env.NUXT_DEVTOOLS_ENABLED) },
 
   css: ["@/assets/css/global.css"],
 
@@ -22,6 +23,8 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
+    youtubeApiKey: process.env.YOUTUBE_API_KEY,
+
     public: {
       stage: process.env.STAGE ?? "dev",
       apiHost: process.env.API_URL,
@@ -70,6 +73,10 @@ export default defineNuxtConfig({
     defaultLocale: "ua",
     locales: ["ua"],
     strategy: "no_prefix",
+  },
+
+  pinia: {
+    storesDirs: ["./stores/**", "./layers/**/stores/**"],
   },
 
   robots: {
