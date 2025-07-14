@@ -95,18 +95,12 @@ const checkboxUi: CheckboxProps["ui"] = {
 </script>
 
 <template>
-  <UModal v-model:open="isOpen" fullscreen :ui="{ body: 'flex flex-col items-center justify-center' }">
-    <slot name="trigger" :open="openModal">
-      <UButton
-        icon="i-heroicons-magnifying-glass"
-        trailing
-        class="w-full sm:w-auto flex justify-center items-center"
-        size="xl"
-        @click="openModal"
-      >
-        Пошук авто
-      </UButton>
-    </slot>
+  <UModal
+    v-model:open="isOpen"
+    fullscreen
+    :ui="{ body: 'flex flex-col items-center justify-center' }"
+  >
+    <slot name="trigger" :open="openModal" />
 
     <template #body>
       <UCard
@@ -132,7 +126,8 @@ const checkboxUi: CheckboxProps["ui"] = {
 
             <template #extra>
               <p class="mt-2 mb-auto xs:mb-0 text-center">
-                Невелике оптування, щоб ми зрозуміли яке авто підходить для тебе.
+                Невелике оптування, щоб ми зрозуміли яке авто підходить для
+                тебе.
               </p>
             </template>
           </QuestionContainer>
@@ -151,7 +146,9 @@ const checkboxUi: CheckboxProps["ui"] = {
                 :model-value="quizStore.filters.brand?.includes(brand.id)"
                 :ui="checkboxUi"
                 size="xl"
-                @update:model-value="(checked) => checkHandler('brand', checked, brand.id)"
+                @update:model-value="
+                  (checked) => checkHandler('brand', checked, brand.id)
+                "
               />
             </div>
 
@@ -191,7 +188,9 @@ const checkboxUi: CheckboxProps["ui"] = {
                 :model-value="quizStore.filters.bodyType?.includes(bodyType)"
                 :ui="checkboxUi"
                 size="xl"
-                @update:model-value="(checked) => checkHandler('bodyType', checked, bodyType)"
+                @update:model-value="
+                  (checked) => checkHandler('bodyType', checked, bodyType)
+                "
               />
             </div>
 
@@ -218,10 +217,14 @@ const checkboxUi: CheckboxProps["ui"] = {
                 :key="engineType"
                 :label="t(`filters.engineType.${engineType}`)"
                 :value="engineType"
-                :model-value="quizStore.filters.engineType?.includes(engineType)"
+                :model-value="
+                  quizStore.filters.engineType?.includes(engineType)
+                "
                 :ui="checkboxUi"
                 size="xl"
-                @update:model-value="(checked) => checkHandler('engineType', checked, engineType)"
+                @update:model-value="
+                  (checked) => checkHandler('engineType', checked, engineType)
+                "
               />
             </div>
 

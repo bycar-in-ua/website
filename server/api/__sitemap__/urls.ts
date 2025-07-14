@@ -1,23 +1,19 @@
 import { defineSitemapEventHandler } from "#imports";
 import type { SitemapUrlInput } from "#sitemap/types";
-import { BycarPublicApi } from "@bycar-in-ua/sdk";
-import { ofetch } from "ofetch";
+import { VehiclePublicService } from "@bycar-in-ua/sdk";
 
 export default defineSitemapEventHandler(async (event) => {
   const config = useRuntimeConfig(event);
 
   const urls: SitemapUrlInput[] = [];
 
-  const bycarApi = new BycarPublicApi(
-    { apiHost: config.public.apiHost },
-    ofetch,
-  );
+  const vehiclesService = VehiclePublicService.create(config.public.apiHost);
 
   let page = 1;
   let hasNext = true;
 
   while (hasNext) {
-    const response = await bycarApi.searchVehicles({
+    const response = await vehiclesService.searchVehicles({
       pagination: { page, limit: 50 },
     });
 
