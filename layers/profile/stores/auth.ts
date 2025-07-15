@@ -20,13 +20,22 @@ export const useAuthStore = defineStore("auth", () => {
 
   const authService = useAuthService();
 
-  const { execute: authenticate } = useAsyncData("authenticate", async () => {
-    const authenticatedUser = await authService.authenticate();
+  const { execute: authenticate } = useAsyncData(
+    "authenticate",
+    async () => {
+      const authenticatedUser = await authService.authenticate();
 
-    user.value = authenticatedUser;
+      user.value = authenticatedUser;
 
-    return authenticatedUser;
-  });
+      return authenticatedUser;
+    },
+    {
+      getCachedData() {
+        // Authenticated user is not cached
+        return undefined;
+      },
+    },
+  );
 
   const login = async (payload: LoginPayload) => {
     user.value = await authService.login(payload);
