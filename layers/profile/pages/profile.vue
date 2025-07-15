@@ -72,7 +72,7 @@ const items: TabsItem[] = [
       class="w-full gap-8"
     >
       <template #saved-cars>
-        <SavedCarsSection />
+        <div>Збережені авто (скоро...)</div>
       </template>
 
       <template #personal>

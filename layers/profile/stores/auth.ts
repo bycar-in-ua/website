@@ -21,7 +21,11 @@ export const useAuthStore = defineStore("auth", () => {
   const authService = useAuthService();
 
   const { execute: authenticate } = useAsyncData("authenticate", async () => {
-    user.value = await authService.authenticate();
+    const authenticatedUser = await authService.authenticate();
+
+    user.value = authenticatedUser;
+
+    return authenticatedUser;
   });
 
   const login = async (payload: LoginPayload) => {
