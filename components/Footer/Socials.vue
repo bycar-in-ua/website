@@ -1,10 +1,18 @@
+<script setup lang="ts">
+import {
+  YOUTUBE_CHANNEL_URL,
+  INSTAGRAM_CHANNEL_URL,
+  TELEGRAM_CHANNEL_URL,
+} from "@/utils/constants";
+</script>
+
 <template>
   <div>
     Ми в соцмережах
 
     <div class="flex gap-4 mt-2">
       <NuxtLink
-        to="https://www.youtube.com/@bycar.in.ua_"
+        :to="YOUTUBE_CHANNEL_URL"
         target="_blank"
         class="social-icon"
         title="YouTube"
@@ -20,7 +28,7 @@
       </NuxtLink>
 
       <NuxtLink
-        to="https://www.instagram.com/bycar.in.ua/"
+        :to="INSTAGRAM_CHANNEL_URL"
         target="_blank"
         class="social-icon"
         title="Instagram"
@@ -44,7 +52,7 @@
       </NuxtLink>
 
       <NuxtLink
-        to="https://t.me/bycar_in_ua"
+        :to="TELEGRAM_CHANNEL_URL"
         target="_blank"
         class="social-icon"
         title="Telegram"
@@ -63,7 +71,7 @@
 </template>
 
 <style>
- @reference "@/assets/css/global.css";
+@reference "@/assets/css/global.css";
 
 .social-icon {
   @apply inline-flex justify-center items-center w-6 h-6 bg-primary-500 p-[5px] rounded-full;

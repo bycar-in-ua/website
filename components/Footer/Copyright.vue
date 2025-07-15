@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import Logo from "@/components/UI/Logo.vue";
+import { COPYRIGHT_TEXT } from "@/utils/constants";
 </script>
 
 <template>
-  <div class="text-xs flex flex-col gap-2">
+  <div class="text-xs flex flex-col items-start gap-4">
     <Logo />
 
-    ©{{ new Date().getFullYear() }} | Усі права захищені
+    {{ COPYRIGHT_TEXT }}
   </div>
 </template>
