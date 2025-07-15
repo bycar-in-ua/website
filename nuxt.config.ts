@@ -73,6 +73,9 @@ export default defineNuxtConfig({
     defaultLocale: "ua",
     locales: ["ua"],
     strategy: "no_prefix",
+    bundle: {
+      optimizeTranslationDirective: false,
+    },
   },
 
   pinia: {

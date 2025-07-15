@@ -43,15 +43,15 @@ export function getVehicleInfoBullets(
     const type = t(
       `vehicle.transmission.gearbox.types.${basePowerUnit.transmission.gearbox.type}`,
     );
-    const subType = t(
-      `vehicle.transmission.gearbox.subTypes.${basePowerUnit.transmission.gearbox.subType}`,
-    );
+    const subType = basePowerUnit.transmission.gearbox.subType
+      ? t(
+          `vehicle.transmission.gearbox.subTypes.${basePowerUnit.transmission.gearbox.subType}`,
+        )
+      : "";
 
     bullets.push({
       text: type,
-      title: `${type} ${
-        basePowerUnit.transmission.gearbox?.subType ? `(${subType})` : ""
-      }`,
+      title: `${type} ${subType ? `(${subType})` : ""}`,
       icon:
         basePowerUnit.transmission?.gearbox.type === "mechanical"
           ? GearboxManual
