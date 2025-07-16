@@ -42,7 +42,12 @@ const { state, formSchema, sendVerification, emailSendLoading, isNewEmail } =
         </template>
       </UInput>
 
-      <template v-if="!authStore.user?.emailVerified && !isNewEmail" #help>
+      <template
+        v-if="
+          authStore.user?.email && !authStore.user?.emailVerified && !isNewEmail
+        "
+        #help
+      >
         Email не верифікований. Будь ласка, перевірте свою пошту, включно з
         папкою "Спам" та перейдіть за посиланням у листі.
         <br />

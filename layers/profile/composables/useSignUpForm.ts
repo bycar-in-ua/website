@@ -24,6 +24,7 @@ export function useSignUpForm() {
 
   const authService = useAuthService();
   const authStore = useAuthStore();
+  const signInModal = useSignInModalStore();
   const { setStage } = useSignInStage();
 
   const { execute: signup, status } = useAsyncData(
@@ -50,13 +51,21 @@ export function useSignUpForm() {
             description: `На пошту ${state.login} було відправлено лист з посиланням для підтвердження реєстрації`,
             color: "success",
           });
-
-          authStore.loginModal.open = false;
         } else {
           setStage("confirm-phone");
         }
 
-        navigateTo(authStore.loginModal.redirect || "/profile");
+        navigateTo(
+          {
+            path: signInModal.redirect || "/profile",
+            query: {
+              loginModal: isEmailUsed ? undefined : "open",
+            },
+          },
+          {
+            replace: true,
+          },
+        );
 
         return newUser;
       } catch (error) {

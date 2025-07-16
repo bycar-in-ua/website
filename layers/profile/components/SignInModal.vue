@@ -3,13 +3,14 @@ import BluredEllipseBlueAndYellow from "@/components/UI/BluredEllipseBlueAndYell
 import Logo from "@/components/UI/Logo.vue";
 import type { SignInStage } from "@/layers/profile/composables/useSignInStage";
 import { useSignInStageProvider } from "@/layers/profile/composables/useSignInStage";
+import { useSignInModalStore } from "../stores/sign-in-modal";
 import LoginForm from "./LoginForm.vue";
 import SignUpForm from "./SignUpForm.vue";
 import ConfirmPhoneNumber from "./ConfirmPhoneNumber.vue";
 import ForgotPasswordForm from "./ForgotPasswordForm.vue";
 import ResetPasswordForm from "./ResetPasswordForm.vue";
 
-const { stage } = useSignInStageProvider();
+const { stage, setStage } = useSignInStageProvider();
 
 const stageComponents: Record<SignInStage, Component> = {
   "login": LoginForm,
@@ -19,14 +20,15 @@ const stageComponents: Record<SignInStage, Component> = {
   "reset-password": ResetPasswordForm,
 };
 
-const authStore = useAuthStore();
+const signInModal = useSignInModalStore();
 </script>
 
 <template>
   <UModal
-    v-model:open="authStore.loginModal.open"
+    v-model:open="signInModal.open"
     :loading="true"
     :ui="{ content: 'overflow-y-auto divide-none' }"
+    @after:leave="setStage('login')"
   >
     <template #content>
       <div class="relative flex justify-center pt-6">
@@ -38,7 +40,7 @@ const authStore = useAuthStore();
           icon="i-heroicons-x-mark"
           class="absolute top-2 right-2"
           variant="ghost"
-          @click="authStore.loginModal.open = false"
+          @click="signInModal.open = false"
         />
 
         <Logo />

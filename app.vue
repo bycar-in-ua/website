@@ -1,19 +1,3 @@
-<template>
-  <UApp :toaster="{ position: 'top-right' }">
-    <NuxtLayout>
-      <NuxtLoadingIndicator color="var(--ui-primary)" />
-      <Header />
-      <NuxtPage />
-      <Footer />
-      <CookieBanner
-        v-if="!cookieAccepted"
-        @accept-cookie="acceptCookieHandler"
-      />
-    </NuxtLayout>
-    <SignInModal />
-  </UApp>
-</template>
-
 <script setup lang="ts">
 import Header from "@/components/Header/index.vue";
 import Footer from "@/components/Footer/index.vue";
@@ -56,3 +40,19 @@ if (import.meta.client) {
   }
 }
 </script>
+
+<template>
+  <UApp :toaster="{ position: 'top-right' }">
+    <SignInModal />
+    <NuxtLayout>
+      <NuxtLoadingIndicator color="var(--ui-primary)" />
+      <Header />
+      <NuxtPage />
+      <Footer />
+      <CookieBanner
+        v-if="!cookieAccepted"
+        @accept-cookie="acceptCookieHandler"
+      />
+    </NuxtLayout>
+  </UApp>
+</template>

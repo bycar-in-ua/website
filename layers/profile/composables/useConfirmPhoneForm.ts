@@ -1,3 +1,5 @@
+import { useSignInModalStore } from "../stores/sign-in-modal";
+
 type FormState = {
   code: string[];
 };
@@ -11,6 +13,7 @@ export function useConfirmPhoneForm() {
 
   const authService = useAuthService();
   const authStore = useAuthStore();
+  const signInModal = useSignInModalStore();
 
   const toast = useToast();
 
@@ -18,12 +21,10 @@ export function useConfirmPhoneForm() {
     "confirm-phone",
     async () => {
       try {
-        await authService.phoneVerification({
-          code: Number(state.code.join("")),
-        });
+        await authService.phoneVerification(state.code.join(""));
 
         authStore.authenticate();
-        authStore.loginModal.open = false;
+        signInModal.open = false;
 
         toast.add({
           title: "Підтвердження номеру",
