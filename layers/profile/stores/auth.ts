@@ -1,18 +1,7 @@
 import type { LoginPayload, ReducedUser } from "@bycar-in-ua/sdk";
 
-type LoginModalState = {
-  open: boolean;
-  redirect?: string;
-};
-
 export const useAuthStore = defineStore("auth", () => {
-  const route = useRoute();
-
   const user = ref<ReducedUser | null>(null);
-  const loginModal = reactive<LoginModalState>({
-    open: route.query.loginModal === "open",
-    redirect: route.query.redirect as string | undefined,
-  });
 
   const name = computed(() =>
     [user.value?.firstName, user.value?.lastName].filter(Boolean).join(" "),
@@ -34,6 +23,7 @@ export const useAuthStore = defineStore("auth", () => {
         // Authenticated user is not cached
         return undefined;
       },
+      immediate: import.meta.client,
     },
   );
 
@@ -51,7 +41,6 @@ export const useAuthStore = defineStore("auth", () => {
   return {
     user,
     name,
-    loginModal,
     authenticate,
     login,
     logout,

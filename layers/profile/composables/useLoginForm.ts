@@ -19,6 +19,7 @@ export function useLoginForm() {
 
   const authStore = useAuthStore();
   const authService = useAuthService();
+  const signInModal = useSignInModalStore();
 
   const { execute: login, status } = useAsyncData(
     "login",
@@ -31,9 +32,9 @@ export function useLoginForm() {
         }
 
         authStore.user = user;
-        authStore.loginModal.open = false;
+        signInModal.open = false;
 
-        navigateTo(authStore.loginModal.redirect || "/profile");
+        navigateTo(signInModal.redirect || "/profile");
       } catch {
         useToast().add({
           title: "Помилка авторизації",
