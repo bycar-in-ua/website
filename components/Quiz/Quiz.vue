@@ -199,9 +199,7 @@ const checkboxUi: CheckboxProps["ui"] = {
                 <QuizButton variant="outline" @click="quizStore.step -= 1">
                   Назад
                 </QuizButton>
-                <QuizButton @click="quizStore.step += 1">
-                  Далі
-                </QuizButton>
+                <QuizButton @click="quizStore.step += 1"> Далі </QuizButton>
               </div>
             </template>
           </QuestionContainer>
