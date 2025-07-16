@@ -21,7 +21,9 @@ const props = defineProps<{
           {{ title }}
         </h2>
 
-        <slot />
+        <div class="max-h-[60vh] overflow-y-auto">
+          <slot />
+        </div>
       </div>
 
       <slot name="extra" />

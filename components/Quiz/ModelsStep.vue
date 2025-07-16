@@ -40,7 +40,7 @@ const emit = defineEmits(["finish"]);
 
 <template>
   <QuestionContainer title="Обери свою модель:">
-    <div class="models-list-wrapper overflow-y-auto pr-2">
+    <div class="models-list-wrapper pr-2">
       <NuxtLink
         v-for="car in data.items"
         :key="car.id"
