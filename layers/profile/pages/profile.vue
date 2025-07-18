@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import type { TabsItem, DropdownMenuItem } from "@nuxt/ui";
 import PersonalDataSection from "../components/PersonalDataSection.vue";
 import SecuritySection from "../components/SecuritySection.vue";
-import type { TabsItem } from "@nuxt/ui";
 
 definePageMeta({
   middleware: "auth",
@@ -22,18 +22,33 @@ const items: TabsItem[] = [
     value: "saved-cars",
     slot: "saved-cars",
     disabled: true,
+    icon: "i-heroicons-solid-bookmark",
   },
   {
     label: "Персональні дані",
     value: "personal",
     slot: "personal",
+    icon: "i-heroicons-solid-user",
   },
   {
     label: "Безпека",
     value: "security",
     slot: "security",
+    icon: "i-heroicons-solid-lock-closed",
   },
-];
+] as const;
+
+const dropdownItems: DropdownMenuItem[] = items.map(
+  ({ label, disabled, value, icon }) => ({
+    label,
+    disabled,
+    icon,
+    checked: value === activeTab.value,
+    onSelect: () => {
+      activeTab.value = value as string;
+    },
+  }),
+);
 </script>
 
 <template>
@@ -69,8 +84,21 @@ const items: TabsItem[] = [
       v-model="activeTab"
       variant="link"
       :items="items"
-      class="w-full gap-8"
+      :ui="{
+        root: 'w-full gap-8',
+        trigger: 'grow sm:grow-0 basis-1 sm:basis-auto',
+      }"
     >
+      <template #list-trailing>
+        <UDropdownMenu :items="dropdownItems" class="sm:hidden">
+          <UButton
+            icon="i-heroicons-ellipsis-vertical"
+            variant="link"
+            color="primary"
+          />
+        </UDropdownMenu>
+      </template>
+
       <template #saved-cars>
         <div>Збережені авто (скоро...)</div>
       </template>
