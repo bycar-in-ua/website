@@ -13,6 +13,7 @@ import SimilarCars from "@/components/Single/SimilarCars.vue";
 import { getCarTitle, getComplectationsSummary } from "@/utils/carHelpers";
 import { generatePageTitle } from "@/utils/seo";
 import { discounts } from "@/components/Single/discounts.temp";
+import SaveCarButton from "@/layers/profile/components/SaveCarButton.vue";
 
 definePageMeta({
   name: "SingleCar",
@@ -142,6 +143,8 @@ useHead({
       <CtaButton v-if="availableVehicles.length > 0" />
 
       <QuickContactModal v-if="hasSpecialOfferings" :page="carTitle" />
+
+      <SaveCarButton :button-props="{ size: 'lg' }" :car-id="car.id" :title="carTitle" />
     </div>
 
     <template v-if="car.complectations?.length">
