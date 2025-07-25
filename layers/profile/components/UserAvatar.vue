@@ -6,5 +6,5 @@ const cdnImage = useCdnImage();
 
 <template>
   <UAvatar v-if="avatar" :src="cdnImage(avatar, 'medium')" />
-  <UIcon v-else name="i-heroicons-solid-user-circle" class="bg-gray-400" />
+  <UIcon v-else name="i-heroicons-solid-user-circle" class="text-gray-400" />
 </template>

@@ -126,8 +126,8 @@ const checkboxUi: CheckboxProps["ui"] = {
 
             <template #extra>
               <p class="mt-2 mb-auto xs:mb-0 text-center">
-                Невелике оптування, щоб ми зрозуміли яке авто підходить для
-                тебе.
+                Невелике опитування, щоб ми зрозуміли яке авто підходить для
+                тебе
               </p>
             </template>
           </QuestionContainer>

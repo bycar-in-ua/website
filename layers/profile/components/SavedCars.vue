@@ -71,7 +71,7 @@ const {
 
       <div class="flex items-center gap-2">
         Відвідайте сторінку авто та збережіть натиснувши на іконку
-        <UIcon name="i-heroicons-solid-bookmark" class="w-6 h-6" />
+        <UIcon name="i-heroicons-solid-heart" class="w-6 h-6" />
       </div>
     </div>
   </Empty>

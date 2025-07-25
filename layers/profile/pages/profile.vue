@@ -22,7 +22,7 @@ const items: TabsItem[] = [
     label: "Збережені авто",
     value: "saved-cars",
     slot: "saved-cars",
-    icon: "i-heroicons-solid-bookmark",
+    icon: "i-heroicons-solid-heart",
   },
   {
     label: "Персональні дані",
@@ -62,7 +62,9 @@ const dropdownItems: DropdownMenuItem[] = items.map(
     </div>
 
     <div class="relative -top-10 z-10 px-4 sm:px-8 space-y-2">
-      <UserAvatar :avatar="authStore.user?.avatar" class="w-20 h-20" />
+      <div class="bg-white rounded-full inline-block">
+        <UserAvatar :avatar="authStore.user?.avatar" class="w-20 h-20" />
+      </div>
 
       <div class="flex items-center justify-between">
         <h3 class="font-semibold text-xl sm:text-3xl">

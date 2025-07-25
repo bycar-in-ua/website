@@ -52,6 +52,7 @@ export const useProfileStore = defineStore("profile", () => {
       title: "Авто збережено",
       description: `Автомобіль ${title ?? ""} успішно додано до закладок`,
       color: "success",
+      duration: 2000,
     });
   };
 
@@ -64,6 +65,7 @@ export const useProfileStore = defineStore("profile", () => {
       title: "Авто видалено",
       description: `Автомобіль ${title ?? ""} успішно видалено з закладок`,
       color: "warning",
+      duration: 2000,
     });
   };
 
