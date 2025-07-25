@@ -11,7 +11,7 @@ export const useAuthStore = defineStore("auth", () => {
 
   const authService = useAuthService();
 
-  const { execute: authenticate } = useAsyncData(
+  const { execute: authenticate, status } = useAsyncData(
     "authenticate",
     async () => {
       const authenticatedUser = await authService.authenticate();
@@ -29,6 +29,10 @@ export const useAuthStore = defineStore("auth", () => {
     },
   );
 
+  const authenticated = computed(
+    () => status.value !== "idle" && !!userId.value,
+  );
+
   const login = async (payload: LoginPayload) => {
     user.value = await authService.login(payload);
   };
@@ -44,6 +48,7 @@ export const useAuthStore = defineStore("auth", () => {
     user,
     userId,
     name,
+    authenticated,
     authenticate,
     login,
     logout,

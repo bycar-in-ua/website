@@ -7,11 +7,32 @@ const props = defineProps<{
   title?: string;
 }>();
 
+const authStore = useAuthStore();
 const profileStore = useProfileStore();
+const signInModalStore = useSignInModalStore();
 
 const isSaved = computed(() =>
   profileStore.profile?.savedCars?.includes(props.carId),
 );
+
+const toast = useToast();
+const route = useRoute();
+
+const handleSave = () => {
+  if (authStore.authenticated) {
+    profileStore.addToSavedCars(props.carId, props.title);
+
+    return;
+  }
+
+  toast.add({
+    title: "Ви не авторизовані",
+    description: "Для збереження авто в закладки необхідно увійти в аккаунт",
+    color: "warning",
+  });
+
+  signInModalStore.openModal(route.fullPath);
+};
 </script>
 
 <template>
@@ -32,7 +53,9 @@ const isSaved = computed(() =>
 
     <template #content>
       <div class="flex flex-col gap-2 p-2">
-        <UButton variant="ghost" color="neutral" :to="{ name: 'profile' }">Перейти до закладок</UButton>
+        <UButton variant="ghost" color="neutral" :to="{ name: 'profile' }">
+          Перейти до закладок
+        </UButton>
         <UButton
           variant="ghost"
           color="error"
@@ -51,7 +74,7 @@ const isSaved = computed(() =>
     v-bind="buttonProps"
     title="Зберегти авто"
     :loading="profileStore.loading"
-    @click="profileStore.addToSavedCars(carId, title)"
+    @click="handleSave"
   >
     Зберегти авто
 
