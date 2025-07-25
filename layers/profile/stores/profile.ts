@@ -1,57 +1,46 @@
 import { UsersPrivateService, type Profile } from "@bycar-in-ua/sdk";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
 
 export const useProfileStore = defineStore("profile", () => {
-  const authStore = useAuthStore();
-
   const config = useRuntimeConfig();
-
   const usersService = UsersPrivateService.create(config.public.apiHost);
 
-  const { data: profile, status: profileStatus } = useAsyncData(
-    "profile",
-    () => usersService.getProfile(),
-    {
-      default: () => ({} as Profile),
-      watch: [() => authStore.user],
-      server: false,
-      transform: (data) => {
-        if (!data) {
-          return {} as Profile;
-        }
+  const authStore = useAuthStore();
 
-        return data;
+  const {
+    data: profile,
+    isLoading: profileLoading,
+    isFetched: profileFetched,
+  } = useQuery({
+    queryKey: ["profile", authStore.userId],
+    queryFn: () => usersService.getProfile(),
+    placeholderData: () => ({} as Profile),
+    enabled: !!authStore.userId,
+  });
+
+  const queryClient = useQueryClient();
+
+  const { mutateAsync: updateProfile, isPending: updateProfilePending } =
+    useMutation({
+      mutationKey: ["update-profile", authStore.userId],
+      mutationFn: (payload: Partial<Profile>) => {
+        return usersService.updateProfile(payload);
       },
-    },
-  );
-
-  const { execute: updateProfile, status: updateProfileStatus } = useAsyncData(
-    "update-profile",
-    async () => {
-      const updatedProfile = await usersService.updateProfile(profile.value);
-
-      profile.value = updatedProfile;
-    },
-    {
-      immediate: false,
-    },
-  );
+      onSuccess: (data) => {
+        queryClient.setQueryData(["profile", authStore.userId], data);
+      },
+    });
 
   const loading = computed(
-    () =>
-      profileStatus.value === "pending" ||
-      updateProfileStatus.value === "pending",
+    () => profileLoading.value || updateProfilePending.value,
   );
-
-  const updateSavedCars = async (ids: number[]) => {
-    profile.value.savedCars = ids;
-
-    await updateProfile();
-  };
 
   const toast = useToast();
 
   const addToSavedCars = async (carId: number, title?: string) => {
-    await updateSavedCars([...(profile.value?.savedCars ?? []), carId]);
+    await updateProfile({
+      savedCars: [...(profile.value!.savedCars ?? []), carId],
+    });
 
     toast.add({
       title: "Авто збережено",
@@ -61,9 +50,9 @@ export const useProfileStore = defineStore("profile", () => {
   };
 
   const removeFromSavedCars = async (carId: number, title?: string) => {
-    await updateSavedCars(
-      (profile.value?.savedCars ?? []).filter((id) => id !== carId),
-    );
+    await updateProfile({
+      savedCars: (profile.value!.savedCars ?? []).filter((id) => id !== carId),
+    });
 
     toast.add({
       title: "Авто видалено",
@@ -75,6 +64,7 @@ export const useProfileStore = defineStore("profile", () => {
   return {
     profile,
     loading,
+    profileFetched,
     addToSavedCars,
     removeFromSavedCars,
   };

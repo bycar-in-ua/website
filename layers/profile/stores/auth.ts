@@ -3,6 +3,8 @@ import type { LoginPayload, ReducedUser } from "@bycar-in-ua/sdk";
 export const useAuthStore = defineStore("auth", () => {
   const user = ref<ReducedUser | null>(null);
 
+  const userId = computed(() => user.value?.id);
+
   const name = computed(() =>
     [user.value?.firstName, user.value?.lastName].filter(Boolean).join(" "),
   );
@@ -40,6 +42,7 @@ export const useAuthStore = defineStore("auth", () => {
 
   return {
     user,
+    userId,
     name,
     authenticate,
     login,

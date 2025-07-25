@@ -5,18 +5,27 @@ import Pagination from "@/components/UI/Pagination.vue";
 import GridSkeleton from "@/components/UI/GridSkeleton.vue";
 import Empty from "@/components/UI/Empty.vue";
 import { getCarTitle } from "@/utils/carHelpers";
+import { useQuery, keepPreviousData } from "@tanstack/vue-query";
 
 const profileStore = useProfileStore();
-
-const vehiclesService = useVehiclesService();
 
 const PAGE_SIZE = 8;
 const page = ref(1);
 
-const { data: vehicles, pending } = useAsyncData(
-  "saved-cars",
-  async () => {
-    if (!profileStore.profile?.savedCars) {
+const vehiclesService = useVehiclesService();
+
+const carsIds = computed<number[]>(() => profileStore.profile?.savedCars ?? []);
+
+const {
+  data: vehicles,
+  isLoading,
+  isPending,
+} = useQuery({
+  queryKey: ["saved-cars", page, carsIds],
+  queryFn: async () => {
+    const crsIdsLength = carsIds.value.length;
+
+    if (!crsIdsLength) {
       return {
         items: [],
         meta: {
@@ -28,41 +37,35 @@ const { data: vehicles, pending } = useAsyncData(
       } as PaginatedResponse<Vehicle>;
     }
 
-    return vehiclesService.searchVehicles({
+    if (page.value > 1 && crsIdsLength <= PAGE_SIZE * (page.value - 1)) {
+      page.value = 1;
+    }
+
+    const response = await vehiclesService.searchVehicles({
       filters: {
-        id: profileStore.profile?.savedCars ?? [],
+        id: carsIds.value,
       },
       pagination: {
         page: page.value,
         limit: PAGE_SIZE,
       },
     });
+
+    return response;
   },
-  {
-    default: () =>
-      ({
-        items: [],
-        meta: {
-          currentPage: 1,
-          totalPages: 1,
-          itemsPerPage: PAGE_SIZE,
-          totalItems: 0,
-        },
-      } as PaginatedResponse<Vehicle>),
-    watch: [page, () => profileStore.profile?.savedCars],
-    server: false,
-  },
-);
+  placeholderData: keepPreviousData,
+  enabled: () => profileStore.profileFetched,
+});
 </script>
 
 <template>
   <GridSkeleton
-    v-if="!vehicles.items.length && pending"
+    v-if="isPending || (!vehicles?.items.length && isLoading)"
     class="xs:grid-cols-2 sm:grid-cols-4 gap-5"
     :items-count="PAGE_SIZE"
   />
 
-  <Empty v-else-if="!vehicles.items.length">
+  <Empty v-else-if="!vehicles?.items.length">
     <div class="text-center">
       Поки у вас немає збережених авто
 
@@ -76,7 +79,7 @@ const { data: vehicles, pending } = useAsyncData(
   <div
     v-else
     class="grid xs:grid-cols-2 sm:grid-cols-4 gap-5"
-    :class="{ 'blur-sm': pending }"
+    :class="{ 'blur-sm': isLoading }"
   >
     <NuxtLink
       v-for="car in vehicles.items"
@@ -110,6 +113,7 @@ const { data: vehicles, pending } = useAsyncData(
   </div>
 
   <Pagination
+    v-if="vehicles?.meta"
     v-model:page="page"
     class="mt-10 flex justify-center"
     :pagination="vehicles.meta"
