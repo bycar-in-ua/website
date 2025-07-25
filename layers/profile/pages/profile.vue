@@ -2,6 +2,7 @@
 import type { TabsItem, DropdownMenuItem } from "@nuxt/ui";
 import PersonalDataSection from "../components/PersonalDataSection.vue";
 import SecuritySection from "../components/SecuritySection.vue";
+import SavedCars from "../components/SavedCars.vue";
 
 definePageMeta({
   middleware: "auth",
@@ -14,14 +15,13 @@ useHead({
   title: [authStore.name, "Профіль", "Bycar"].filter(Boolean).join(" | "),
 });
 
-const activeTab = ref("personal");
+const activeTab = ref("saved-cars");
 
 const items: TabsItem[] = [
   {
-    label: "Збережені авто (скоро...)",
+    label: "Збережені авто",
     value: "saved-cars",
     slot: "saved-cars",
-    disabled: true,
     icon: "i-heroicons-solid-bookmark",
   },
   {
@@ -100,7 +100,7 @@ const dropdownItems: DropdownMenuItem[] = items.map(
       </template>
 
       <template #saved-cars>
-        <div>Збережені авто (скоро...)</div>
+        <SavedCars />
       </template>
 
       <template #personal>
