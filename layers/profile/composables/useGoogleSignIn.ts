@@ -2,6 +2,7 @@ import { composeQueryToastUrl } from "~/utils/composeQueryToastUrl";
 
 export function useGoogleSignIn() {
   const authService = useAuthService();
+  const signInModalStore = useSignInModalStore();
 
   const { resolve, currentRoute } = useRouter();
 
@@ -10,7 +11,7 @@ export function useGoogleSignIn() {
     async () => {
       const profileRoute = resolve({ name: "profile" });
       const redirectUrl = new URL(
-        profileRoute.fullPath,
+        String(signInModalStore.redirect || profileRoute.fullPath),
         window?.location.origin ?? "",
       );
       const redirectOnError = composeQueryToastUrl({

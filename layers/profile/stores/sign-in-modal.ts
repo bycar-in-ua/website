@@ -27,8 +27,18 @@ export const useSignInModalStore = defineStore("sign-in-modal", () => {
     },
   });
 
+  const openModal = (redirectTo?: string) => {
+    router.replace({
+      query: {
+        loginModal: "open",
+        redirect: redirectTo || "",
+      },
+    });
+  };
+
   return {
     open,
     redirect,
+    openModal,
   };
 });
