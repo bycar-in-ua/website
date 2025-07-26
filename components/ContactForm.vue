@@ -7,14 +7,21 @@ const props = withDefaults(defineProps<{ page: string; id?: string }>(), {
 
 const { gtag } = useGtag();
 
+const authStore = useAuthStore();
+
 type FormState = {
   name: string;
   phone: string;
 };
 
 const formState = reactive<FormState>({
-  name: "",
-  phone: "",
+  name: authStore.user?.firstName ?? "",
+  phone: authStore.user?.phone ?? "",
+});
+
+watchEffect(() => {
+  formState.name = authStore.user?.firstName ?? "";
+  formState.phone = authStore.user?.phone ?? "";
 });
 
 const validate = (state: Partial<FormState>): FormError[] => {
@@ -66,6 +73,7 @@ const { status, refresh: submitForm } = useAsyncData(
         name: formState.name,
         phone: formState.phone,
         page: props.page,
+        userId: authStore.user?.id,
       },
     });
     gtag("event", "contact_form_submit", {

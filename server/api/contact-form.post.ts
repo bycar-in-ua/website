@@ -4,6 +4,7 @@ type ContacFormPayload = {
   name: string;
   phone: string;
   page: string;
+  userId?: number;
 };
 
 export default defineEventHandler(async (event) => {
