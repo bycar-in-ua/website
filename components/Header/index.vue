@@ -10,7 +10,7 @@ const { $headerMode } = useNuxtApp();
 
 <template>
   <header
-    class="z-40 left-0 right-0 transition-all duration-300 p-1 sm:p-2 md:p-3"
+    class="z-40 left-0 right-0 transition-all duration-300 p-2 md:p-3"
     :class="[
       floating ? 'fixed' : 'absolute top-0',
       visible ? 'top-0' : 'top-[-100px]',
@@ -20,8 +20,8 @@ const { $headerMode } = useNuxtApp();
     <div
       class="container flex gap-2 md:gap-4 lg:gap-6 items-center px-4 py-3 rounded-xl border border-white/20 dark:bg-white/10 bg-white/80 shadow-lg backdrop-blur-lg"
     >
-      <NuxtLink to="/">
-        <Logo class="h-10 sm:h-auto" />
+      <NuxtLink to="/" class="flex h-10 sm:h-11">
+        <Logo class="h-full w-auto" />
       </NuxtLink>
       <Navigation />
     </div>
