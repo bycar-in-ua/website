@@ -9,6 +9,7 @@ import {
   INSTAGRAM_CHANNEL_URL,
   TELEGRAM_CHANNEL_URL,
   COPYRIGHT_TEXT,
+  HF_OSAGO,
 } from "@/utils/constants";
 
 defineProps<{ preset?: "light" | "dark" }>();
@@ -30,6 +31,11 @@ const menuItems: NavigationMenuItem[] = [
     label: t("menu.about"),
     to: "/about",
   },
+  {
+    label: "Оформити автоцивілку",
+    to: HF_OSAGO,
+    target: "_blank",
+  },
 ];
 </script>
 
@@ -39,6 +45,7 @@ const menuItems: NavigationMenuItem[] = [
     :items="menuItems"
     variant="link"
     color="neutral"
+    :external-icon="false"
     :ui="{
       root: `hidden md:block desktop-nav ${preset}`,
       item: 'py-0',

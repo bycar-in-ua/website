@@ -43,7 +43,7 @@ const signInModal = useSignInModalStore();
           @click="signInModal.open = false"
         />
 
-        <Logo />
+        <Logo class="h-10" />
       </div>
 
       <div class="p-6">
