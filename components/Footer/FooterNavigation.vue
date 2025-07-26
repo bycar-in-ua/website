@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { UNavigationMenu } from "#components";
 import type { NavigationMenuItem } from "#ui/types";
+import { HF_OSAGO } from "@/utils/constants";
 
 const { t } = useI18n();
 
@@ -20,6 +21,11 @@ const menuItems: NavigationMenuItem[] = [
   {
     label: t("menu.about"),
     to: "/about",
+  },
+  {
+    label: "Оформити автоцивілку (ОСЦПВ)",
+    to: HF_OSAGO,
+    target: "_blank",
   },
 ];
 

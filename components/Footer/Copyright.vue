@@ -5,7 +5,7 @@ import { COPYRIGHT_TEXT } from "@/utils/constants";
 
 <template>
   <div class="text-xs flex flex-col items-start gap-4">
-    <Logo />
+    <Logo class="h-11" />
 
     {{ COPYRIGHT_TEXT }}
   </div>
