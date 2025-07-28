@@ -1,17 +1,19 @@
 <script setup lang="ts">
 import type { Complectation } from "@bycar-in-ua/sdk";
+import { getPriceRange } from "~/utils/carHelpers";
 import SectionTitle from "./SectionTitle.vue";
 import Control from "./Control.vue";
-import { getPriceRange } from "../UI/CarCard/helpers.js";
 
-defineProps<{ compectations: Complectation[]; activeComplectation?: Complectation; setActiveComplectation: (c: Complectation) => void }>();
+defineProps<{
+  compectations: Complectation[];
+  activeComplectation?: Complectation;
+  setActiveComplectation: (c: Complectation) => void;
+}>();
 </script>
 
 <template>
   <section>
-    <SectionTitle class="mb-4">
-      Комплектації та ціни
-    </SectionTitle>
+    <SectionTitle class="mb-4"> Комплектації та ціни </SectionTitle>
 
     <div class="flex gap-2 overflow-x-auto pb-1">
       <Control

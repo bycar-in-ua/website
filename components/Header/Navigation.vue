@@ -1,16 +1,17 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from "#ui/types";
-import MenuToggler from "@/components/UI/Menu/MenuToggler.vue";
-import Logo from "@/components/UI/Logo.vue";
-import { useMenuShowing } from "@/composables/useMenuShowing";
-import AccountButton from "@/layers/profile/components/AccountButton.vue";
+import MenuToggler from "~/components/UI/Menu/MenuToggler.vue";
+import Logo from "~/components/UI/Logo.vue";
+import { useMenuShowing } from "~/composables/useMenuShowing";
+import { useProfileNavigation } from "~/layers/profile/composables/useProfileNavigation";
 import {
   YOUTUBE_CHANNEL_URL,
   INSTAGRAM_CHANNEL_URL,
   TELEGRAM_CHANNEL_URL,
   COPYRIGHT_TEXT,
-  HF_OSAGO,
-} from "@/utils/constants";
+  HF_OSCPV,
+} from "~/utils/constants";
+import HeaderCtaButton from "./HeaderCtaButton.vue";
 
 defineProps<{ preset?: "light" | "dark" }>();
 
@@ -18,53 +19,81 @@ const { t } = useI18n();
 
 const showMobileMenu = useMenuShowing();
 
-const menuItems: NavigationMenuItem[] = [
-  {
-    label: t("menu.home"),
-    to: "/",
-  },
-  {
-    label: t("menu.catalog"),
-    to: "/catalog",
-  },
-  {
-    label: t("menu.about"),
-    to: "/about",
-  },
-  {
-    label: "Оформити автоцивілку",
-    to: HF_OSAGO,
-    target: "_blank",
-  },
+const {
+  personalProfileMenuItem,
+  PersonalProfileNavButton,
+  savedCarsMenuItem,
+  SavedCarsNavButton,
+} = useProfileNavigation();
+
+const homeMenuItem: NavigationMenuItem = {
+  label: t("menu.home"),
+  to: "/",
+};
+
+const catalogMenuItem: NavigationMenuItem = {
+  label: t("menu.catalog"),
+  to: "/catalog",
+};
+
+const aboutMenuItem: NavigationMenuItem = {
+  label: t("menu.about"),
+  to: "/about",
+};
+
+const oscpvMenuItem: NavigationMenuItem = {
+  label: "Оформити автоцивілку",
+  to: HF_OSCPV,
+  target: "_blank",
+};
+
+const desktopMenuItems: NavigationMenuItem[] = [
+  homeMenuItem,
+  catalogMenuItem,
+  aboutMenuItem,
+  oscpvMenuItem,
 ];
+
+const mobileMenuItems = computed<NavigationMenuItem[]>(() => [
+  homeMenuItem,
+  catalogMenuItem,
+  aboutMenuItem,
+  personalProfileMenuItem,
+  savedCarsMenuItem.value,
+  oscpvMenuItem,
+]);
 </script>
 
 <template>
   <UNavigationMenu
     orientation="horizontal"
-    :items="menuItems"
+    :items="desktopMenuItems"
     variant="link"
     color="neutral"
     :external-icon="false"
     :ui="{
-      root: `hidden md:block desktop-nav ${preset}`,
+      root: `hidden lg:block desktop-nav ${preset}`,
       item: 'py-0',
     }"
   />
 
-  <AccountButton
-    class="desktop-nav text-muted hover:text-highlighted ml-auto"
-  />
+  <div class="ml-auto hidden md:flex items-center desktop-nav">
+    <SavedCarsNavButton class="text-muted hover:text-highlighted" />
+
+    <PersonalProfileNavButton class="text-muted hover:text-highlighted" />
+
+    <HeaderCtaButton class="ml-2 text-white" />
+  </div>
 
   <ClientOnly>
     <MenuToggler
-      class="md:hidden desktop-nav text-muted hover:text-highlighted"
+      class="lg:hidden desktop-nav text-muted hover:text-highlighted ml-auto md:ml-0"
     />
   </ClientOnly>
 
   <USlideover
     v-model:open="showMobileMenu"
-    :ui="{ overlay: 'md:hidden', content: 'md:hidden' }"
+    :ui="{ overlay: 'lg:hidden', content: 'lg:hidden' }"
   >
     <template #content>
       <div class="flex py-3 px-4 gap-4">
@@ -87,7 +116,8 @@ const menuItems: NavigationMenuItem[] = [
         <UNavigationMenu
           orientation="vertical"
           variant="link"
-          :items="menuItems"
+          :items="mobileMenuItems"
+          :external-icon="false"
           class="mobile-nav"
           :ui="{
             link: 'px-0 py-3 text-lg',
@@ -111,6 +141,13 @@ const menuItems: NavigationMenuItem[] = [
       </div>
 
       <div class="px-4 py-6 text-center">
+        <HeaderCtaButton
+          block
+          class="mb-4"
+          :ui="{ trailingIcon: 'ms-0' }"
+          @click="showMobileMenu = false"
+        />
+
         {{ COPYRIGHT_TEXT }}
       </div>
     </template>

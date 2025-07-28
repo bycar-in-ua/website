@@ -6,5 +6,12 @@ const cdnImage = useCdnImage();
 
 <template>
   <UAvatar v-if="avatar" :src="cdnImage(avatar, 'medium')" />
-  <UIcon v-else name="i-heroicons-solid-user-circle" class="text-gray-400" />
+
+  <slot v-else name="icon">
+    <UIcon
+      name="i-heroicons-user-circle-solid"
+      v-bind="$attrs"
+      class="text-gray-400"
+    />
+  </slot>
 </template>

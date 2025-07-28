@@ -1,8 +1,7 @@
-import type { LoginPayload, ReducedUser } from "@bycar-in-ua/sdk";
+import type { LoginPayload } from "@bycar-in-ua/sdk";
+import { useQuery, useQueryClient } from "@tanstack/vue-query";
 
 export const useAuthStore = defineStore("auth", () => {
-  const user = ref<ReducedUser | null>(null);
-
   const userId = computed(() => user.value?.id);
 
   const name = computed(() =>
@@ -10,38 +9,31 @@ export const useAuthStore = defineStore("auth", () => {
   );
 
   const authService = useAuthService();
+  const queryClient = useQueryClient();
 
-  const { execute: authenticate, status } = useAsyncData(
-    "authenticate",
-    async () => {
-      const authenticatedUser = await authService.authenticate();
+  const {
+    data: user,
+    isFetched,
+    refetch: authenticate,
+  } = useQuery({
+    queryKey: ["user"],
+    retry: false,
+    queryFn: () => authService.authenticate(),
+  });
 
-      user.value = authenticatedUser;
-
-      return authenticatedUser;
-    },
-    {
-      getCachedData() {
-        // Authenticated user is not cached
-        return undefined;
-      },
-      immediate: import.meta.client,
-    },
-  );
-
-  const authenticated = computed(
-    () => status.value !== "idle" && !!userId.value,
-  );
+  const authenticated = computed(() => isFetched.value && !!userId.value);
 
   const login = async (payload: LoginPayload) => {
-    user.value = await authService.login(payload);
+    const user = await authService.login(payload);
+
+    queryClient.setQueryData(["user"], user);
   };
 
   const logout = async () => {
     navigateTo("/");
 
     await authService.logout();
-    user.value = null;
+    queryClient.setQueryData(["user"], null);
   };
 
   return {

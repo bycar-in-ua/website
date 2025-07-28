@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import CollapsibleTitle from "@/components/UI/CollapsibleTitle.vue";
-import { MAX_PRICE, MIN_PRICE, PRICE_STEP } from "@/components/Quiz/priceTemplates";
+import { MAX_PRICE, MIN_PRICE, PRICE_STEP } from "~/shared/priceTemplates";
 
 const { t } = useI18n();
 

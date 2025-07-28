@@ -1,10 +1,9 @@
 <script setup lang="ts">
+import CdnImage from "~/components/CdnImage.vue";
+import { getPriceRange } from "~/utils/carHelpers";
+
 import QuestionContainer from "./QuestionContainer.vue";
 import QuizButton from "./QuizButton.vue";
-import CdnImage from "../CdnImage.vue";
-import { getPriceRange } from "../UI/CarCard/helpers";
-
-const { gtag } = useGtag();
 
 const quizStore = useQuizStore();
 
@@ -40,25 +39,12 @@ const emit = defineEmits(["finish"]);
 
 <template>
   <QuestionContainer title="Обери свою модель:">
-    <div class="models-list-wrapper pr-2">
-      <NuxtLink
+    <div class="pr-2 divide-y divide-gray-300">
+      <div
         v-for="car in data.items"
         :key="car.id"
-        class="pb-4 mb-4 flex items-center gap-2 border-b"
-        :to="{
-          name: 'SingleCar',
-          params: {
-            brand: car.brand?.slug ?? '',
-            model: car.slug,
-          },
-        }"
-        @click="
-          gtag('event', 'model_selected', {
-            event_category: 'quiz',
-            event_label: 'model_selected',
-            value: car.slug,
-          })
-        "
+        class="pb-4 mb-4 flex items-center gap-2 cursor-pointer"
+        @click="quizStore.selectModel(car)"
       >
         <div>
           <span class="font-semibold">{{ car.model }}</span>
@@ -76,7 +62,7 @@ const emit = defineEmits(["finish"]);
           :alt="car.model"
           :title="car.model"
         />
-      </NuxtLink>
+      </div>
     </div>
 
     <template #footer>
@@ -92,9 +78,3 @@ const emit = defineEmits(["finish"]);
     </template>
   </QuestionContainer>
 </template>
-
-<style>
-.models-list-wrapper {
-  max-height: calc(100vh - 350px);
-}
-</style>

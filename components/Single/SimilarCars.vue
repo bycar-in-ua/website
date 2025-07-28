@@ -4,6 +4,10 @@ import CarCard from "@/components/UI/CarCard/CarCard.vue";
 import SectionTitle from "@/components/UI/SectionTitle.vue";
 
 defineProps<{ cars: Vehicle[]; mainCar: Vehicle }>();
+
+const profileStore = useProfileStore();
+
+const { toggleSave } = useSavedCarActions();
 </script>
 
 <template>
@@ -49,7 +53,11 @@ defineProps<{ cars: Vehicle[]; mainCar: Vehicle }>();
           },
         }"
       >
-        <CarCard :car="car" />
+        <CarCard
+          :car="car"
+          :toggle-save="toggleSave"
+          :is-saved="profileStore.profile?.savedCars?.includes(car.id)"
+        />
       </NuxtLink>
     </div>
   </section>

@@ -1,5 +1,11 @@
 <script setup lang="ts">
-import { priceTemplates, MIN_PRICE, MAX_PRICE, PRICE_STEP } from "./priceTemplates";
+import {
+  priceTemplates,
+  MIN_PRICE,
+  MAX_PRICE,
+  PRICE_STEP,
+} from "~/shared/priceTemplates";
+
 import QuestionContainer from "./QuestionContainer.vue";
 import QuizButton from "./QuizButton.vue";
 
@@ -20,10 +26,14 @@ const priceSliderModel = computed({
 });
 
 const maxPriceFrom = computed(() => {
-  return quizStore.filters.priceTo ? quizStore.filters.priceTo - PRICE_STEP : MAX_PRICE;
+  return quizStore.filters.priceTo
+    ? quizStore.filters.priceTo - PRICE_STEP
+    : MAX_PRICE;
 });
 const minPriceTo = computed(() => {
-  return quizStore.filters.priceFrom ? quizStore.filters.priceFrom + PRICE_STEP : MIN_PRICE;
+  return quizStore.filters.priceFrom
+    ? quizStore.filters.priceFrom + PRICE_STEP
+    : MIN_PRICE;
 });
 
 const availablePriceFrom = computed(() => {
@@ -117,9 +127,7 @@ const availablePriceTo = computed(() => {
       <QuizButton variant="outline" @click="quizStore.$reset()">
         Назад
       </QuizButton>
-      <QuizButton @click="quizStore.step += 1">
-        Далі
-      </QuizButton>
+      <QuizButton @click="quizStore.step += 1"> Далі </QuizButton>
     </template>
   </QuestionContainer>
 </template>

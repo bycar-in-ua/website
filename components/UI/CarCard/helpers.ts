@@ -1,4 +1,4 @@
-import type { Complectation, Vehicle } from "@bycar-in-ua/sdk";
+import type { Vehicle } from "@bycar-in-ua/sdk";
 import type { Composer } from "#i18n";
 import {
   GearboxAuto,
@@ -85,29 +85,4 @@ export function getVehicleInfoBullets(
   }
 
   return bullets.slice(0, 3);
-}
-
-export function getPriceRange(complectations?: Complectation[]): string {
-  if (!complectations?.length) {
-    return "";
-  }
-
-  const prices = complectations
-    .flatMap((complectation) =>
-      complectation.powerUnits?.map(({ price }) => price),
-    )
-    .filter(Boolean) as number[];
-
-  if (!prices.length) {
-    return "";
-  }
-
-  if (prices.length === 1) {
-    return `$${prices[0].toLocaleString()}`;
-  }
-
-  const min = Math.min(...prices);
-  const max = Math.max(...prices);
-
-  return `$${min.toLocaleString()} - $${max.toLocaleString()}`;
 }

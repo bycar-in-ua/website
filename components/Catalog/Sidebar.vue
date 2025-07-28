@@ -29,6 +29,7 @@ const isSidebarShowing = ref(false);
         block
         icon="i-heroicons-funnel"
         trailing
+        :ui="{ trailingIcon: 'ms-0' }"
         @click="isSidebarShowing = false"
       >
         Застосувати

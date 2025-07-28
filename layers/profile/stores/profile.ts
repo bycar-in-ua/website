@@ -41,39 +41,10 @@ export const useProfileStore = defineStore("profile", () => {
     () => profileLoading.value || updateProfilePending.value,
   );
 
-  const toast = useToast();
-
-  const addToSavedCars = async (carId: number, title?: string) => {
-    await updateProfile({
-      savedCars: [...(profile.value!.savedCars ?? []), carId],
-    });
-
-    toast.add({
-      title: "Авто збережено",
-      description: `Автомобіль ${title ?? ""} успішно додано до закладок`,
-      color: "success",
-      duration: 2000,
-    });
-  };
-
-  const removeFromSavedCars = async (carId: number, title?: string) => {
-    await updateProfile({
-      savedCars: (profile.value!.savedCars ?? []).filter((id) => id !== carId),
-    });
-
-    toast.add({
-      title: "Авто видалено",
-      description: `Автомобіль ${title ?? ""} успішно видалено з закладок`,
-      color: "warning",
-      duration: 2000,
-    });
-  };
-
   return {
     profile,
     loading,
     profileFetched,
-    addToSavedCars,
-    removeFromSavedCars,
+    updateProfile,
   };
 });
