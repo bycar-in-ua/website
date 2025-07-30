@@ -2,7 +2,6 @@
 import { useCatalogStore } from "@/stores/catalog.js";
 import AppliedFilters from "./AppliedFilters.vue";
 import type { VehiclesOrder } from "@bycar-in-ua/sdk";
-import Quiz from "../Quiz/Quiz.vue";
 
 const { t } = useI18n();
 
@@ -21,6 +20,7 @@ const options: Array<{ label: string; value: VehiclesOrder }> = orders.map(
 );
 
 const catalogStore = useCatalogStore();
+const quizStore = useQuizStore();
 
 function handleClearOrder() {
   catalogStore.order = undefined;
@@ -36,17 +36,13 @@ function handleClearOrder() {
         {{ t("catalog.title") }}
       </h2>
 
-      <Quiz>
-        <template #trigger="{ open }">
-          <UTooltip text="Тисни, щоб дізнатись яке авто підходить тобі">
-            <UIcon
-              name="i-heroicons-magnifying-glass-circle"
-              class="cursor-pointer text-primary-400 w-6 h-6"
-              @click="open"
-            />
-          </UTooltip>
-        </template>
-      </Quiz>
+      <UTooltip text="Тисни, щоб дізнатись яке авто підходить тобі">
+        <UIcon
+          name="i-heroicons-magnifying-glass-circle"
+          class="cursor-pointer text-primary-400 w-6 h-6"
+          @click="quizStore.openQuiz"
+        />
+      </UTooltip>
     </div>
 
     <USelectMenu

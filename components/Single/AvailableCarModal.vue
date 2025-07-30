@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { Gallery, type IGalleryItem } from "@/components/UI/Gallery";
 import ContactForm from "~/components/ContactForm.vue";
-import { getPriceRange } from "../UI/CarCard/helpers";
-import DiscountPrice from "@/components/UI/CarCard/DiscountPrice.vue";
+import { getPriceRange } from "~/utils/carHelpers";
+import DiscountPrice from "~/components/UI/CarCard/DiscountPrice.vue";
 import InfoBullet from "./InfoBullet.vue";
 import type { AvailableCar } from "./interface";
 import { getInfoBullets, getPowerUnitTitle } from "./helpers";
@@ -60,7 +60,10 @@ const infoBullets = computed(() =>
   <UModal
     v-model:open="open"
     :title="car.title"
-    :ui="{ content: 'sm:max-w-full xl:max-w-[1680px] ', body: 'flex flex-col lg:flex-row gap-4 sm:gap-8' }"
+    :ui="{
+      content: 'sm:max-w-full xl:max-w-[1680px] ',
+      body: 'flex flex-col lg:flex-row gap-4 sm:gap-8',
+    }"
   >
     <template #body>
       <div class="basis-2/3 flex-shrink-0">
@@ -77,9 +80,7 @@ const infoBullets = computed(() =>
           Новий <strong>{{ car.title }} {{ powerUnitTitle }}</strong> в
           наявності
         </h2>
-        <div class="font-semibold text-xl">
-          ~ {{ priceRange }}
-        </div>
+        <div class="font-semibold text-xl">~ {{ priceRange }}</div>
         <div class="grid sm:grid-cols-2 gap-4 mt-8">
           <InfoBullet
             v-for="(infoBullet, i) in infoBullets"
@@ -98,12 +99,17 @@ const infoBullets = computed(() =>
 
         <div class="mt-4 flex justify-center">
           <div class="bg-slate-100 p-6 sm:p-8 rounded-xl">
-            <h3 class="font-bold text-xl mb-2">
-              Роздрібна ціна
-            </h3>
+            <h3 class="font-bold text-xl mb-2">Роздрібна ціна</h3>
 
             <div class="font-bold text-xl md:text-2xl lg:text-4xl">
-              <DiscountPrice :price="`UAH ${car.price.toLocaleString()}`" :discount-price="car.discountPrice ? `UAH ${car.discountPrice.toLocaleString()}` : undefined" />
+              <DiscountPrice
+                :price="`UAH ${car.price.toLocaleString()}`"
+                :discount-price="
+                  car.discountPrice
+                    ? `UAH ${car.discountPrice.toLocaleString()}`
+                    : undefined
+                "
+              />
             </div>
 
             <UAlert

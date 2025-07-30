@@ -2,14 +2,7 @@ import { defineStore } from "pinia";
 import debounce from "lodash/debounce";
 import type { VehiclesSearchSchema, VehiclesOrder } from "@bycar-in-ua/sdk";
 import type { LocationQueryRaw } from "vue-router";
-
-export type FiltersState = Omit<
-  NonNullable<VehiclesSearchSchema["filters"]>,
-  "status" | "price"
-> & {
-  priceFrom?: number;
-  priceTo?: number;
-};
+import type { FiltersState } from "~/shared/types";
 
 type Filterbutton = {
   key: keyof FiltersState;
@@ -262,6 +255,7 @@ const queryParameterParsers: Record<
   keyof FiltersState,
   QueryParameterParser<keyof FiltersState>
 > = {
+  id: numberArrayFieldParser,
   brand: numberArrayFieldParser,
   bodyType: (value) => stringsArrayFieldParser<FiltersState["bodyType"]>(value),
   drive: (value) => stringsArrayFieldParser<FiltersState["drive"]>(value),

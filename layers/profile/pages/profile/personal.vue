@@ -1,5 +1,9 @@
 <script setup lang="ts">
-import SectionContainer from "./SectionContainer.vue";
+import SectionContainer from "../../components/SectionContainer.vue";
+
+definePageMeta({
+  name: "profile-personal",
+});
 
 const authStore = useAuthStore();
 
@@ -32,7 +36,7 @@ const fileInput = useTemplateRef("fileInput");
     >
       <ProfileFormField label="Ваше фото" name="avatar">
         <div class="flex justify-between flex-col sm:flex-row gap-4">
-          <UserAvatar :avatar="authStore.user?.avatar" class="w-40 h-40" />
+          <UserAvatar :avatar="authStore.user?.avatar" class="w-40 h-40 text-current" />
           <UInput
             ref="fileInput"
             type="file"

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useElementVisibility } from "@vueuse/core";
-import Quiz from "~/components/Quiz/Quiz.vue";
 
 defineProps<{ totalCars?: number }>();
 
@@ -39,19 +38,16 @@ if (import.meta.client) {
         <h3 v-if="totalCars && totalCars > 0" class="mb-8 md:text-lg">
           Ми зібрали понад {{ totalCars }} нових авто, щоб ти не бігав салонами
         </h3>
-        <Quiz>
-          <template #trigger="{ open }">
-            <UButton
-              block
-              icon="i-lucide-search"
-              size="xl"
-              color="secondary"
-              @click="open"
-            >
-              Підібрати авто
-            </UButton>
-          </template>
-        </Quiz>
+
+        <UButton
+          block
+          icon="i-lucide-search"
+          size="xl"
+          color="secondary"
+          to="/catalog"
+        >
+          Дивитися всі авто
+        </UButton>
       </div>
     </div>
   </section>

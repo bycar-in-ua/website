@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import Header from "@/components/Header/index.vue";
-import Footer from "@/components/Footer/index.vue";
-import CookieBanner from "@/components/CookieBanner.vue";
-import SignInModal from "@/layers/profile/components/SignInModal.vue";
+import Header from "~/components/Header/index.vue";
+import Footer from "~/components/Footer/index.vue";
+import CookieBanner from "~/components/CookieBanner.vue";
+import SignInModal from "~/layers/profile/components/SignInModal.vue";
+import QuizProvider from "~/layers/quiz/components/QuizProvider.vue";
 
 useHead({
   htmlAttrs: {
@@ -44,6 +45,7 @@ if (import.meta.client) {
 <template>
   <UApp :toaster="{ position: 'top-right' }">
     <SignInModal />
+    <QuizProvider />
     <NuxtLayout>
       <NuxtLoadingIndicator color="var(--ui-primary)" />
       <Header />

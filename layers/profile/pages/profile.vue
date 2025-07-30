@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import type { TabsItem, DropdownMenuItem } from "@nuxt/ui";
-import PersonalDataSection from "../components/PersonalDataSection.vue";
-import SecuritySection from "../components/SecuritySection.vue";
-import SavedCars from "../components/SavedCars.vue";
+import type { NavigationMenuItem } from "@nuxt/ui";
 
 definePageMeta({
   middleware: "auth",
@@ -15,40 +12,31 @@ useHead({
   title: [authStore.name, "Профіль", "Bycar"].filter(Boolean).join(" | "),
 });
 
-const activeTab = ref("saved-cars");
-
-const items: TabsItem[] = [
+const navItems: NavigationMenuItem[] = [
   {
     label: "Збережені авто",
-    value: "saved-cars",
-    slot: "saved-cars",
-    icon: "i-heroicons-solid-heart",
+    icon: "i-heroicons-heart-solid",
+    to: "/profile/saved-cars",
   },
   {
     label: "Персональні дані",
-    value: "personal",
-    slot: "personal",
-    icon: "i-heroicons-solid-user",
+    icon: "i-heroicons-user-solid",
+    to: "/profile/personal",
   },
   {
     label: "Безпека",
-    value: "security",
-    slot: "security",
-    icon: "i-heroicons-solid-lock-closed",
+    icon: "i-heroicons-lock-closed-solid",
+    to: "/profile/security",
   },
 ] as const;
 
-const dropdownItems: DropdownMenuItem[] = items.map(
-  ({ label, disabled, value, icon }) => ({
-    label,
-    disabled,
-    icon,
-    checked: value === activeTab.value,
-    onSelect: () => {
-      activeTab.value = value as string;
-    },
-  }),
-);
+const route = useRoute();
+
+onMounted(() => {
+  if (route.path === "/profile") {
+    navigateTo("/profile/personal");
+  }
+});
 </script>
 
 <template>
@@ -82,35 +70,20 @@ const dropdownItems: DropdownMenuItem[] = items.map(
       </div>
     </div>
 
-    <UTabs
-      v-model="activeTab"
-      variant="link"
-      :items="items"
+    <UNavigationMenu
+      highlight
+      highlight-color="primary"
+      orientation="horizontal"
+      :items="navItems"
+      class="data-[orientation=horizontal]:border-b border-default overflow-x-auto no-scrollbar"
       :ui="{
-        root: 'w-full gap-8',
-        trigger: 'grow sm:grow-0 basis-1 sm:basis-auto',
+        list: 'w-max',
+        linkLeadingIcon: 'size-4 sm:size-5',
+        linkLabel: 'text-xs sm:text-base',
+        link: 'px-1 sm:px-2.5 after:inset-x-1 sm:after:inset-x-2.5',
       }"
-    >
-      <template #list-trailing>
-        <UDropdownMenu :items="dropdownItems" class="sm:hidden">
-          <UButton
-            icon="i-heroicons-ellipsis-vertical"
-            variant="link"
-            color="primary"
-          />
-        </UDropdownMenu>
-      </template>
+    />
 
-      <template #saved-cars>
-        <SavedCars />
-      </template>
-
-      <template #personal>
-        <PersonalDataSection />
-      </template>
-      <template #security>
-        <SecuritySection />
-      </template>
-    </UTabs>
+    <NuxtPage class="my-8" />
   </main>
 </template>

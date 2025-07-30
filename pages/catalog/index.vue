@@ -6,6 +6,10 @@ import ContactForm from "~/components/ContactFormSection.vue";
 import BluredEllipse from "@/components/UI/BluredEllipse.vue";
 import { useCatalogStore } from "@/stores/catalog";
 
+definePageMeta({
+  name: "catalog",
+});
+
 const route = useRoute();
 
 const catalogStore = useCatalogStore();

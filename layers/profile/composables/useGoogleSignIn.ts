@@ -9,7 +9,7 @@ export function useGoogleSignIn() {
   const { status, execute: googleSignIn } = useAsyncData(
     "google-sign-in",
     async () => {
-      const profileRoute = resolve({ name: "profile" });
+      const profileRoute = resolve({ name: "profile-personal" });
       const redirectUrl = new URL(
         String(signInModalStore.redirect || profileRoute.fullPath),
         window?.location.origin ?? "",
@@ -25,11 +25,7 @@ export function useGoogleSignIn() {
         redirectOnError: redirectOnError.href,
       });
 
-      navigateTo(googleLogin.url, {
-        open: {
-          target: "_blank",
-        },
-      });
+      navigateTo(googleLogin.url, { external: true });
 
       return googleLogin;
     },

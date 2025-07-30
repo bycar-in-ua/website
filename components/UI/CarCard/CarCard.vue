@@ -1,20 +1,22 @@
 <script setup lang="ts">
 import type { Vehicle } from "@bycar-in-ua/sdk";
-import { getVehicleInfoBullets, getPriceRange } from "./helpers.js";
-import { getCarTitle } from "@/utils/carHelpers";
+import { getCarTitle } from "~/utils/carHelpers";
+import { getPriceRange } from "~/utils/carHelpers";
+import { getVehicleInfoBullets } from "./helpers.js";
+import SaveIcon from "./SaveIcon.vue";
 
 const props = defineProps<{
   car: Vehicle;
   title?: string;
   discount?: boolean;
+  isSaved?: boolean;
+  toggleSave?: (carId: number, title?: string) => Promise<void>;
 }>();
 
 const { t } = useI18n();
 
 const carTitle = computed(() => props.title ?? getCarTitle(props.car));
-
 const priceRange = computed(() => getPriceRange(props.car.complectations));
-
 const infoBullets = computed(() => getVehicleInfoBullets(props.car, t));
 </script>
 
@@ -31,17 +33,38 @@ const infoBullets = computed(() => getVehicleInfoBullets(props.car, t));
       loading="lazy"
       class="car-card-img transition-all duration-300 object-cover h-full"
     />
-    <img v-else src="/images/placeholder-image.jpg" class="object-cover h-full" />
+    <img
+      v-else
+      src="/images/placeholder-image.jpg"
+      class="object-cover h-full"
+    />
 
-    <div class="p-4 text-white absolute inset-0 flex flex-col z-10" :class="discount ? 'pt-8' : ''">
-      <div v-if="discount" class="bg-primary-500/30 text-white font-bold text-center text-xs px-2 py-1 absolute top-0 right-0 left-0 flex items-center justify-center gap-1">
-        <UIcon name="i-heroicons-solid-currency-dollar" class="w-4 h-4" />
+    <div
+      class="p-4 text-white absolute inset-0 flex flex-col z-10"
+      :class="discount ? 'pt-8' : ''"
+    >
+      <div
+        v-if="discount"
+        class="bg-primary-500/30 text-white font-bold text-center text-xs px-2 py-1 absolute top-0 right-0 left-0 flex items-center justify-center gap-1"
+      >
+        <UIcon name="i-heroicons-currency-dollar-solid" class="w-4 h-4" />
         Доступна спецпропозиція
       </div>
 
-      <h3>
-        {{ carTitle }}
-      </h3>
+      <div class="flex justify-between items-start gap-2">
+        <h3>
+          {{ carTitle }}
+        </h3>
+
+        <SaveIcon
+          v-if="toggleSave"
+          :is-saved
+          :car-id="car.id"
+          :title="carTitle"
+          :toggle-save="toggleSave"
+          class="shrink-0"
+        />
+      </div>
       <div class="font-semibold">
         <slot name="price">
           {{ priceRange }}

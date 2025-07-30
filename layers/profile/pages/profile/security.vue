@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import SectionContainer from "./SectionContainer.vue";
-import EmailForm from "./EmailForm.vue";
-import PhoneForm from "./PhoneForm.vue";
+import SectionContainer from "../../components/SectionContainer.vue";
+import EmailForm from "../../components/EmailForm.vue";
+import PhoneForm from "../../components/PhoneForm.vue";
 </script>
 
 <template>

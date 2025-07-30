@@ -140,11 +140,15 @@ useHead({
     <Media :car :title="carTitle" :active-power-unit="activePowerUnit" />
 
     <div class="flex justify-end items-end flex-wrap gap-2 mb-4 md:mb-5">
+      <SaveCarButton
+        :button-props="{ size: 'lg' }"
+        :car-id="car.id"
+        :title="carTitle"
+      />
+
       <CtaButton v-if="availableVehicles.length > 0" />
 
       <QuickContactModal v-if="hasSpecialOfferings" :page="carTitle" />
-
-      <SaveCarButton :button-props="{ size: 'lg' }" :car-id="car.id" :title="carTitle" />
     </div>
 
     <template v-if="car.complectations?.length">

@@ -7,18 +7,19 @@ export default defineAppConfig({
     colors: {
       primary: "primary",
       secondary: "secondary",
+      white: "white",
     },
     button: {
       slots: {
         base: "cursor-pointer",
       },
-      compoundVariants: {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        color: "secondary",
-        variant: "solid",
-        class: "text-gray-950",
-      },
+      compoundVariants: [
+        {
+          color: "secondary",
+          variant: "solid",
+          class: "text-gray-950",
+        },
+      ],
     },
     input: {
       variants: {

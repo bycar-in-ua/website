@@ -1,84 +1,16 @@
 <script setup lang="ts">
 import type { CheckboxProps } from "@nuxt/ui";
 import type { VehiclesFilters } from "@bycar-in-ua/sdk";
+
 import QuestionContainer from "./QuestionContainer.vue";
 import QuizButton from "./QuizButton.vue";
 import PriceStep from "./PriceStep.vue";
 import ModelsStep from "./ModelsStep.vue";
 
-const isOpen = ref(false);
-
 const { t } = useI18n();
-const { gtag } = useGtag();
 
 const quizStore = useQuizStore();
 const catalogStore = useCatalogStore();
-
-const openModal = () => {
-  quizStore.$reset();
-
-  isOpen.value = true;
-
-  gtag("event", "quiz_open", {
-    event_category: "quiz",
-    event_label: "open",
-  });
-};
-
-function checkHandler<TValue extends string | number>(
-  field: keyof FiltersState,
-  checked: boolean | "indeterminate",
-  value: TValue,
-) {
-  const existedValue = quizStore.filters[field] ?? [];
-
-  if (!Array.isArray(existedValue)) {
-    return;
-  }
-
-  if (checked) {
-    quizStore.filters = {
-      ...quizStore.filters,
-      [field]: [...existedValue, value],
-    };
-  } else {
-    quizStore.filters = {
-      ...quizStore.filters,
-      [field]: existedValue.filter((item) => item !== value),
-    };
-  }
-}
-
-function finishQuiz() {
-  if (quizStore.filters.brand?.length === 1 && quizStore.step === 0) {
-    quizStore.step += 1;
-    return;
-  }
-
-  const query = Object.entries(quizStore.filters)
-    .reduce((acc, [key, value]) => {
-      if (key === "priceFrom" || key === "priceTo") {
-        acc.push(`${key}=${value}`);
-        return acc;
-      }
-
-      if (Array.isArray(value) && value.length) {
-        acc.push(`${key}=${value.join(",")}`);
-      }
-
-      return acc;
-    }, [] as string[])
-    .join("&");
-
-  gtag("event", "quiz_finished", {
-    event_category: "quiz",
-    event_label: "finished",
-  });
-
-  isOpen.value = false;
-  quizStore.$reset();
-  navigateTo(`catalog?${query}`);
-}
 
 const engineTypes: NonNullable<VehiclesFilters["engineType"]> = [
   "gas",
@@ -96,12 +28,10 @@ const checkboxUi: CheckboxProps["ui"] = {
 
 <template>
   <UModal
-    v-model:open="isOpen"
+    v-model:open="quizStore.isOpen"
     fullscreen
     :ui="{ body: 'flex flex-col items-center justify-center' }"
   >
-    <slot name="trigger" :open="openModal" />
-
     <template #body>
       <UCard
         :ui="{
@@ -147,7 +77,8 @@ const checkboxUi: CheckboxProps["ui"] = {
                 :ui="checkboxUi"
                 size="xl"
                 @update:model-value="
-                  (checked) => checkHandler('brand', checked, brand.id)
+                  (checked) =>
+                    quizStore.checkHandler('brand', checked, brand.id)
                 "
               />
             </div>
@@ -158,7 +89,7 @@ const checkboxUi: CheckboxProps["ui"] = {
               </QuizButton>
               <QuizButton
                 :disabled="!quizStore.filters.brand?.length"
-                @click="finishQuiz"
+                @click="quizStore.finishQuiz"
               >
                 Далі
               </QuizButton>
@@ -167,7 +98,7 @@ const checkboxUi: CheckboxProps["ui"] = {
 
           <ModelsStep
             v-if="quizStore.isUserKnow === true && quizStore.step === 1"
-            @finish="finishQuiz()"
+            @finish="quizStore.finishQuiz()"
           />
 
           <PriceStep
@@ -189,7 +120,8 @@ const checkboxUi: CheckboxProps["ui"] = {
                 :ui="checkboxUi"
                 size="xl"
                 @update:model-value="
-                  (checked) => checkHandler('bodyType', checked, bodyType)
+                  (checked) =>
+                    quizStore.checkHandler('bodyType', checked, bodyType)
                 "
               />
             </div>
@@ -221,7 +153,8 @@ const checkboxUi: CheckboxProps["ui"] = {
                 :ui="checkboxUi"
                 size="xl"
                 @update:model-value="
-                  (checked) => checkHandler('engineType', checked, engineType)
+                  (checked) =>
+                    quizStore.checkHandler('engineType', checked, engineType)
                 "
               />
             </div>
@@ -240,7 +173,7 @@ const checkboxUi: CheckboxProps["ui"] = {
                 </QuizButton>
                 <QuizButton
                   :disabled="!quizStore.canFinishQuiz"
-                  @click="finishQuiz"
+                  @click="quizStore.finishQuiz"
                 >
                   Далі
                 </QuizButton>
