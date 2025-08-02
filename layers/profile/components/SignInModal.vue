@@ -21,6 +21,15 @@ const stageComponents: Record<SignInStage, Component> = {
 };
 
 const signInModal = useSignInModalStore();
+
+const { gtag } = useGtag();
+
+const afterEnterEvent = () => {
+  gtag("event", "sign_in_modal_open", {
+    event_category: "engagement",
+    event_label: "sign_in_modal",
+  });
+};
 </script>
 
 <template>
@@ -28,6 +37,7 @@ const signInModal = useSignInModalStore();
     v-model:open="signInModal.open"
     :loading="true"
     :ui="{ content: 'overflow-y-auto divide-none' }"
+    @after:enter="afterEnterEvent"
     @after:leave="setStage('login')"
   >
     <template #content>

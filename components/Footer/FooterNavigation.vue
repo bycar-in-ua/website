@@ -4,6 +4,7 @@ import type { NavigationMenuItem } from "#ui/types";
 import { HF_OSCPV } from "@/utils/constants";
 
 const { t } = useI18n();
+const { gtag } = useGtag();
 
 defineOptions({
   inheritAttrs: false,
@@ -26,6 +27,12 @@ const menuItems: NavigationMenuItem[] = [
     label: "Оформити автоцивілку (ОСЦПВ)",
     to: HF_OSCPV,
     target: "_blank",
+    onClick: () => {
+      gtag("event", "hf_oscpv_click", {
+        event_category: "affiliate",
+        event_label: "oscpv",
+      });
+    },
   },
 ];
 

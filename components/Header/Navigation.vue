@@ -16,6 +16,7 @@ import HeaderCtaButton from "./HeaderCtaButton.vue";
 defineProps<{ preset?: "light" | "dark" }>();
 
 const { t } = useI18n();
+const { gtag } = useGtag();
 
 const showMobileMenu = useMenuShowing();
 
@@ -45,6 +46,12 @@ const oscpvMenuItem: NavigationMenuItem = {
   label: "Оформити автоцивілку",
   to: HF_OSCPV,
   target: "_blank",
+  onSelect: () => {
+    gtag("event", "hf_oscpv_click", {
+      event_category: "affiliate",
+      event_label: "oscpv",
+    });
+  },
 };
 
 const desktopMenuItems: NavigationMenuItem[] = [
