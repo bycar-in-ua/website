@@ -23,10 +23,17 @@ export const useAuthStore = defineStore("auth", () => {
 
   const authenticated = computed(() => isFetched.value && !!userId.value);
 
+  const { gtag } = useGtag();
+
   const login = async (payload: LoginPayload) => {
     const user = await authService.login(payload);
 
     queryClient.setQueryData(["user"], user);
+
+    gtag("event", "sign_in", {
+      event_category: "engagement",
+      event_label: "sign_in",
+    });
   };
 
   const logout = async () => {
@@ -34,6 +41,11 @@ export const useAuthStore = defineStore("auth", () => {
 
     await authService.logout();
     queryClient.setQueryData(["user"], null);
+
+    gtag("event", "sign_out", {
+      event_category: "engagement",
+      event_label: "sign_out",
+    });
   };
 
   return {

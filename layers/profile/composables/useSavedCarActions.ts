@@ -5,6 +5,7 @@ export function useSavedCarActions() {
 
   const toast = useToast();
   const route = useRoute();
+  const { gtag } = useGtag();
 
   const handleSave = async (carId: number, title?: string) => {
     if (authStore.authenticated) {
@@ -17,6 +18,11 @@ export function useSavedCarActions() {
         description: `Автомобіль ${title ?? ""} успішно додано до закладок`,
         color: "success",
         duration: 2000,
+      });
+
+      gtag("event", "save_car", {
+        event_category: "engagement",
+        event_label: "save_car",
       });
 
       return;
@@ -44,6 +50,11 @@ export function useSavedCarActions() {
       description: `Автомобіль ${title ?? ""} успішно видалено з закладок`,
       color: "warning",
       duration: 2000,
+    });
+
+    gtag("event", "remove_saved_car", {
+      event_category: "engagement",
+      event_label: "remove_saved_car",
     });
   };
 
