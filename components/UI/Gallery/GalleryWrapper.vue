@@ -161,7 +161,11 @@ if (import.meta.client) {
       />
     </div>
     <div class="bycar-gallery" :class="{ 'with-thumbnamils': withThumbnials }">
-      <ActiveImage :is-full-screen="fullScreen" :full-screen-available>
+      <ActiveImage
+        :is-full-screen="fullScreen"
+        :full-screen-available
+        class="aspect-[16/10] lg:aspect-auto"
+      >
         <template v-if="$slots['active-image-top']" #top>
           <slot name="active-image-top" />
         </template>
@@ -181,6 +185,7 @@ if (import.meta.client) {
             :key="item.id"
             :item="item"
             :index="index"
+            class="aspect-[16/10] lg:aspect-auto"
           />
         </ThubmnailsList>
       </div>
