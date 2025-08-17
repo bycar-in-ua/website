@@ -53,7 +53,7 @@ function handleClearOrder() {
       value-key="value"
       :search-input="false"
       :ui="{
-        base: `w-full max-w-80 justify-end cursor-pointer ${
+        base: `w-full max-w-80 justify-end cursor-pointer mr-8 md:mr-0 ${
           catalogStore.order ? 'pe-14' : 'pe-9'
         }`,
       }"
