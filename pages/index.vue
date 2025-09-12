@@ -1,11 +1,11 @@
 <script setup lang="ts">
+import type { HomepageData } from "~/shared/types";
+import ContactForm from "~/components/ContactFormSection.vue";
 import Hero from "@/components/Home/Hero.vue";
 import LatestVideos from "@/components/Home/LatestVideos.vue";
 import Latest from "@/components/Home/Latest.vue";
-import ContactForm from "~/components/ContactFormSection.vue";
 import Brands from "@/components/Home/Brands.vue";
 import { generatePageTitle } from "@/utils/seo";
-import type { HomepageData } from "@/server/api/homepage-data.get";
 
 const route = useRoute();
 
@@ -46,7 +46,7 @@ const { data } = await useFetch<HomepageData>("/api/homepage-data", {
   >
     <Hero :total-cars="data.totalItems" />
     <LatestVideos :videos="data.latestYoutubeVideos" class="container" />
-    <Latest v-bind="data.latestItems" class="container" />
+    <Latest :latest-items="data.latestItems" class="container" />
     <ContactForm page="Головна сторінка" :show-affix="false" class="container" />
     <Brands :established-brands="data.establishedBrands" class="container" />
   </main>

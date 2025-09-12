@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import SectionTitle from "@/components/UI/SectionTitle.vue";
 import CarCard from "@/components/UI/CarCard/CarCard.vue";
-import type { HomepageData } from "~/server/api/homepage-data.get";
+import type { HomepageData } from "~/shared/types";
 
-defineProps<HomepageData["latestItems"]>();
+defineProps<{ latestItems: HomepageData["latestItems"] }>();
 
 const profileStore = useProfileStore();
 
@@ -13,15 +13,15 @@ const { toggleSave } = useSavedCarActions();
 <template>
   <section class="my-10 md:my-24">
     <SectionTitle
-      :title="title ?? 'Нові авто в каталозі'"
-      :extra-link="`/catalog?${queryString}`"
+      :title="latestItems.title ?? 'Нові авто в каталозі'"
+      :extra-link="`/catalog?${latestItems.queryString}`"
     />
 
     <div
       class="cards-container grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4 lg:gap-5"
     >
       <NuxtLink
-        v-for="car in items"
+        v-for="car in latestItems.items"
         :key="car.id"
         :to="{
           name: 'SingleCar',

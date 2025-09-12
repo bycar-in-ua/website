@@ -4,10 +4,11 @@ frontend:
         preBuild:
             commands:
                 - 'corepack enable'
-                - 'npx --yes nypm i'
+                - 'pnpm config set //npm.pkg.github.com/:_authToken $GITHUB_TOKEN'
+                - 'pnpm i'
         build:
             commands:
-                - 'npm run build'
+                - 'pnpm run build'
     artifacts:
         baseDirectory: .amplify-hosting
         files:
