@@ -5,7 +5,7 @@ frontend:
             commands:
                 - 'corepack enable'
                 - 'pnpm config set //npm.pkg.github.com/:_authToken $GITHUB_TOKEN'
-                - 'pnpm install --frozen-lockfile=false'
+                - 'pnpm i'
         build:
             commands:
                 - 'pnpm run build'
