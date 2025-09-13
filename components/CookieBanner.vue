@@ -13,8 +13,7 @@ defineEmits(["acceptCookie"]);
       контентної стратегії та аналізу статистичних даних. Використовуючи цей
       веб-сайт, Ви погоджуєтеся з нашою
       <NuxtLink to="/cookie-policy">
-        Політикою використання файлів cookies</NuxtLink
-      >.
+        Політикою використання файлів cookies</NuxtLink>.
     </p>
 
     <div class="flex justify-center items-center gap-2">

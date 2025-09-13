@@ -115,12 +115,10 @@ useHead({
       веб-сайті. Щоб дізнатися, як відключити файли cookie в улюбленому вами
       браузері, ми рекомендуємо прочитати цю
       <a href="https://support.google.com/accounts/answer/61416?hl=en">
-        пораду Google </a
-      >. Ви також можете відключити Google Analytics на всіх веб-сайтах,
+        пораду Google </a>. Ви також можете відключити Google Analytics на всіх веб-сайтах,
       завантаживши
       <a href="https://tools.google.com/dlpage/gaoptout">
-        програму для браузера для відключення Google Analytics </a
-      >.
+        програму для браузера для відключення Google Analytics </a>.
     </p>
 
     <JurCreds />

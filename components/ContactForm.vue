@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { FormError } from "#ui/types";
+import { useMutation } from "@tanstack/vue-query";
 
 const props = withDefaults(defineProps<{ page: string; id?: string }>(), {
   id: "contact-form",
@@ -17,7 +18,7 @@ const formState = reactive<FormState>({
   phone: authStore.user?.phone ?? "",
 });
 
-watchEffect(() => {
+watch([authStore.user], () => {
   formState.name = authStore.user?.firstName ?? "";
   formState.phone = authStore.user?.phone ?? "";
 });
@@ -63,35 +64,30 @@ const validate = (state: Partial<FormState>): FormError[] => {
 };
 
 const { gtag } = useGtag();
-const { $fbq } = useNuxtApp()
+const { $fbq } = useNuxtApp();
 
-const { status, refresh: submitForm } = useAsyncData(
-  "submit-contact-form",
-  async () => {
-    await $fetch("/api/contact-form", {
-      method: "POST",
-      body: {
-        name: formState.name,
-        phone: formState.phone,
-        page: props.page,
-        userId: authStore.user?.id,
-      },
-    });
+const { mutate: submitForm, isSuccess, isPending } = useMutation({
+  mutationKey: ["contact-form-submit", props.page, authStore.user?.id],
+  mutationFn: ({ name, phone }: FormState) => $fetch("/api/contact-form", {
+    method: "POST",
+    body: {
+      name,
+      phone,
+      page: props.page,
+      userId: authStore.user?.id,
+    },
+  }),
+  onSuccess: () => {
     gtag("event", "contact_form_submit", {
       event_category: "engagement",
       event_label: props.page,
     });
-    $fbq?.('track', 'Lead', {
-      content_name: 'Contact Form Submit',
+    $fbq?.("track", "Lead", {
+      content_name: "Contact Form Submit",
       content_category: props.page,
-    })
+    });
   },
-  {
-    immediate: false,
-  },
-);
-
-const messageSent = computed(() => status.value === "success");
+});
 </script>
 
 <template>
@@ -100,7 +96,7 @@ const messageSent = computed(() => status.value === "success");
     :validate="validate"
     class="p-5 flex flex-col gap-4 shadow-xl rounded-2xl bg-white max-w-[340px] w-full"
     :validate-on="['blur']"
-    @submit="submitForm"
+    @submit="(e) => submitForm(e.data)"
   >
     <UFormField name="name">
       <UInput
@@ -108,7 +104,7 @@ const messageSent = computed(() => status.value === "success");
         v-model:model-value="formState.name"
         placeholder="Ваше ім’я"
         size="lg"
-        :disabled="messageSent"
+        :disabled="isSuccess"
         class="w-full"
       />
     </UFormField>
@@ -121,12 +117,12 @@ const messageSent = computed(() => status.value === "success");
         size="lg"
         mask="+38 (###) ###-##-##"
         type="tel"
-        :disabled="messageSent"
+        :disabled="isSuccess"
         class="w-full"
       />
     </UFormField>
 
-    <UButton v-if="messageSent" block disabled>
+    <UButton v-if="isSuccess" block disabled>
       Заявку надіслано!<br />
       Дякуємо за звернення
     </UButton>
@@ -136,7 +132,7 @@ const messageSent = computed(() => status.value === "success");
       block
       type="submit"
       size="lg"
-      :loading="status === 'pending'"
+      :loading="isPending"
     >
       Передзвоніть мені
     </UButton>
