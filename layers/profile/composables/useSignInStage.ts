@@ -1,9 +1,9 @@
 export type SignInStage =
-  | "login"
-  | "signup"
-  | "confirm-phone"
-  | "forgot-password"
-  | "reset-password";
+  | "login" |
+  "signup" |
+  "confirm-phone" |
+  "forgot-password" |
+  "reset-password";
 
 type SignInStageApi = {
   stage: Ref<SignInStage>;

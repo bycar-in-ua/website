@@ -5,7 +5,7 @@ const props = defineProps<{
 }>();
 
 const { gtag } = useGtag();
-const { $fbq } = useNuxtApp()
+const { $fbq } = useNuxtApp();
 
 const tgUrl = new URL("https://t.me/AJ201997");
 
