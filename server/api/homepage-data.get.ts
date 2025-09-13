@@ -1,22 +1,9 @@
-import type { Brand, Vehicle, VehiclesSearchSchema } from "@bycar-in-ua/sdk";
 import { BodyType } from "@bycar-in-ua/sdk";
 import sample from "lodash/sample.js";
-import type { YouTubeVideoItem } from "@/components/UI/VideoCard";
 import { useBrandService } from "~/composables/useBrandServuce";
 import { useVehiclesService } from "~/composables/useVehiclesService";
-
-export type HomepageData = {
-  latestYoutubeVideos: YouTubeVideoItem[];
-  latestItems: Omit<VehiclesFilterSet, "filters"> & { items: Vehicle[] };
-  totalItems: number;
-  establishedBrands: Brand[];
-};
-
-type VehiclesFilterSet = {
-  title: string;
-  filters: VehiclesSearchSchema["filters"];
-  queryString: string;
-};
+import type { YouTubeVideoItem } from "~/components/UI/VideoCard";
+import type { HomepageData, VehiclesFilterSet } from "~/shared/types";
 
 const recentVehiclesQueries: VehiclesFilterSet[] = [
   {

@@ -5,8 +5,6 @@ const props = withDefaults(defineProps<{ page: string; id?: string }>(), {
   id: "contact-form",
 });
 
-const { gtag } = useGtag();
-
 const authStore = useAuthStore();
 
 type FormState = {
@@ -64,6 +62,9 @@ const validate = (state: Partial<FormState>): FormError[] => {
   return errors;
 };
 
+const { gtag } = useGtag();
+const { $fbq } = useNuxtApp()
+
 const { status, refresh: submitForm } = useAsyncData(
   "submit-contact-form",
   async () => {
@@ -80,6 +81,10 @@ const { status, refresh: submitForm } = useAsyncData(
       event_category: "engagement",
       event_label: props.page,
     });
+    $fbq?.('track', 'Lead', {
+      content_name: 'Contact Form Submit',
+      content_category: props.page,
+    })
   },
   {
     immediate: false,

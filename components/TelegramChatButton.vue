@@ -5,6 +5,7 @@ const props = defineProps<{
 }>();
 
 const { gtag } = useGtag();
+const { $fbq } = useNuxtApp()
 
 const tgUrl = new URL("https://t.me/AJ201997");
 
@@ -25,7 +26,11 @@ if (props.message) {
       gtag('event', 'telegram_chat_click', {
         event_category: 'engagement',
         event_label: page,
-      })
+      });
+      $fbq?.('track', 'Lead', {
+        content_name: 'Telegram Chat',
+        content_category: page,
+      });
     "
   >
     Написати в чат
