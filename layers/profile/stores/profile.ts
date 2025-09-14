@@ -26,8 +26,8 @@ export const useProfileStore = defineStore("profile", () => {
 
   const queryClient = useQueryClient();
 
-  const { mutateAsync: updateProfile, isPending: updateProfilePending } =
-    useMutation({
+  const { mutateAsync: updateProfile, isPending: updateProfilePending }
+    = useMutation({
       mutationKey: ["update-profile", authStore.userId],
       mutationFn: (payload: Partial<Profile>) => {
         return usersService.updateProfile(payload);

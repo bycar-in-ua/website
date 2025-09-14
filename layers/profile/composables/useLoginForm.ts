@@ -1,8 +1,5 @@
 import * as v from "valibot";
-import {
-  emailOrPhoneSchema,
-  passwordSchema,
-} from "@/layers/profile/vaidation.shema";
+import { emailOrPhoneSchema, passwordSchema } from "#layers/profile/vaidation.shema";
 
 const loginSchema = v.object({
   login: emailOrPhoneSchema,
@@ -44,9 +41,7 @@ export function useLoginForm() {
         });
       }
     },
-    {
-      immediate: false,
-    },
+    { immediate: false },
   );
 
   const loading = computed(() => status.value === "pending");

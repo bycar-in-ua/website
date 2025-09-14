@@ -1,7 +1,4 @@
-import {
-  ACCESS_TOKEN_COOKIE_NAME,
-  REFRESH_TOKEN_COOKIE_NAME,
-} from "@bycar-in-ua/sdk";
+import { ACCESS_TOKEN_COOKIE_NAME, REFRESH_TOKEN_COOKIE_NAME } from "@bycar-in-ua/sdk";
 
 export default defineEventHandler(async (event) => {
   const accessToken = getCookie(event, ACCESS_TOKEN_COOKIE_NAME);

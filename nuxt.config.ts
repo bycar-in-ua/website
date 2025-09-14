@@ -1,5 +1,6 @@
 export default defineNuxtConfig({
   extends: ["./layers/profile/nuxt.config.ts", "./layers/quiz/nuxt.config.ts"],
+
   modules: [
     "@pinia/nuxt",
     "@nuxtjs/i18n",
@@ -12,9 +13,10 @@ export default defineNuxtConfig({
     "@sentry/nuxt/module",
     "nuxt-meta-pixel",
   ],
+
   devtools: { enabled: Boolean(process.env.NUXT_DEVTOOLS_ENABLED) },
 
-  css: ["@/assets/css/global.css"],
+  css: ["~/assets/css/global.css"],
 
   colorMode: {
     preference: "light",
@@ -40,27 +42,20 @@ export default defineNuxtConfig({
     },
   },
 
-  devServer: {
-    port: 4000,
-  },
+  devServer: { port: 4000 },
 
-  compatibilityDate: "2025-06-30",
+  compatibilityDate: "2025-09-14",
 
-  eslint: {
-    config: {
-      stylistic: {
-        quotes: "double",
-        semi: true,
-        braceStyle: "1tbs",
-        arrowParens: true,
-      },
-    },
-  },
+  typescript: { includeWorkspace: true },
+
+  eslint: { config: { stylistic: true } },
 
   fonts: {
     provider: "google",
     defaults: {
-      weights: [400, 500, 600, 700, 800],
+      weights: [
+        400, 500, 600, 700, 800,
+      ],
     },
   },
 
@@ -73,26 +68,15 @@ export default defineNuxtConfig({
     defaultLocale: "ua",
     locales: ["ua"],
     strategy: "no_prefix",
-    bundle: {
-      optimizeTranslationDirective: false,
-    },
   },
 
-  pinia: {
-    storesDirs: ["./stores/**", "./layers/**/stores/**"],
-  },
+  pinia: { storesDirs: ["./app/stores/**", "./layers/**/stores/**"] },
 
-  robots: {
-    disallow: process.env.STAGE === "production" ? undefined : "/",
-  },
+  robots: { disallow: process.env.STAGE === "production" ? undefined : "/" },
 
   sentry: {
-    sourceMapsUploadOptions: {
-      enabled: false,
-    },
-    unstable_sentryBundlerPluginOptions: {
-      telemetry: false,
-    },
+    sourceMapsUploadOptions: { enabled: false },
+    unstable_sentryBundlerPluginOptions: { telemetry: false },
   },
 
   sitemap: {

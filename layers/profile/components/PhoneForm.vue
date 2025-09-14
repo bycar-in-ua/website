@@ -20,7 +20,12 @@ const {
 </script>
 
 <template>
-  <UForm ref="form" :state="state" :schema="formSchema" class="space-y-4">
+  <UForm
+    ref="form"
+    :state="state"
+    :schema="formSchema"
+    class="space-y-4"
+  >
     <ProfileFormField label="Телефон" name="phone">
       <UInput
         v-model="state.phone"
@@ -53,7 +58,7 @@ const {
 
       <template v-if="!state.phone" #help>
         Схоже ви не прив'язали телефон до вашого профілю.
-        <br />
+        <br>
         Ми радимо зробити це для безпеки аккаунту та швидшого зв'язку з вами.
       </template>
     </ProfileFormField>
@@ -80,7 +85,9 @@ const {
           @click="sendVerificationCode()"
         >
           Відправити ще раз
-          <template v-if="timeToResend > 0">(00:{{ timeToResend }})</template>
+          <template v-if="timeToResend > 0">
+            (00:{{ timeToResend }})
+          </template>
         </UButton>
       </template>
     </ProfileFormField>

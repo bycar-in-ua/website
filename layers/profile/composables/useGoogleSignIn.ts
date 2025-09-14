@@ -35,9 +35,7 @@ export function useGoogleSignIn() {
 
       return googleLogin;
     },
-    {
-      immediate: false,
-    },
+    { immediate: false },
   );
 
   const loading = computed(() => status.value === "pending");

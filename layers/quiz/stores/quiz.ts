@@ -1,7 +1,7 @@
 import type { Vehicle } from "@bycar-in-ua/sdk";
 import { defineStore } from "pinia";
 import type { LocationQueryRaw } from "vue-router";
-import type { FiltersState } from "~/shared/types";
+import type { FiltersState } from "#shared/types";
 
 const initialFilters: FiltersState = Object.freeze({
   brand: [],
@@ -28,11 +28,11 @@ export const useQuizStore = defineStore("quiz", () => {
 
   const canFinishQuiz = computed(() => {
     return Boolean(
-      filters.value.bodyType?.length ||
-      filters.value.drive?.length ||
-      filters.value.engineType?.length ||
-      filters.value.priceFrom ||
-      filters.value.priceTo,
+      filters.value.bodyType?.length
+      || filters.value.drive?.length
+      || filters.value.engineType?.length
+      || filters.value.priceFrom
+      || filters.value.priceTo,
     );
   });
 
@@ -77,7 +77,10 @@ export const useQuizStore = defineStore("quiz", () => {
     isOpen.value = false;
     resetState();
 
-    navigateTo({ name: "catalog", query }, { replace: true });
+    navigateTo({
+      name: "catalog",
+      query,
+    }, { replace: true });
   };
 
   const selectModel = (car: Vehicle) => {

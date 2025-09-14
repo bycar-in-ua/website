@@ -1,42 +1,78 @@
-import withNuxt from "./.nuxt/eslint.config.mjs";
+import { createConfigForNuxt } from "@nuxt/eslint-config/flat";
+import importNewLines from "eslint-plugin-import-newlines";
 
-export default withNuxt()
-  .override("nuxt/vue/rules", {
+// Run `npx @eslint/config-inspector` to inspect the resolved config interactively
+export default createConfigForNuxt({
+  features: {
+    // Rules for module authors
+    tooling: true,
+    // Rules for formatting
+    stylistic: {
+      quotes: "double",
+      semi: true,
+      braceStyle: "1tbs",
+      arrowParens: true,
+    },
+  },
+  dirs: { pages: ["./app/pages", "./layers/**/pages"] },
+})
+  .append({
+    name: "bycar/base",
+    plugins: { "import-newlines": importNewLines },
     rules: {
-      "vue/max-attributes-per-line": [
-        "warn",
+      "@stylistic/object-curly-newline": [
+        "error",
         {
-          singleline: {
-            max: 4,
+          ObjectExpression: {
+            multiline: true,
+            minProperties: 3,
+          },
+          ObjectPattern: {
+            multiline: true,
+            minProperties: 3,
+          },
+          ImportDeclaration: {
+            minProperties: 4,
+            multiline: true,
+            consistent: false,
+          },
+          ExportDeclaration: {
+            multiline: true,
+            minProperties: 3,
           },
         },
       ],
-      "vue/html-self-closing": ["off"],
-      "vue/singleline-html-element-content-newline": ["off"],
-    },
-  })
-  .override("nuxt/stylistic", {
-    rules: {
-      "@stylistic/operator-linebreak": [
+      "@stylistic/object-property-newline": ["error"],
+      "import-newlines/enforce": ["warn", 3],
+      "@stylistic/array-bracket-newline": [
         "warn",
-        "after",
-        { overrides: { "?": "before", ":": "before" } },
-      ],
-      "@stylistic/indent": [
-        "error",
-        2,
         {
-          FunctionExpression: { parameters: "off" },
-          SwitchCase: 1,
-          offsetTernaryExpressions: true,
+          multiline: true,
+          minItems: 3,
         },
       ],
-      "@stylistic/quotes": ["error", "double", { avoidEscape: true }],
     },
   })
-  .override("nuxt/import/rules", {
-    files: ["*.vue"],
-    rules: {
-      "import/first": "off",
-    },
+  .overrideRules({
+    "@stylistic/member-delimiter-style": [
+      "warn",
+      {
+        multiline: {
+          delimiter: "semi",
+          requireLast: true,
+        },
+        singleline: {
+          delimiter: "semi",
+          requireLast: true,
+        },
+        multilineDetection: "brackets",
+      },
+    ],
+    "vue/max-attributes-per-line": [
+      "warn",
+      {
+        singleline: 3,
+        multiline: { max: 1 },
+      },
+    ],
   });

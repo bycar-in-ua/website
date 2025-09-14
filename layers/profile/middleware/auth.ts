@@ -12,12 +12,15 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
     return true;
   } catch {
-    const redirectPath =
-      from.fullPath && from.fullPath !== to.fullPath ? from.fullPath : "/";
+    const redirectPath
+      = from.fullPath && from.fullPath !== to.fullPath ? from.fullPath : "/";
 
     return navigateTo({
       path: redirectPath,
-      query: { redirect: to.fullPath, loginModal: "open" },
+      query: {
+        redirect: to.fullPath,
+        loginModal: "open",
+      },
       replace: true,
     });
   }

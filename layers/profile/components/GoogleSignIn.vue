@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Google from "@/components/UI/Icons/Google.vue";
+import Google from "~/components/UI/Icons/Google.vue";
 
 const { googleSignIn, loading } = useGoogleSignIn();
 </script>

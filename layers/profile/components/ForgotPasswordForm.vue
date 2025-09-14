@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import GoogleSignIn from "./GoogleSignIn.vue";
 
-const { state, formSchema, sendForgotPasswordRequest, loading } =
-  useForgotPasswordForm();
+const {
+  state, formSchema, sendForgotPasswordRequest, loading,
+}
+  = useForgotPasswordForm();
 
 const { setStage } = useSignInStage();
 </script>
@@ -30,7 +32,14 @@ const { setStage } = useSignInStage();
       />
     </UFormField>
 
-    <UButton size="xl" block type="submit" :loading> Надіслати </UButton>
+    <UButton
+      size="xl"
+      block
+      type="submit"
+      :loading
+    >
+      Надіслати
+    </UButton>
 
     <GoogleSignIn />
 

@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import InputPassword from "@/components/UI/InputPassword.vue";
-import { useLoginForm } from "@/layers/profile/composables/useLoginForm";
-import { useSignInStage } from "@/layers/profile/composables/useSignInStage";
+import InputPassword from "~/components/UI/InputPassword.vue";
+import { useLoginForm } from "#layers/profile/composables/useLoginForm";
+import { useSignInStage } from "#layers/profile/composables/useSignInStage";
 import GoogleSignIn from "./GoogleSignIn.vue";
 
-const { state, loginSchema, login, loading } = useLoginForm();
+const {
+  state, loginSchema, login, loading,
+} = useLoginForm();
 
 const { setStage } = useSignInStage();
 </script>
@@ -42,7 +44,14 @@ const { setStage } = useSignInStage();
       </UButton>
     </div>
 
-    <UButton size="xl" block type="submit" :loading> Увійти </UButton>
+    <UButton
+      size="xl"
+      block
+      type="submit"
+      :loading
+    >
+      Увійти
+    </UButton>
 
     <GoogleSignIn />
 

@@ -1,16 +1,14 @@
 <script setup lang="ts">
 import type { PaginatedResponse, Vehicle } from "@bycar-in-ua/sdk";
-import CarCard from "@/components/UI/CarCard/CarCard.vue";
-import Pagination from "@/components/UI/Pagination.vue";
-import GridSkeleton from "@/components/UI/GridSkeleton.vue";
-import Empty from "@/components/UI/Empty.vue";
+import CarCard from "~/components/UI/CarCard/CarCard.vue";
+import Pagination from "~/components/UI/Pagination.vue";
+import GridSkeleton from "~/components/UI/GridSkeleton.vue";
+import Empty from "~/components/UI/Empty.vue";
 import { useQuery, keepPreviousData } from "@tanstack/vue-query";
 
 import SectionContainer from "../../components/SectionContainer.vue";
 
-definePageMeta({
-  name: "saved-cars",
-});
+definePageMeta({ name: "saved-cars" });
 
 const profileStore = useProfileStore();
 
@@ -28,7 +26,9 @@ const {
   isLoading,
   isPending,
 } = useQuery({
-  queryKey: ["saved-cars", page, carsIds],
+  queryKey: [
+    "saved-cars", page, carsIds,
+  ],
   queryFn: async () => {
     const crsIdsLength = carsIds.value.length;
 
@@ -49,9 +49,7 @@ const {
     }
 
     const response = await vehiclesService.searchVehicles({
-      filters: {
-        id: carsIds.value,
-      },
+      filters: { id: carsIds.value },
       pagination: {
         page: page.value,
         limit: PAGE_SIZE,
@@ -76,7 +74,7 @@ const {
     <Empty v-else-if="!vehicles?.items.length">
       <div class="text-center">
         Поки у вас немає збережених авто
-        <br />
+        <br>
         Оберіть авто в
         <ULink to="/catalog" class="text-primary">каталозі</ULink>
         та збережіть натиснувши на іконку

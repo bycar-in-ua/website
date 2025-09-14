@@ -9,7 +9,9 @@ definePageMeta({
 const authStore = useAuthStore();
 
 useHead({
-  title: [authStore.name, "Профіль", "Bycar"].filter(Boolean).join(" | "),
+  title: [
+    authStore.name, "Профіль", "Bycar",
+  ].filter(Boolean).join(" | "),
 });
 
 const navItems: NavigationMenuItem[] = [
@@ -46,7 +48,7 @@ onMounted(() => {
         src="/images/profile-bg.png"
         alt="Profile background"
         class="h-full w-full object-cover"
-      />
+      >
     </div>
 
     <div class="relative -top-10 z-10 px-4 sm:px-8 space-y-2">

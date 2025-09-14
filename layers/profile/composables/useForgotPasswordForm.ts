@@ -1,14 +1,10 @@
 import * as z from "valibot";
 import { emailOrPhoneSchema } from "../vaidation.shema";
 
-const formSchema = z.object({
-  login: emailOrPhoneSchema,
-});
+const formSchema = z.object({ login: emailOrPhoneSchema });
 
 export function useForgotPasswordForm() {
-  const state = reactive({
-    login: "",
-  });
+  const state = reactive({ login: "" });
 
   const authService = useAuthService();
   const toast = useToast();
@@ -39,9 +35,7 @@ export function useForgotPasswordForm() {
         });
       }
     },
-    {
-      immediate: false,
-    },
+    { immediate: false },
   );
 
   const loading = computed(() => status.value === "pending");

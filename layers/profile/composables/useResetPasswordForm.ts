@@ -60,9 +60,7 @@ export function useResetPasswordForm() {
         });
       }
     },
-    {
-      immediate: false,
-    },
+    { immediate: false },
   );
 
   const loading = computed(() => status.value === "pending");

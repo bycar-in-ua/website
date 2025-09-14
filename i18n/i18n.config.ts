@@ -1,4 +1,9 @@
-import { general, vehicle, colors, options } from "@bycar-in-ua/sdk";
+import {
+  general,
+  vehicle,
+  colors,
+  options,
+} from "@bycar-in-ua/sdk";
 
 export default defineI18nConfig(() => ({
   locale: "ua",
@@ -41,9 +46,7 @@ export default defineI18nConfig(() => ({
         "yearFrom-desc": "За роком: від новіших",
         "yearFrom-asc": "За роком: від старших",
       },
-      catalog: {
-        title: "Каталог авто",
-      },
+      catalog: { title: "Каталог авто" },
       recentCars: "Нові авто у каталозі",
       brands: "Представлені бренди",
       complectationOptions: "Опції комплектації",
@@ -54,9 +57,7 @@ export default defineI18nConfig(() => ({
         prev: "Попередня сторінка",
         next: "Наступна сторінка",
       },
-      gallery: {
-        toggleFullScreen: 'Відкрити на весь екран ("F" на клавіатурі)',
-      },
+      gallery: { toggleFullScreen: "Відкрити на весь екран (\"F\" на клавіатурі)" },
     },
   },
 }));

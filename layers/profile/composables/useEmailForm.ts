@@ -2,24 +2,20 @@ import * as v from "valibot";
 
 import { emailSchema } from "../vaidation.shema";
 
-const formSchema = v.object({
-  email: emailSchema,
-});
+const formSchema = v.object({ email: emailSchema });
 
 export function useEmailForm() {
   const authStore = useAuthStore();
 
-  const state = reactive({
-    email: authStore.user?.email,
-  });
+  const state = reactive({ email: authStore.user?.email });
 
   const isNewEmail = computed(() => state.email !== authStore.user?.email);
 
   const authService = useAuthService();
   const toast = useToast();
 
-  const { execute: sendVerification, status: sendVerificationStatus } =
-    useAsyncData(
+  const { execute: sendVerification, status: sendVerificationStatus }
+    = useAsyncData(
       "send-verification",
       async () => {
         const redirectUrl = composeQueryToastUrl({
@@ -42,9 +38,7 @@ export function useEmailForm() {
 
         return true;
       },
-      {
-        immediate: false,
-      },
+      { immediate: false },
     );
 
   const emailSendLoading = computed(

@@ -1,8 +1,4 @@
-import {
-  ImagesPrivateService,
-  UsersPrivateService,
-  type UpdatePersonalPayload,
-} from "@bycar-in-ua/sdk";
+import { ImagesPrivateService, UsersPrivateService, type UpdatePersonalPayload } from "@bycar-in-ua/sdk";
 
 export function usePersonalDataForm() {
   const authStore = useAuthStore();
@@ -44,9 +40,7 @@ export function usePersonalDataForm() {
         });
       }
     },
-    {
-      immediate: false,
-    },
+    { immediate: false },
   );
 
   const isUploadingAvatar = ref(false);

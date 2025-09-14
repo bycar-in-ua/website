@@ -6,11 +6,7 @@ export const useSignInModalStore = defineStore("sign-in-modal", () => {
       return Boolean(router.currentRoute.value.query.loginModal);
     },
     set(value) {
-      router.replace({
-        query: {
-          loginModal: value ? "open" : undefined,
-        },
-      });
+      router.replace({ query: { loginModal: value ? "open" : undefined } });
     },
   });
 
@@ -19,11 +15,7 @@ export const useSignInModalStore = defineStore("sign-in-modal", () => {
       return router.currentRoute.value.query.redirect as string | undefined;
     },
     set(value) {
-      router.replace({
-        query: {
-          redirect: value || "",
-        },
-      });
+      router.replace({ query: { redirect: value || "" } });
     },
   });
 
