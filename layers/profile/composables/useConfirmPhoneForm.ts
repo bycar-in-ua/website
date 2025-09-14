@@ -5,9 +5,7 @@ type FormState = {
 };
 
 export function useConfirmPhoneForm() {
-  const state = reactive<FormState>({
-    code: [],
-  });
+  const state = reactive<FormState>({ code: [] });
 
   const isValid = computed(() => state.code.length === 4);
 
@@ -40,9 +38,7 @@ export function useConfirmPhoneForm() {
         });
       }
     },
-    {
-      immediate: false,
-    },
+    { immediate: false },
   );
 
   const loading = computed(() => status.value === "pending");

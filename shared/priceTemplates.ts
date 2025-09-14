@@ -6,6 +6,9 @@ export const priceTemplates = Array.from(
   { length: (MAX_PRICE - (MIN_PRICE - PRICE_STEP)) / PRICE_STEP },
   (_, i) => {
     const value = i * PRICE_STEP + MIN_PRICE;
-    return { value, label: `$${value.toLocaleString()}` };
+    return {
+      value,
+      label: `$${value.toLocaleString()}`,
+    };
   },
 );

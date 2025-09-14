@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import SectionContainer from "../../components/SectionContainer.vue";
 
-definePageMeta({
-  name: "profile-personal",
-});
+definePageMeta({ name: "profile-personal" });
 
 const authStore = useAuthStore();
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-defineProps<{ avatar?: string }>();
+defineProps<{ avatar?: string; }>();
 
 const cdnImage = useCdnImage();
 </script>

@@ -11,7 +11,7 @@ export type FiltersState = Omit<
 
 export type HomepageData = {
   latestYoutubeVideos: YouTubeVideoItem[];
-  latestItems: Omit<VehiclesFilterSet, "filters"> & { items: Vehicle[] };
+  latestItems: Omit<VehiclesFilterSet, "filters"> & { items: Vehicle[]; };
   totalItems: number;
   establishedBrands: Brand[];
 };

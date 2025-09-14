@@ -6,8 +6,10 @@ const authStore = useAuthStore();
 
 const form = useTemplateRef("form");
 
-const { state, formSchema, sendVerification, emailSendLoading, isNewEmail } =
-  useEmailForm();
+const {
+  state, formSchema, sendVerification, emailSendLoading, isNewEmail,
+}
+  = useEmailForm();
 </script>
 
 <template>
@@ -50,7 +52,7 @@ const { state, formSchema, sendVerification, emailSendLoading, isNewEmail } =
       >
         Email не верифікований. Будь ласка, перевірте свою пошту, включно з
         папкою "Спам" та перейдіть за посиланням у листі.
-        <br />
+        <br>
         Якщо лист не приходить,
         <ULink
           class="text-primary cursor-pointer"

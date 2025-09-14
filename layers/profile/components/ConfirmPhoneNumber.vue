@@ -1,7 +1,9 @@
 <script setup lang="ts">
 const authStore = useAuthStore();
 
-const { state, isValid, confirmPhone, loading } = useConfirmPhoneForm();
+const {
+  state, isValid, confirmPhone, loading,
+} = useConfirmPhoneForm();
 </script>
 
 <template>
@@ -34,7 +36,9 @@ const { state, isValid, confirmPhone, loading } = useConfirmPhoneForm();
 
     <div class="flex justify-center items-center text-sm mt-4">
       <span class="text-gray-500">Не отримали код?</span>
-      <UButton variant="link" disabled> Надіслати повторно </UButton>
+      <UButton variant="link" disabled>
+        Надіслати повторно
+      </UButton>
     </div>
   </UForm>
 </template>

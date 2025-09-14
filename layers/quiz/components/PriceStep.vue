@@ -4,7 +4,7 @@ import {
   MIN_PRICE,
   MAX_PRICE,
   PRICE_STEP,
-} from "~/shared/priceTemplates";
+} from "#shared/priceTemplates";
 
 import QuestionContainer from "./QuestionContainer.vue";
 import QuizButton from "./QuizButton.vue";
@@ -19,7 +19,7 @@ const priceSliderModel = computed({
   set: ([from, to]: number[]) => {
     quizStore.filters.priceFrom = from;
 
-    if (isFinite(to)) {
+    if (Number.isFinite(to)) {
       quizStore.filters.priceTo = to;
     }
   },
@@ -127,7 +127,9 @@ const availablePriceTo = computed(() => {
       <QuizButton variant="outline" @click="quizStore.$reset()">
         Назад
       </QuizButton>
-      <QuizButton @click="quizStore.step += 1"> Далі </QuizButton>
+      <QuizButton @click="quizStore.step += 1">
+        Далі
+      </QuizButton>
     </template>
   </QuestionContainer>
 </template>

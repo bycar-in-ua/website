@@ -34,8 +34,8 @@ export function usePhoneForm() {
   const authService = useAuthService();
   const timeToResend = ref(0);
 
-  const { execute: sendVerificationCode, status: sendVerificationCodeStatus } =
-    useAsyncData(
+  const { execute: sendVerificationCode, status: sendVerificationCodeStatus }
+    = useAsyncData(
       "send-phone-verification",
       async () => {
         await authService.sendPhoneVerificationSms(
@@ -65,9 +65,7 @@ export function usePhoneForm() {
 
         return true;
       },
-      {
-        immediate: false,
-      },
+      { immediate: false },
     );
 
   const sendingSms = computed(
@@ -90,9 +88,7 @@ export function usePhoneForm() {
 
       return true;
     },
-    {
-      immediate: false,
-    },
+    { immediate: false },
   );
 
   const verifyingPhone = computed(() => verifyPhoneStatus.value === "pending");

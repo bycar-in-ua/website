@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import BluredEllipseBlueAndYellow from "@/components/UI/BluredEllipseBlueAndYellow.vue";
-import Logo from "@/components/UI/Logo.vue";
-import type { SignInStage } from "@/layers/profile/composables/useSignInStage";
-import { useSignInStageProvider } from "@/layers/profile/composables/useSignInStage";
+import BluredEllipseBlueAndYellow from "~/components/UI/BluredEllipseBlueAndYellow.vue";
+import Logo from "~/components/UI/Logo.vue";
+import type { SignInStage } from "#layers/profile/composables/useSignInStage";
+import { useSignInStageProvider } from "#layers/profile/composables/useSignInStage";
 import { useSignInModalStore } from "../stores/sign-in-modal";
 import LoginForm from "./LoginForm.vue";
 import SignUpForm from "./SignUpForm.vue";

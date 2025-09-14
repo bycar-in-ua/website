@@ -14,7 +14,10 @@ export default defineSitemapEventHandler(async (event) => {
 
   while (hasNext) {
     const response = await vehiclesService.searchVehicles({
-      pagination: { page, limit: 50 },
+      pagination: {
+        page,
+        limit: 50,
+      },
     });
 
     response.items.forEach((vehicle) => {

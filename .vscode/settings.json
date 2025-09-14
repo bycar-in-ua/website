@@ -1,7 +1,4 @@
 {
-  "eslint.useFlatConfig": true,
-  "eslint.validate": ["javascript"],
-  "typescript.tsdk": "node_modules/typescript/lib",
   "files.associations": {
     "*.css": "tailwindcss"
   },
@@ -11,5 +8,11 @@
   "tailwindCSS.classAttributes": ["class", "ui"],
   "tailwindCSS.experimental.classRegex": [
     ["ui:\\s*{([^)]*)\\s*}", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
-  ]
+  ],
+  "typescript.preferences.includePackageJsonAutoImports": "on",
+  "typescript.suggest.autoImports": true,
+  "typescript.workspaceSymbols.scope": "allOpenProjects",
+  "typescript.tsdk": "node_modules/typescript/lib",
+
+  "eslint.format.enable": true
 }

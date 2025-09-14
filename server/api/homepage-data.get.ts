@@ -1,9 +1,9 @@
 import { BodyType } from "@bycar-in-ua/sdk";
 import sample from "lodash/sample.js";
-import { useBrandService } from "~/composables/useBrandServuce";
-import { useVehiclesService } from "~/composables/useVehiclesService";
-import type { YouTubeVideoItem } from "~/components/UI/VideoCard";
-import type { HomepageData, VehiclesFilterSet } from "~/shared/types";
+import { useBrandService } from "~~/app/composables/useBrandService";
+import { useVehiclesService } from "~~/app/composables/useVehiclesService";
+import type { YouTubeVideoItem } from "~~/app/components/UI/VideoCard";
+import type { HomepageData, VehiclesFilterSet } from "#shared/types";
 
 const recentVehiclesQueries: VehiclesFilterSet[] = [
   {
@@ -13,32 +13,24 @@ const recentVehiclesQueries: VehiclesFilterSet[] = [
   },
   {
     title: "Підбірка електромобілів",
-    filters: {
-      engineType: ["electric"],
-    },
+    filters: { engineType: ["electric"] },
     queryString: "engineType=electric",
   },
   {
     title: "Підбірка гібридних авто",
-    filters: {
-      engineType: ["hybrid"],
-    },
+    filters: { engineType: ["hybrid"] },
     queryString: "engineType=hybrid",
   },
   {
     title: "Популярні кросовери",
-    filters: {
-      bodyType: [BodyType.SUV],
-    },
+    filters: { bodyType: [BodyType.SUV] },
     queryString: "bodyType=SUV",
   },
   {
     title: "Підбірка розкішних седанів",
     filters: {
       bodyType: [BodyType.sedan],
-      price: {
-        from: 50000,
-      },
+      price: { from: 50000 },
     },
     queryString: "bodyType=sedan&priceFrom=50000",
   },
@@ -51,11 +43,13 @@ export default defineCachedEventHandler(
     const brandService = useBrandService();
     const vehiclesService = useVehiclesService();
 
-    const { filters, ...latestItemsData } =
-      sample(recentVehiclesQueries) ?? recentVehiclesQueries[0];
+    const { filters, ...latestItemsData }
+      = sample(recentVehiclesQueries) ?? recentVehiclesQueries[0];
 
-    const [allVehicles, featuredVehicles, brands, youtubeVideos] =
-      await Promise.all([
+    const [
+      allVehicles, featuredVehicles, brands, youtubeVideos,
+    ]
+      = await Promise.all([
         vehiclesService.searchVehicles({ pagination: { limit: 1 } }),
         vehiclesService.searchVehicles({
           filters,
@@ -132,9 +126,7 @@ async function getLatestYoutubeVideos({
       "youtube/v3/search",
       {
         baseURL: GOOGLE_API_HOST,
-        headers: {
-          referer: "bycar.in.ua",
-        },
+        headers: { referer: "bycar.in.ua" },
         query: {
           key: apiKey,
           channelId,

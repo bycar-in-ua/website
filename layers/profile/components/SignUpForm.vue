@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import InputPassword from "@/components/UI/InputPassword.vue";
+import InputPassword from "~/components/UI/InputPassword.vue";
 import GoogleSignIn from "./GoogleSignIn.vue";
 
-const { state, signupSchema, signup, loading } = useSignUpForm();
+const {
+  state, signupSchema, signup, loading,
+} = useSignUpForm();
 
 const { setStage } = useSignInStage();
 </script>
@@ -42,7 +44,12 @@ const { setStage } = useSignInStage();
       <InputPassword v-model="state.password" placeholder="Створіть пароль" />
     </UFormField>
 
-    <UButton block size="xl" type="submit" :loading="loading">
+    <UButton
+      block
+      size="xl"
+      type="submit"
+      :loading="loading"
+    >
       Зареєструватися
     </UButton>
 
@@ -50,7 +57,9 @@ const { setStage } = useSignInStage();
 
     <div class="flex justify-center items-center text-sm mt-4">
       <span class="text-gray-500">Вже є акаунт?</span>
-      <UButton variant="link" @click="setStage('login')"> Увійти </UButton>
+      <UButton variant="link" @click="setStage('login')">
+        Увійти
+      </UButton>
     </div>
   </UForm>
 </template>

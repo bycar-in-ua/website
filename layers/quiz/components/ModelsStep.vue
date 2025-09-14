@@ -13,9 +13,7 @@ const { data } = useAsyncData(
   "search-cars-by-brand",
   () =>
     vehiclesService.searchVehicles({
-      filters: {
-        brand: quizStore.filters.brand,
-      },
+      filters: { brand: quizStore.filters.brand },
       pagination: {
         page: 1,
         limit: 100,
@@ -48,7 +46,7 @@ const emit = defineEmits(["finish"]);
       >
         <div>
           <span class="font-semibold">{{ car.model }}</span>
-          <br />
+          <br>
           <span class="text-xs sm:text-sm">
             {{ getPriceRange(car.complectations) }}
           </span>

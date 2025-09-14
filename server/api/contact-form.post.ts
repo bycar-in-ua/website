@@ -1,4 +1,4 @@
-import { useTgBot } from "~/composables/useTgBot";
+import { useTgBot } from "~~/app/composables/useTgBot";
 
 type ContacFormPayload = {
   name: string;

@@ -1,9 +1,5 @@
 import * as v from "valibot";
-import {
-  emailOrPhoneSchema,
-  isEmail,
-  passwordSchema,
-} from "@/layers/profile/vaidation.shema";
+import { emailOrPhoneSchema, isEmail, passwordSchema } from "#layers/profile/vaidation.shema";
 
 const signupSchema = v.object({
   name: v.optional(v.string()),
@@ -58,13 +54,9 @@ export function useSignUpForm() {
         navigateTo(
           {
             path: signInModal.redirect || "/profile",
-            query: {
-              loginModal: isEmailUsed ? undefined : "open",
-            },
+            query: { loginModal: isEmailUsed ? undefined : "open" },
           },
-          {
-            replace: true,
-          },
+          { replace: true },
         );
 
         return newUser;
@@ -77,9 +69,7 @@ export function useSignUpForm() {
         });
       }
     },
-    {
-      immediate: false,
-    },
+    { immediate: false },
   );
 
   const loading = computed(() => status.value === "pending");

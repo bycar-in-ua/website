@@ -8,8 +8,8 @@ export const emailSchema = v.pipe(
   v.email("Недійсний email"),
 );
 
-export const phoneRegex =
-  /^(\+38|38|8)?[\s-]?(\(?\d{3}\)?[\s-]?\d{3}[\s-]?\d{2}[\s-]?\d{2}|\(?\d{3}\)?[\s-]?\d{2}[\s-]?\d{2}[\s-]?\d{3})$/;
+export const phoneRegex
+  = /^(\+38|38|8)?[\s-]?(\(?\d{3}\)?[\s-]?\d{3}[\s-]?\d{2}[\s-]?\d{2}|\(?\d{3}\)?[\s-]?\d{2}[\s-]?\d{2}[\s-]?\d{3})$/;
 
 export const phoneSchema = v.pipe(
   v.string(defaultMandatoryStringMessage),

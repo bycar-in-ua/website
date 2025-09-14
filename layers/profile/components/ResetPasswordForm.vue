@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import InputPassword from "~/components/UI/InputPassword.vue";
 
-const { state, formSchema, resetPassword, loading } = useResetPasswordForm();
+const {
+  state, formSchema, resetPassword, loading,
+} = useResetPasswordForm();
 </script>
 
 <template>
@@ -32,6 +34,13 @@ const { state, formSchema, resetPassword, loading } = useResetPasswordForm();
       <InputPassword v-model="state.confirmPassword" />
     </UFormField>
 
-    <UButton size="xl" block type="submit" :loading> Змінити пароль </UButton>
+    <UButton
+      size="xl"
+      block
+      type="submit"
+      :loading
+    >
+      Змінити пароль
+    </UButton>
   </UForm>
 </template>
