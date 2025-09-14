@@ -5,7 +5,7 @@ type HeaderMode = "solid" | "glass";
  * Because this state have to be set from different places, decided to use plugin for it
  */
 export default defineNuxtPlugin(() => {
-  const headerMode = ref<HeaderMode>("glass");
+  const headerMode = ref<HeaderMode>("solid");
 
   const setHeaderMode = (mode: HeaderMode) => {
     headerMode.value = mode;
