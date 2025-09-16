@@ -11,3 +11,4 @@ export { default as Coupe } from "./Coupe.vue";
 export { default as Hatchback } from "./Hatchback.vue";
 export { default as Minivan } from "./Minivan.vue";
 export { default as LogoWhiteBackground } from "./LogoWhiteBackground.vue";
+export { default as Car } from "./Car.vue";

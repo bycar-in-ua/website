@@ -1,19 +1,19 @@
 <script setup lang="ts">
 import type { Complectation, PowerUnit, Vehicle } from "@bycar-in-ua/sdk";
+import { useElementVisibility } from "@vueuse/core";
 import Media from "~/components/Single/Media.vue";
 import Complectations from "~/components/Single/Complectations.vue";
 import PowerUnits from "~/components/Single/PowerUnits.vue";
 import FullInfo from "~/components/Single/FullInfo.vue";
-import CtaButton from "~/components/Single/CtaButton.vue";
+import ToolBar from "~/components/Single/ToolBar.vue";
 import AvailableCars from "~/components/Single/AvailableCars.vue";
 import ContactFormSection from "~/components/ContactFormSection.vue";
 import BluredEllipse from "~/components/UI/BluredEllipse.vue";
-import QuickContactModal from "~/components/Single/QuickContactModal.vue";
 import SimilarCars from "~/components/Single/SimilarCars.vue";
+import BottomBar from "~/components/Single/BottomBar.vue";
 import { getCarTitle, getComplectationsSummary } from "~/utils/carHelpers";
 import { generatePageTitle } from "~/utils/seo";
 import { discounts } from "~/components/Single/discounts.temp";
-import SaveCarButton from "#layers/profile/components/SaveCarButton.vue";
 
 definePageMeta({ name: "SingleCar" });
 
@@ -63,9 +63,6 @@ const { data: availableVehicles } = useAsyncData(
 );
 
 const car = computed(() => data.value as Vehicle);
-const hasSpecialOfferings = computed(() =>
-  availableVehicles.value.some((item) => item.discountDescription),
-);
 
 const activeComplectation = ref<Complectation | undefined>(
   car.value.complectations?.find((c) => c.base)
@@ -128,6 +125,40 @@ useHead({
     },
   ],
 });
+
+const pageToolbar = useTemplateRef("pageToolbar");
+const pageToolbarVisible = ref(true);
+
+if (import.meta.client) {
+  const targetIsVisible = useElementVisibility(pageToolbar);
+
+  watchEffect(() => {
+    pageToolbarVisible.value = targetIsVisible.value;
+  });
+}
+
+onMounted(() => {
+  document?.body.classList.add("pb-24");
+});
+
+onBeforeRouteLeave(() => {
+  pageToolbarVisible.value = true;
+  document?.body.classList.remove("pb-24");
+});
+
+const { gtag } = useGtag();
+
+gtag("event", "view_item", {
+  screen_name: "single_car",
+  items: [
+    {
+      item_id: car.value.id,
+      item_name: carTitle,
+      item_brand: car.value.brand?.displayName || "",
+      item_category: "vehicle",
+    },
+  ],
+});
 </script>
 
 <template>
@@ -136,20 +167,18 @@ useHead({
       {{ car.h1 ?? carTitle }}
     </h1>
     <BluredEllipse
-      class="absolute w-[410px] h-[220px] left-0 md:left-40 top-40 -z-10"
+      class="absolute w-screen sm:w-[410px] h-[220px] left-0 md:left-40 top-40 -z-10"
     />
     <Media :car :title="carTitle" :active-power-unit="activePowerUnit" />
 
-    <div class="flex justify-end items-end flex-wrap gap-2 mb-4 md:mb-5">
-      <SaveCarButton
-        :button-props="{ size: 'lg' }"
+    <div class="w-full flex justify-end mb-4 md:mb-5">
+      <ToolBar
+        ref="pageToolbar"
+        class="w-full sm:w-auto"
         :car-id="car.id"
-        :title="carTitle"
+        :car-title="carTitle"
+        :have-available-vehicles="availableVehicles.length > 0"
       />
-
-      <CtaButton v-if="availableVehicles.length > 0" />
-
-      <QuickContactModal v-if="hasSpecialOfferings" :page="carTitle" />
     </div>
 
     <template v-if="car.complectations?.length">
@@ -193,6 +222,7 @@ useHead({
       :page="carTitle"
       class="md:justify-between"
       :tg-link-message="`Вітаю! Цікавить авто ${carTitle}. Хочу дізнатись більше деталей`"
+      :show-affix="false"
     >
       <template #ellipse>
         <BluredEllipse
@@ -202,5 +232,14 @@ useHead({
     </ContactFormSection>
 
     <SimilarCars :cars="similarVehicles ?? []" :main-car="car" />
+
+    <BottomBar
+      class="shadow-[0_-2px_12px_rgba(32,1,70,0.08)] fixed left-0 right-0 z-50 transition-all duration-300"
+      :class="pageToolbarVisible ? '-bottom-full': 'bottom-0'"
+      :car-id="car.id"
+      :car-title="carTitle"
+      :selected-complectation="activeComplectation?.displayName"
+      :have-available-vehicles="availableVehicles.length > 0"
+    />
   </main>
 </template>

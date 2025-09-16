@@ -4,8 +4,11 @@ import HelpCta from "./UI/HelpCta.client.vue";
 import ContactForm from "./ContactForm.vue";
 import TelegramChatButton from "./TelegramChatButton.vue";
 
-defineProps<{ page: string;
-  tgLinkMessage?: string; }>();
+withDefaults(defineProps<{
+  page: string;
+  tgLinkMessage?: string;
+  showAffix?: boolean;
+}>(), { showAffix: true });
 
 const sectionRef = ref<HTMLElement | undefined>();
 
@@ -46,6 +49,6 @@ const affixClickHandler = () => {
 
     <ContactForm :page class="md:ml-auto" />
 
-    <HelpCta @affix-click="affixClickHandler" />
+    <HelpCta v-if="showAffix" @affix-click="affixClickHandler" />
   </section>
 </template>

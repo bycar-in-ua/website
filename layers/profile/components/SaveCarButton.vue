@@ -17,35 +17,36 @@ const isSaved = computed(() =>
 </script>
 
 <template>
-  <UButton
-    v-if="isSaved"
-    variant="ghost"
-    color="neutral"
-    v-bind="buttonProps"
-    title="Авто збережено в закладки"
-    :loading="profileStore.loading"
-    @click="handleRemove(carId, title)"
-  >
-    В закладках
+  <UTooltip :text="isSaved ? 'Авто збережено в закладки' : 'Зберегти авто'">
+    <template #default>
+      <slot
+        :is-saved="isSaved"
+        :handle-save="handleSave"
+        :handle-remove="handleRemove"
+        :loading="profileStore.loading"
+      >
+        <UButton
+          v-if="isSaved"
+          label="Авто збережено"
+          variant="outline"
+          color="primary"
+          icon="i-heroicons-heart-solid"
+          v-bind="buttonProps"
+          :loading="profileStore.loading"
+          @click="handleRemove(carId, title)"
+        />
 
-    <template #trailing>
-      <UIcon name="i-heroicons-heart-solid" class="size-6 text-primary" />
+        <UButton
+          v-else
+          label="Зберегти авто"
+          variant="outline"
+          color="primary"
+          icon="i-heroicons-heart"
+          v-bind="buttonProps"
+          :loading="profileStore.loading"
+          @click="handleSave(carId, title)"
+        />
+      </slot>
     </template>
-  </UButton>
-
-  <UButton
-    v-else
-    variant="ghost"
-    color="neutral"
-    v-bind="buttonProps"
-    title="Зберегти авто"
-    :loading="profileStore.loading"
-    @click="handleSave(carId, title)"
-  >
-    Зберегти авто
-
-    <template #trailing>
-      <UIcon name="i-heroicons-heart" class="size-6 text-current" />
-    </template>
-  </UButton>
+  </UTooltip>
 </template>
