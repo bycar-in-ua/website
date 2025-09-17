@@ -38,7 +38,7 @@ const availableCars = computed<AvailableCar[]>(() => {
         ...props.car,
         ...availableVehicle,
         title: `${carTitle} ${complectation.displayName}`,
-        featureImage: availableVehicle.images?.[0].image,
+        featureImage: availableVehicle.images?.[0]?.image,
         complectations: [availableComplectation],
         complectation: availableComplectation,
       };
@@ -57,7 +57,7 @@ function openModal(car: AvailableCar) {
 
 <template>
   <section id="available-cars">
-    <SectionTitle class="mb-4">
+    <SectionTitle class="text-xl font-semibold mb-4">
       Авто в наявності
     </SectionTitle>
 

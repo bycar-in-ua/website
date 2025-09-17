@@ -4,13 +4,9 @@ import TelegramChatButton from "../TelegramChatButton.vue";
 
 defineProps<{ page: string; }>();
 
-const isOpen = ref(false);
-
 const { gtag } = useGtag();
 
-const openModal = () => {
-  isOpen.value = true;
-
+const logEvent = () => {
   gtag("event", "quick_contact_open", {
     event_category: "quick_contact",
     event_label: "open",
@@ -19,28 +15,29 @@ const openModal = () => {
 </script>
 
 <template>
-  <UModal v-model:open="isOpen" :ui="{ body: 'flex flex-col gap-2 sm:gap-4 md:gap-6 justify-center items-center' }">
-    <slot name="trigger" :open="openModal">
+  <UModal
+    :ui="{ content: 'flex flex-col gap-2 sm:gap-4 md:gap-6 justify-center items-center p-4 sm:p-6 divide-none' }"
+    @after:enter="logEvent"
+  >
+    <template #content="{ close }">
       <UButton
-        color="secondary"
-        size="lg"
-        class="flex justify-center text-black font-bold"
-        @click="openModal"
-      >
-        Отримати спецпропозицію!
-      </UButton>
-    </slot>
-    <template #body>
+        icon="i-heroicons-x-mark"
+        variant="ghost"
+        color="neutral"
+        class="absolute top-4 right-4"
+        @click="close"
+      />
+
       <div class="flex flex-col items-center">
-        <h3 class="text-md md:text-lg font-bold mb-2 text-center">
-          Щоб отримати детальну інформацію про {{ page }} — наявність, спеціальні пропозиції та найвигідніші умови залиште, будь ласка, свій номер телефону
+        <h3 class="text-xl md:text-2xl font-bold mb-2 text-center px-8">
+          Отримайте пораду експерта
         </h3>
         <p class="text-base text-gray-500 text-center">
-          Наш менеджер зв’яжеться з вами найближчим часом і допоможе обрати оптимальний варіант
+          Наш експерт зв’яжеться з вами, щоб допомогти з вибором авто та відповісти на всі питання.
         </p>
       </div>
 
-      <ContactForm :page />
+      <ContactForm :page class="max-w-full shadow-none px-0" />
 
       <USeparator label="або" class="my-4 md:my-0" />
 
