@@ -5,7 +5,7 @@ import QuickContactModal from "./QuickContactModal.vue";
 defineProps<{
   carId: number;
   carTitle?: string;
-  haveAvailableVehicles?: boolean;
+  availableVehiclesCount?: number;
 }>();
 
 const overlay = useOverlay();
@@ -42,22 +42,32 @@ function availableVehiclesCta() {
       }"
     />
 
-    <UButton
-      v-if="haveAvailableVehicles"
-      label="Авто в наявності"
-      variant="outline"
-      color="primary"
-      size="lg"
+    <UChip
+      v-if="availableVehiclesCount"
+      color="error"
+      size="3xl"
+      :text="availableVehiclesCount"
+      class="flex-grow sm:flex-auto basis-[calc(50%-0.5rem)]"
       :ui="{
-        base: 'flex-grow sm:flex-auto basis-[calc(50%-0.5rem)] justify-center px-1 sm:px-3 gap-1 sm:gap-2',
-        label: 'tracking-normal sm:tracking-[unset]',
-        leadingIcon: 'sm:hidden',
+        base: 'px-1 py-2',
       }"
-      @click="availableVehiclesCta"
     >
-      <template #leading>
-        <Car class="sm:hidden size-5" />
-      </template>
-    </UButton>
+      <UButton
+        label="Авто в наявності"
+        variant="outline"
+        color="primary"
+        size="lg"
+        :ui="{
+          base: 'w-full justify-center px-1 sm:px-3 gap-1 sm:gap-2',
+          label: 'tracking-normal sm:tracking-[unset]',
+          leadingIcon: 'sm:hidden',
+        }"
+        @click="availableVehiclesCta"
+      >
+        <template #leading>
+          <Car class="sm:hidden size-5" />
+        </template>
+      </UButton>
+    </UChip>
   </div>
 </template>

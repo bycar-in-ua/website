@@ -177,7 +177,7 @@ gtag("event", "view_item", {
         class="w-full sm:w-auto"
         :car-id="car.id"
         :car-title="carTitle"
-        :have-available-vehicles="availableVehicles.length > 0"
+        :available-vehicles-count="availableVehicles.length"
       />
     </div>
 
@@ -239,7 +239,7 @@ gtag("event", "view_item", {
       :car-id="car.id"
       :car-title="carTitle"
       :selected-complectation="activeComplectation?.displayName"
-      :have-available-vehicles="availableVehicles.length > 0"
+      :available-vehicles-count="availableVehicles.length"
     />
   </main>
 </template>
