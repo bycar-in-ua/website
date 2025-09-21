@@ -5,7 +5,7 @@ defineProps<{
   carId: number;
   carTitle?: string;
   selectedComplectation?: string;
-  haveAvailableVehicles?: boolean;
+  availableVehiclesCount?: number;
 }>();
 </script>
 
@@ -26,7 +26,7 @@ defineProps<{
         class="sm:ml-auto w-full sm:w-auto"
         :car-id
         :car-title
-        :have-available-vehicles
+        :available-vehicles-count
       />
     </div>
   </div>
