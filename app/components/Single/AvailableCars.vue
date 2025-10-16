@@ -2,6 +2,7 @@
 import type { Vehicle, AvailableVehicle } from "@bycar-in-ua/sdk";
 import CarCard from "~/components/UI/CarCard/CarCard.vue";
 import DiscountPrice from "~/components/UI/CarCard/DiscountPrice.vue";
+import { usePromoVehicle } from "~/composables/usePromoVehicle";
 import { getCarTitle } from "~/utils/carHelpers";
 import SectionTitle from "./SectionTitle.vue";
 import AvailableCarModal from "./AvailableCarModal.vue";
@@ -46,12 +47,14 @@ const availableCars = computed<AvailableCar[]>(() => {
     .filter(Boolean) as AvailableCar[];
 });
 
-const open = ref(false);
-const targetCar = ref<AvailableCar | null>(null);
+usePromoVehicle(props.car.slug, availableCars.value);
+
+const overlay = useOverlay();
+
+const availableModal = overlay.create(AvailableCarModal);
 
 function openModal(car: AvailableCar) {
-  targetCar.value = car;
-  open.value = true;
+  availableModal.open({ car });
 }
 </script>
 
@@ -78,6 +81,5 @@ function openModal(car: AvailableCar) {
         </template>
       </CarCard>
     </div>
-    <AvailableCarModal v-if="targetCar" v-model:open="open" :car="targetCar" />
   </section>
 </template>
