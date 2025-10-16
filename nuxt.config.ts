@@ -39,6 +39,10 @@ export default defineNuxtConfig({
       youtubeApiKey: process.env.YOUTUBE_API_KEY,
       tgBotToken: process.env.TG_BOT_TOKEN,
       tgLeadsChannelId: process.env.TG_LEADS_CHANNEL_ID,
+      promoVehicles: process.env.PROMO_VEHICLES
+        ? process.env.PROMO_VEHICLES.split(",")
+        : [],
+      promoTimer: Number(process.env.PROMO_TIMER || 3000),
     },
   },
 
