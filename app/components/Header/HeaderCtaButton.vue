@@ -6,11 +6,9 @@ const quizStore = useQuizStore();
 
 <template>
   <UButton
-    size="xl"
-    icon="i-heroicons-arrow-up-right"
-    trailing
+    size="lg"
     @click="quizStore.openQuiz"
   >
-    Обрати машину
+    Підбір авто
   </UButton>
 </template>

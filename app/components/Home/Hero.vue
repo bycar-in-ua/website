@@ -1,28 +1,9 @@
 <script setup lang="ts">
-import { useElementVisibility } from "@vueuse/core";
-
 defineProps<{ totalCars?: number; }>();
-
-const { $setHeaderMode } = useNuxtApp();
-
-const heroSection = useTemplateRef("heroSection");
-
-if (import.meta.client) {
-  const targetIsVisible = useElementVisibility(heroSection);
-
-  watchEffect(() => {
-    $setHeaderMode(targetIsVisible.value ? "glass" : "solid");
-  });
-
-  onBeforeUnmount(() => {
-    $setHeaderMode("solid");
-  });
-}
 </script>
 
 <template>
   <section
-    ref="heroSection"
     class="hero-section h-screen sm:h-auto max-h-[1000px] sm:max-h-screen pt-32 lg:pt-40 xl:pt-[12%] pb-[33%] text-white bg-cover bg-position-[right_-16rem_bottom] sm:bg-position-[center_bottom]"
   >
     <div class="container flex flex-col sm:flex-row gap-2 sm:justify-between">

@@ -8,7 +8,7 @@
   --color-primary-200: #a273ff;
   --color-primary-300: #883bff;
   --color-primary-400: #7e14ff;
-  --color-primary-500: #7000ff;
+  --color-primary-500: #6409DA;
   --color-primary-600: #5f01d6;
   --color-primary-700: #4e03af;
   --color-primary-800: #4e03af;
@@ -28,19 +28,16 @@
   --color-secondary-950: #2a3201;
   --color-secondary: #d7e903;
 
-  --font-sans: Golos Text;
-
-  --breakpoint-xs: 520px;
+  --font-sans: Raleway;
+  --ui-text: #15191E;
 }
 
 @utility container {
   margin-inline: auto;
   padding-inline: 1.25rem;
-  @media (width >= --theme(--breakpoint-xs)) {
-    max-width: none;
-  }
-  @media (width >= 1120px) {
-    max-width: calc(1120px + 2.5rem);
+
+  @media (width >= 1280px) {
+    max-width: calc(1280px + 2.5rem);
   }
 }
 
@@ -67,7 +64,6 @@ body {
   letter-spacing: 0.08em;
   scroll-padding-top: 80px;
   overflow-x: hidden;
-  @apply text-gray-900;
 }
 
 .mce-styles p {

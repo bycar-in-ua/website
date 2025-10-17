@@ -1,5 +1,5 @@
 export default defineNuxtConfig({
-  extends: ["./layers/profile/nuxt.config.ts", "./layers/quiz/nuxt.config.ts"],
+  extends: ["./layers/profile", "./layers/quiz"],
 
   modules: [
     "@pinia/nuxt",

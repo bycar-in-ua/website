@@ -10,7 +10,7 @@ export default defineAppConfig({
       white: "white",
     },
     button: {
-      slots: { base: "cursor-pointer" },
+      slots: { base: "cursor-pointer rounded-none uppercase" },
       compoundVariants: [
         {
           color: "secondary",
