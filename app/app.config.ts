@@ -19,6 +19,29 @@ export default defineAppConfig({
         },
       ],
     },
-    input: { variants: { size: { xl: { base: "px-3.5 py-2.5" } } } },
+    input: {
+      slots: { base: "rounded-none w-full" },
+      variants: { size: { md: { base: "px-0" } } },
+    },
+    select: {
+      slots: {
+        base: "rounded-none w-full cursor-pointer",
+        content: "ring-0",
+      },
+      variants: {
+        size: {
+          md: {
+            base: "px-0 py-0",
+            trailing: "pe-0",
+
+          },
+        },
+        variant: {
+          outline: "ring-0 border-b border-default py-0",
+          ghost: "hover:bg-default focus:bg-default",
+        },
+      },
+    },
+    formField: { slots: { label: "uppercase font-semibold" } },
   },
 });

@@ -8,7 +8,7 @@
   --color-primary-200: #a273ff;
   --color-primary-300: #883bff;
   --color-primary-400: #7e14ff;
-  --color-primary-500: #6409DA;
+  --color-primary-500: #6409da;
   --color-primary-600: #5f01d6;
   --color-primary-700: #4e03af;
   --color-primary-800: #4e03af;
@@ -29,7 +29,8 @@
   --color-secondary: #d7e903;
 
   --font-sans: Raleway;
-  --ui-text: #15191E;
+  --ui-text: #15191e;
+  --ui-text-toned: #eeeff0cc;
 }
 
 @utility container {
