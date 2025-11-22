@@ -2,10 +2,10 @@ export default defineNuxtConfig({
   extends: ["./layers/profile", "./layers/quiz"],
 
   modules: [
+    "@bycar-in-ua/base-nuxt-module",
     "@pinia/nuxt",
     "@nuxtjs/i18n",
     "@nuxt/eslint",
-    "@nuxt/ui",
     "@nuxt/fonts",
     "nuxt-gtag",
     "@nuxtjs/robots",
@@ -21,7 +21,7 @@ export default defineNuxtConfig({
   colorMode: {
     preference: "light",
     fallback: "light",
-    storageKey: "bycar-color-theme",
+    storageKey: "bycar-color-mode",
   },
 
   runtimeConfig: {
@@ -51,6 +51,13 @@ export default defineNuxtConfig({
   compatibilityDate: "2025-09-14",
 
   typescript: { includeWorkspace: true },
+
+  bycar: {
+    config: {
+      apiHost: process.env.API_URL,
+      cdnHost: process.env.CDN_URL,
+    },
+  },
 
   eslint: { config: { stylistic: true } },
 

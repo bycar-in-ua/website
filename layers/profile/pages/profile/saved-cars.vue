@@ -7,6 +7,7 @@ import Empty from "~/components/UI/Empty.vue";
 import { useQuery, keepPreviousData } from "@tanstack/vue-query";
 
 import SectionContainer from "../../components/SectionContainer.vue";
+import { useProfileStore } from "../../stores/profile";
 
 definePageMeta({ name: "saved-cars" });
 

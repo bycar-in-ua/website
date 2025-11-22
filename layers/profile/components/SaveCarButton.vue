@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { ButtonProps } from "@nuxt/ui";
+import { useProfileStore } from "#layers/profile/stores/profile";
 
 const props = defineProps<{
   buttonProps?: ButtonProps;

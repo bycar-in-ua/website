@@ -1,4 +1,5 @@
 import type { NavigationMenuItem } from "@nuxt/ui";
+import { useProfileStore } from "#layers/profile/stores/profile";
 
 import { PersonalProfile, SavedCars } from "../components/NavButtons";
 

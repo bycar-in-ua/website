@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Vehicle } from "@bycar-in-ua/sdk";
+import { useProfileStore } from "#layers/profile/stores/profile";
 import CarCard from "~/components/UI/CarCard/CarCard.vue";
 import SectionTitle from "~/components/UI/SectionTitle.vue";
 
@@ -15,13 +16,13 @@ const { toggleSave } = useSavedCarActions();
   <section>
     <SectionTitle class="flex-wrap sm:flex-nowrap">
       <template #title>
-        <h3 class="text-xl sm:text-2xl font-bold flex-grow">
+        <h3 class="text-xl sm:text-2xl font-bold grow">
           Вас також може зацікавити
         </h3>
       </template>
 
       <template #extra>
-        <div class="mt-4 sm:mt-0 sm:justify-end flex-grow sm:text-right">
+        <div class="mt-4 sm:mt-0 sm:justify-end grow sm:text-right">
           <UButton
             variant="link"
             :to="{ name: 'catalog', query: { brand: mainCar.brand?.id } }"

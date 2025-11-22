@@ -2,6 +2,7 @@
 import SectionTitle from "~/components/UI/SectionTitle.vue";
 import CarCard from "~/components/UI/CarCard/CarCard.vue";
 import type { HomepageData } from "#shared/types";
+import { useProfileStore } from "#layers/profile/stores/profile";
 
 defineProps<{ latestItems: HomepageData["latestItems"]; }>();
 

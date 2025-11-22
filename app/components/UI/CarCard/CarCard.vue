@@ -21,7 +21,7 @@ const infoBullets = computed(() => getVehicleInfoBullets(props.car, t));
 
 <template>
   <div
-    class="car-card relative aspect-[9/9] xs:aspect-[9/10] rounded-3xl shadow-xl after:absolute after:block after:inset-0 after:rounded-3xl after:hover:opacity-30 after:transition-all after:duration-300 overflow-hidden"
+    class="car-card relative aspect-9/9 xs:aspect-[9/10] rounded-3xl shadow-xl after:absolute after:block after:inset-0 after:rounded-3xl after:hover:opacity-30 after:transition-all after:duration-300 overflow-hidden"
   >
     <CdnImage
       v-if="car.featureImage?.path"

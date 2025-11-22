@@ -1,3 +1,7 @@
+import { useAuthStore } from "#layers/profile/stores/auth";
+import { useProfileStore } from "#layers/profile/stores/profile";
+import { useSignInModalStore } from "#layers/profile/stores/sign-in-modal";
+
 export function useSavedCarActions() {
   const authStore = useAuthStore();
   const profileStore = useProfileStore();

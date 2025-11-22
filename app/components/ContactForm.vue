@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { FormError } from "#ui/types";
 import { useMutation } from "@tanstack/vue-query";
+import { useAuthStore } from "#layers/profile/stores/auth";
 
 const props = withDefaults(defineProps<{ page: string;
   id?: string; }>(), { id: "contact-form" });

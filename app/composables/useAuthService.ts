@@ -24,7 +24,7 @@ function getSafeTokenResolver(cookieName: string): TokenResolver {
   };
 }
 
-export const useAuthService = () => {
+export const _useAuthService = () => {
   if (!authService) {
     const config = useRuntimeConfig();
     const apiHost = config.public.apiHost;

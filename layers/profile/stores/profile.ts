@@ -1,5 +1,6 @@
 import { UsersPrivateService, type Profile } from "@bycar-in-ua/sdk";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
+import { useAuthStore } from "#layers/profile/stores/auth";
 
 export const useProfileStore = defineStore("profile", () => {
   const config = useRuntimeConfig();

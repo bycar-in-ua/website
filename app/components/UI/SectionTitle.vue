@@ -7,7 +7,7 @@ defineProps<{ title?: string;
   <div class="flex items-center mb-7">
     <slot name="title">
       <h2
-        class="text-xl sm:text-2xl md:text-3xl font-bold flex-grow"
+        class="text-xl sm:text-2xl md:text-3xl font-bold grow"
         v-text="title"
       />
     </slot>

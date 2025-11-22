@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { CheckboxProps } from "@nuxt/ui";
 import type { VehiclesFilters } from "@bycar-in-ua/sdk";
-
+import { useQuizStore } from "#layers/quiz/stores/quiz";
+import { useCatalogStore } from "~/stores/catalog";
 import QuestionContainer from "./QuestionContainer.vue";
 import QuizButton from "./QuizButton.vue";
 import PriceStep from "./PriceStep.vue";
@@ -35,11 +36,11 @@ const checkboxUi: CheckboxProps["ui"] = {
     <template #body>
       <UCard
         :ui="{
-          root: 'ring-0 w-full max-w-2xl flex-grow flex flex-col',
-          body: 'p-0 sm:p-0 flex-grow flex flex-col justify-center',
+          root: 'ring-0 w-full max-w-2xl grow flex flex-col',
+          body: 'p-0 sm:p-0 grow flex flex-col justify-center',
         }"
       >
-        <div class="flex flex-col items-center justify-center flex-grow">
+        <div class="flex flex-col items-center justify-center grow">
           <QuestionContainer
             v-if="quizStore.isUserKnow === null"
             step="Крок 1"

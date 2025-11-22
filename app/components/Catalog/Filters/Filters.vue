@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { BodyType } from "@bycar-in-ua/sdk";
-import type { FiltersState } from "~/stores/catalog";
+import { useCatalogStore } from "~/stores/catalog";
+import type { FiltersState } from "#shared/types";
 import PriceFilter from "./PriceFilter.vue";
 import BrandFilter from "./BrandFilter.vue";
 import BodyTypeFilter from "./BodyTypeFilter.vue";

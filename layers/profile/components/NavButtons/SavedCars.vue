@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useProfileStore } from "#layers/profile/stores/profile";
+
 const profileStore = useProfileStore();
 </script>
 
