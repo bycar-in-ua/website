@@ -18,11 +18,7 @@ export default defineNuxtConfig({
 
   css: ["~/assets/css/global.css"],
 
-  colorMode: {
-    preference: "light",
-    fallback: "light",
-    storageKey: "bycar-color-mode",
-  },
+  colorMode: { preference: "light" },
 
   runtimeConfig: {
     youtubeApiKey: process.env.YOUTUBE_API_KEY,

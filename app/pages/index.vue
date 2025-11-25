@@ -45,9 +45,9 @@ const { data } = await useFetch<HomepageData>("/api/homepage-data", {
     class="overflow-x-hidden lg:overflow-x-visible"
   >
     <Hero :total-cars="data.totalItems" />
+    <Brands :established-brands="data.establishedBrands" />
     <LatestVideos :videos="data.latestYoutubeVideos" class="container" />
     <Latest :latest-items="data.latestItems" class="container" />
     <ContactForm page="Головна сторінка" :show-affix="false" class="container" />
-    <Brands :established-brands="data.establishedBrands" class="container" />
   </main>
 </template>
