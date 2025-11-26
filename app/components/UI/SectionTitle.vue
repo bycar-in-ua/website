@@ -19,6 +19,7 @@ defineProps<{
 
     <slot name="extra">
       <UButton
+        v-if="extraLink"
         variant="link"
         icon="i-heroicons-arrow-right"
         trailing

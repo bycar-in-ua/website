@@ -2,6 +2,7 @@
 import type { HomepageData } from "#shared/types";
 import ContactForm from "~/components/ContactFormSection.vue";
 import Hero from "~/components/Home/Hero.vue";
+import HowItWorks from "~/components/Home/HowItWorks.vue";
 // import LatestVideos from "~/components/Home/LatestVideos.vue";
 import Latest from "~/components/Home/Latest.vue";
 import Brands from "~/components/Home/Brands.vue";
@@ -48,6 +49,7 @@ const { data } = await useFetch<HomepageData>("/api/homepage-data", {
     <Brands :established-brands="data.establishedBrands" />
     <!-- <LatestVideos :videos="data.latestYoutubeVideos" class="container" /> -->
     <Latest :latest-items="data.latestItems" class="container" />
+    <HowItWorks />
     <ContactForm page="Головна сторінка" :show-affix="false" class="container" />
   </main>
 </template>
