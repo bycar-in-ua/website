@@ -1,15 +1,20 @@
 <script setup lang="ts">
-defineProps<{ title?: string;
-  extraLink?: string; }>();
+defineProps<{
+  title?: string[];
+  extraLink?: string;
+}>();
 </script>
 
 <template>
-  <div class="flex items-center mb-7">
+  <div class="flex items-end mb-10">
     <slot name="title">
       <h2
-        class="text-xl sm:text-2xl md:text-3xl font-bold grow"
-        v-text="title"
-      />
+        class="text-xl sm:text-3xl md:text-5xl font-bold grow"
+      >
+        <span class="text-primary">{{ title?.[0] }}</span>
+        <br>
+        {{ title?.[1] }}
+      </h2>
     </slot>
 
     <slot name="extra">
