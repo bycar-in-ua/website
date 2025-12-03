@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@bycar-in-ua/base-nuxt-module':
-        specifier: ^0.0.4
-        version: 0.0.4(magicast@0.5.1)(typescript@5.9.3)(vue@3.5.24(typescript@5.9.3))
+        specifier: ^0.0.7
+        version: 0.0.7(magicast@0.5.1)(typescript@5.9.3)(vue@3.5.24(typescript@5.9.3))
       '@pinia/nuxt':
         specifier: ^0.11.3
         version: 0.11.3(magicast@0.5.1)(pinia@3.0.4(typescript@5.9.3)(vue@3.5.24(typescript@5.9.3)))
@@ -223,8 +223,8 @@ packages:
     resolution: {integrity: sha512-qQ5m48eI/MFLQ5PxQj4PFaprjyCTLI37ElWMmNs0K8Lk3dVeOdNpB3ks8jc7yM5CDmVC73eMVk/trk3fgmrUpA==}
     engines: {node: '>=6.9.0'}
 
-  '@bycar-in-ua/base-nuxt-module@0.0.4':
-    resolution: {integrity: sha512-yaj53Z5Oe6NjMZUsSnbCulEXV8MUYBRHBCssoDcjaRIo7Uiwjug0UwUXZ5ZQ4LXfW5874SDI+fzgzMn4U4Gh1w==, tarball: https://npm.pkg.github.com/download/@bycar-in-ua/base-nuxt-module/0.0.4/34e6ef0d0706361057b5035c6d116ddea2600711}
+  '@bycar-in-ua/base-nuxt-module@0.0.7':
+    resolution: {integrity: sha512-PJZT3ikqjAIr07pecltZaFkjGtcLugNuK9EXcC9kvjwZqRb9+W83Pw8wwajAcggWK6VywuEp5QNDw72BAwimDQ==, tarball: https://npm.pkg.github.com/download/@bycar-in-ua/base-nuxt-module/0.0.7/459a57489ceccbc9dfb8e67ab5bedb09b650c845}
 
   '@bycar-in-ua/sdk@0.4.4':
     resolution: {integrity: sha512-qC2zsQLqPFkzVDgMs4DmPF0lQWrpmrb6mTrqwtkFNZHG9sOkwQS+QketgTtp3PbwstEDASXgXkln5XLs7rebMg==, tarball: https://npm.pkg.github.com/download/@bycar-in-ua/sdk/0.4.4/a7a66b97d2e7a2f8247f3f2c78bfe32ee1ea99bc}
@@ -5812,7 +5812,7 @@ snapshots:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.28.5
 
-  '@bycar-in-ua/base-nuxt-module@0.0.4(magicast@0.5.1)(typescript@5.9.3)(vue@3.5.24(typescript@5.9.3))':
+  '@bycar-in-ua/base-nuxt-module@0.0.7(magicast@0.5.1)(typescript@5.9.3)(vue@3.5.24(typescript@5.9.3))':
     dependencies:
       '@nuxt/kit': 4.2.1(magicast@0.5.1)
       '@tanstack/vue-query': 5.91.2(vue@3.5.24(typescript@5.9.3))

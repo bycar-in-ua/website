@@ -9,7 +9,7 @@ defineProps<{ establishedBrands: Brand[]; }>();
     <UMarquee
       :overlay="false"
       pause-on-hover
-      :ui="{ root: '[--gap:--spacing(6)]', content: 'w-auto' }"
+      :ui="{ root: '[--gap:--spacing(8)]', content: 'w-auto' }"
       :repeat="8"
     >
       <CdnImage
@@ -20,7 +20,7 @@ defineProps<{ establishedBrands: Brand[]; }>();
         size="thumbnail"
         loading="lazy"
         :densities="['thumbnail:1x', 'small:2x']"
-        class="max-h-26 w-auto max-w-24 py-4 object-contain grayscale invert opacity-60"
+        class="max-h-26 w-auto max-w-24 py-5 object-contain grayscale invert opacity-60"
       />
     </UMarquee>
   </section>

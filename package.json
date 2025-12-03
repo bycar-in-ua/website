@@ -33,7 +33,7 @@
     "valibot": "^1.1.0"
   },
   "dependencies": {
-    "@bycar-in-ua/base-nuxt-module": "^0.0.4",
+    "@bycar-in-ua/base-nuxt-module": "^0.0.7",
     "@pinia/nuxt": "^0.11.3",
     "@sentry/nuxt": "^10.26.0",
     "@tanstack/vue-query": "^5.91.2",
