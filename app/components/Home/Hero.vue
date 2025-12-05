@@ -45,14 +45,14 @@ const brandOptions = [
 
     <div class="container z-10">
       <h1
-        class="text-4xl md:text-5xl lg:text-[80px] font-bold break-all sm:break-normal mb-6"
+        class="text-4xl md:text-5xl lg:text-9xl font-bold break-all sm:break-normal mb-8"
       >
         Легкий шлях
         <br>
         до нового авто
       </h1>
 
-      <p class="text-2xl font-medium text-toned mb-12">
+      <p class="text-xl font-medium mb-12 text-gray-200">
         Переглядайте, порівнюйте, обирайте та купуйте — все в одному місці.
       </p>
 

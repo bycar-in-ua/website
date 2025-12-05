@@ -10,6 +10,9 @@ defineProps<{ establishedBrands: Brand[]; }>();
       :overlay="false"
       pause-on-hover
       :ui="{ root: '[--gap:--spacing(8)]', content: 'w-auto' }"
+      :style="{
+        '--duration': `${establishedBrands.length * 2}s`,
+      }"
       :repeat="8"
     >
       <CdnImage
