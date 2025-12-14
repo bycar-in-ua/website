@@ -1,10 +1,5 @@
 <script setup lang="ts">
-import {
-  inject,
-  onMounted,
-  onBeforeUnmount,
-  computed,
-} from "vue";
+import { inject, onMounted, onBeforeUnmount, computed } from "vue";
 import {
   SetGalleryActiveItemKey,
   ToggleGalleryFullScreenKey,
@@ -12,8 +7,7 @@ import {
   GalleryItemsKey,
 } from "./interface.js";
 
-defineProps<{ isFullScreen: boolean;
-  fullScreenAvailable: boolean; }>();
+defineProps<{ isFullScreen: boolean; fullScreenAvailable: boolean }>();
 
 const trackRef = ref<HTMLElement>();
 const transitionDuration = ref<number>(300);
@@ -84,7 +78,7 @@ const itemsTrackTranslate = computed(
   () =>
     `calc(-${Number(activeItem?.value.currentItemIndex ?? 0) * 100}% - ${
       lengthX.value
-    }px)`,
+    }px)`
 );
 </script>
 
