@@ -41,7 +41,17 @@ const brandOptions = [
   <section
     class="hero-section h-[calc(100vh-72px)] text-inverted bg-cover relative flex flex-col justify-end pb-20"
   >
-    <div class="hero-overlay z-0 absolute inset-0" />
+    <div class="absolute inset-0">
+      <div class="hero-overlay z-0 absolute inset-0" />
+      <video
+        autoplay
+        muted
+        loop
+        class="w-full h-full object-cover -z-10"
+      >
+        <source src="/videos/hero-background.mp4" type="video/mp4">
+      </video>
+    </div>
 
     <div class="container z-10">
       <h1
@@ -121,6 +131,6 @@ const brandOptions = [
 }
 
 .hero-overlay {
-  background: linear-gradient(198.75deg, rgba(0, 0, 0, 0) 42.76%, rgba(0, 0, 0, 0.6) 74.89%);
+  background: linear-gradient(200deg, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0.7) 75%)
 }
 </style>
