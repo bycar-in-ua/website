@@ -10,6 +10,10 @@ import DriveFilter from "./DriveFilter.vue";
 
 const catalogStore = useCatalogStore();
 
+const vehiclesService = useVehiclesService();
+
+const { data: filters } = useAsyncData(async () => vehiclesService.getFilters({}));
+
 function checkHandler<TValue extends string | number>(
   field: keyof FiltersState,
   checked: boolean,
@@ -68,4 +72,8 @@ function checkHandler<TValue extends string | number>(
     :selected-filters="catalogStore.filters.drive"
     @change="(checked: boolean, drive:string) => checkHandler('drive', checked, drive)"
   />
+
+  <pre>
+    {{ filters }}
+  </pre>
 </template>

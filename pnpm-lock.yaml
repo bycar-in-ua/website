@@ -241,6 +241,9 @@ packages:
   '@bycar-in-ua/sdk@0.4.4':
     resolution: {integrity: sha512-qC2zsQLqPFkzVDgMs4DmPF0lQWrpmrb6mTrqwtkFNZHG9sOkwQS+QketgTtp3PbwstEDASXgXkln5XLs7rebMg==, tarball: https://npm.pkg.github.com/download/@bycar-in-ua/sdk/0.4.4/a7a66b97d2e7a2f8247f3f2c78bfe32ee1ea99bc}
 
+  '@bycar-in-ua/vehicles-sdk@0.1.0':
+    resolution: {integrity: sha512-ODmqn9Rm4cE+KN7jS4goLLLrtZR/sqWY70VzucwLn6USuu4cbtdkkheiJwZ0o4I0Q/a44nC+khoDwdILsXVfxg==, tarball: https://npm.pkg.github.com/download/@bycar-in-ua/vehicles-sdk/0.1.0/385d4b6b961448bad3d3a002a7043734d81d83dd}
+
   '@capsizecss/metrics@3.6.2':
     resolution: {integrity: sha512-5uL1EIhAlfg0dvWsR1DGfqIsyiPBUsD/qlra15B82Ik28BcH7ScYEHLA4F34fZA0KamlpYcappvt2n1pTuDUfw==}
 
@@ -6192,6 +6195,12 @@ snapshots:
       - vue
 
   '@bycar-in-ua/sdk@0.4.4': {}
+
+  '@bycar-in-ua/vehicles-sdk@0.1.0(typescript@5.9.3)':
+    dependencies:
+      valibot: 0.42.1(typescript@5.9.3)
+    transitivePeerDependencies:
+      - typescript
 
   '@capsizecss/metrics@3.6.2': {}
 
