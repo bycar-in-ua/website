@@ -110,6 +110,17 @@ export const useCatalogStore = defineStore("catalog", () => {
           break;
         }
 
+        case "availableOnly": {
+          if (value === true) {
+            acc.push({
+              key,
+              label: "Доступно зараз",
+              value: true,
+            });
+          }
+          break;
+        }
+
         default: {
           break;
         }
@@ -246,8 +257,9 @@ function filtersStateToSchema(
   filters: FiltersState,
 ): VehiclesSearchSchema["filters"] {
   const {
-    priceFrom, priceTo, ...rest
+    priceFrom, priceTo, availableOnly, ...rest
   } = filters;
+
   return {
     ...rest,
     price:
@@ -257,6 +269,9 @@ function filtersStateToSchema(
             to: priceTo,
           }
         : undefined,
+    // TODO: Map availableOnly to correct API status field when backend is ready
+    // For now, assuming availableOnly should filter by status: "available"
+    status: availableOnly ? ["available"] : undefined,
   };
 }
 
@@ -288,6 +303,7 @@ const queryParameterParsers: Record<
 
   priceFrom: getPriceFieldParser,
   priceTo: getPriceFieldParser,
+  availableOnly: (value) => value === "true" || value === true,
 };
 
 function queryStringToFiltersState(query: LocationQueryRaw): FiltersState {

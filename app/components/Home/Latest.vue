@@ -34,6 +34,7 @@ const carouselItems = computed(() => {
     <SectionTitle
       :title="['Авто в наявності', 'Спеціальні пропозиції']"
       :extra-link="`/catalog?${latestItems.queryString}`"
+      class="mb-10"
     >
       <template #extra>
         <div class="flex items-center gap-2">

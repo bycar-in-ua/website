@@ -7,6 +7,7 @@ export type FiltersState = Omit<
 > & {
   priceFrom?: number;
   priceTo?: number;
+  availableOnly?: boolean;
 };
 
 export type HomepageData = {

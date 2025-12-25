@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { useCatalogStore } from "~/stores/catalog.js";
-import AppliedFilters from "./AppliedFilters.vue";
 import type { VehiclesOrder } from "@bycar-in-ua/sdk";
+import type { DropdownMenuItem } from "@nuxt/ui";
 
 const { t } = useI18n();
 
@@ -12,57 +11,67 @@ const orders: VehiclesOrder[] = [
   "yearFrom-asc",
 ];
 
-const options: Array<{ label: string;
-  value: VehiclesOrder; }> = orders.map(
+const options: DropdownMenuItem[] = orders.map(
   (order) => ({
     label: t(`orders.${order}`),
     value: order,
   }),
 );
 
-const catalogStore = useCatalogStore();
-
-function handleClearOrder() {
-  catalogStore.order = undefined;
-}
+const quickFilters = [
+  {
+    label: "Кросовер",
+    count: 12,
+  },
+  {
+    label: "Хетчбек",
+    count: 12,
+  },
+  {
+    label: "Седан",
+    count: 12,
+  },
+  {
+    label: "Ліфтбек",
+    count: 12,
+  },
+  {
+    label: "Універсал",
+    count: 12,
+  },
+];
 </script>
 
 <template>
   <div
     class="flex sm:items-center sm:justify-between gap-4 flex-col sm:flex-row flex-wrap"
   >
-    <div class="flex gap-4 items-center">
-      <h2 class="font-semibold text-2xl md:text-3xl">
-        {{ t("catalog.title") }}
-      </h2>
+    <div class="flex gap-1.5 items-center">
+      <UButton
+        label="Фільтр (2)"
+        color="secondary"
+        variant="outline"
+        icon="i-lucide-settings-2"
+        class="mr-2"
+      />
+
+      <UButton
+        v-for="item in quickFilters"
+        :key="item.label"
+        :label="`${item.label} (${item.count})`"
+        color="secondary"
+        variant="outline"
+        class="capitalize"
+      />
     </div>
 
-    <USelectMenu
-      v-model="catalogStore.order"
-      placeholder="Сортувати"
-      :items="options"
-      variant="none"
-      value-key="value"
-      :search-input="false"
-      :ui="{
-        base: `w-full max-w-80 justify-end cursor-pointer mr-8 md:mr-0 ${
-          catalogStore.order ? 'pe-14' : 'pe-9'
-        }`,
-      }"
-    >
-      <template #trailing>
-        <UIcon name="i-heroicons:chevron-down-20-solid" class="w-5 h-5" />
-
-        <UButton
-          v-if="catalogStore.order"
-          icon="i-heroicons-x-mark"
-          class="pointer-events-auto w-5 h-5 p-0 text-black-500"
-          variant="ghost"
-          @click.prevent="handleClearOrder"
-        />
-      </template>
-    </USelectMenu>
-
-    <AppliedFilters class="basis-full" />
+    <UDropdownMenu :items="options">
+      <UButton
+        label="Рекомендовані"
+        color="secondary"
+        variant="outline"
+        icon="i-lucide-arrow-up-down"
+      />
+    </UDropdownMenu>
   </div>
 </template>

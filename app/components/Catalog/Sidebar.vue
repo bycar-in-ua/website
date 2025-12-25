@@ -1,4 +1,6 @@
 <script setup lang="ts">
+// Deprecated
+
 import Filters from "./Filters/Filters.vue";
 import FloatingFiltersButton from "./Filters/FloatingFiltersButton.vue";
 

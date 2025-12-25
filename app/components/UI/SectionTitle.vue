@@ -6,7 +6,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="flex items-end mb-10">
+  <div class="flex items-end">
     <slot name="title">
       <h2
         class="text-xl sm:text-3xl md:text-5xl font-bold grow"

@@ -14,6 +14,7 @@ const items: AccordionItem[] = [
   <section class="my-10 md:my-20">
     <SectionTitle
       :title="['Всі авто', 'Підбірки найкращих моделей']"
+      class="mb-10"
     />
 
     <UAccordion :items="items">
