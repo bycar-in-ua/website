@@ -1,4 +1,6 @@
 <script setup lang="ts">
+// Deprecated
+
 const props = defineProps<{
   page: string;
   message?: string;

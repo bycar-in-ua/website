@@ -101,26 +101,26 @@ const {
   <UForm
     :state="formState"
     :validate="validate"
-    class="p-5 flex flex-col gap-4 shadow-xl rounded-2xl bg-white max-w-[340px] w-full"
+    class="p-8 flex flex-col gap-4 shadow-xl bg-white max-w-[416px] w-full"
     :validate-on="['blur']"
     @submit="(e) => submitForm(e.data)"
   >
-    <UFormField name="name">
+    <UFormField name="name" label="Імʼя">
       <UInput
         :id="`${id}-name`"
         v-model:model-value="formState.name"
-        placeholder="Ваше ім’я"
+        placeholder="Введіть ваше імʼя"
         size="lg"
         :disabled="isSuccess"
         class="w-full"
       />
     </UFormField>
 
-    <UFormField name="phone">
+    <UFormField name="phone" label="Телефон">
       <UInput
         :id="`${id}-phone`"
         v-model:model-value="formState.phone"
-        placeholder="Ваш номер телефону"
+        placeholder="+380"
         size="lg"
         mask="+38 (###) ###-##-##"
         type="tel"
@@ -129,19 +129,22 @@ const {
       />
     </UFormField>
 
+    <UFormField name="request" label="Запит" class="mb-4">
+      <USelectMenu placeholder="Оберіть ваш запит" class="w-full" variant="ghost" />
+    </UFormField>
+
     <UButton v-if="isSuccess" block disabled>
       Заявку надіслано!<br>
       Дякуємо за звернення
     </UButton>
+
     <UButton
       v-else
-      icon="i-heroicons-phone"
       block
       type="submit"
-      size="lg"
       :loading="isPending"
     >
-      Передзвоніть мені
+      Отримати консультацію
     </UButton>
   </UForm>
 </template>

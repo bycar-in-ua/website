@@ -52,6 +52,6 @@ const { data } = await useFetch<HomepageData>("/api/homepage-data", {
     <Latest :latest-items="data.latestItems" class="container" />
     <HowItWorks />
     <FeaturedCollections class="container" />
-    <ContactForm page="Головна сторінка" :show-affix="false" class="container" />
+    <ContactForm page="Головна сторінка" :show-affix="false" />
   </main>
 </template>
