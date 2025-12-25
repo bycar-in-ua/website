@@ -51,10 +51,10 @@ onUnmounted(() => {
 
     <PageHeader />
 
-    <Headline class="mb-6 mt-16 container mx-auto" />
+    <Headline class="mt-16 container mx-auto" />
 
     <!-- Main Content: Sidebar + Grid -->
-    <div class="container mx-auto">
+    <div class="container mx-auto py-16">
       <List />
     </div>
 
