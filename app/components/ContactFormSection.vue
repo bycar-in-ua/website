@@ -13,7 +13,7 @@ withDefaults(defineProps<{
     id="contact-container"
     class="contact-form-section py-20"
   >
-    <div class="container text-white flex gap-4 items-stretch">
+    <div class="container text-white flex flex-col sm:flex-row gap-4 items-stretch">
       <div class="grow flex flex-col">
         <h3 class="text-5xl font-bold mb-auto">
           <span class="text-primary">Допоможемо</span> визначитися
@@ -25,7 +25,7 @@ withDefaults(defineProps<{
         </p>
       </div>
 
-      <ContactForm :page />
+      <ContactForm :page class="mx-auto" />
     </div>
   </section>
 </template>

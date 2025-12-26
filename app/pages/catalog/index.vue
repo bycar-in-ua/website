@@ -3,7 +3,10 @@ import PageHeader from "~/components/Catalog/PageHeader.vue";
 import List from "~/components/Catalog/List.vue";
 import Headline from "~/components/Catalog/Headline.vue";
 import ContactForm from "~/components/ContactFormSection.vue";
+import FiltersSlideover from "~/components/Catalog/Filters/FiltersSlideover.vue";
 import { useCatalogStore } from "~/stores/catalog";
+
+const isFiltersOpen = ref(false);
 
 definePageMeta({ name: "catalog" });
 
@@ -51,7 +54,8 @@ onUnmounted(() => {
 
     <PageHeader />
 
-    <Headline class="mt-16 container mx-auto" />
+    <Headline class="mt-16 container mx-auto" @filter-click="isFiltersOpen = true" />
+    <FiltersSlideover v-model:open="isFiltersOpen" />
 
     <!-- Main Content: Sidebar + Grid -->
     <div class="container mx-auto py-16">

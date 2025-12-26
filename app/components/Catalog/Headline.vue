@@ -2,6 +2,10 @@
 import type { VehiclesOrder } from "@bycar-in-ua/sdk";
 import type { DropdownMenuItem } from "@nuxt/ui";
 
+defineEmits<{
+  (e: "filter-click"): void;
+}>();
+
 const { t } = useI18n();
 
 const orders: VehiclesOrder[] = [
@@ -44,15 +48,16 @@ const quickFilters = [
 
 <template>
   <div
-    class="flex sm:items-center sm:justify-between gap-4 flex-col sm:flex-row flex-wrap"
+    class="flex sm:items-center sm:justify-between gap-4 flex-col sm:flex-row flex-wrap md:flex-nowrap"
   >
-    <div class="flex gap-1.5 items-center">
+    <div class="flex gap-1.5 items-center overflow-x-auto max-w-full grow">
       <UButton
         label="Фільтр (2)"
         color="secondary"
         variant="outline"
         icon="i-lucide-settings-2"
-        class="mr-2"
+        class="mr-2 hidden md:inline-flex"
+        @click="$emit('filter-click')"
       />
 
       <UButton
@@ -65,13 +70,24 @@ const quickFilters = [
       />
     </div>
 
-    <UDropdownMenu :items="options">
+    <div class="flex w-full md:w-auto">
       <UButton
-        label="Рекомендовані"
+        label="Фільтр (2)"
         color="secondary"
         variant="outline"
-        icon="i-lucide-arrow-up-down"
+        icon="i-lucide-settings-2"
+        class="basis-full md:hidden"
+        @click="$emit('filter-click')"
       />
-    </UDropdownMenu>
+
+      <UDropdownMenu :items="options" class="basis-full">
+        <UButton
+          label="Рекомендовані"
+          color="secondary"
+          variant="outline"
+          icon="i-lucide-arrow-up-down"
+        />
+      </UDropdownMenu>
+    </div>
   </div>
 </template>
