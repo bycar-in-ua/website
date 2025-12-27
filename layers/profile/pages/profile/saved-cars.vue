@@ -13,8 +13,6 @@ definePageMeta({ name: "saved-cars" });
 
 const profileStore = useProfileStore();
 
-const { toggleSave } = useSavedCarActions();
-
 const PAGE_SIZE = 8;
 const page = ref(1);
 
@@ -27,9 +25,7 @@ const {
   isLoading,
   isPending,
 } = useQuery({
-  queryKey: [
-    "saved-cars", page, carsIds,
-  ],
+  queryKey: ["saved-cars", page, carsIds],
   queryFn: async () => {
     const crsIdsLength = carsIds.value.length;
 
@@ -75,7 +71,7 @@ const {
     <Empty v-else-if="!vehicles?.items.length">
       <div class="text-center">
         Поки у вас немає збережених авто
-        <br>
+        <br />
         Оберіть авто в
         <ULink to="/catalog" class="text-primary">каталозі</ULink>
         та збережіть натиснувши на іконку
@@ -102,7 +98,7 @@ const {
           },
         }"
       >
-        <CarCard :car="car" :is-saved="true" :toggle-save="toggleSave" />
+        <CarCard :car="car" :is-saved="true" />
       </NuxtLink>
     </div>
 

@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import type { Vehicle } from "@bycar-in-ua/sdk";
-import AvailableCar from "./AvailableCar.vue";
-import DiscountCar from "./DiscountCar.vue";
-import CarCardTemplate from "./CarCardTemplate.vue";
+import { getVehicleInfoBullets } from "./helpers";
+import CardBadge from "./CardBadge.vue";
+import ChatCTA from "./ChatCTA.vue";
+import CardData from "./CardData.vue";
+import SaveButtons from "./SaveButtons.vue";
+import CardMedia from "./CardMedia.vue";
 
 const props = defineProps<{
   car: Vehicle;
@@ -10,17 +13,34 @@ const props = defineProps<{
   discount?: boolean;
   isSaved?: boolean;
   isCompared?: boolean;
-  toggleSave?: (carId: number, title?: string) => Promise<void>;
-  toggleCompare?: (carId: number, title?: string) => Promise<void>;
 }>();
 
-// TODO: use props
-const isAvailableCar = true;
-const isDiscountCar = false;
+const { t } = useI18n();
+
+const carTitle = computed(() => props.title ?? getCarTitle(props.car));
+const priceRange = computed(() => getPriceRange(props.car.complectations));
+const infoBullets = computed(() => getVehicleInfoBullets(props.car, t));
+
+// TODO: use real data
+const status = computed(() => {
+  // return "avalible";
+  // return "discount";
+  // return "prev-model";
+  return undefined;
+});
 </script>
 
 <template>
-  <AvailableCar v-if="isAvailableCar" v-bind="props" />
-  <DiscountCar v-else-if="isDiscountCar" v-bind="props" />
-  <CarCardTemplate v-else v-bind="props"></CarCardTemplate>
+  <div
+    class="relative flex flex-col group cursor-pointer border border-gray-200 border-b-0"
+  >
+    <CardMedia :car-title :img-path="car.featureImage?.path">
+      <CardBadge :status />
+      <SaveButtons :car-id="car.id" :car-title :is-saved :is-compared />
+    </CardMedia>
+
+    <CardData :carTitle :infoBullets :priceRange />
+
+    <ChatCTA />
+  </div>
 </template>

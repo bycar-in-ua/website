@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import type { Vehicle, AvailableVehicle } from "@bycar-in-ua/sdk";
-import CarCard from "~/components/UI/CarCard/CarCard.vue";
-import DiscountPrice from "~/components/UI/CarCard/DiscountPrice.vue";
 import { usePromoVehicle } from "~/composables/usePromoVehicle";
 import { getCarTitle } from "~/utils/carHelpers";
 import SectionTitle from "./SectionTitle.vue";
 import AvailableCarModal from "./AvailableCarModal.vue";
 import type { AvailableCar } from "./interface";
+import AvailableCarCard from "../UI/CarCard/AvailableCarCard.vue";
 
 const props = defineProps<{
   car: Vehicle;
@@ -19,7 +18,7 @@ const availableCars = computed<AvailableCar[]>(() => {
   return props.availability
     .map((availableVehicle) => {
       const complectation = props.car.complectations?.find(
-        (c) => c.id === availableVehicle.complectationId,
+        (c) => c.id === availableVehicle.complectationId
       );
 
       if (!complectation) {
@@ -27,7 +26,7 @@ const availableCars = computed<AvailableCar[]>(() => {
       }
 
       const powerUnit = complectation.powerUnits?.find(
-        ({ id }) => id === availableVehicle.powerUnitId,
+        ({ id }) => id === availableVehicle.powerUnitId
       );
 
       const availableComplectation = {
@@ -67,19 +66,14 @@ function openModal(car: AvailableCar) {
     <div
       class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
     >
-      <CarCard
+      <AvailableCarCard
         v-for="availableCar in availableCars"
         :key="availableCar.id"
         :car="availableCar"
-        :title="availableCar.title"
-        class="cursor-pointer"
         :discount="!!availableCar.discountPrice"
+        class="cursor-pointer"
         @click="() => openModal(availableCar)"
-      >
-        <template #price>
-          <DiscountPrice :price="`UAH ${availableCar.price.toLocaleString()}`" :discount-price="availableCar.discountPrice ? `UAH ${availableCar.discountPrice?.toLocaleString()}` : undefined" />
-        </template>
-      </CarCard>
+      />
     </div>
   </section>
 </template>
