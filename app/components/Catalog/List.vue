@@ -38,7 +38,7 @@ const tgMessage = computed(() => {
       >
         <template #message>
           <h3 class="text-2xl font-bold mb-2">
-            Не вдалось знайти бажане авто в каталозі?<br />
+            Не вдалось знайти бажане авто в каталозі?<br>
             Запитай у експерта!
           </h3>
           <p class="text-base text-gray-500 mb-4">

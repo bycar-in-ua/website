@@ -13,9 +13,7 @@ export function useSavedCarActions() {
 
   const handleSave = async (carId: number, title?: string) => {
     if (authStore.authenticated) {
-      await profileStore.updateProfile({
-        savedCars: [...(profileStore.profile!.savedCars ?? []), carId],
-      });
+      await profileStore.updateProfile({ savedCars: [...(profileStore.profile!.savedCars ?? []), carId] });
 
       toast.add({
         title: "Авто збережено",
@@ -45,7 +43,7 @@ export function useSavedCarActions() {
   const handleRemove = async (carId: number, title?: string) => {
     await profileStore.updateProfile({
       savedCars: (profileStore.profile!.savedCars ?? []).filter(
-        (id) => id !== carId
+        (id) => id !== carId,
       ),
     });
 

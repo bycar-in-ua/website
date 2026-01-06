@@ -14,8 +14,8 @@ const { toggleSave, toggleCompare } = useSavedCarActions();
 
 const profileStore = useProfileStore();
 
-const isSaved =
-  props.isSaved ?? profileStore.profile?.savedCars?.includes(props.carId);
+const isSaved
+  = props.isSaved ?? profileStore.profile?.savedCars?.includes(props.carId);
 
 // TODO: add `profileStore.profile?.comparedCars`
 const isCompared = props.isCompared;

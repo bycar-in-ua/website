@@ -1,14 +1,15 @@
 <script setup lang="ts">
 type Status = "avalible" | "discount" | "prev-model";
 
-const props = defineProps<{ status?: Status }>();
+const props = defineProps<{ status?: Status; }>();
 
-const content: Record<Status, { icon: string; text: string }> = {
-  avalible: {
+const content: Record<Status, { icon: string;
+  text: string; }> = {
+  "avalible": {
     icon: "i-lucide-clock",
     text: "Доступно зараз",
   },
-  discount: {
+  "discount": {
     icon: "i-lucide-percent",
     text: "Знижка",
   },

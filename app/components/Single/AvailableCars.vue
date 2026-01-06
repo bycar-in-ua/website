@@ -18,7 +18,7 @@ const availableCars = computed<AvailableCar[]>(() => {
   return props.availability
     .map((availableVehicle) => {
       const complectation = props.car.complectations?.find(
-        (c) => c.id === availableVehicle.complectationId
+        (c) => c.id === availableVehicle.complectationId,
       );
 
       if (!complectation) {
@@ -26,7 +26,7 @@ const availableCars = computed<AvailableCar[]>(() => {
       }
 
       const powerUnit = complectation.powerUnits?.find(
-        ({ id }) => id === availableVehicle.powerUnitId
+        ({ id }) => id === availableVehicle.powerUnitId,
       );
 
       const availableComplectation = {

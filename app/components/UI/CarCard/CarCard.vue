@@ -36,10 +36,15 @@ const status = computed(() => {
   >
     <CardMedia :car-title :img-path="car.featureImage?.path">
       <CardBadge :status />
-      <SaveButtons :car-id="car.id" :car-title :is-saved :is-compared />
+      <SaveButtons
+        :car-id="car.id"
+        :car-title
+        :is-saved
+        :is-compared
+      />
     </CardMedia>
 
-    <CardData :carTitle :infoBullets :priceRange />
+    <CardData :car-title :info-bullets :price-range />
 
     <ChatCTA />
   </div>

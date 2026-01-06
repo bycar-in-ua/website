@@ -18,7 +18,7 @@ const props = defineProps<{
 const { t } = useI18n();
 
 const infoBullets = computed(() =>
-  props.car.vehicle ? getVehicleInfoBullets(props.car.vehicle, t) : []
+  props.car.vehicle ? getVehicleInfoBullets(props.car.vehicle, t) : [],
 );
 const status = props.discount ? "discount" : "avalible";
 
@@ -45,7 +45,7 @@ const location = "Київ, Автодім Атлант Київ Захід";
       />
     </CardMedia>
 
-    <CardData :car-title="car.title" :infoBullets :priceRang="car.price">
+    <CardData :car-title="car.title" :info-bullets :price-rang="car.price">
       <template v-if="status === 'discount'" #header>
         <div class="space-y-1.5">
           <div class="text-gray-500 flex items-center gap-1">
@@ -53,7 +53,9 @@ const location = "Київ, Автодім Атлант Київ Захід";
             {{ location }}
           </div>
 
-          <h3 class="text-lg font-bold">{{ car.title }}</h3>
+          <h3 class="text-lg font-bold">
+            {{ car.title }}
+          </h3>
         </div>
       </template>
 

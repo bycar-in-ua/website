@@ -12,7 +12,9 @@ const props = defineProps<{
   <div class="relative flex flex-col p-4 z-30 bg-white">
     <div class="space-y-4.5">
       <slot name="header">
-        <h3 class="text-lg font-bold">{{ carTitle }}</h3>
+        <h3 class="text-lg font-bold">
+          {{ carTitle }}
+        </h3>
       </slot>
 
       <ul class="flex flex-wrap gap-1.5 text-gray-700 text-sm font-semibold">

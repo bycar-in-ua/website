@@ -3,7 +3,7 @@ import SectionTitle from "~/components/UI/SectionTitle.vue";
 import CarCard from "~/components/UI/CarCard/CarCard.vue";
 import type { HomepageData } from "#shared/types";
 
-const props = defineProps<{ latestItems: HomepageData["latestItems"] }>();
+const props = defineProps<{ latestItems: HomepageData["latestItems"]; }>();
 
 const carousel = useTemplateRef("carousel");
 
@@ -33,7 +33,9 @@ const carouselItems = computed(() => {
     >
       <template #extra>
         <div class="flex items-center gap-2">
-          <UButton variant="outline"> Дивитися всі </UButton>
+          <UButton variant="outline">
+            Дивитися всі
+          </UButton>
 
           <UButton
             variant="outline"

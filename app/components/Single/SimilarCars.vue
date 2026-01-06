@@ -3,7 +3,8 @@ import type { Vehicle } from "@bycar-in-ua/sdk";
 import CarCard from "~/components/UI/CarCard/CarCard.vue";
 import SectionTitle from "~/components/UI/SectionTitle.vue";
 
-defineProps<{ cars: Vehicle[]; mainCar: Vehicle }>();
+defineProps<{ cars: Vehicle[];
+  mainCar: Vehicle; }>();
 </script>
 
 <template>
