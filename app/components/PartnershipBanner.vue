@@ -6,7 +6,9 @@ const partnershipFormUrl = config.public.partnershipFormUrl || "#";
 <template>
   <section id="partnership-container" class="partnership-section py-24 px-20">
     <div class="flex flex-col gap-16">
-      <h3 class="text-white text-5xl font-bold">Співпрацюємо по-чесному</h3>
+      <h3 class="text-white text-5xl font-bold">
+        Співпрацюємо по-чесному
+      </h3>
 
       <div class="flex items-end justify-between">
         <p class="text-xl font-medium mt-auto text-gray-200">
