@@ -1,4 +1,4 @@
-export const COPYRIGHT_TEXT = `©${new Date().getFullYear()} | Усі права захищені`;
+export const COPYRIGHT_TEXT = `© ${new Date().getFullYear()} Bycar. All rights reserved.`;
 
 export const YOUTUBE_CHANNEL_URL = "https://www.youtube.com/@bycar.in.ua_";
 export const INSTAGRAM_CHANNEL_URL = "https://www.instagram.com/bycar.in.ua";
