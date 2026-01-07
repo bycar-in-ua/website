@@ -7,7 +7,7 @@ import Logo from "../UI/Logo.vue";
 
 <template>
   <footer class="px-4 pt-12 pb-10 sm:px-20 sm:pt-16 sm:pb-12 bg-black">
-    <div class="grid grid-container">
+    <div class="grid gap-8 grid-container">
       <Logo class="h-12 w-36 logo mb-2 sm:mb-0" />
       <Socials class="socials mt-2 sm:mt-0" />
       <FooterNavigation />
@@ -23,7 +23,6 @@ import Logo from "../UI/Logo.vue";
 
 <style>
 .grid-container {
-  gap: 32px;
   grid-template-areas:
     "logo"
     "col1"
@@ -35,7 +34,6 @@ import Logo from "../UI/Logo.vue";
 
 @media (min-width: 40rem) {
   .grid-container {
-    gap: 48px;
     grid-template-areas:
       "logo col1"
       "socials col1"
@@ -46,7 +44,6 @@ import Logo from "../UI/Logo.vue";
 
 @media (min-width: 64rem) {
   .grid-container {
-    gap: 32px;
     grid-template-areas:
       "logo col1 col2 col3"
       "socials col1 col2 col3";
