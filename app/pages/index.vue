@@ -12,8 +12,8 @@ import { generatePageTitle } from "~/utils/seo";
 const route = useRoute();
 
 const pageTitie = generatePageTitle("Легкий шлях до нового авто");
-const pageDescription
-  = "Каталог нових автомобілів від офіційних дилерів в Україні. Звертайтеся за допомогою у підборі нових авто або пишіть в чат для консультації.";
+const pageDescription =
+  "Каталог нових автомобілів від офіційних дилерів в Україні. Звертайтеся за допомогою у підборі нових авто або пишіть в чат для консультації.";
 
 useSeoMeta({
   title: pageTitie,
@@ -38,14 +38,11 @@ const { data } = await useFetch<HomepageData>("/api/homepage-data", {
     totalItems: 0,
     establishedBrands: [],
   }),
-
 });
 </script>
 
 <template>
-  <main
-    class="overflow-x-hidden lg:overflow-x-visible"
-  >
+  <main class="overflow-x-hidden lg:overflow-x-visible">
     <Hero :total-cars="data.totalItems" />
     <Brands :established-brands="data.establishedBrands" />
     <!-- <LatestVideos :videos="data.latestYoutubeVideos" class="container" /> -->
@@ -53,5 +50,6 @@ const { data } = await useFetch<HomepageData>("/api/homepage-data", {
     <HowItWorks />
     <FeaturedCollections class="container" />
     <ContactForm page="Головна сторінка" :show-affix="false" />
+    <PartnershipBanner />
   </main>
 </template>

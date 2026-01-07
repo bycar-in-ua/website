@@ -33,7 +33,7 @@ useHead({
             name: String(seoInput.title),
             path: route.fullPath,
           },
-        ]),
+        ])
       ),
     },
   ],
@@ -68,7 +68,5 @@ onUnmounted(() => {
 
     <!-- Bottom: Contact Form Section -->
     <ContactForm page="Каталог" />
-
-    <PartnershipBanner page="Каталог" />
   </main>
 </template>
