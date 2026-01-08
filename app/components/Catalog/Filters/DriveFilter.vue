@@ -1,35 +1,26 @@
 <script setup lang="ts">
-import CollapsibleTitle from "~/components/UI/CollapsibleTitle.vue";
+import type { CheckboxGroupItem } from "@nuxt/ui";
+import { useFiltersStore } from "~/stores/filters";
 
 const { t } = useI18n();
 
-defineProps<{ selectedFilters?: string[]; }>();
+const filtersStore = useFiltersStore();
 
-const emit = defineEmits<{
-  (e: "change", checked: boolean, drive: string): void;
-}>();
-
-const drives = [
-  "FWD", "RWD", "AWD",
-];
+const driveTypeOptions = computed<CheckboxGroupItem[]>(
+  () =>
+    filtersStore.data?.filters.driveType.map((dt) => ({
+      value: dt.value,
+      label: `${t(`filters.drive.${dt.value}`)} (${dt.count})`,
+      disabled: dt.count === 0,
+    })) ?? [],
+);
 </script>
 
 <template>
-  <UCollapsible :default-open="true" :ui="{ content: 'pl-1 pt-1 max-h-40 overflow-y-auto' }">
-    <template #default="{ open }">
-      <CollapsibleTitle :title="t('filters.drive.title')" :open />
-    </template>
-
-    <template #content>
-      <UCheckbox
-        v-for="drive in drives"
-        :key="drive"
-        :label="t(`filters.drive.${drive}`)"
-        :value="drive"
-        :model-value="selectedFilters?.includes(drive)"
-        class="mb-2"
-        @update:model-value="(checked) => emit('change', !!checked, drive)"
-      />
-    </template>
-  </UCollapsible>
+  <div class="max-h-40 overflow-y-auto">
+    <UCheckboxGroup
+      v-model="filtersStore.selectedFilters.driveType"
+      :items="driveTypeOptions"
+    />
+  </div>
 </template>
