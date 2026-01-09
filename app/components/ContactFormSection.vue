@@ -11,11 +11,13 @@ withDefaults(defineProps<{
 <template>
   <section
     id="contact-container"
-    class="contact-form-section py-20"
+    class="contact-form-section px-4 py-12 sm:p-20"
   >
-    <div class="container text-white flex flex-col sm:flex-row gap-4 items-stretch">
+    <div
+      class="text-white flex flex-col sm:flex-row gap-6 sm:gap-10 items-stretch"
+    >
       <div class="grow flex flex-col">
-        <h3 class="text-5xl font-bold mb-auto">
+        <h3 class="text-4xl md:text-5xl font-bold mb-29.75 sm:mb-auto">
           <span class="text-primary">Допоможемо</span> визначитися
           <br>
           з авто
