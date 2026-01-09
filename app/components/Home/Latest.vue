@@ -2,15 +2,10 @@
 import SectionTitle from "~/components/UI/SectionTitle.vue";
 import CarCard from "~/components/UI/CarCard/CarCard.vue";
 import type { HomepageData } from "#shared/types";
-import { useProfileStore } from "#layers/profile/stores/profile";
 
 const props = defineProps<{ latestItems: HomepageData["latestItems"]; }>();
 
-const profileStore = useProfileStore();
-
 const carousel = useTemplateRef("carousel");
-
-const { toggleSave } = useSavedCarActions();
 
 const carouselItems = computed(() => {
   if (props.latestItems.items.length === 0) {
@@ -65,14 +60,17 @@ const carouselItems = computed(() => {
       dots
       loop
       :items="carouselItems"
+      :ui="{
+        viewport: 'overflow-visible relative z-10',
+      }"
     >
       <div class="grid grid-cols-3 gap-2">
+        <!-- TODO: `is-compared` and `toggle-compare` -->
         <CarCard
           v-for="car in item"
           :key="car.id"
           :car="car"
-          :toggle-save="toggleSave"
-          :is-saved="profileStore.profile?.savedCars?.includes(car.id)"
+          :is-compared="true"
         />
       </div>
     </UCarousel>

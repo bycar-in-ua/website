@@ -70,9 +70,15 @@ export function useSavedCarActions() {
     await handleSave(carId, title);
   };
 
+  const toggleCompare = async (carId: number, title?: string) => {
+    // TODO
+    console.log(carId, title);
+  };
+
   return {
     handleSave,
     handleRemove,
     toggleSave,
+    toggleCompare,
   };
 }

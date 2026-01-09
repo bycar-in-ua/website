@@ -2,23 +2,23 @@
 import { useMutation } from "@tanstack/vue-query";
 
 const props = defineProps<{
-  isSaved?: boolean;
+  isCompared?: boolean;
   carId: number;
   title?: string;
-  toggleSave: (carId: number, title?: string) => Promise<void>;
+  toggleCompare: (carId: number, title?: string) => Promise<void>;
 }>();
 
 const { mutateAsync, isPending } = useMutation({
-  mutationKey: ["toggle-save", props.carId],
-  mutationFn: () => props.toggleSave(props.carId, props.title),
+  mutationKey: ["toggle-compare", props.carId],
+  mutationFn: () => props.toggleCompare(props.carId, props.title),
 });
 </script>
 
 <template>
   <UIcon
-    name="i-lucide-bookmark"
+    name="i-lucide-scale"
     class="size-5"
-    :class="{ 'animate-ping': isPending, 'fill-current': isSaved }"
+    :class="{ 'animate-ping': isPending, 'fill-current': isCompared }"
     @click.prevent.stop="mutateAsync"
   />
 </template>

@@ -1,15 +1,10 @@
 <script setup lang="ts">
 import type { Vehicle } from "@bycar-in-ua/sdk";
-import { useProfileStore } from "#layers/profile/stores/profile";
 import CarCard from "~/components/UI/CarCard/CarCard.vue";
 import SectionTitle from "~/components/UI/SectionTitle.vue";
 
 defineProps<{ cars: Vehicle[];
   mainCar: Vehicle; }>();
-
-const profileStore = useProfileStore();
-
-const { toggleSave } = useSavedCarActions();
 </script>
 
 <template>
@@ -55,11 +50,7 @@ const { toggleSave } = useSavedCarActions();
           },
         }"
       >
-        <CarCard
-          :car="car"
-          :toggle-save="toggleSave"
-          :is-saved="profileStore.profile?.savedCars?.includes(car.id)"
-        />
+        <CarCard :car="car" />
       </NuxtLink>
     </div>
   </section>

@@ -13,8 +13,6 @@ definePageMeta({ name: "saved-cars" });
 
 const profileStore = useProfileStore();
 
-const { toggleSave } = useSavedCarActions();
-
 const PAGE_SIZE = 8;
 const page = ref(1);
 
@@ -102,7 +100,7 @@ const {
           },
         }"
       >
-        <CarCard :car="car" :is-saved="true" :toggle-save="toggleSave" />
+        <CarCard :car="car" :is-saved="true" />
       </NuxtLink>
     </div>
 

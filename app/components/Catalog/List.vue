@@ -2,13 +2,9 @@
 import CarCard from "~/components/UI/CarCard/CarCard.vue";
 import Pagination from "~/components/UI/Pagination.vue";
 import { useCatalogStore } from "~/stores/catalog";
-import { useProfileStore } from "#layers/profile/stores/profile";
 import ContactFormSection from "../ContactFormSection.vue";
 
 const catalogStore = useCatalogStore();
-const profileStore = useProfileStore();
-
-const { toggleSave } = useSavedCarActions();
 
 const list = useTemplateRef<HTMLDivElement>("list");
 
@@ -67,11 +63,7 @@ const tgMessage = computed(() => {
           },
         }"
       >
-        <CarCard
-          :car="car"
-          :is-saved="profileStore.profile?.savedCars?.includes(car.id)"
-          :toggle-save="toggleSave"
-        />
+        <CarCard :car="car" />
       </NuxtLink>
     </div>
     <Pagination
