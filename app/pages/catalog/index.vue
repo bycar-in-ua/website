@@ -5,6 +5,7 @@ import Headline from "~/components/Catalog/Headline.vue";
 import ContactForm from "~/components/ContactFormSection.vue";
 import FiltersSlideover from "~/components/Catalog/Filters/FiltersSlideover.vue";
 import { useCatalogStore } from "~/stores/catalog";
+import PartnershipBanner from "~/components/PartnershipBanner.vue";
 
 const isFiltersOpen = ref(false);
 
@@ -32,7 +33,7 @@ useHead({
             name: String(seoInput.title),
             path: route.fullPath,
           },
-        ]),
+        ])
       ),
     },
   ],
@@ -54,7 +55,10 @@ onUnmounted(() => {
 
     <PageHeader />
 
-    <Headline class="mt-16 container mx-auto" @filter-click="isFiltersOpen = true" />
+    <Headline
+      class="mt-16 container mx-auto"
+      @filter-click="isFiltersOpen = true"
+    />
     <FiltersSlideover v-model:open="isFiltersOpen" />
 
     <!-- Main Content: Sidebar + Grid -->
