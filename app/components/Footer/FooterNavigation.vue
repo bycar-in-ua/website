@@ -1,70 +1,96 @@
 <script setup lang="ts">
 import { UNavigationMenu } from "#components";
 import type { NavigationMenuItem } from "#ui/types";
-import { HF_OSCPV } from "~/utils/constants";
 
 const { t } = useI18n();
-const { gtag } = useGtag();
 
 defineOptions({ inheritAttrs: false });
 
 const menuItems: NavigationMenuItem[] = [
   {
-    label: t("menu.home"),
-    to: "/",
+    label: t("menu.catalog"),
+    to: "/catalog",
   },
   {
-    label: t("menu.catalogAuto"),
-    to: "/catalog",
+    label: t("menu.avaliableAuto"),
+    disabled: true,
   },
   {
     label: t("menu.about"),
     to: "/about",
   },
   {
-    label: "Оформити автоцивілку (ОСЦПВ)",
-    to: HF_OSCPV,
-    target: "_blank",
-    onClick: () => {
-      gtag("event", "hf_oscpv_click", {
-        event_category: "affiliate",
-        event_label: "oscpv",
-      });
-    },
+    label: t("menu.blog"),
+    to: "/about", // TODO: add `/articles` page and change `to` here
   },
 ];
 
-const additionalMenuItems: NavigationMenuItem[] = [
+const contacts: NavigationMenuItem[] = [
+  {
+    label: "Звʼязатися з нами",
+    to: "#contact-container",
+  },
+  {
+    label: "Співробітництво",
+    to: "#partnership-container", // TODO: check after merge BCR-138
+  },
+  {
+    label: "Повідомити про проблему",
+    disabled: true,
+  },
+];
+
+const policies: NavigationMenuItem[] = [
   {
     label: "Політика конфіденційності",
     to: "/privacy-policy",
   },
   {
-    label: "Політика використання файлів Cookie",
+    label: "Використання файлів Cookie",
     to: "/cookie-policy",
   },
+];
+
+const columns = [
   {
-    label: "Форма зворотнього зв'язку",
-    to: "https://coda.io/form/Bycar_dQUuO3ebNz6",
-    target: "_blank",
+    title: "Bycar",
+    links: menuItems,
+  },
+  {
+    title: "Контакт з нами",
+    links: contacts,
+  },
+  {
+    title: "Політика конфіденційності",
+    links: policies,
   },
 ];
 </script>
 
 <template>
-  <UNavigationMenu
-    v-for="(links, i) in [menuItems, additionalMenuItems]"
-    :key="i"
-    :items="links"
-    orientation="vertical"
-    variant="link"
-    :external-icon="false"
-    :ui="{
-      root: 'footer-nav',
-      linkLabel: 'whitespace-break-spaces',
-    }"
-    v-bind:="$attrs"
-  />
+  <div
+    v-for="(column, index) in columns"
+    :id="`footer-nav-col-${index}`"
+    :key="column.title"
+    class="w-full"
+  >
+    <h3 class="uppercase font-semibold text-sm text-gray-500 mb-4">
+      {{ column.title }}
+    </h3>
+
+    <UNavigationMenu
+      :items="column.links"
+      orientation="vertical"
+      variant="link"
+      :external-icon="false"
+      :ui="{
+        root: 'footer-nav',
+        link: 'p-0 text-white font-semibold text-sm',
+        list: 'flex flex-col gap-3',
+      }"
+      v-bind:="$attrs"
+    />
+  </div>
 </template>
 
 <style>
