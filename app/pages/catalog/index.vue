@@ -33,7 +33,7 @@ useHead({
             name: String(seoInput.title),
             path: route.fullPath,
           },
-        ])
+        ]),
       ),
     },
   ],

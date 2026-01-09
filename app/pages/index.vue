@@ -12,8 +12,8 @@ import { generatePageTitle } from "~/utils/seo";
 const route = useRoute();
 
 const pageTitie = generatePageTitle("Легкий шлях до нового авто");
-const pageDescription =
-  "Каталог нових автомобілів від офіційних дилерів в Україні. Звертайтеся за допомогою у підборі нових авто або пишіть в чат для консультації.";
+const pageDescription
+  = "Каталог нових автомобілів від офіційних дилерів в Україні. Звертайтеся за допомогою у підборі нових авто або пишіть в чат для консультації.";
 
 useSeoMeta({
   title: pageTitie,
