@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { useCatalogStore } from "~/stores/catalog";
+import { useFiltersStore } from "~/stores/filters";
 import Filters from "./Filters.vue";
 import { AppliedFilters } from "./AppliedFilters";
 
 const catalogStore = useCatalogStore();
+const filtersStore = useFiltersStore();
 const { t } = useI18n();
 
 const isOpen = defineModel<boolean>("open", { default: false });
@@ -37,7 +39,7 @@ const handleApply = () => {
     </template>
 
     <template #body>
-      <AppliedFilters />
+      <AppliedFilters v-if="filtersStore.appliedFiltersCount > 0" />
       <Filters />
     </template>
 

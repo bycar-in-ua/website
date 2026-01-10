@@ -1,16 +1,18 @@
 <script setup lang="ts">
-import type { CheckboxGroupItem } from "@nuxt/ui";
 import { useFiltersStore } from "~/stores/filters";
+import FilterLabel from "./FilterLabel.vue";
+import type { CheckboxGroupItemWithCount } from "./types";
 
 const { t } = useI18n();
 
 const filtersStore = useFiltersStore();
 
-const driveTypeOptions = computed<CheckboxGroupItem[]>(
+const driveTypeOptions = computed<CheckboxGroupItemWithCount[]>(
   () =>
     filtersStore.data?.filters.driveType.map((dt) => ({
       value: dt.value,
-      label: `${t(`filters.drive.${dt.value}`)} (${dt.count})`,
+      label: t(`filters.drive.${dt.value}`),
+      count: dt.count,
       disabled: dt.count === 0,
     })) ?? [],
 );
@@ -21,6 +23,10 @@ const driveTypeOptions = computed<CheckboxGroupItem[]>(
     <UCheckboxGroup
       v-model="filtersStore.selectedFilters.driveType"
       :items="driveTypeOptions"
-    />
+    >
+      <template #label="{ item }">
+        <FilterLabel :label="item.label" :count="item.count" />
+      </template>
+    </UCheckboxGroup>
   </div>
 </template>

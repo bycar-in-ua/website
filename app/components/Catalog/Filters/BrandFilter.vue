@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useFiltersStore } from "~/stores/filters";
-import type { CheckboxGroupItem } from "@nuxt/ui";
+import FilterLabel from "./FilterLabel.vue";
+import type { CheckboxGroupItemWithCount } from "./types";
 
 export type BrandFilterOption = {
   id: number;
@@ -11,10 +12,11 @@ export type BrandFilterOption = {
 
 const filtersStore = useFiltersStore();
 
-const brandOptions = computed<CheckboxGroupItem[]>(
+const brandOptions = computed<CheckboxGroupItemWithCount[]>(
   () =>
     filtersStore.data?.filters?.brand.map((b) => ({
-      label: `${b.displayName} (${b.count})`,
+      label: b.displayName,
+      count: b.count,
       value: String(b.id),
       disabled: b.count === 0,
     })) ?? [],
@@ -23,6 +25,10 @@ const brandOptions = computed<CheckboxGroupItem[]>(
 
 <template>
   <div class="max-h-40 overflow-y-auto">
-    <UCheckboxGroup v-model="filtersStore.selectedFilters.brand" :items="brandOptions" />
+    <UCheckboxGroup v-model="filtersStore.selectedFilters.brand" :items="brandOptions">
+      <template #label="{ item }">
+        <FilterLabel :label="item.label" :count="item.count" />
+      </template>
+    </UCheckboxGroup>
   </div>
 </template>

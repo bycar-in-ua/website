@@ -68,9 +68,24 @@ export const useFiltersStore = defineStore("filters", () => {
     selectedFilters.value[key] = undefined;
   };
 
+  const appliedFiltersCount = computed(() => Object.values(selectedFilters.value)
+    .reduce((acc, curr) => {
+      if (curr) {
+        if (Array.isArray(curr)) {
+          acc.count += curr.length;
+        } else {
+          acc.count += 1;
+        }
+      }
+
+      return acc;
+    }, { count: 0 }).count,
+  );
+
   return {
     selectedFilters,
     data,
+    appliedFiltersCount,
 
     isLoading,
     isFetching,

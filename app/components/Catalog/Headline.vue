@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import type { VehiclesOrder } from "@bycar-in-ua/sdk";
 import type { DropdownMenuItem } from "@nuxt/ui";
+import { useFiltersStore } from "~/stores/filters";
 
 defineEmits<{
   (e: "filter-click"): void;
 }>();
 
 const { t } = useI18n();
+
+const filtersStore = useFiltersStore();
 
 const orders: VehiclesOrder[] = [
   "price-asc",
@@ -52,7 +55,7 @@ const quickFilters = [
   >
     <div class="flex gap-1.5 items-center overflow-x-auto max-w-full grow">
       <UButton
-        label="Фільтр (2)"
+        :label="`Фільтр ${filtersStore.appliedFiltersCount > 0 ? `(${filtersStore.appliedFiltersCount})` : ''}`"
         color="secondary"
         variant="outline"
         icon="i-lucide-settings-2"
