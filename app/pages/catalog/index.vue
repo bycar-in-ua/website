@@ -15,9 +15,7 @@ const route = useRoute();
 
 const catalogStore = useCatalogStore();
 
-const brandFilterId = catalogStore.appliedFilters
-  .filter((filter) => filter.key === "brand")
-  .at(0)?.value;
+const brandFilterId = catalogStore.filters.brand?.at(0);
 
 const { h1, ...seoInput } = await useCatalogSeo(brandFilterId);
 
@@ -39,7 +37,7 @@ useHead({
   ],
 });
 
-await catalogStore.refresh();
+await catalogStore.refetch();
 
 onUnmounted(() => {
   catalogStore.$dispose();
