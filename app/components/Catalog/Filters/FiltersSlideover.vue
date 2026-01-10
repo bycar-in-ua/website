@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import Filters from "./Filters.vue";
 import { useCatalogStore } from "~/stores/catalog";
+import Filters from "./Filters.vue";
+import { AppliedFilters } from "./AppliedFilters";
 
 const catalogStore = useCatalogStore();
 const { t } = useI18n();
@@ -24,13 +25,19 @@ const handleApply = () => {
     :overlay="true"
     :transition="true"
     :dismissible="false"
-    title="ФІЛЬТРИ"
+    title="Фільтри"
     :ui="{
-      content: 'left-6 top-6 bottom-6',
+      content: 'sm:left-6 sm:top-6 sm:bottom-6 divide-gray-200 border border-gray-200',
+      title: 'text-lg font-bold uppercase text-default',
       body: 'p-0 sm:p-0 overflow-y-auto',
     }"
   >
+    <template #close>
+      <UIcon name="i-lucide-x size-6 cursor-pointer ms-auto" />
+    </template>
+
     <template #body>
+      <AppliedFilters />
       <Filters />
     </template>
 

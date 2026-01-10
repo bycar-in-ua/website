@@ -22,13 +22,14 @@ const priceSliderModel = computed({
 
 <template>
   <div class="flex gap-2 items-center mb-4">
-    <UFormField label="Від">
+    <UFormField label="Від" class="grow">
       <UInputNumber
         v-model="filtersStore.selectedFilters.minPrice"
         :step="PRICE_STEP"
         :min="priceRange.min"
         :max="priceRange.max - PRICE_STEP"
         size="sm"
+        class="w-full"
         :format-options="{
           style: 'currency',
           currency: 'USD',
@@ -38,13 +39,14 @@ const priceSliderModel = computed({
         }"
       />
     </UFormField>
-    <UFormField label="До">
+    <UFormField label="До" class="grow">
       <UInputNumber
         v-model="filtersStore.selectedFilters.maxPrice"
         :step="PRICE_STEP"
         :min="priceRange.min + PRICE_STEP"
         :max="priceRange.max"
         size="sm"
+        class="w-full"
         :format-options="{
           style: 'currency',
           currency: 'USD',
