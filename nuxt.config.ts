@@ -27,7 +27,7 @@ export default defineNuxtConfig({
       stage: process.env.STAGE ?? "dev",
       apiHost: process.env.API_URL,
       cdnHost: process.env.CDN_URL,
-      vehiclesApiHost: "https://staging-vehicles.bycar.in.ua",
+      vehiclesApiHost: process.env.VEHICLES_API_URL,
       sentryDsn: process.env.SENTRY_DSN,
       metapixel: process.env.META_PIXEL_ID
         ? { default: { id: process.env.META_PIXEL_ID } }
