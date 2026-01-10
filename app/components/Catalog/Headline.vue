@@ -25,28 +25,17 @@ const options: DropdownMenuItem[] = orders.map(
   }),
 );
 
-const quickFilters = [
-  {
-    label: "Кросовер",
-    count: 12,
-  },
-  {
-    label: "Хетчбек",
-    count: 12,
-  },
-  {
-    label: "Седан",
-    count: 12,
-  },
-  {
-    label: "Ліфтбек",
-    count: 12,
-  },
-  {
-    label: "Універсал",
-    count: 12,
-  },
-];
+const quickFilters = computed(() => filtersStore.data?.filters.bodyType.filter((filter) => filter.count > 0) || []);
+
+const toggleQuickFilter = (value: string) => {
+  if (filtersStore.selectedFilters.bodyType?.includes(value)) {
+    filtersStore.removeFilter("bodyType", value);
+  } else {
+    filtersStore.selectedFilters.bodyType?.push(value);
+  }
+
+  filtersStore.applyFilters();
+};
 </script>
 
 <template>
@@ -65,11 +54,12 @@ const quickFilters = [
 
       <UButton
         v-for="item in quickFilters"
-        :key="item.label"
-        :label="`${item.label} (${item.count})`"
-        color="secondary"
+        :key="item.value"
+        :label="`${t(`vehicle.bodyTypes.items.${item.value}`)} (${item.count})`"
+        :color="filtersStore.selectedFilters.bodyType?.includes(item.value) ? 'primary' : 'secondary'"
         variant="outline"
         class="capitalize"
+        @click="toggleQuickFilter(item.value)"
       />
     </div>
 

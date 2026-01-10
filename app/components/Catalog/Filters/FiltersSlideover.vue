@@ -1,20 +1,15 @@
 <script setup lang="ts">
-import { useCatalogStore } from "~/stores/catalog";
 import { useFiltersStore } from "~/stores/filters";
 import Filters from "./Filters.vue";
 import { AppliedFilters } from "./AppliedFilters";
 
-const catalogStore = useCatalogStore();
 const filtersStore = useFiltersStore();
-const { t } = useI18n();
 
 const isOpen = defineModel<boolean>("open", { default: false });
 
-const handleClearAll = () => {
-  catalogStore.clearFilters();
-};
-
 const handleApply = () => {
+  filtersStore.applyFilters();
+
   isOpen.value = false;
 };
 </script>
@@ -27,15 +22,29 @@ const handleApply = () => {
     :overlay="true"
     :transition="true"
     :dismissible="false"
-    title="Фільтри"
     :ui="{
       content: 'sm:left-6 sm:top-6 sm:bottom-6 divide-gray-200 border border-gray-200',
-      title: 'text-lg font-bold uppercase text-default',
+      title: '',
+      header: 'flex items-center justify-end',
       body: 'p-0 sm:p-0 overflow-y-auto',
     }"
   >
-    <template #close>
-      <UIcon name="i-lucide-x size-6 cursor-pointer ms-auto" />
+    <template #header="{ close }">
+      <h3 class="text-lg font-bold uppercase text-default me-auto">
+        Фільтри
+      </h3>
+
+      <UButton
+        v-if="filtersStore.appliedFiltersCount > 0"
+        variant="ghost"
+        color="secondary"
+        size="sm"
+        @click="filtersStore.clearFilters"
+      >
+        Очистити все
+      </UButton>
+
+      <UIcon name="i-lucide-x" class="size-6 cursor-pointer" @click="() => { filtersStore.resetFilters(); close() }" />
     </template>
 
     <template #body>
@@ -49,17 +58,7 @@ const handleApply = () => {
         trailing
         @click="handleApply"
       >
-        ЗАСТОСУВАТИ
-      </UButton>
-
-      <UButton
-        v-if="catalogStore.appliedFilters.length > 0"
-        variant="ghost"
-        size="sm"
-        block
-        @click="handleClearAll"
-      >
-        {{ t("filters.clearAll") }}
+        Показати ({{ filtersStore.data?.total }})
       </UButton>
     </template>
   </USlideover>

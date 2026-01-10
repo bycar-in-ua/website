@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { useQuery, keepPreviousData } from "@tanstack/vue-query";
 import type { VehiclesFiltersSchema } from "@bycar-in-ua/vehicles-sdk";
+import { useCatalogStore } from "./catalog";
 
 export const useFiltersStore = defineStore("filters", () => {
   const vehiclesService = useVehiclesService();
@@ -30,26 +31,6 @@ export const useFiltersStore = defineStore("filters", () => {
     queryFn: () => vehiclesService.getFilters(selectedFilters.value),
     placeholderData: keepPreviousData,
   });
-
-  function clearFilters() {
-    selectedFilters.value = {
-      bodyType: [],
-      engineType: [],
-      brand: [],
-      minPrice: undefined,
-      maxPrice: undefined,
-      availability: undefined,
-      driveType: [],
-      gearboxType: [],
-      yearFrom: undefined,
-      yearTo: undefined,
-      minDisplacement: undefined,
-      maxDisplacement: undefined,
-      minPower: undefined,
-      maxPower: undefined,
-      productionRelevance: undefined,
-    };
-  }
 
   const removeFilter = (key: keyof VehiclesFiltersSchema, value?: string | number) => {
     const target = selectedFilters.value[key];
@@ -82,6 +63,36 @@ export const useFiltersStore = defineStore("filters", () => {
     }, { count: 0 }).count,
   );
 
+  const catalogStore = useCatalogStore();
+
+  const applyFilters = () => {
+    catalogStore.filters = { ...selectedFilters.value };
+  };
+
+  const resetFilters = () => {
+    selectedFilters.value = { ...catalogStore.filters };
+  };
+
+  const clearFilters = () => {
+    selectedFilters.value = {
+      bodyType: [],
+      engineType: [],
+      brand: [],
+      minPrice: undefined,
+      maxPrice: undefined,
+      availability: undefined,
+      driveType: [],
+      gearboxType: [],
+      yearFrom: undefined,
+      yearTo: undefined,
+      minDisplacement: undefined,
+      maxDisplacement: undefined,
+      minPower: undefined,
+      maxPower: undefined,
+      productionRelevance: undefined,
+    };
+  };
+
   return {
     selectedFilters,
     data,
@@ -91,7 +102,9 @@ export const useFiltersStore = defineStore("filters", () => {
     isFetching,
     error,
 
-    clearFilters,
+    applyFilters,
     removeFilter,
+    clearFilters,
+    resetFilters,
   };
 });
