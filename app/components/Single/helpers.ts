@@ -39,13 +39,13 @@ export function getInfoBullets(
   t: Composer["t"],
 ): InfoBulletProps[] {
   const bodyType = t(`vehicle.bodyTypes.items.${car.bodyType}`)
-    .split("/")[0]
-    .trim();
+    ?.split("/")[0]
+    ?.trim();
 
   const bullets: InfoBulletProps[] = [
     {
       title: t("vehicle.bodyTypes.title"),
-      value: bodyType,
+      value: String(bodyType),
       icon: getBodyTypeIcon(car.bodyType),
     },
   ];

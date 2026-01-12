@@ -25,7 +25,7 @@ const options: DropdownMenuItem[] = orders.map(
   }),
 );
 
-const quickFilters = computed(() => filtersStore.data?.filters.bodyType.filter((filter) => filter.count > 0) || []);
+const quickFilters = computed(() => filtersStore.data?.filters?.bodyType?.filter((filter) => filter.count > 0) || []);
 
 const toggleQuickFilter = (value: string) => {
   if (filtersStore.selectedFilters.bodyType?.includes(value)) {
