@@ -3,17 +3,18 @@ import type { Complectation, PowerUnit, Vehicle } from "@bycar-in-ua/sdk";
 import { useElementVisibility } from "@vueuse/core";
 import Media from "~/components/Single/Media.vue";
 import Complectations from "~/components/Single/Complectations.vue";
+import SideWrap from "~/components/Single/SideWrap.vue";
 import PowerUnits from "~/components/Single/PowerUnits.vue";
 import FullInfo from "~/components/Single/FullInfo.vue";
 import ToolBar from "~/components/Single/ToolBar.vue";
 import AvailableCars from "~/components/Single/AvailableCars.vue";
 import ContactFormSection from "~/components/ContactFormSection.vue";
-import BluredEllipse from "~/components/UI/BluredEllipse.vue";
-import SimilarCars from "~/components/Single/SimilarCars.vue";
-import BottomBar from "~/components/Single/BottomBar.vue";
+// import SimilarCars from "~/components/Single/SimilarCars.vue";
+// import BottomBar from "~/components/Single/BottomBar.vue";
 import { getCarTitle, getComplectationsSummary } from "~/utils/carHelpers";
 import { generatePageTitle } from "~/utils/seo";
 import { discounts } from "~/components/Single/discounts.temp";
+import type { AvailableCar } from "~/components/Single/interface";
 
 definePageMeta({ name: "SingleCar" });
 
@@ -24,7 +25,7 @@ const availableVehiclesService = useAvailableVehiclesService();
 const route = useRoute();
 
 const { data, error } = await useAsyncData(`${route.params.model}`, () =>
-  vehiclesService.getVehicleBySlug(route.params.model as string),
+  vehiclesService.getVehicleBySlug(String(route.params.model)),
 );
 
 if (!data.value) {
@@ -34,10 +35,10 @@ if (!data.value) {
   });
 }
 
-const { data: similarVehicles } = await useAsyncData(
-  `${route.params.model}-similar`,
-  () => vehiclesService.getSimilarVehicles(route.params.model as string),
-);
+// const { data: similarVehicles } = await useAsyncData(
+//   `${route.params.model}-similar`,
+//   () => vehiclesService.getSimilarVehicles(route.params.model as string),
+// );
 
 const { data: availableVehicles } = useAsyncData(
   `${route.params.model}-availability`,
@@ -62,7 +63,7 @@ const { data: availableVehicles } = useAsyncData(
   { default: () => [] },
 );
 
-const car = computed(() => data.value as Vehicle);
+const car = computed(() => data.value as unknown as Vehicle);
 
 const activeComplectation = ref<Complectation | undefined>(
   car.value.complectations?.find((c) => c.base)
@@ -137,14 +138,14 @@ if (import.meta.client) {
   });
 }
 
-onMounted(() => {
-  document?.body.classList.add("pb-24");
-});
+// onMounted(() => {
+//   document?.body.classList.add("pb-24");
+// });
 
-onBeforeRouteLeave(() => {
-  pageToolbarVisible.value = true;
-  document?.body.classList.remove("pb-24");
-});
+// onBeforeRouteLeave(() => {
+//   pageToolbarVisible.value = true;
+//   document?.body.classList.remove("pb-24");
+// });
 
 const { gtag } = useGtag();
 
@@ -162,60 +163,69 @@ gtag("event", "view_item", {
 </script>
 
 <template>
-  <main class="container pt-24 md:pt-32 pb-5 relative">
+  <main class="relative">
     <h1 class="sr-only">
       {{ car.h1 ?? carTitle }}
     </h1>
-    <BluredEllipse
-      class="absolute w-screen sm:w-[410px] h-[220px] left-0 md:left-40 top-40 -z-10"
-    />
-    <Media :car :title="carTitle" :active-power-unit="activePowerUnit" />
 
-    <div class="w-full flex justify-end mb-4 md:mb-5">
-      <ToolBar
-        ref="pageToolbar"
-        class="w-full sm:w-auto"
-        :car-id="car.id"
-        :car-title="carTitle"
-        :available-vehicles-count="availableVehicles.length"
+    <div class="container mx-auto relative grid grid-cols-3 gap-6 items-start">
+      <div class="col-span-2">
+        <Media :car :title="carTitle" :active-power-unit="activePowerUnit" />
+
+        <div class="w-full flex justify-end mb-4 md:mb-5">
+          <ToolBar
+            ref="pageToolbar"
+            class="w-full sm:w-auto"
+            :car-id="car.id"
+            :car-title="carTitle"
+            :available-vehicles-count="availableVehicles.length"
+          />
+        </div>
+
+        <template v-if="car.complectations?.length">
+          <Complectations
+            :compectations="car.complectations"
+            :active-complectation="activeComplectation"
+            :set-active-complectation="setActiveComplectation"
+          />
+          <USeparator class="my-5" />
+        </template>
+
+        <template v-if="activeComplectation?.powerUnits?.length">
+          <PowerUnits
+            :power-units="activeComplectation.powerUnits ?? []"
+            :active-power-unit="activePowerUnit"
+            :set-active-power-unit="setActivePowerUnit"
+          />
+          <USeparator class="my-5" />
+        </template>
+
+        <FullInfo
+          :car
+          :complectation="activeComplectation"
+          :power-unit="activePowerUnit"
+        />
+
+        <!-- eslint-disable vue/no-v-html -->
+        <section
+          class="my-6 md:my-10 mx-auto prose max-w-full"
+          v-html="car.description"
+        />
+      </div>
+
+      <SideWrap
+        class="sticky top-4"
+        :car="car"
+        :power-unit="activePowerUnit"
+        :available-vehicles="availableVehicles as AvailableCar[]"
       />
     </div>
-
-    <template v-if="car.complectations?.length">
-      <Complectations
-        :compectations="car.complectations"
-        :active-complectation="activeComplectation"
-        :set-active-complectation="setActiveComplectation"
-      />
-      <USeparator class="my-5" />
-    </template>
-
-    <template v-if="activeComplectation?.powerUnits?.length">
-      <PowerUnits
-        :power-units="activeComplectation.powerUnits ?? []"
-        :active-power-unit="activePowerUnit"
-        :set-active-power-unit="setActivePowerUnit"
-      />
-      <USeparator class="my-5" />
-    </template>
-
-    <FullInfo
-      :car
-      :complectation="activeComplectation"
-      :power-unit="activePowerUnit"
-    />
 
     <AvailableCars
       v-if="availableVehicles.length > 0"
       :car="car"
       :availability="availableVehicles"
-      class="my-5"
-    />
-
-    <!-- eslint-disable vue/no-v-html -->
-    <section
-      class="my-6 md:my-10 mx-auto prose max-w-full"
-      v-html="car.description"
+      class="container my-5"
     />
 
     <ContactFormSection
@@ -223,23 +233,17 @@ gtag("event", "view_item", {
       class="md:justify-between"
       :tg-link-message="`Вітаю! Цікавить авто ${carTitle}. Хочу дізнатись більше деталей`"
       :show-affix="false"
-    >
-      <template #ellipse>
-        <BluredEllipse
-          class="absolute w-[410px] h-[220px] right-0 md:right-24 top-32 md:-top-24 -z-10"
-        />
-      </template>
-    </ContactFormSection>
+    />
 
-    <SimilarCars :cars="similarVehicles ?? []" :main-car="car" />
+    <!-- <SimilarCars :cars="similarVehicles ?? []" :main-car="car" /> -->
 
-    <BottomBar
+    <!-- <BottomBar
       class="shadow-[0_-2px_12px_rgba(32,1,70,0.08)] fixed left-0 right-0 z-50 transition-all duration-300"
       :class="pageToolbarVisible ? '-bottom-full': 'bottom-0'"
       :car-id="car.id"
       :car-title="carTitle"
       :selected-complectation="activeComplectation?.displayName"
       :available-vehicles-count="availableVehicles.length"
-    />
+    /> -->
   </main>
 </template>
