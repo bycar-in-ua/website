@@ -95,28 +95,39 @@ const {
     });
   },
 });
+
+// TODO: use real data
+const orderItems = ref([
+  "Авто під мій бюджет",
+  "Авто під стиль життя",
+  "Сімейне авто",
+  "Авто для бізнесу",
+  "Авто для початківця",
+  "Інше",
+]);
+const orderValue = ref("");
 </script>
 
 <template>
   <UForm
     :state="formState"
     :validate="validate"
-    class="p-8 flex flex-col gap-4 shadow-xl bg-white max-w-[416px] w-full"
+    class="p-8 flex flex-col gap-4 shadow-xl bg-white sm:max-w-104 min-w-64 w-full"
     :validate-on="['blur']"
     @submit="(e) => submitForm(e.data)"
   >
-    <UFormField name="name" label="Імʼя">
+    <UFormField name="name" label="Імʼя" :ui="{ container: 'mt-1.5' }">
       <UInput
         :id="`${id}-name`"
         v-model:model-value="formState.name"
         placeholder="Введіть ваше імʼя"
         size="lg"
         :disabled="isSuccess"
-        class="w-full"
+        class="w-full placeholder:text-gray-500 font-medium text-base text-gray-950"
       />
     </UFormField>
 
-    <UFormField name="phone" label="Телефон">
+    <UFormField name="phone" label="Телефон" :ui="{ container: 'mt-1.5' }">
       <UInput
         :id="`${id}-phone`"
         v-model:model-value="formState.phone"
@@ -125,12 +136,46 @@ const {
         mask="+38 (###) ###-##-##"
         type="tel"
         :disabled="isSuccess"
-        class="w-full"
+        class="w-full placeholder:text-gray-500 font-medium text-base text-gray-950"
       />
     </UFormField>
 
-    <UFormField name="request" label="Запит" class="mb-4">
-      <USelectMenu placeholder="Оберіть ваш запит" class="w-full" variant="ghost" />
+    <UFormField
+      name="request"
+      label="Запит"
+      class="mb-4"
+      :ui="{ container: 'mt-1.5' }"
+    >
+      <USelectMenu
+        v-model="orderValue"
+        :items="orderItems"
+        placeholder="Оберіть ваш запит"
+        class="w-full p-0 pb-1.5 border-b border-gray-200 disabled:border-gray-200 hover:border-primary font-medium text-base text-gray-950"
+        variant="none"
+        :ui="{
+          placeholder:
+            'text-gray-500 font-semibold hover:text-gray-700 w-full text-start',
+          input: 'hidden px-4',
+          group: 'py-3 px-3 gap-2',
+          item: ['p-0 data-highlighted:not-data-disabled:before:bg-elevated/0'],
+        }"
+      >
+        <template #item="{ item, index }">
+          <div class="w-full">
+            <URadioGroup
+              v-model="orderValue"
+              :items="[item]"
+              indicator="end"
+              size="sm"
+              class="font-semibold text-sm text-gray-700"
+              :ui="{
+                wrapper: 'font-semibold text-sm text-gray-700',
+              }"
+            />
+            <USeparator v-if="index !== orderItems.length - 1" class="my-2" />
+          </div>
+        </template>
+      </USelectMenu>
     </UFormField>
 
     <UButton v-if="isSuccess" block disabled>

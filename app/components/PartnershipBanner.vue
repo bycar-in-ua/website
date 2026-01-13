@@ -4,14 +4,17 @@ const partnershipFormUrl = config.public.partnershipFormUrl || "#";
 </script>
 
 <template>
-  <section id="partnership-container" class="partnership-section py-24 px-20">
-    <div class="flex flex-col gap-16">
+  <section
+    id="partnership-container"
+    class="partnership-section pt-50 pb-12 px-4 sm:py-24 sm:px-20"
+  >
+    <div class="flex flex-col gap-3 md:gap-16">
       <h3 class="text-white text-5xl font-bold">
         Співпрацюємо по-чесному
       </h3>
 
-      <div class="flex items-end justify-between">
-        <p class="text-xl font-medium mt-auto text-gray-200">
+      <div class="flex flex-col md:flex-row md:items-end justify-between">
+        <p class="mt-auto mb-8 md:mb-0 text-xl font-medium text-gray-200">
           проста інтеграція, зрозумілі умови
         </p>
 
@@ -20,6 +23,7 @@ const partnershipFormUrl = config.public.partnershipFormUrl || "#";
           target="_blank"
           rel="noopener noreferrer"
           size="lg"
+          class="justify-center"
         >
           Стати партнером
         </UButton>
