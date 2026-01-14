@@ -5,7 +5,6 @@ import Headline from "~/components/Catalog/Headline.vue";
 import ContactForm from "~/components/ContactFormSection.vue";
 import FiltersSlideover from "~/components/Catalog/Filters/FiltersSlideover.vue";
 import { useCatalogStore } from "~/stores/catalog";
-import PartnershipBanner from "~/components/PartnershipBanner.vue";
 
 const isFiltersOpen = ref(false);
 
