@@ -48,7 +48,7 @@ const { data } = await useFetch<HomepageData>("/api/homepage-data", {
     <!-- <LatestVideos :videos="data.latestYoutubeVideos" class="container" /> -->
     <Latest :latest-items="data.latestItems" class="container" />
     <HowItWorks />
-    <FeaturedCollections class="container" />
+    <FeaturedCollections :latest-items="data.latestItems" class="container" />
     <ContactForm page="Головна сторінка" :show-affix="false" />
     <PartnershipBanner />
   </main>
