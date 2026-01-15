@@ -1,4 +1,4 @@
-import type { LoginPayload } from "@bycar-in-ua/sdk";
+import type { LoginPayload } from "@bycar-in-ua/auth-sdk";
 import { useQuery, useQueryClient } from "@tanstack/vue-query";
 
 export const useAuthStore = defineStore("auth", () => {
@@ -8,7 +8,6 @@ export const useAuthStore = defineStore("auth", () => {
     [user.value?.firstName, user.value?.lastName].filter(Boolean).join(" "),
   );
 
-  const authService = useAuthService();
   const queryClient = useQueryClient();
 
   const {
@@ -18,7 +17,7 @@ export const useAuthStore = defineStore("auth", () => {
   } = useQuery({
     queryKey: ["user"],
     retry: false,
-    queryFn: () => authService.authenticate(),
+    queryFn: () => $fetch("/api/auth"),
   });
 
   const authenticated = computed(() => isFetched.value && !!userId.value);
@@ -26,7 +25,10 @@ export const useAuthStore = defineStore("auth", () => {
   const { gtag } = useGtag();
 
   const login = async (payload: LoginPayload) => {
-    const user = await authService.login(payload);
+    const user = await $fetch("/api/auth/login", {
+      method: "POST",
+      body: payload,
+    });
 
     queryClient.setQueryData(["user"], user);
 
@@ -39,7 +41,7 @@ export const useAuthStore = defineStore("auth", () => {
   const logout = async () => {
     navigateTo("/");
 
-    await authService.logout();
+    await $fetch("/api/auth/logout");
     queryClient.setQueryData(["user"], null);
 
     gtag("event", "sign_out", {
