@@ -1,2 +1,0 @@
-overrides:
-  '@bycar-in-ua/auth-sdk': link:../../../.local/share/pnpm/global/5/node_modules/@bycar-in-ua/auth-sdk
