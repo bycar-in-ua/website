@@ -1,5 +1,7 @@
 import * as v from "valibot";
 import { emailOrPhoneSchema, passwordSchema } from "#layers/profile/vaidation.shema";
+import { useSignInModalStore } from "~~/layers/profile/stores/sign-in-modal";
+import { useAuthStore } from "~~/layers/profile/stores/auth";
 
 const loginSchema = v.object({
   login: emailOrPhoneSchema,
@@ -15,14 +17,16 @@ export function useLoginForm() {
   });
 
   const authStore = useAuthStore();
-  const authService = useAuthService();
   const signInModal = useSignInModalStore();
 
   const { execute: login, status } = useAsyncData(
     "login",
     async () => {
       try {
-        const user = await authService.login(state);
+        const user = await $fetch("/api/auth/login", {
+          method: "POST",
+          body: state,
+        });
 
         if (!user) {
           throw new Error("User not authenticated");
