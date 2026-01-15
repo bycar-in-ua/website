@@ -1,5 +1,13 @@
 # Agent Instructions
 
+## Documentation
+
+| Topic | File |
+|-------|------|
+| Authentication | [docs/authentication.md](docs/authentication.md) |
+
+---
+
 ## Task Management (bd)
 
 This project uses **bd** (beads) for issue tracking. Run `bd onboard` to get started.
