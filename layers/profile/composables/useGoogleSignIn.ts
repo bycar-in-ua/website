@@ -1,4 +1,5 @@
 import { composeQueryToastUrl } from "~/utils/composeQueryToastUrl";
+import { useSignInModalStore } from "~~/layers/profile/stores/sign-in-modal";
 
 export function useGoogleSignIn() {
   const authService = useAuthService();

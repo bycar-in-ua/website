@@ -1,3 +1,4 @@
+import { useAuthStore } from "~~/layers/profile/stores/auth";
 import { useSignInModalStore } from "../stores/sign-in-modal";
 
 type FormState = {
