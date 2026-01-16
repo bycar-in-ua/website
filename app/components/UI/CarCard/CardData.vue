@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { InfoBullet } from "./helpers";
 
-const props = defineProps<{
+defineProps<{
   carTitle?: string;
   infoBullets?: InfoBullet[];
   priceRange?: string;
