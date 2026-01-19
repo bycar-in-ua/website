@@ -14,14 +14,8 @@ export const useProfileStore = defineStore("profile", () => {
     isFetched: profileFetched,
   } = useQuery({
     queryKey: ["profile", () => authStore.userId],
-    queryFn: () => {
-      if (!authStore.userId) {
-        return {} as Profile;
-      }
-
-      return usersService.getProfile();
-    },
-    placeholderData: () => ({} as Profile),
+    queryFn: () => $fetch("/api/auth/profile"),
+    // placeholderData: () => ({} as Profile),
     enabled: () => !!authStore.userId,
   });
 
