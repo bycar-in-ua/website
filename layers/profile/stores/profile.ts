@@ -1,5 +1,5 @@
 import { UsersPrivateService, type Profile } from "@bycar-in-ua/sdk";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
+import { useMutation } from "@tanstack/vue-query";
 import { useAuthStore } from "#layers/profile/stores/auth";
 
 export const useProfileStore = defineStore("profile", () => {
@@ -10,16 +10,12 @@ export const useProfileStore = defineStore("profile", () => {
 
   const {
     data: profile,
-    isLoading: profileLoading,
-    isFetched: profileFetched,
-  } = useQuery({
-    queryKey: ["profile", () => authStore.userId],
-    queryFn: () => $fetch("/api/auth/profile"),
-    // placeholderData: () => ({} as Profile),
-    enabled: () => !!authStore.userId,
-  });
+    pending: profileLoading,
+    status,
+    refresh,
+  } = useFetch(`/api/auth/profile`);
 
-  const queryClient = useQueryClient();
+  const profileFetched = computed(() => status.value !== "idle");
 
   const { mutateAsync: updateProfile, isPending: updateProfilePending }
     = useMutation({
@@ -27,9 +23,8 @@ export const useProfileStore = defineStore("profile", () => {
       mutationFn: (payload: Partial<Profile>) => {
         return usersService.updateProfile(payload);
       },
-      onSuccess: (data) => {
-        queryClient.setQueryData(["profile", authStore.userId], data);
-      },
+      // Probably there should be a better way to update the profile data
+      onSuccess: () => refresh(),
     });
 
   const loading = computed(

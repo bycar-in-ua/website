@@ -1,5 +1,5 @@
 import type { LoginPayload } from "@bycar-in-ua/auth-sdk";
-import { useQuery, useQueryClient } from "@tanstack/vue-query";
+import { useQueryClient } from "@tanstack/vue-query";
 
 export const useAuthStore = defineStore("auth", () => {
   const userId = computed(() => user.value?.id);
@@ -12,15 +12,11 @@ export const useAuthStore = defineStore("auth", () => {
 
   const {
     data: user,
-    isFetched,
-    refetch: authenticate,
-  } = useQuery({
-    queryKey: ["user"],
-    retry: false,
-    queryFn: () => $fetch("/api/auth"),
-  });
+    refresh: authenticate,
+    status,
+  } = useFetch("/api/auth");
 
-  const authenticated = computed(() => isFetched.value && !!userId.value);
+  const authenticated = computed(() => status.value !== "idle" && !!userId.value);
 
   const { gtag } = useGtag();
 
