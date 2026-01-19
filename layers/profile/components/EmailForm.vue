@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useAuthStore } from "#layers/profile/stores/auth";
 import { useEmailForm } from "../composables/useEmailForm";
 import ProfileFormField from "./ProfileFormField.vue";
 

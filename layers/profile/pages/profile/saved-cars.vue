@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import type { PaginatedResponse, Vehicle } from "@bycar-in-ua/sdk";
+import { useQuery, keepPreviousData } from "@tanstack/vue-query";
+import { useProfileStore } from "#layers/profile/stores/profile";
+import SectionContainer from "#layers/profile/components/SectionContainer.vue";
 import CarCard from "~/components/UI/CarCard/CarCard.vue";
 import Pagination from "~/components/UI/Pagination.vue";
 import GridSkeleton from "~/components/UI/GridSkeleton.vue";
 import Empty from "~/components/UI/Empty.vue";
-import { useQuery, keepPreviousData } from "@tanstack/vue-query";
-
-import SectionContainer from "../../components/SectionContainer.vue";
-import { useProfileStore } from "../../stores/profile";
 
 definePageMeta({ name: "saved-cars" });
 

@@ -1,4 +1,5 @@
 import { ImagesPrivateService, UsersPrivateService, type UpdatePersonalPayload } from "@bycar-in-ua/sdk";
+import { useAuthStore } from "#layers/profile/stores/auth";
 
 export function usePersonalDataForm() {
   const authStore = useAuthStore();
@@ -57,7 +58,7 @@ export function usePersonalDataForm() {
 
       const [avatar] = await imagesService.uploadImages(formData);
 
-      state.avatar = avatar.path;
+      state.avatar = avatar?.path;
 
       updatePersonalData();
     } catch {

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useAuthStore } from "#layers/profile/stores/auth";
 import { usePhoneForm } from "../composables/usePhoneForm";
 
 const authStore = useAuthStore();

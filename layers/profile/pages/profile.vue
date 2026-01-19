@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from "@nuxt/ui";
+import { useAuthStore } from "#layers/profile/stores/auth";
 
 definePageMeta({
   middleware: "auth",
