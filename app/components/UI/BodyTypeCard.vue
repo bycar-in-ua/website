@@ -1,29 +1,27 @@
 <script setup lang="ts">
 defineProps<{
-  item: {
-    title: string;
-    image: string;
-    query: string;
-  };
+  title: string;
+  image: string;
+  query: string;
 }>();
 </script>
 
 <template>
   <NuxtLink
-    :key="item.title"
+    :key="title"
     :to="{
       path: '/catalog',
       query: {
-        bodyType: item.query,
+        bodyType: query,
       },
     }"
   >
     <div class="h-[135px] flex justify-center items-center">
-      <img :src="item.image" :alt="item.title">
+      <img :src="image" :alt="title">
     </div>
 
     <div class="text-center text-black text-xl font-semibold">
-      {{ item.title }}
+      {{ title }}
     </div>
   </NuxtLink>
 </template>

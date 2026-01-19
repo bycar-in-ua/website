@@ -49,19 +49,29 @@ const bodyTypes = [
     </SectionTitle>
 
     <div class="hidden xl:flex justify-between gap-5">
-      <BodyTypeCard v-for="item in bodyTypes" :key="item.title" :item="item" />
+      <BodyTypeCard
+        v-for="item in bodyTypes"
+        :key="item.title"
+        :title="item.title"
+        :image="item.image"
+        :query="item.query"
+      />
     </div>
 
     <UCarousel
       v-slot="{ item }"
       :items="bodyTypes"
       :ui="{
-        item: 'basis-1/2 sm:basis-1/3',
+        item: 'basis-1/2 md:basis-1/3',
       }"
       class="xl:hidden mb-14"
       dots
     >
-      <BodyTypeCard :item="item" />
+      <BodyTypeCard
+        :title="item.title"
+        :image="item.image"
+        :query="item.query"
+      />
     </UCarousel>
 
     <UButton
