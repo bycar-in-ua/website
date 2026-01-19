@@ -8,6 +8,7 @@ import FeaturedCollections from "~/components/Home/FeaturedCollections.vue";
 import Latest from "~/components/Home/Latest.vue";
 import Brands from "~/components/Home/Brands.vue";
 import DualPanel from "~/components/Home/DualPanel.vue";
+import BodyTypes from "~/components/Home/BodyTypes.vue";
 import { generatePageTitle } from "~/utils/seo";
 
 const route = useRoute();
@@ -51,6 +52,7 @@ const { data } = await useFetch<HomepageData>("/api/homepage-data", {
     <HowItWorks />
     <FeaturedCollections :latest-items="data.latestItems" class="container" />
     <DualPanel />
+    <BodyTypes />
     <ContactForm page="Головна сторінка" :show-affix="false" />
     <PartnershipBanner />
   </main>
