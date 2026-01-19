@@ -18,15 +18,12 @@ const handleApply = () => {
   <USlideover
     v-model:open="isOpen"
     side="left"
-    :inset="false"
-    :overlay="true"
-    :transition="true"
     :dismissible="false"
+    :inset="true"
     :ui="{
-      content: 'sm:left-6 sm:top-6 sm:bottom-6 divide-gray-200 border border-gray-200',
       title: '',
       header: 'flex items-center justify-end',
-      body: 'p-0 sm:p-0 overflow-y-auto',
+      body: 'p-0 sm:p-0',
     }"
   >
     <template #header="{ close }">
