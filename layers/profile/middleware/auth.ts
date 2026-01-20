@@ -1,18 +1,23 @@
-import { useAuthStore } from "~~/layers/profile/stores/auth";
-
 export default defineNuxtRouteMiddleware(async (to, from) => {
-  const authStore = useAuthStore();
+  const { loggedIn, user, fetch: fetchSession } = useUserSession();
 
   try {
-    if (!authStore.authenticated) {
-      await authStore.authenticate();
+    // During SSR: trust the session state (user is cached in encrypted cookie)
+    // Token refresh will happen naturally on client-side when API calls are made
+    if (loggedIn.value && user.value) {
+      return true;
     }
 
-    if (!authStore.user) {
-      throw new Error("User not authenticated");
+    // Try to fetch session if not loaded yet (mainly for client-side navigation)
+    if (!loggedIn.value) {
+      await fetchSession();
+
+      if (loggedIn.value && user.value) {
+        return true;
+      }
     }
 
-    return true;
+    throw new Error("User not authenticated");
   } catch {
     const redirectPath
       = from.fullPath && from.fullPath !== to.fullPath ? from.fullPath : "/";

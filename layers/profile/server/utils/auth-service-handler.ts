@@ -1,24 +1,49 @@
-import { getBycarAuthenticatedFetchClient, AuthService } from "@bycar-in-ua/auth-sdk";
-import type {
-  EventHandler,
-  EventHandlerRequest,
-  EventHandlerResponse,
-  H3Event,
-} from "h3";
+import { getBycarAuthenticatedFetchClient, getBycarFetchClient, AuthService } from "@bycar-in-ua/auth-sdk";
+import type { EventHandler, EventHandlerRequest, H3Event } from "h3";
 
-type AuthWrappedHandler<Request extends EventHandlerRequest, Response extends EventHandlerResponse>
-  = (event: H3Event<Request>, authService: AuthService) => Response;
+type AuthWrappedHandler<Request extends EventHandlerRequest, Response>
+  = (event: H3Event<Request>, authService: AuthService) => Response | Promise<Response>;
 
-export const defineResponseHandlerWithAuth = <T extends EventHandlerRequest, D> (
+/**
+ * Creates an event handler with authenticated AuthService.
+ * Uses nuxt-auth-utils session to get access/refresh tokens.
+ * Token refresh happens automatically via SDK when API returns 401.
+ */
+export const defineResponseHandlerWithAuth = <T extends EventHandlerRequest, D>(
   handler: AuthWrappedHandler<T, D>,
-): EventHandler<T, D> =>
-  defineEventHandler<T, D>((event) => {
+): EventHandler<T, D | Promise<D>> =>
+  defineEventHandler(async (event) => {
     const config = useRuntimeConfig(event);
+    const session = await getUserSession(event);
 
     const client = getBycarAuthenticatedFetchClient(config.public.authApiHost, {
-      getAccessToken: () => getCookie(event, ACCESS_TOKEN_COOKIE) || "",
-      getRefreshToken: () => getCookie(event, REFRESH_TOKEN_COOKIE) || "",
+      getAccessToken: () => session.secure?.accessToken || "",
+      getRefreshToken: () => session.secure?.refreshToken || "",
+      onTokenRefresh: async (newAccessToken, newRefreshToken) => {
+        await replaceUserSession(event, {
+          ...session,
+          secure: {
+            accessToken: newAccessToken,
+            refreshToken: newRefreshToken,
+          },
+        });
+      },
     });
+
+    return handler(event, new AuthService(client));
+  });
+
+/**
+ * Creates an event handler with unauthenticated AuthService.
+ * Used for login/register where no tokens are needed yet.
+ */
+export const defineResponseHandlerWithPublicAuth = <T extends EventHandlerRequest, D>(
+  handler: AuthWrappedHandler<T, D>,
+): EventHandler<T, D | Promise<D>> =>
+  defineEventHandler((event) => {
+    const config = useRuntimeConfig(event);
+
+    const client = getBycarFetchClient(config.public.authApiHost);
 
     return handler(event, new AuthService(client));
   });

@@ -22,7 +22,7 @@ export function useConfirmPhoneForm() {
       try {
         await authService.phoneVerification(state.code.join(""));
 
-        authStore.authenticate();
+        await authStore.fetchSession();
         signInModal.open = false;
 
         toast.add({

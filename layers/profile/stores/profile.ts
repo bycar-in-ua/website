@@ -13,7 +13,7 @@ export const useProfileStore = defineStore("profile", () => {
     pending: profileLoading,
     status,
     refresh,
-  } = useFetch(`/api/auth/profile`);
+  } = useFetch(`/api/auth/profile`, { watch: [() => authStore.userId] });
 
   const profileFetched = computed(() => status.value !== "idle");
 

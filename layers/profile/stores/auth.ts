@@ -1,7 +1,12 @@
 import type { LoginPayload } from "@bycar-in-ua/auth-sdk";
+import type { User } from "#auth-utils";
 import { useQueryClient } from "@tanstack/vue-query";
 
 export const useAuthStore = defineStore("auth", () => {
+  const {
+    loggedIn, user, clear, fetch: fetchSession,
+  } = useUserSession();
+
   const userId = computed(() => user.value?.id);
 
   const name = computed(() =>
@@ -10,23 +15,20 @@ export const useAuthStore = defineStore("auth", () => {
 
   const queryClient = useQueryClient();
 
-  const {
-    data: user,
-    refresh: authenticate,
-    status,
-  } = useFetch("/api/auth");
-
-  const authenticated = computed(() => status.value !== "idle" && !!userId.value);
+  const authenticated = computed(() => loggedIn.value && !!userId.value);
 
   const { gtag } = useGtag();
 
   const login = async (payload: LoginPayload) => {
-    const user = await $fetch("/api/auth/login", {
+    const loggedInUser = await $fetch("/api/auth/login", {
       method: "POST",
       body: payload,
     });
 
-    queryClient.setQueryData(["user"], user);
+    // Refresh session state after login
+    await fetchSession();
+
+    queryClient.setQueryData(["user"], loggedInUser);
 
     gtag("event", "sign_in", {
       event_category: "engagement",
@@ -38,6 +40,7 @@ export const useAuthStore = defineStore("auth", () => {
     navigateTo("/");
 
     await $fetch("/api/auth/logout");
+    await clear();
     queryClient.setQueryData(["user"], null);
 
     gtag("event", "sign_out", {
@@ -46,13 +49,23 @@ export const useAuthStore = defineStore("auth", () => {
     });
   };
 
+  /**
+   * Sets user data directly (used after registration/login from other flows)
+   */
+  const setUser = async (userData: User) => {
+    await fetchSession();
+    queryClient.setQueryData(["user"], userData);
+  };
+
   return {
     user,
     userId,
     name,
     authenticated,
-    authenticate,
+    loggedIn,
     login,
     logout,
+    setUser,
+    fetchSession,
   };
 });
