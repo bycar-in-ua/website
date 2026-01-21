@@ -1,7 +1,7 @@
 import * as v from "valibot";
 import { emailOrPhoneSchema, passwordSchema } from "#layers/profile/vaidation.shema";
 import { useSignInModalStore } from "~~/layers/profile/stores/sign-in-modal";
-import { useAuthStore } from "~~/layers/profile/stores/auth";
+// import { useAuthStore } from "~~/layers/profile/stores/auth";
 
 const loginSchema = v.object({
   login: emailOrPhoneSchema,
@@ -16,7 +16,7 @@ export function useLoginForm() {
     password: "",
   });
 
-  const authStore = useAuthStore();
+  // const authStore = useAuthStore();
   const signInModal = useSignInModalStore();
 
   const { execute: login, status } = useAsyncData(
@@ -32,7 +32,7 @@ export function useLoginForm() {
           throw new Error("User not authenticated");
         }
 
-        authStore.user = user;
+        // authStore.user = user;
         signInModal.open = false;
 
         navigateTo(signInModal.redirect || "/profile");

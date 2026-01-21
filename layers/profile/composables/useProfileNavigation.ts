@@ -1,5 +1,4 @@
 import type { NavigationMenuItem } from "@nuxt/ui";
-import { useProfileStore } from "#layers/profile/stores/profile";
 
 import { PersonalProfile, SavedCars } from "../components/NavButtons";
 
@@ -9,14 +8,14 @@ const personalProfileMenuItem: NavigationMenuItem = {
 };
 
 export function useProfileNavigation() {
-  const profileStore = useProfileStore();
+  const profile = useProfile();
 
   const savedCarsMenuItem = computed<NavigationMenuItem>(() => ({
     label: "Збережені авто",
     to: { name: "saved-cars" },
-    badge: profileStore.profile?.savedCars?.length
+    badge: profile.data.value?.savedCars?.length
       ? {
-          label: profileStore.profile?.savedCars?.length,
+          label: profile.data.value?.savedCars?.length,
           color: "primary",
           variant: "solid",
           class: "rounded-full",

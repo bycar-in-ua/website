@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { ButtonProps } from "@nuxt/ui";
-import { useProfileStore } from "#layers/profile/stores/profile";
+import { useProfile } from "#layers/profile/composables/useProfile";
 
 const props = defineProps<{
   buttonProps?: ButtonProps;
@@ -10,10 +10,10 @@ const props = defineProps<{
 
 const { handleSave, handleRemove } = useSavedCarActions();
 
-const profileStore = useProfileStore();
+const profile = useProfile();
 
 const isSaved = computed(() =>
-  profileStore.profile?.savedCars?.includes(props.carId),
+  profile.data.value?.savedCars?.includes(props.carId),
 );
 </script>
 
@@ -24,7 +24,7 @@ const isSaved = computed(() =>
         :is-saved="isSaved"
         :handle-save="handleSave"
         :handle-remove="handleRemove"
-        :loading="profileStore.loading"
+        :loading="profile.isLoading.value"
       >
         <UButton
           v-if="isSaved"
@@ -33,7 +33,7 @@ const isSaved = computed(() =>
           color="primary"
           icon="i-heroicons-heart-solid"
           v-bind="buttonProps"
-          :loading="profileStore.loading"
+          :loading="profile.isLoading.value"
           @click="handleRemove(carId, title)"
         />
 
@@ -44,7 +44,7 @@ const isSaved = computed(() =>
           color="primary"
           icon="i-heroicons-heart"
           v-bind="buttonProps"
-          :loading="profileStore.loading"
+          :loading="profile.isLoading.value"
           @click="handleSave(carId, title)"
         />
       </slot>

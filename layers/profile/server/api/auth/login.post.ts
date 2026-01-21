@@ -8,7 +8,13 @@ export default defineResponseHandlerWithPublicAuth(async (event, authService) =>
   const response = await authService.login(body);
 
   await setUserSession(event, {
-    user: response.user,
+    user: {
+      data: response.user,
+      tokens: {
+        access: response.accessToken,
+        refresh: response.refreshToken,
+      },
+    },
     secure: {
       accessToken: response.accessToken,
       refreshToken: response.refreshToken,

@@ -2,10 +2,15 @@ import type { LoginPayload } from "@bycar-in-ua/auth-sdk";
 import type { User } from "#auth-utils";
 import { useQueryClient } from "@tanstack/vue-query";
 
+/**
+ * @deprecated Don't use
+ */
 export const useAuthStore = defineStore("auth", () => {
   const {
-    loggedIn, user, clear, fetch: fetchSession,
+    loggedIn, session, clear, fetch: fetchSession,
   } = useUserSession();
+
+  const user = computed(() => session.value?.user?.data);
 
   const userId = computed(() => user.value?.id);
 

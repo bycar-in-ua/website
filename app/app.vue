@@ -4,6 +4,7 @@ import Footer from "~/components/Footer/index.vue";
 import CookieBanner from "~/components/CookieBanner.vue";
 import SignInModal from "#layers/profile/components/SignInModal.vue";
 import QuizProvider from "#layers/quiz/components/QuizProvider.vue";
+import { useProfileProvider } from "#layers/profile/composables/useProfile";
 
 useHead({
   htmlAttrs: { lang: "ua" },
@@ -24,6 +25,10 @@ const acceptCookieHandler = () => {
   cookieAccepted.value = true;
   localStorage.setItem("cookieAccepted", "true");
 };
+
+const profile = useProfileProvider();
+
+await profile.suspense();
 
 if (import.meta.client) {
   nuxtApp.hook("page:finish", () => {
