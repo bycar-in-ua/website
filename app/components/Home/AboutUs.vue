@@ -26,7 +26,11 @@ import SectionTitle from "../UI/SectionTitle.vue";
         простим та зрозумілим.
       </p>
 
-      <UButton variant="outline" class="flex justify-center mt-auto md:w-fit">
+      <UButton
+        to="/about"
+        variant="outline"
+        class="flex justify-center mt-auto md:w-fit"
+      >
         Наша історія
       </UButton>
     </div>
