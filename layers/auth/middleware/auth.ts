@@ -1,5 +1,7 @@
 export default defineNuxtRouteMiddleware(async (to, from) => {
-  const { loggedIn, user, fetch: fetchSession } = useUserSession();
+  const {
+    loggedIn, user, fetch: fetchSession,
+  } = useUserSession();
 
   try {
     // During SSR: trust the session state (user is cached in encrypted cookie)
@@ -26,7 +28,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
       path: redirectPath,
       query: {
         redirect: to.fullPath,
-        loginModal: "open",
+        authSlideover: "open",
       },
       replace: true,
     });

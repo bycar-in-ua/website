@@ -17,8 +17,8 @@ export const defineResponseHandlerWithAuth = <T extends EventHandlerRequest, D>(
     const session = await getUserSession(event);
 
     const client = getBycarAuthenticatedFetchClient(config.public.authApiHost, {
-      getAccessToken: () => session.secure?.accessToken || "",
-      getRefreshToken: () => session.secure?.refreshToken || "",
+      getAccessToken: () => session.user?.tokens?.access || "",
+      getRefreshToken: () => session.user?.tokens?.refresh || "",
       onTokenRefresh: async (newAccessToken, newRefreshToken) => {
         await replaceUserSession(event, {
           ...session,

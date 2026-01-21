@@ -19,7 +19,6 @@ export function useSignUpForm() {
   const toast = useToast();
 
   const authService = useAuthService();
-  const authStore = useAuthStore();
   const signInModal = useSignInModalStore();
   const { setStage } = useSignInStage();
 
@@ -31,6 +30,7 @@ export function useSignUpForm() {
       const [firstName, lastName] = state.name?.split(" ") || [];
 
       try {
+        // TODO: log user in on register on server
         const newUser = await authService.register({
           email: isEmailUsed ? state.login : null,
           phone: isEmailUsed ? null : state.login,
@@ -38,8 +38,6 @@ export function useSignUpForm() {
           firstName,
           lastName,
         });
-
-        authStore.user = await authService.login(state);
 
         if (isEmailUsed) {
           toast.add({
