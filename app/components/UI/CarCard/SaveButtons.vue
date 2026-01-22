@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import SaveIcon from "./SaveIcon.vue";
 import CompareIcon from "./CompareIcon.vue";
-import { useProfileStore } from "~~/layers/profile/stores/profile";
+import { useProfile } from "#layers/profile/composables/useProfile";
 
 const props = defineProps<{
   carId: number;
@@ -12,10 +12,10 @@ const props = defineProps<{
 
 const { toggleSave, toggleCompare } = useSavedCarActions();
 
-const profileStore = useProfileStore();
+const profile = useProfile();
 
 const isSaved
-  = props.isSaved ?? profileStore.profile?.savedCars?.includes(props.carId);
+  = props.isSaved ?? profile.data.value?.savedCars?.includes(props.carId);
 
 // TODO: add `profileStore.profile?.comparedCars`
 const isCompared = props.isCompared;

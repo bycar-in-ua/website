@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useAuthStore } from "#layers/profile/stores/auth";
 import SectionContainer from "../../components/SectionContainer.vue";
 
 definePageMeta({ name: "profile-personal" });

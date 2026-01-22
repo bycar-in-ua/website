@@ -1,24 +1,23 @@
 <script setup lang="ts">
-import type { PaginatedResponse, Vehicle } from "@bycar-in-ua/sdk";
+import type { PaginatedResponse } from "@bycar-in-ua/sdk";
+import { useQuery, keepPreviousData } from "@tanstack/vue-query";
+import SectionContainer from "#layers/profile/components/SectionContainer.vue";
 import CarCard from "~/components/UI/CarCard/CarCard.vue";
 import Pagination from "~/components/UI/Pagination.vue";
 import GridSkeleton from "~/components/UI/GridSkeleton.vue";
 import Empty from "~/components/UI/Empty.vue";
-import { useQuery, keepPreviousData } from "@tanstack/vue-query";
-
-import SectionContainer from "../../components/SectionContainer.vue";
-import { useProfileStore } from "../../stores/profile";
+import type { VehicleSearchDocument } from "@bycar-in-ua/vehicles-sdk";
 
 definePageMeta({ name: "saved-cars" });
 
-const profileStore = useProfileStore();
+const profile = useProfile();
 
 const PAGE_SIZE = 8;
 const page = ref(1);
 
 const vehiclesService = useVehiclesService();
 
-const carsIds = computed<number[]>(() => profileStore.profile?.savedCars ?? []);
+const carsIds = computed<number[]>(() => profile.data.value?.savedCars ?? []);
 
 const {
   data: vehicles,
@@ -40,7 +39,7 @@ const {
           itemsPerPage: PAGE_SIZE,
           totalItems: 0,
         },
-      } as PaginatedResponse<Vehicle>;
+      } as PaginatedResponse<VehicleSearchDocument>;
     }
 
     if (page.value > 1 && crsIdsLength <= PAGE_SIZE * (page.value - 1)) {
@@ -48,7 +47,8 @@ const {
     }
 
     const response = await vehiclesService.searchVehicles({
-      filters: { id: carsIds.value },
+      // TODO: add search by IDs
+      filters: { /* id: carsIds.value */ },
       pagination: {
         page: page.value,
         limit: PAGE_SIZE,
@@ -58,7 +58,7 @@ const {
     return response;
   },
   placeholderData: keepPreviousData,
-  enabled: () => profileStore.profileFetched,
+  enabled: profile.isFetched,
 });
 </script>
 
@@ -79,7 +79,7 @@ const {
         та збережіть натиснувши на іконку
         <UIcon
           name="i-heroicons-heart-solid"
-          class="w-6 h-6 relative top-[6px]"
+          class="w-6 h-6 relative top-1.5"
         />
       </div>
     </Empty>

@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document describes the authentication approach for the Bycar website, a Nuxt SSR application that communicates with a serverless backend API.
+This document describes the authentication approach for the Bycar website, a Nuxt SSR application that communicates with a serverless backend API using `nuxt-auth-utils` for session management.
 
 ## The Challenge
 
@@ -13,51 +13,38 @@ We faced a common problem when migrating from a monolith to serverless:
 | Serverless API uses Bearer tokens only | No cookie management on backend |
 | Nuxt SSR needs authenticated requests | Server must have access to tokens |
 | Users should access `/profile` directly | No client-side redirect dance |
-| Other apps (admin, dealer) are SPA-only | They can use localStorage |
+| SSR cookie propagation issues | Internal API calls don't share cookies |
 
-## Options Considered
+### The SSR Cookie Problem
 
-### Option 1: localStorage (Rejected)
+During SSR, when `$fetch('/api/auth')` makes an internal request to a server route, it creates a **synthetic internal event** that doesn't share the same request/response context as the main SSR request. Cookies set via `setCookie()` in these internal handlers do NOT propagate to the browser.
 
-```
-User → Browser localStorage → Client-side API calls
-```
+This means token refresh during SSR internal calls would fail silently.
 
-**Why it doesn't work:** localStorage is not available during SSR. When a user navigates directly to `/profile`, the server cannot authenticate the request, resulting in:
-- Redirect to login, then back to profile (poor UX)
-- Or rendering unauthenticated content, then hydrating (flash of content)
+## Solution: `nuxt-auth-utils` with Reactive Refresh
 
-### Option 2: Full API Proxy (Rejected)
+We use `nuxt-auth-utils` to store user identity and tokens in an **encrypted session cookie**. The key insight is:
 
-```
-User → Nuxt Server Routes → Backend API (all calls)
-```
+1. **During SSR**: Trust the session state (user identity is cached in the encrypted cookie)
+2. **During client-side**: Let API calls trigger token refresh naturally when needed
 
-**Why we rejected it:**
-- Duplicates every API endpoint
-- Adds latency to all requests
-- Unnecessary complexity
-- Backend already handles auth validation
-
-### Option 3: Minimal Auth Proxy (Chosen)
-
-```
-Auth calls:  User → Nuxt Server Routes → Backend API → Set cookies
-Other calls: User → Backend API directly (Bearer from cookie)
-```
-
-**Why this works:**
-- Only 4 server routes (login, register, logout, refresh)
-- Cookies are httpOnly and secure
-- SSR has access to tokens via request cookies
-- All other API calls bypass the proxy
-- Admin/dealer apps unaffected (use localStorage)
+This works because:
+- The session cookie is encrypted and secure - only our server can read/write it
+- User identity is cached at login time and remains valid until logout
+- Client-side API calls have proper HTTP request/response context for cookie updates
 
 ## Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                         Browser                                  │
+│                    Encrypted Session Cookie                     │
+├─────────────────────────────────────────────────────────────────┤
+│  user: { id, email, phone, firstName, lastName }  ← Client-side │
+│  secure: { accessToken, refreshToken }            ← Server-only │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────┐
+│                         Browser                                 │
 │  ┌─────────────┐                              ┌──────────────┐  │
 │  │ Auth Actions│                              │ Other API    │  │
 │  │ (login,etc) │                              │ Calls        │  │
@@ -67,18 +54,18 @@ Other calls: User → Backend API directly (Bearer from cookie)
 │         ▼                                            │          │
 │  ┌─────────────────────┐                             │          │
 │  │ Nuxt Server Routes  │                             │          │
-│  │ (cookie management) │                             │          │
+│  │ setUserSession()    │                             │          │
 │  └──────┬──────────────┘                             │          │
 │         │                                            │          │
 │         │ POST /auth/login                           │ Bearer   │
-│         │ (Bearer token)                             │ token    │
-│         ▼                                            │ from     │
-│  ┌─────────────────────────────────────────────────┐ │ cookie   │
+│         │ (credentials)                              │ from     │
+│         ▼                                            │ session  │
+│  ┌─────────────────────────────────────────────────┐ │          │
 │  │              Backend API (Serverless)           │◄┘          │
 │  │         Returns tokens in response body         │            │
 │  └─────────────────────────────────────────────────┘            │
-│                                                                  │
-│  Nuxt sets httpOnly cookies ◄──── tokens ────┘                  │
+│                                                                 │
+│  Session cookie (encrypted) ◄──── user + tokens                 │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -88,90 +75,140 @@ Other calls: User → Backend API directly (Bearer from cookie)
 
 1. User submits credentials via UI
 2. `useLoginForm` calls `$fetch('/api/auth/login', { body })`
-3. Nuxt server route calls backend API
+3. Nuxt server route calls backend API with `defineResponseHandlerWithPublicAuth`
 4. Backend returns `{ user, accessToken, refreshToken }`
-5. Nuxt server route sets httpOnly cookies
-6. Response returns user data to client
-7. Cookies stored in browser
+5. Server calls `setUserSession(event, { user, secure: { accessToken, refreshToken } })`
+6. Encrypted session cookie sent to browser
+7. Client refreshes session state via `useUserSession().fetch()`
 
-### Authenticated Request (Client)
+### SSR Page Load (Protected Route)
 
-1. SDK reads token from `document.cookie`
-2. Adds `Authorization: Bearer <token>` header
-3. Calls backend API directly
+1. Browser sends encrypted session cookie
+2. Auth middleware reads session via `useUserSession()`
+3. If `loggedIn && user` → allow access (trust the session)
+4. **No API calls during SSR** - avoids cookie propagation issues
 
-### Authenticated Request (SSR)
+### Client-Side API Call (with Token Refresh)
 
-1. Browser sends cookies with request
-2. Nuxt reads token from `req.headers.cookie`
-3. SDK adds `Authorization: Bearer <token>` header
-4. Calls backend API directly
+1. Component triggers authenticated API call
+2. Server route reads tokens from `getUserSession(event).secure`
+3. SDK makes request to backend with `Authorization: Bearer <token>`
+4. If 401 → SDK automatically calls refresh endpoint
+5. `onTokenRefresh` callback calls `replaceUserSession()` with new tokens
+6. Original request retries with new token
+7. Updated session cookie sent to browser
 
-### Token Refresh
+### Logout
 
-1. SDK interceptor catches 401
-2. Calls `/api/auth/refresh` with refresh token
-3. Nuxt server route calls backend
-4. New tokens returned, cookies updated
-5. Original request retried
+1. Client calls `$fetch('/api/auth/logout')`
+2. Server calls backend logout endpoint
+3. Server calls `clearUserSession(event)`
+4. Session cookie cleared
 
 ## Implementation
+
+### Configuration (`nuxt.config.ts`)
+
+```typescript
+export default defineNuxtConfig({
+  modules: ['nuxt-auth-utils'],
+  runtimeConfig: {
+    session: {
+      maxAge: 60 * 60 * 24 * 7, // 1 week
+    }
+  }
+})
+```
+
+### Type Augmentation (`shared/types/auth.d.ts`)
+
+```typescript
+declare module '#auth-utils' {
+  interface User {
+    id: string
+    email: string | null
+    phone: string | null
+    firstName: string | null
+    lastName: string | null
+  }
+  interface SecureSessionData {
+    accessToken: string
+    refreshToken: string
+  }
+}
+export {}
+```
 
 ### Server Routes
 
 | Route | Purpose |
 |-------|---------|
-| `server/api/auth/login.post.ts` | Proxy login, set cookies |
-| `server/api/auth/register.post.ts` | Proxy register, set cookies |
-| `server/api/auth/logout.post.ts` | Clear cookies |
-| `server/api/auth/refresh.get.ts` | Proxy refresh, update cookies |
+| `layers/profile/server/api/auth/login.post.ts` | Login, creates session |
+| `layers/profile/server/api/auth/register.post.ts` | Register, creates session |
+| `layers/profile/server/api/auth/logout.get.ts` | Logout, clears session |
+| `layers/profile/server/api/auth/profile.get.ts` | Get profile (triggers refresh if needed) |
 
-### Cookie Configuration
+### Auth Service Handler (`layers/profile/server/utils/auth-service-handler.ts`)
+
+Two helper functions for creating API handlers:
+
+- **`defineResponseHandlerWithAuth`** - For authenticated endpoints. Reads tokens from session, configures SDK with `onTokenRefresh` callback.
+- **`defineResponseHandlerWithPublicAuth`** - For login/register. Uses unauthenticated SDK client.
+
+### Auth Middleware (`layers/profile/middleware/auth.ts`)
 
 ```typescript
-// server/utils/auth-cookies.ts
-export const AUTH_COOKIE_OPTIONS = {
-  httpOnly: true,
-  secure: true,
-  sameSite: 'lax',
-  path: '/'
-} as const;
+export default defineNuxtRouteMiddleware(async (to, from) => {
+  const { loggedIn, user, fetch: fetchSession } = useUserSession();
 
-export const ACCESS_TOKEN_MAX_AGE = 60 * 60; // 1 hour
-export const REFRESH_TOKEN_MAX_AGE = 60 * 60 * 24 * 7; // 7 days
+  // Trust session during SSR - no API calls needed
+  if (loggedIn.value && user.value) {
+    return true;
+  }
+
+  // Client-side: try fetching session if not loaded
+  if (!loggedIn.value) {
+    await fetchSession();
+    if (loggedIn.value && user.value) {
+      return true;
+    }
+  }
+
+  // Redirect to login
+  return navigateTo({ ... });
+});
 ```
 
-### Unchanged Components
+### Auth Store (`layers/profile/stores/auth.ts`)
 
-- `app/composables/useAuthService.ts` - TokenResolver still reads cookies
-- `@bycar-in-ua/sdk` - SDK unchanged, works with Bearer tokens
-- Admin/Dealer apps - Continue using localStorage
+Wraps `useUserSession()` with additional functionality:
+
+```typescript
+const { loggedIn, user, clear, fetch: fetchSession } = useUserSession();
+
+// Exposes: user, userId, name, authenticated, loggedIn
+// Methods: login(), logout(), setUser(), fetchSession()
+```
 
 ## Security Considerations
 
 | Aspect | Implementation |
 |--------|----------------|
-| XSS Protection | Tokens in httpOnly cookies (not accessible via JS) |
-| CSRF Protection | SameSite=lax + Nuxt's built-in CSRF |
-| Secure Transport | Secure flag ensures HTTPS only |
-| Token Expiry | Short-lived access (1h), longer refresh (7d) |
+| XSS Protection | Tokens in `secure` field (never exposed to client JS) |
+| Cookie Security | Encrypted session cookie via nuxt-auth-utils |
+| Secure Transport | HTTPS only in production |
+| Token Expiry | Access (1h), Refresh (7d), Session (7d) |
 
-## Trade-offs
+## Environment Variables
 
-### Pros
-- SSR works with authentication
-- Minimal code duplication (4 routes)
-- Secure cookie storage
-- Other apps unaffected
-- SDK remains unchanged
-
-### Cons
-- Slight added complexity vs pure localStorage
-- Auth requests have extra hop through Nuxt
-- Must maintain cookie config in sync with backend
+```bash
+NUXT_SESSION_PASSWORD=minimum-32-character-secret-key
+```
 
 ## Related Files
 
-- [useAuthService.ts](../app/composables/useAuthService.ts) - Token resolution
+- [auth-service-handler.ts](../layers/profile/server/utils/auth-service-handler.ts) - SDK integration with session
 - [auth.ts](../layers/profile/stores/auth.ts) - Auth state management
-- [useLoginForm.ts](../layers/profile/composables/useLoginForm.ts) - Login flow
+- [auth.ts](../layers/profile/middleware/auth.ts) - Route protection
+- [auth.d.ts](../shared/types/auth.d.ts) - Session type augmentation
+- [auth-refactor-summary.md](../auth-refactor-summary.md) - Detailed refactor notes

@@ -1,4 +1,5 @@
 import * as v from "valibot";
+import { useAuthStore } from "#layers/profile/stores/auth";
 
 import { emailSchema } from "../vaidation.shema";
 

@@ -1,19 +1,31 @@
-import { useAuthStore } from "#layers/profile/stores/auth";
-import { useProfileStore } from "#layers/profile/stores/profile";
+import type { Profile } from "@bycar-in-ua/auth-sdk";
+import { useMutation } from "@tanstack/vue-query";
 import { useSignInModalStore } from "#layers/profile/stores/sign-in-modal";
+import { useAuthService } from "./useAuthService";
 
 export function useSavedCarActions() {
-  const authStore = useAuthStore();
-  const profileStore = useProfileStore();
-  const signInModalStore = useSignInModalStore();
-
+  const { user, loggedIn } = useUserSession();
+  const authService = useAuthService();
   const toast = useToast();
   const route = useRoute();
   const { gtag } = useGtag();
 
+  const signInModalStore = useSignInModalStore();
+
+  const profile = useProfile();
+
+  const { mutateAsync: updateProfile, isPending }
+    = useMutation({
+      mutationKey: ["update-profile", user.value?.data?.id],
+      mutationFn: (payload: Partial<Profile>) => {
+        return authService.updateProfile(payload);
+      },
+      onSuccess: () => profile.refetch(),
+    });
+
   const handleSave = async (carId: number, title?: string) => {
-    if (authStore.authenticated) {
-      await profileStore.updateProfile({ savedCars: [...(profileStore.profile!.savedCars ?? []), carId] });
+    if (loggedIn) {
+      await updateProfile({ savedCars: [...(profile.data.value?.savedCars ?? []), carId] });
 
       toast.add({
         title: "Авто збережено",
@@ -41,8 +53,8 @@ export function useSavedCarActions() {
   };
 
   const handleRemove = async (carId: number, title?: string) => {
-    await profileStore.updateProfile({
-      savedCars: (profileStore.profile!.savedCars ?? []).filter(
+    await updateProfile({
+      savedCars: (profile.data.value?.savedCars ?? []).filter(
         (id) => id !== carId,
       ),
     });
@@ -61,7 +73,7 @@ export function useSavedCarActions() {
   };
 
   const toggleSave = async (carId: number, title?: string) => {
-    if (profileStore.profile?.savedCars?.includes(carId)) {
+    if (profile.data.value?.savedCars?.includes(carId)) {
       await handleRemove(carId, title);
 
       return;
@@ -80,5 +92,6 @@ export function useSavedCarActions() {
     handleRemove,
     toggleSave,
     toggleCompare,
+    isPending,
   };
 }

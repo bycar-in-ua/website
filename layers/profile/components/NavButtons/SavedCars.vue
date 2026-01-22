@@ -1,21 +1,19 @@
 <script setup lang="ts">
-import { useProfileStore } from "#layers/profile/stores/profile";
-
-const profileStore = useProfileStore();
+const profile = useProfile();
 </script>
 
 <template>
   <UChip
     size="xl"
     inset
-    :show="!!profileStore.profile?.savedCars?.length"
+    :show="!!profile.data.value?.savedCars?.length"
     :ui="{
       base: 'px-0.5 py-1.5 ring-primary',
     }"
   >
     <UButton
       :icon="
-        profileStore.profile?.savedCars?.length
+        profile.data.value?.savedCars?.length
           ? 'i-heroicons-bookmark-solid'
           : 'i-heroicons-bookmark'
       "
@@ -26,7 +24,7 @@ const profileStore = useProfileStore();
     />
 
     <template #content>
-      {{ profileStore.profile?.savedCars?.length }}
+      {{ profile.data.value?.savedCars?.length }}
     </template>
   </UChip>
 </template>

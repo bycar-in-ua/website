@@ -3,6 +3,7 @@ export default defineNuxtConfig({
 
   modules: [
     "@bycar-in-ua/base-nuxt-module",
+    "nuxt-auth-utils",
     "@pinia/nuxt",
     "@nuxtjs/i18n",
     "@nuxt/eslint",
@@ -25,6 +26,7 @@ export default defineNuxtConfig({
 
     public: {
       stage: process.env.STAGE ?? "dev",
+      session: { maxAge: 60 * 60 * 24 * 7 },
       apiHost: process.env.API_URL,
       cdnHost: process.env.CDN_URL,
       vehiclesApiHost: process.env.VEHICLES_API_URL,
