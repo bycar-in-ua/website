@@ -49,6 +49,8 @@ type AuthStageApi = {
 const signInKey = Symbol("sign-in") as InjectionKey<AuthStageApi>;
 
 export function useSignInProvider() {
+  const authSlideover = useAuthSlideover();
+  const toast = useToast();
   const stage = ref<AuthStage>("enter-credential");
   const state = reactive<SignInPayload>({
     login: "",
@@ -63,31 +65,45 @@ export function useSignInProvider() {
   const {
     data: signInData, execute: signIn, pending: signInPending,
   } = useAsyncData("sign-in", async () => {
-    const authResponse = await $fetch<SignInResponse>("/api/auth/sign-in", {
-      method: "POST",
-      body: state,
-    });
+    try {
+      const authResponse = await $fetch<SignInResponse>("/api/auth/sign-in", {
+        method: "POST",
+        body: state,
+      });
 
-    if (isNextStepResponse(authResponse)) {
-      switch (authResponse.nextStep) {
-        case "NEED_OTP":
-          setStage("confirm-otp");
-          break;
-        case "NEED_PASSWORD":
-          // Handle need password next step
-          break;
-        case "GOOGLE_USER":
+      if (isNextStepResponse(authResponse)) {
+        switch (authResponse.nextStep) {
+          case "NEED_OTP":
+            setStage("confirm-otp");
+            break;
+          case "NEED_PASSWORD":
+            setStage("enter-password");
+            break;
+          case "GOOGLE_USER":
           // Handle Google user next step
-          break;
-        default:
-          break;
-      }
-    } else {
-      useUserSession().fetch();
-      useAuthSlideover().closeSlideover();
-    }
+            break;
+          default:
+            break;
+        }
+      } else {
+        await useUserSession().fetch();
 
-    return authResponse;
+        console.log("Redirecting to:", authSlideover.redirect.value);
+
+        if (authSlideover.redirect.value) {
+          await navigateTo(authSlideover.redirect.value || "/");
+        }
+
+        authSlideover.closeSlideover();
+      }
+
+      return authResponse;
+    } catch {
+      toast.add({
+        color: "error",
+        title: "Помилка під час входу. Будь ласка, спробуйте ще раз.",
+      });
+    }
   }, { immediate: false });
 
   const reset = () => {

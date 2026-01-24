@@ -51,7 +51,7 @@ const pinInputModel = computed({
       size="xl"
       type="submit"
       :loading="signInPending"
-      @click="state.otp && signIn()"
+      @click="signIn()"
     >
       Підтвердити
     </UButton>

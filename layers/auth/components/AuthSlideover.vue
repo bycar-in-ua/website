@@ -4,6 +4,7 @@ import type { AuthStage } from "../composables/useAuthStage";
 import { useAuthSlideover } from "../composables/useAuthSlideover";
 import UnifiedSignInForm from "./UnifiedSignInForm.vue";
 import ConfirmOtpForm from "./ConfirmOtpForm.vue";
+import EnterPasswordForm from "./EnterPasswordForm.vue";
 import ForgotPasswordForm from "./ForgotPasswordForm.vue";
 import ResetPasswordForm from "./ResetPasswordForm.vue";
 
@@ -13,7 +14,7 @@ const { stage, reset } = useSignInProvider();
 const stageComponents: Record<AuthStage, Component> = {
   "enter-credential": UnifiedSignInForm,
   "confirm-otp": ConfirmOtpForm,
-  "enter-password": ConfirmOtpForm,
+  "enter-password": EnterPasswordForm,
   "forgot-password": ForgotPasswordForm,
   "reset-password": ResetPasswordForm,
 };
