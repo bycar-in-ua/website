@@ -17,6 +17,7 @@ const authStageKey = Symbol("auth-stage") as InjectionKey<AuthStageApi>;
 /**
  * Provider composable for auth stage management.
  * Should be called in the AuthSlideover component.
+ * @deprecated Use useSignInProvider instead.
  */
 export function useAuthStageProvider() {
   const stage = ref<AuthStage>("enter-credential");

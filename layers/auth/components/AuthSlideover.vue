@@ -1,20 +1,19 @@
 <script setup lang="ts">
 import Logo from "~/components/UI/Logo.vue";
 import type { AuthStage } from "../composables/useAuthStage";
-import { useAuthStageProvider } from "../composables/useAuthStage";
 import { useAuthSlideover } from "../composables/useAuthSlideover";
-import UnifiedAuthForm from "./UnifiedAuthForm.vue";
+import UnifiedSignInForm from "./UnifiedSignInForm.vue";
 import ConfirmOtpForm from "./ConfirmOtpForm.vue";
 import ForgotPasswordForm from "./ForgotPasswordForm.vue";
 import ResetPasswordForm from "./ResetPasswordForm.vue";
 
-const { stage, reset } = useAuthStageProvider();
 const { open } = useAuthSlideover();
+const { stage, reset } = useSignInProvider();
 
 const stageComponents: Record<AuthStage, Component> = {
-  "enter-credential": UnifiedAuthForm,
+  "enter-credential": UnifiedSignInForm,
   "confirm-otp": ConfirmOtpForm,
-  "enter-password": UnifiedAuthForm,
+  "enter-password": ConfirmOtpForm,
   "forgot-password": ForgotPasswordForm,
   "reset-password": ResetPasswordForm,
 };
@@ -27,10 +26,6 @@ function onAfterEnter() {
     event_label: "auth_slideover",
   });
 }
-
-function onAfterLeave() {
-  reset();
-}
 </script>
 
 <template>
@@ -40,7 +35,7 @@ function onAfterLeave() {
     inset
     :ui="{ content: 'divide-none max-w-lg', body: '' }"
     @after:enter="onAfterEnter"
-    @after:leave="onAfterLeave"
+    @after:leave="reset"
   >
     <template #body>
       <div class="flex flex-col items-center sm:mt-6 md:mt-14">
@@ -56,7 +51,7 @@ function onAfterLeave() {
   </USlideover>
 </template>
 
-<style scoped>
+<style>
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.15s ease;

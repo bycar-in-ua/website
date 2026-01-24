@@ -1,14 +1,20 @@
 import { AuthService, getBycarAuthenticatedFetchClient } from "@bycar-in-ua/auth-sdk";
 
+let authServiceInstance: AuthService | null = null;
+
 export function useAuthService() {
-  const config = useRuntimeConfig();
+  if (!authServiceInstance) {
+    const config = useRuntimeConfig();
 
-  const { user } = useUserSession();
+    const { user } = useUserSession();
 
-  const client = getBycarAuthenticatedFetchClient(config.public.authApiHost, {
-    getAccessToken: () => user.value?.tokens?.access || "",
-    getRefreshToken: () => user.value?.tokens?.refresh || "",
-  });
+    const client = getBycarAuthenticatedFetchClient(config.public.authApiHost, {
+      getAccessToken: () => user.value?.tokens?.access || "",
+      getRefreshToken: () => user.value?.tokens?.refresh || "",
+    });
 
-  return new AuthService(client);
+    authServiceInstance = new AuthService(client);
+  }
+
+  return authServiceInstance;
 }
