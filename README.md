@@ -1,13 +1,15 @@
-# Nuxt 3 Minimal Starter
+# ByCar Website
 
-We recommend to look at the [documentation](https://v3.nuxtjs.org).
+This is the website for [ByCar](https://bycar.in.ua) - a catalog of new cars from official dealers in Ukraine.
+
+Built with [Nuxt 3](https://v3.nuxtjs.org).
 
 ## Setup
 
 Make sure to install the dependencies
 
 ```bash
-yarn install
+pnpm install
 ```
 
 ## Development
@@ -15,7 +17,7 @@ yarn install
 Start the development server on http://localhost:3000
 
 ```bash
-yarn dev
+pnpm dev
 ```
 
 ## Production
@@ -23,7 +25,7 @@ yarn dev
 Build the application for production:
 
 ```bash
-yarn build
+pnpm build
 ```
 
 Checkout the [deployment documentation](https://v3.nuxtjs.org/docs/deployment).
