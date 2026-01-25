@@ -1,29 +1,22 @@
-# Nuxt 3 Minimal Starter
+# ByCar Website
 
-We recommend to look at the [documentation](https://v3.nuxtjs.org).
+A Nuxt 3 application for the ByCar platform.
 
-## Setup
-
-Make sure to install the dependencies
+## Quick Start
 
 ```bash
-yarn install
+pnpm install
+pnpm dev
 ```
 
-## Development
+The development server will be running at http://localhost:4000
 
-Start the development server on http://localhost:3000
+## Documentation
 
-```bash
-yarn dev
-```
+- [Development Guide](docs/development.md) - Setup, development server, linting, and building
+- [Deployment](docs/deployment.md) - AWS Amplify and Docker deployment instructions
+- [Environment Variables](docs/environment.md) - Configuration and environment variables reference
 
-## Production
+## External Resources
 
-Build the application for production:
-
-```bash
-yarn build
-```
-
-Checkout the [deployment documentation](https://v3.nuxtjs.org/docs/deployment).
+- [Nuxt 3 Documentation](https://nuxt.com/docs)
