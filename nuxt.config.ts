@@ -23,6 +23,12 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     youtubeApiKey: process.env.YOUTUBE_API_KEY,
+    oauth: {
+      google: {
+        clientId: process.env.NUXT_OAUTH_GOOGLE_CLIENT_ID,
+        clientSecret: process.env.NUXT_OAUTH_GOOGLE_CLIENT_SECRET,
+      },
+    },
 
     public: {
       stage: process.env.STAGE ?? "dev",
