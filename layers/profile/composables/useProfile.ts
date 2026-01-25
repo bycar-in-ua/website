@@ -1,5 +1,5 @@
 import { useQuery, type UseQueryReturnType } from "@tanstack/vue-query";
-import { useAuthService } from "./useAuthService";
+import { useAuthService } from "#layers/auth/composables/useAuthService";
 import type { InjectionKey } from "vue";
 import type { Profile } from "@bycar-in-ua/sdk";
 

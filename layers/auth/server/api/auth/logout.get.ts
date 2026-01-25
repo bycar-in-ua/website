@@ -1,6 +1,8 @@
-import { defineResponseHandlerWithAuth } from "#layers/auth/server/utils/auth-service-handler";
+import { getAuthService } from "../../utils/get-auth-service";
 
-export default defineResponseHandlerWithAuth(async (event, authService) => {
+export default defineEventHandler(async (event) => {
+  const authService = await getAuthService(event);
+
   await authService.logout();
 
   await clearUserSession(event);

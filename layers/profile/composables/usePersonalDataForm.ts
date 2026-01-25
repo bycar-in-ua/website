@@ -23,7 +23,8 @@ export function usePersonalDataForm() {
         const updatedUser = await usersService.updatePersonalData(state);
 
         if (updatedUser) {
-          authStore.user = updatedUser;
+          // TODO: Refresh token to update session after updating profile
+          // authStore.user = updatedUser;
         }
 
         toast.add({

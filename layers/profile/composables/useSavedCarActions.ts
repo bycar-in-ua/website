@@ -1,7 +1,7 @@
 import type { Profile } from "@bycar-in-ua/auth-sdk";
 import { useMutation } from "@tanstack/vue-query";
 import { useSignInModalStore } from "#layers/profile/stores/sign-in-modal";
-import { useAuthService } from "./useAuthService";
+import { useAuthService } from "#layers/auth/composables/useAuthService";
 
 export function useSavedCarActions() {
   const { user, loggedIn } = useUserSession();

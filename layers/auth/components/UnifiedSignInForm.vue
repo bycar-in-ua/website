@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useUnifiedAuth } from "../composables/useUnifiedAuth";
+import { useSignIn } from "../composables/useSignIn";
 import GoogleSignInButton from "./GoogleSignInButton.vue";
 import AuthFormHeadline from "./AuthFormHeadline.vue";
 
 const {
-  state, formSchema, initiateAuth, loading,
-} = useUnifiedAuth();
+  state, formSchema, signIn, signInPending,
+} = useSignIn();
 </script>
 
 <template>
@@ -13,7 +13,8 @@ const {
     :schema="formSchema"
     :state="state"
     class="w-full"
-    @submit="initiateAuth"
+    :disabled="signInPending"
+    @submit="signIn"
   >
     <AuthFormHeadline
       title="Вхід до акаунту"
@@ -24,9 +25,9 @@ const {
 
     <USeparator label="або" :ui="{ root: 'my-8', border: 'border-gray-200', label: 'text-gray-200 text-base' }" />
 
-    <UFormField label="Телефон або пошта" name="credential" class="mb-6">
+    <UFormField label="Телефон або пошта" name="login" class="mb-6">
       <UInput
-        v-model="state.credential"
+        v-model="state.login"
         placeholder="Введіть ваш телефон або пошту"
         class="w-full"
         size="xl"
@@ -38,7 +39,7 @@ const {
       size="xl"
       block
       type="submit"
-      :loading="loading"
+      :loading="signInPending"
     >
       Увійти
     </UButton>
