@@ -1,21 +1,27 @@
-# Nuxt 3 Minimal Starter
+# ByCar Website
 
-We recommend to look at the [documentation](https://v3.nuxtjs.org).
+A Ukrainian automotive platform built with Nuxt 4 (Vue.js 3).
+
+## Documentation
+
+- **Project Documentation**: See [docs/PROJECT.md](./docs/PROJECT.md) for detailed project information
+- **Agent Instructions**: See [.github/agents/agents.md](./.github/agents/agents.md) for AI agent context and guidelines
+- **Nuxt Documentation**: [nuxt.com/docs](https://nuxt.com/docs)
 
 ## Setup
 
-Make sure to install the dependencies
+Install dependencies using pnpm:
 
 ```bash
-yarn install
+pnpm install
 ```
 
 ## Development
 
-Start the development server on http://localhost:3000
+Start the development server on http://localhost:4000:
 
 ```bash
-yarn dev
+pnpm dev
 ```
 
 ## Production
@@ -23,7 +29,16 @@ yarn dev
 Build the application for production:
 
 ```bash
-yarn build
+pnpm build
 ```
 
-Checkout the [deployment documentation](https://v3.nuxtjs.org/docs/deployment).
+## Linting
+
+```bash
+pnpm lint        # Check code style
+pnpm lint:fix    # Auto-fix issues
+```
+
+## License
+
+Private repository - ByCar © 2024
