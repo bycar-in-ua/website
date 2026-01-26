@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import * as v from "valibot";
-import { useAuthStage } from "../composables/useAuthStage";
+import { useSignIn } from "../composables/useSignIn";
 import AuthFormHeadline from "./AuthFormHeadline.vue";
 import GoogleSignInButton from "./GoogleSignInButton.vue";
 
-const { setStage, resetPasswordLogin } = useAuthStage();
+const { setStage } = useSignIn();
 
 const emailSchema = v.pipe(
   v.string("Це обов'язкове поле"),
@@ -40,7 +40,6 @@ async function sendForgotPasswordRequest() {
     await new Promise((resolve) => setTimeout(resolve, 800));
 
     // Store login for reset password stage
-    resetPasswordLogin.value = state.login;
     setStage("reset-password");
   } catch (error) {
     console.error("Forgot password request failed:", error);

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Logo from "~/components/UI/Logo.vue";
-import type { AuthStage } from "../composables/useAuthStage";
+import type { AuthStage } from "../composables/useSignIn";
 import { useAuthSlideover } from "../composables/useAuthSlideover";
 import UnifiedSignInForm from "./UnifiedSignInForm.vue";
 import ConfirmOtpForm from "./ConfirmOtpForm.vue";
