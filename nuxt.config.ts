@@ -32,6 +32,8 @@ export default defineNuxtConfig({
       },
     },
 
+    session: { password: String(process.env.NUXT_SESSION_PASSWORD) },
+
     public: {
       stage: process.env.STAGE ?? "dev",
       session: { maxAge: 60 * 60 * 24 * 7 },
