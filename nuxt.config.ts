@@ -1,5 +1,7 @@
 export default defineNuxtConfig({
-  extends: ["./layers/profile", "./layers/quiz"],
+  extends: [
+    "./layers/auth", "./layers/profile", "./layers/quiz",
+  ],
 
   modules: [
     "@bycar-in-ua/base-nuxt-module",
