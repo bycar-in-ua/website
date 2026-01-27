@@ -2,6 +2,7 @@
 defineProps<{
   title?: string[];
   extraLink?: string;
+  preset?: "light" | "dark";
 }>();
 </script>
 
@@ -13,7 +14,7 @@ defineProps<{
       >
         <span class="text-primary">{{ title?.[0] }}</span>
         <br>
-        {{ title?.[1] }}
+        <span :class="preset === 'dark' ? 'text-white' : ''">{{ title?.[1] }}</span>
       </h2>
     </slot>
 

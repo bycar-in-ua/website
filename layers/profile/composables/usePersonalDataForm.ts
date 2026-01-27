@@ -1,13 +1,14 @@
-import { ImagesPrivateService, UsersPrivateService, type UpdatePersonalPayload } from "@bycar-in-ua/sdk";
-import { useAuthStore } from "#layers/profile/stores/auth";
+import { ImagesPrivateService, UsersPrivateService, type ReducedUser } from "@bycar-in-ua/sdk";
 
 export function usePersonalDataForm() {
-  const authStore = useAuthStore();
+  const { user } = useUserSession();
 
-  const state = reactive<UpdatePersonalPayload>({
-    firstName: authStore.user?.firstName || "",
-    lastName: authStore.user?.lastName || "",
-    avatar: authStore.user?.avatar || "",
+  const state = reactive<Partial<ReducedUser>>({
+    firstName: user?.value?.data?.firstName || "",
+    lastName: user?.value?.data?.lastName || "",
+    avatar: user?.value?.data?.avatar || "",
+    email: user?.value?.data?.email || "",
+    phone: user?.value?.data?.phone || "",
   });
 
   const config = useRuntimeConfig();
