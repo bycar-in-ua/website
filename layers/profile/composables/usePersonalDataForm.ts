@@ -1,49 +1,44 @@
-import { ImagesPrivateService, UsersPrivateService, type UpdatePersonalPayload } from "@bycar-in-ua/sdk";
-import { useAuthStore } from "#layers/profile/stores/auth";
+import { ImagesPrivateService, type ReducedUser } from "@bycar-in-ua/sdk";
+import { useMutation } from "@tanstack/vue-query";
+import { useAuthService } from "#layers/auth/composables/useAuthService";
 
 export function usePersonalDataForm() {
-  const authStore = useAuthStore();
+  const { user, fetch: fetchUserSession } = useUserSession();
 
-  const state = reactive<UpdatePersonalPayload>({
-    firstName: authStore.user?.firstName || "",
-    lastName: authStore.user?.lastName || "",
-    avatar: authStore.user?.avatar || "",
+  const state = reactive<Partial<ReducedUser>>({
+    firstName: user?.value?.data?.firstName || "",
+    lastName: user?.value?.data?.lastName || "",
+    avatar: user?.value?.data?.avatar || "",
+    email: user?.value?.data?.email || "",
+    phone: user?.value?.data?.phone || "",
   });
 
   const config = useRuntimeConfig();
 
-  const usersService = UsersPrivateService.create(config.public.apiHost);
   const imagesService = ImagesPrivateService.create(config.public.apiHost);
+  const authService = useAuthService();
   const toast = useToast();
 
-  const { execute: updatePersonalData, status: updateStatus } = useAsyncData(
-    "update-personal-data",
-    async () => {
-      try {
-        const updatedUser = await usersService.updatePersonalData(state);
+  const { mutateAsync: updatePersonalData, isPending } = useMutation({
+    mutationFn: (payload: Partial<ReducedUser>) => authService.updatePersonalData(payload),
+    onSuccess: async () => {
+      await $fetch("/api/auth/refresh");
+      await fetchUserSession();
 
-        if (updatedUser) {
-          // TODO: Refresh token to update session after updating profile
-          // authStore.user = updatedUser;
-        }
-
-        toast.add({
-          title: "Успішно оновлено",
-          description: "Ваші персональні дані було оновлено",
-          color: "success",
-        });
-
-        return updatedUser;
-      } catch {
-        toast.add({
-          title: "Помилка оновлення",
-          description: "Не вдалося оновити персональні дані. Спробуйте ще раз",
-          color: "error",
-        });
-      }
+      toast.add({
+        title: "Успішно оновлено",
+        description: "Ваші персональні дані було оновлено",
+        color: "success",
+      });
     },
-    { immediate: false },
-  );
+    onError: () => {
+      toast.add({
+        title: "Помилка оновлення",
+        description: "Не вдалося оновити персональні дані. Спробуйте ще раз",
+        color: "error",
+      });
+    },
+  });
 
   const isUploadingAvatar = ref(false);
 
@@ -61,7 +56,7 @@ export function usePersonalDataForm() {
 
       state.avatar = avatar?.path;
 
-      updatePersonalData();
+      updatePersonalData(state);
     } catch {
       toast.add({
         title: "Помилка оновлення",
@@ -75,15 +70,13 @@ export function usePersonalDataForm() {
 
   const removeAvatar = () => {
     state.avatar = "";
-    updatePersonalData();
+    updatePersonalData(state);
   };
-
-  const loading = computed(() => updateStatus.value === "pending");
 
   return {
     state,
     updatePersonalData,
-    loading,
+    loading: isPending,
     uploadAvatar,
     isUploadingAvatar,
     removeAvatar,

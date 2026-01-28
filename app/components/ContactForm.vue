@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import type { FormError } from "#ui/types";
 import { useMutation } from "@tanstack/vue-query";
-import { useAuthStore } from "#layers/profile/stores/auth";
 
 const props = withDefaults(defineProps<{ page: string;
   id?: string; }>(), { id: "contact-form" });
 
-const authStore = useAuthStore();
+const { user } = useUserSession();
 
 type FormState = {
   name: string;
@@ -14,13 +13,13 @@ type FormState = {
 };
 
 const formState = reactive<FormState>({
-  name: authStore.user?.firstName ?? "",
-  phone: authStore.user?.phone ?? "",
+  name: user?.value?.data?.firstName ?? "",
+  phone: user?.value?.data?.phone ?? "",
 });
 
-watch([authStore.user], () => {
-  formState.name = authStore.user?.firstName ?? "";
-  formState.phone = authStore.user?.phone ?? "";
+watch([user], () => {
+  formState.name = user?.value?.data?.firstName ?? "";
+  formState.phone = user?.value?.data?.phone ?? "";
 });
 
 const validate = (state: Partial<FormState>): FormError[] => {
@@ -73,7 +72,7 @@ const {
   mutate: submitForm, isSuccess, isPending,
 } = useMutation({
   mutationKey: [
-    "contact-form-submit", props.page, authStore.user?.id,
+    "contact-form-submit", props.page, user?.value?.data?.id,
   ],
   mutationFn: ({ name, phone }: FormState) => $fetch("/api/contact-form", {
     method: "POST",
@@ -81,7 +80,7 @@ const {
       name,
       phone,
       page: props.page,
-      userId: authStore.user?.id,
+      userId: user?.value?.data?.id,
     },
   }),
   onSuccess: () => {

@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import * as v from "valibot";
 import InputPassword from "~/components/UI/InputPassword.vue";
-import { useAuthStage } from "../composables/useAuthStage";
+import { useSignIn } from "../composables/useSignIn";
 import { useAuthSlideover } from "../composables/useAuthSlideover";
 import AuthFormHeadline from "./AuthFormHeadline.vue";
 
-const { resetPasswordLogin, setStage } = useAuthStage();
+const { setStage } = useSignIn();
 
 const passwordSchema = v.pipe(
   v.string("Це обов'язкове поле"),
@@ -14,7 +14,7 @@ const passwordSchema = v.pipe(
 
 const formSchema = v.object({
   code: v.pipe(
-    v.string("Це обов'язкове поле"),
+    v.array(v.number(), "Це обов'язкове поле"),
     v.length(6, "Код має містити 6 символів"),
   ),
   newPassword: passwordSchema,
@@ -64,7 +64,7 @@ async function resetPassword() {
     >
       <template #description>
         Код надісланий на
-        <span class="font-medium text-gray-700">{{ resetPasswordLogin }}</span>
+        <span class="font-medium text-gray-700">---</span>
       </template>
     </AuthFormHeadline>
 
