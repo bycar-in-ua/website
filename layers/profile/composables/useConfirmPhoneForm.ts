@@ -1,4 +1,3 @@
-import { useAuthStore } from "~~/layers/profile/stores/auth";
 import { useSignInModalStore } from "../stores/sign-in-modal";
 
 type FormState = {
@@ -10,8 +9,8 @@ export function useConfirmPhoneForm() {
 
   const isValid = computed(() => state.code.length === 4);
 
+  const { fetch: fetchUser } = useUserSession();
   const authService = useAuthService();
-  const authStore = useAuthStore();
   const signInModal = useSignInModalStore();
 
   const toast = useToast();
@@ -22,7 +21,7 @@ export function useConfirmPhoneForm() {
       try {
         await authService.phoneVerification(state.code.join(""));
 
-        await authStore.fetchSession();
+        await fetchUser();
         signInModal.open = false;
 
         toast.add({
