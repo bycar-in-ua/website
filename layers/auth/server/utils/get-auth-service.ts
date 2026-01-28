@@ -13,12 +13,15 @@ export async function getAuthService(event: H3Event): Promise<AuthService> {
   const client = getBycarAuthenticatedFetchClient(config.public.authApiHost, {
     getAccessToken: () => session.user?.tokens?.access || "",
     getRefreshToken: () => session.user?.tokens?.refresh || "",
-    onTokenRefresh: async (newAccessToken, newRefreshToken) => {
+    onTokenRefresh: async (data) => {
+      // This is called during automatic token refresh (e.g., when making authenticated API calls)
       await replaceUserSession(event, {
-        ...session,
-        secure: {
-          accessToken: newAccessToken,
-          refreshToken: newRefreshToken,
+        user: {
+          data: data.user,
+          tokens: {
+            access: data.accessToken,
+            refresh: data.refreshToken,
+          },
         },
       });
     },

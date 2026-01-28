@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { useAuthStore } from "#layers/profile/stores/auth";
-
 definePageMeta({ name: "profile-personal" });
 
-const authStore = useAuthStore();
+const { user } = useUserSession();
 
 const {
   state,
@@ -24,10 +22,10 @@ const fileInput = useTemplateRef("fileInput");
       ref="form"
       :state="state"
       class="space-y-6"
-      @submit="updatePersonalData"
+      @submit="({ data }) => updatePersonalData(data)"
     >
       <UFormField label="Ваше фото" name="avatar">
-        <UserAvatar :avatar="authStore.user?.avatar" class="w-40 h-40 text-current mt-4" />
+        <UserAvatar :avatar="user?.data?.avatar" class="w-40 h-40 text-current mt-4" />
         <UInput
           ref="fileInput"
           type="file"
@@ -48,7 +46,7 @@ const fileInput = useTemplateRef("fileInput");
 
         <div class="flex md:flex-row items-start gap-2 mt-4">
           <UButton
-            v-if="authStore.user?.avatar"
+            v-if="user?.data?.avatar"
             variant="outline"
             color="neutral"
             size="sm"
