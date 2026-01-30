@@ -9,7 +9,7 @@ const {
 </script>
 
 <template>
-  <div class="flex items-center">
+  <div class="flex items-center justify-end">
     <SavedCarsNavButton class="text-default hover:text-highlighted" />
 
     <UButton

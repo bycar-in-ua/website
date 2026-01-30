@@ -42,16 +42,15 @@ const toggleQuickFilter = (value: string) => {
   <div
     class="flex sm:items-center sm:justify-between gap-4 flex-col sm:flex-row flex-wrap md:flex-nowrap"
   >
-    <div class="flex gap-1.5 items-center overflow-x-auto max-w-full grow">
-      <UButton
-        :label="`Фільтр ${filtersStore.appliedFiltersCount > 0 ? `(${filtersStore.appliedFiltersCount})` : ''}`"
-        color="secondary"
-        variant="outline"
-        icon="i-lucide-settings-2"
-        class="mr-2 hidden md:inline-flex"
-        @click="$emit('filter-click')"
-      />
-
+    <UButton
+      :label="`Фільтр ${filtersStore.appliedFiltersCount > 0 ? `(${filtersStore.appliedFiltersCount})` : ''}`"
+      color="secondary"
+      variant="outline"
+      icon="i-lucide-settings-2"
+      class="mr-2 hidden md:inline-flex"
+      @click="$emit('filter-click')"
+    />
+    <div class="flex gap-1.5 items-center overflow-x-auto max-w-full grow no-scrollbar">
       <UButton
         v-for="item in quickFilters"
         :key="item.value"

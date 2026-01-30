@@ -11,13 +11,15 @@ import ProfileMenu from "./ProfileMenu.vue";
     <div
       class="container flex gap-2 items-center justify-between"
     >
-      <NuxtLink to="/" class="flex h-10">
-        <Logo class="h-full w-24" />
-      </NuxtLink>
+      <div class="basis-1/3">
+        <NuxtLink to="/" class="flex h-10">
+          <Logo class="h-full w-24" />
+        </NuxtLink>
+      </div>
 
-      <Navigation />
+      <Navigation class="basis-1/3" />
 
-      <ProfileMenu />
+      <ProfileMenu class="basis-1/3" />
     </div>
   </header>
 </template>
