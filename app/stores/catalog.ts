@@ -3,27 +3,14 @@ import type { VehiclesSearchSchema } from "@bycar-in-ua/sdk";
 import type { FiltersState } from "#shared/types";
 import type { SearchVehiclesInput, VehiclesFiltersSchema } from "@bycar-in-ua/vehicles-sdk";
 import { keepPreviousData, useQuery } from "@tanstack/vue-query";
+import { useFiltersStore } from "~/stores/filters";
 
 export const useCatalogStore = defineStore("catalog", () => {
+  const filtersStore = useFiltersStore();
+
   const router = useRouter();
 
-  const filters = ref<VehiclesFiltersSchema>({
-    bodyType: [],
-    engineType: [],
-    brand: [],
-    minPrice: undefined,
-    maxPrice: undefined,
-    availability: undefined,
-    driveType: [],
-    gearboxType: [],
-    yearFrom: undefined,
-    yearTo: undefined,
-    minDisplacement: undefined,
-    maxDisplacement: undefined,
-    minPower: undefined,
-    maxPower: undefined,
-    productionRelevance: undefined,
-  });
+  const filters = ref<VehiclesFiltersSchema>({ ...filtersStore.selectedFilters });
 
   const pagination = computed<NonNullable<VehiclesSearchSchema["pagination"]>>({
     get() {
