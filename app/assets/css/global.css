@@ -10,19 +10,6 @@
   }
 }
 
-*::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-}
-
-*::-webkit-scrollbar-thumb {
-  background-color: var(--ui-primary);
-}
-
-*::-webkit-scrollbar-button {
-  display: none;
-}
-
 body {
   scroll-behavior: smooth;
   scroll-padding-top: 80px;

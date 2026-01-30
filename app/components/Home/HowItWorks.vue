@@ -30,7 +30,7 @@ const steps = [
   <section class="bg-black text-white py-20">
     <div class="container grid grid-cols-2 gap-4">
       <div>
-        <SectionTitle :title="['Крок за кроком', 'Шлях до отримання авто']" class="mb-12" />
+        <SectionTitle :title="['Крок за кроком', 'Шлях до отримання авто']" class="mb-12 dark" />
 
         <div class="divide-y divide-gray-900 border-t border-b border-gray-900">
           <div v-for="(step, index) in steps" :key="index" class="flex items-start space-x-4 py-8">
