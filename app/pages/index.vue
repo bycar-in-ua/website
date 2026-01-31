@@ -9,6 +9,7 @@ import Latest from "~/components/Home/Latest.vue";
 import Brands from "~/components/Home/Brands.vue";
 import DualPanel from "~/components/Home/DualPanel.vue";
 import BodyTypes from "~/components/Home/BodyTypes.vue";
+import AboutUs from "~/components/Home/AboutUs.vue";
 import { generatePageTitle } from "~/utils/seo";
 
 const route = useRoute();
@@ -54,6 +55,7 @@ const { data } = await useFetch<HomepageData>("/api/homepage-data", {
     <DualPanel />
     <BodyTypes />
     <ContactForm page="Головна сторінка" :show-affix="false" />
+    <AboutUs />
     <PartnershipBanner />
   </main>
 </template>
