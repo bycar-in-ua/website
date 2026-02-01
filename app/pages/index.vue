@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { HomepageData } from "#shared/types";
 import ContactForm from "~/components/ContactFormSection.vue";
-import Hero from "~/components/Home/Hero.vue";
+import { Hero } from "~/components/Home/Hero";
 import HowItWorks from "~/components/Home/HowItWorks.vue";
 import FeaturedCollections from "~/components/Home/FeaturedCollections.vue";
 // import LatestVideos from "~/components/Home/LatestVideos.vue";

@@ -18,44 +18,44 @@ const priceSliderModel = computed({
     }
   },
 });
+
+const currencyFormatterConfig = {
+  style: "currency",
+  currency: "USD",
+  currencyDisplay: "symbol",
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 0,
+} as const;
 </script>
 
 <template>
   <div class="flex gap-2 items-center mb-4">
-    <UFormField label="Від" class="grow">
+    <div class="grow">
+      <slot name="min-price-label" />
       <UInputNumber
         v-model="filtersStore.selectedFilters.minPrice"
         :step="PRICE_STEP"
         :min="priceRange.min"
         :max="priceRange.max - PRICE_STEP"
+        :placeholder="filtersStore.data?.filters.priceRange.min?.toString()"
         size="sm"
         class="w-full"
-        :format-options="{
-          style: 'currency',
-          currency: 'USD',
-          currencyDisplay: 'symbol',
-          minimumFractionDigits: 0,
-          maximumFractionDigits: 0,
-        }"
+        :format-options="currencyFormatterConfig"
       />
-    </UFormField>
-    <UFormField label="До" class="grow">
+    </div>
+    <div class="grow">
+      <slot name="max-price-label" />
       <UInputNumber
         v-model="filtersStore.selectedFilters.maxPrice"
         :step="PRICE_STEP"
         :min="priceRange.min + PRICE_STEP"
         :max="priceRange.max"
+        :placeholder="filtersStore.data?.filters.priceRange.max?.toString()"
         size="sm"
         class="w-full"
-        :format-options="{
-          style: 'currency',
-          currency: 'USD',
-          currencyDisplay: 'symbol',
-          minimumFractionDigits: 0,
-          maximumFractionDigits: 0,
-        }"
+        :format-options="currencyFormatterConfig"
       />
-    </UFormField>
+    </div>
   </div>
 
   <USlider

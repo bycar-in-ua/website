@@ -59,7 +59,18 @@ const defaultValue = ref([
       </template>
 
       <template #price>
-        <PriceFilter />
+        <PriceFilter>
+          <template #min-price-label>
+            <span class="uppercase font-semibold text-sm inline-block mb-1.5">
+              Від
+            </span>
+          </template>
+          <template #max-price-label>
+            <span class="uppercase font-semibold text-sm inline-block mb-1.5">
+              До
+            </span>
+          </template>
+        </PriceFilter>
       </template>
 
       <template #brand>
