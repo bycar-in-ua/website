@@ -108,17 +108,17 @@ export const useFiltersStore = defineStore("filters", () => {
     ...parseFiltersFromQuery(route.query),
   });
 
-  watch(
-    () => route.query,
-    (newQuery) => {
-      const parsedFilters = parseFiltersFromQuery(newQuery);
+  // watch(
+  //   () => route.query,
+  //   (newQuery) => {
+  //     const parsedFilters = parseFiltersFromQuery(newQuery);
 
-      selectedFilters.value = {
-        ...DEFAULT_FILTERS,
-        ...parsedFilters,
-      };
-    },
-  );
+  //     selectedFilters.value = {
+  //       ...DEFAULT_FILTERS,
+  //       ...parsedFilters,
+  //     };
+  //   },
+  // );
 
   const {
     data, isLoading, isFetching, error,

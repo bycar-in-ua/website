@@ -2,6 +2,8 @@
 import PriceFilter from "~/components/Catalog/Filters/PriceFilter.vue";
 import { useFiltersStore } from "~/stores/filters";
 import BodyTypeQuickFilter from "./BodyTypeQuickFilter.vue";
+import DriveQuickFilter from "./DriveQuickFilter.vue";
+import BrandQuickFilter from "./BrandQuickFilter.vue";
 
 defineProps<{ totalCars?: number; }>();
 
@@ -9,6 +11,10 @@ const { t } = useI18n();
 const filtersStore = useFiltersStore();
 
 const priceLabel = computed(() => {
+  if (!filtersStore.selectedFilters.minPrice && !filtersStore.selectedFilters.maxPrice) {
+    return "---";
+  }
+
   const minPrice = filtersStore.selectedFilters.minPrice || filtersStore.data?.filters.priceRange.min || 0;
   const maxPrice = filtersStore.selectedFilters.maxPrice || filtersStore.data?.filters.priceRange.max || 200000;
 
@@ -24,26 +30,26 @@ const bodyTypeLablel = computed(() => {
   return bodyType.map((item) => t(`vehicle.bodyTypes.items.${item}`)).join(", ");
 });
 
-const filters = ref({
-  price: undefined as string | undefined,
-  body: undefined as string | undefined,
-  transmission: undefined as string | undefined,
-  brand: undefined as string | undefined,
+const driveLabel = computed(() => {
+  const driveType = filtersStore.selectedFilters?.driveType;
+  if (!driveType?.length) {
+    return "Всі";
+  }
+
+  return driveType.map((item) => t(`filters.drive.${item}`)).join(", ");
 });
 
-const transmissionOptions = [
-  {
-    label: "Всі",
-    value: "all",
-  },
-];
+const brandLabel = computed(() => {
+  const brands = filtersStore.selectedFilters?.brand;
+  if (!brands?.length) {
+    return "Всі";
+  }
 
-const brandOptions = [
-  {
-    label: "Всі",
-    value: "all",
-  },
-];
+  return brands.map((item) => {
+    const brand = filtersStore.data?.filters.brand.find((b) => String(b.id) === String(item));
+    return brand ? brand.displayName : item;
+  }).join(", ");
+});
 </script>
 
 <template>
@@ -78,7 +84,12 @@ const brandOptions = [
       <UForm :state="{}" class="flex items-center gap-6 px-6 py-4 bg-default">
         <UFormField label="Ціна" class="basis-52">
           <UPopover :ui="{ content: 'py-3 px-4' }" :content="{ side: 'bottom', align: 'start', alignOffset: -14.5 }">
-            <UInput class="w-full" :model-value="priceLabel" :ui="{ base: 'text-left' }" />
+            <UInput
+              class="w-full"
+              variant="ghost"
+              :model-value="priceLabel"
+              :ui="{ base: 'text-left' }"
+            />
 
             <template #content>
               <PriceFilter />
@@ -90,7 +101,12 @@ const brandOptions = [
 
         <UFormField label="Кузов" class="basis-52">
           <UPopover :ui="{ content: 'py-3 px-4' }" :content="{ side: 'bottom', align: 'start', alignOffset: -14.5 }">
-            <UInput class="w-full" :model-value="bodyTypeLablel" :ui="{ base: 'text-left' }" />
+            <UInput
+              class="w-full"
+              variant="ghost"
+              :model-value="bodyTypeLablel"
+              :ui="{ base: 'text-left' }"
+            />
 
             <template #content>
               <BodyTypeQuickFilter />
@@ -100,30 +116,40 @@ const brandOptions = [
 
         <USeparator orientation="vertical" class="h-12" />
 
-        <UFormField label="Трансмісія" class="basis-52">
-          <USelect
-            v-model="filters.transmission"
-            :items="transmissionOptions"
-            placeholder="Всі"
-            variant="ghost"
-            trailing-icon=""
-          />
+        <UFormField label="Привід" class="basis-52">
+          <UPopover :ui="{ content: 'py-3 px-4' }" :content="{ side: 'bottom', align: 'start', alignOffset: -14.5 }">
+            <UInput
+              class="w-full"
+              variant="ghost"
+              :model-value="driveLabel"
+              :ui="{ base: 'text-left' }"
+            />
+
+            <template #content>
+              <DriveQuickFilter />
+            </template>
+          </UPopover>
         </UFormField>
 
         <USeparator orientation="vertical" class="h-12" />
 
         <UFormField label="Марка" class="basis-52">
-          <USelect
-            v-model="filters.brand"
-            :items="brandOptions"
-            placeholder="Всі"
-            variant="ghost"
-            trailing-icon=""
-          />
+          <UPopover :ui="{ content: 'py-3 px-4' }" :content="{ side: 'bottom', align: 'start', alignOffset: -14.5 }">
+            <UInput
+              class="w-full"
+              variant="ghost"
+              :model-value="brandLabel"
+              :ui="{ base: 'text-left' }"
+            />
+
+            <template #content>
+              <BrandQuickFilter />
+            </template>
+          </UPopover>
         </UFormField>
 
         <UButton
-          :label="`Переглянути ${totalCars} авто`"
+          :label="`Переглянути ${filtersStore.data?.total} авто`"
           size="lg"
           block
           color="primary"
