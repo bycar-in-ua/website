@@ -1,28 +1,27 @@
 <script setup lang="ts">
+import type { CheckboxGroupItem } from "@nuxt/ui";
 import PriceFilter from "~/components/Catalog/Filters/PriceFilter.vue";
-import { useFiltersStore } from "~/stores/filters";
-import BodyTypeQuickFilter from "./BodyTypeQuickFilter.vue";
-import DriveQuickFilter from "./DriveQuickFilter.vue";
-import BrandQuickFilter from "./BrandQuickFilter.vue";
+import { useCatalogFilters } from "~/composables/useCatalogFilters";
+import QuickFilterList from "./QuickFilterList.vue";
 
 defineProps<{ totalCars?: number; }>();
 
 const { t } = useI18n();
-const filtersStore = useFiltersStore();
+const { data: filtersData, selectedFilters } = useCatalogFilters();
 
 const priceLabel = computed(() => {
-  if (!filtersStore.selectedFilters.minPrice && !filtersStore.selectedFilters.maxPrice) {
+  if (!selectedFilters.value?.minPrice && !selectedFilters.value?.maxPrice) {
     return "---";
   }
 
-  const minPrice = filtersStore.selectedFilters.minPrice || filtersStore.data?.filters.priceRange.min || 0;
-  const maxPrice = filtersStore.selectedFilters.maxPrice || filtersStore.data?.filters.priceRange.max || 200000;
+  const minPrice = selectedFilters.value?.minPrice || filtersData.value?.filters.priceRange.min || 0;
+  const maxPrice = selectedFilters.value?.maxPrice || filtersData.value?.filters.priceRange.max || 200000;
 
   return `$${minPrice} - $${maxPrice}`;
 });
 
 const bodyTypeLablel = computed(() => {
-  const bodyType = filtersStore.selectedFilters?.bodyType;
+  const bodyType = selectedFilters.value?.bodyType;
   if (!bodyType?.length) {
     return "Всі";
   }
@@ -30,8 +29,24 @@ const bodyTypeLablel = computed(() => {
   return bodyType.map((item) => t(`vehicle.bodyTypes.items.${item}`)).join(", ");
 });
 
+const bodyTypeItems = computed<CheckboxGroupItem[]>(() => filtersData.value?.filters.bodyType.map((bt) => ({
+  value: bt.value,
+  label: t(`vehicle.bodyTypes.items.${bt.value}`),
+  disabled: bt.count === 0,
+})) ?? [],
+);
+
+const allBodyTypesCheckboxModel = computed({
+  get: () => !selectedFilters.value.bodyType?.length,
+  set: (value: boolean) => {
+    if (value) {
+      selectedFilters.value.bodyType = [];
+    }
+  },
+});
+
 const driveLabel = computed(() => {
-  const driveType = filtersStore.selectedFilters?.driveType;
+  const driveType = selectedFilters.value?.driveType;
   if (!driveType?.length) {
     return "Всі";
   }
@@ -39,16 +54,48 @@ const driveLabel = computed(() => {
   return driveType.map((item) => t(`filters.drive.${item}`)).join(", ");
 });
 
+const driveItems = computed<CheckboxGroupItem[]>(() => filtersData.value?.filters.driveType.map((bt) => ({
+  value: bt.value,
+  label: t(`filters.drive.${bt.value}`),
+  disabled: bt.count === 0,
+})) ?? [],
+);
+
+const allDriveCheckboxModel = computed({
+  get: () => !selectedFilters.value.driveType?.length,
+  set: (value: boolean) => {
+    if (value) {
+      selectedFilters.value.driveType = [];
+    }
+  },
+});
+
 const brandLabel = computed(() => {
-  const brands = filtersStore.selectedFilters?.brand;
+  const brands = selectedFilters.value?.brand;
   if (!brands?.length) {
     return "Всі";
   }
 
   return brands.map((item) => {
-    const brand = filtersStore.data?.filters.brand.find((b) => String(b.id) === String(item));
+    const brand = filtersData.value?.filters.brand.find((b) => String(b.id) === String(item));
     return brand ? brand.displayName : item;
   }).join(", ");
+});
+
+const brandsItems = computed<CheckboxGroupItem[]>(() => filtersData.value?.filters.brand.map((bt) => ({
+  value: bt.id.toString(),
+  label: bt.displayName,
+  disabled: bt.count === 0,
+})) ?? [],
+);
+
+const allBrandCheckboxModel = computed({
+  get: () => !selectedFilters.value.brand?.length,
+  set: (value: boolean) => {
+    if (value) {
+      selectedFilters.value.brand = [];
+    }
+  },
 });
 </script>
 
@@ -109,7 +156,7 @@ const brandLabel = computed(() => {
             />
 
             <template #content>
-              <BodyTypeQuickFilter />
+              <QuickFilterList v-model="selectedFilters.bodyType" v-model:all-checkbox="allBodyTypesCheckboxModel" :items="bodyTypeItems" />
             </template>
           </UPopover>
         </UFormField>
@@ -126,7 +173,7 @@ const brandLabel = computed(() => {
             />
 
             <template #content>
-              <DriveQuickFilter />
+              <QuickFilterList v-model="selectedFilters.driveType" v-model:all-checkbox="allDriveCheckboxModel" :items="driveItems" />
             </template>
           </UPopover>
         </UFormField>
@@ -143,13 +190,13 @@ const brandLabel = computed(() => {
             />
 
             <template #content>
-              <BrandQuickFilter />
+              <QuickFilterList v-model="selectedFilters.brand" v-model:all-checkbox="allBrandCheckboxModel" :items="brandsItems" />
             </template>
           </UPopover>
         </UFormField>
 
         <UButton
-          :label="`Переглянути ${filtersStore.data?.total} авто`"
+          :label="`Переглянути ${filtersData?.total} авто`"
           size="lg"
           block
           color="primary"

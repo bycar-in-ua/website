@@ -1,5 +1,4 @@
 import { defineStore } from "pinia";
-import { useQuery, keepPreviousData } from "@tanstack/vue-query";
 import type { VehiclesFiltersSchema } from "@bycar-in-ua/vehicles-sdk";
 import type { LocationQuery } from "vue-router";
 import { useCatalogStore } from "./catalog";
@@ -101,31 +100,12 @@ function parseFiltersFromQuery(query: LocationQuery): VehiclesFiltersSchema {
 export const useFiltersStore = defineStore("filters", () => {
   const router = useRouter();
   const route = useRoute();
-  const vehiclesService = useVehiclesService();
-
-  const selectedFilters = ref<VehiclesFiltersSchema>({
-    ...DEFAULT_FILTERS,
-    ...parseFiltersFromQuery(route.query),
-  });
-
-  // watch(
-  //   () => route.query,
-  //   (newQuery) => {
-  //     const parsedFilters = parseFiltersFromQuery(newQuery);
-
-  //     selectedFilters.value = {
-  //       ...DEFAULT_FILTERS,
-  //       ...parsedFilters,
-  //     };
-  //   },
-  // );
 
   const {
-    data, isLoading, isFetching, error,
-  } = useQuery({
-    queryKey: ["filters", selectedFilters],
-    queryFn: () => vehiclesService.getFilters(selectedFilters.value),
-    placeholderData: keepPreviousData,
+    data, isLoading, error, selectedFilters,
+  } = useCatalogFilters({
+    ...DEFAULT_FILTERS,
+    ...parseFiltersFromQuery(route.query),
   });
 
   const removeFilter = (key: keyof VehiclesFiltersSchema, value?: string | number) => {
@@ -188,7 +168,6 @@ export const useFiltersStore = defineStore("filters", () => {
     appliedFiltersCount,
 
     isLoading,
-    isFetching,
     error,
 
     applyFilters,
