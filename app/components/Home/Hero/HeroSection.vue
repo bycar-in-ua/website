@@ -2,6 +2,7 @@
 import type { CheckboxGroupItem } from "@nuxt/ui";
 import PriceFilter from "~/components/Catalog/Filters/PriceFilter.vue";
 import { useCatalogFilters } from "~/composables/useCatalogFilters";
+import QuickFilterPopover from "./QuickFilterPopover.vue";
 import QuickFilterList from "./QuickFilterList.vue";
 
 defineProps<{ totalCars?: number; }>();
@@ -132,7 +133,7 @@ const allBrandCheckboxModel = computed({
 
       <UForm :state="{}" class="flex items-center gap-6 px-6 py-4 bg-default">
         <UFormField label="Ціна" class="basis-52">
-          <UPopover :ui="{ content: 'py-3 px-4' }" :content="{ side: 'bottom', align: 'start', alignOffset: -14.5 }">
+          <QuickFilterPopover>
             <UInput
               class="w-full"
               variant="ghost"
@@ -147,13 +148,13 @@ const allBrandCheckboxModel = computed({
                 :boundaries="{ min: filtersData?.filters.priceRange.min, max: filtersData?.filters.priceRange.max }"
               />
             </template>
-          </UPopover>
+          </QuickFilterPopover>
         </UFormField>
 
         <USeparator orientation="vertical" class="h-12" />
 
         <UFormField label="Кузов" class="basis-52">
-          <UPopover :ui="{ content: 'py-3 px-4' }" :content="{ side: 'bottom', align: 'start', alignOffset: -14.5 }">
+          <QuickFilterPopover>
             <UInput
               class="w-full"
               variant="ghost"
@@ -164,13 +165,13 @@ const allBrandCheckboxModel = computed({
             <template #content>
               <QuickFilterList v-model="selectedFilters.bodyType" v-model:all-checkbox="allBodyTypesCheckboxModel" :items="bodyTypeItems" />
             </template>
-          </UPopover>
+          </QuickFilterPopover>
         </UFormField>
 
         <USeparator orientation="vertical" class="h-12" />
 
         <UFormField label="Привід" class="basis-52">
-          <UPopover :ui="{ content: 'py-3 px-4' }" :content="{ side: 'bottom', align: 'start', alignOffset: -14.5 }">
+          <QuickFilterPopover>
             <UInput
               class="w-full"
               variant="ghost"
@@ -181,13 +182,13 @@ const allBrandCheckboxModel = computed({
             <template #content>
               <QuickFilterList v-model="selectedFilters.driveType" v-model:all-checkbox="allDriveCheckboxModel" :items="driveItems" />
             </template>
-          </UPopover>
+          </QuickFilterPopover>
         </UFormField>
 
         <USeparator orientation="vertical" class="h-12" />
 
         <UFormField label="Марка" class="basis-52">
-          <UPopover :ui="{ content: 'py-3 px-4' }" :content="{ side: 'bottom', align: 'start', alignOffset: -14.5 }">
+          <QuickFilterPopover>
             <UInput
               class="w-full"
               variant="ghost"
@@ -198,7 +199,7 @@ const allBrandCheckboxModel = computed({
             <template #content>
               <QuickFilterList v-model="selectedFilters.brand" v-model:all-checkbox="allBrandCheckboxModel" :items="brandsItems" />
             </template>
-          </UPopover>
+          </QuickFilterPopover>
         </UFormField>
 
         <UButton
