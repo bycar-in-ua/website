@@ -35,14 +35,13 @@ const items = computed<AccordionItem[]>(() => [
 
 const defaultValue = ref([
   "0", "1", "2",
-]); // Only price filter open by default
+]);
 </script>
 
 <template>
   <div class="relative">
-    <!-- Loading indicator -->
     <div
-      v-if="filtersStore.isFetching"
+      v-if="filtersStore.isLoading"
       class="absolute top-2 right-2 z-10"
     >
       <UIcon name="i-heroicons-arrow-path" class="w-5 h-5 animate-spin text-primary" />
@@ -59,7 +58,11 @@ const defaultValue = ref([
       </template>
 
       <template #price>
-        <PriceFilter>
+        <PriceFilter
+          v-model:min-price="filtersStore.selectedFilters.minPrice"
+          v-model:max-price="filtersStore.selectedFilters.maxPrice"
+          :boundaries="{ min: filtersStore.data?.filters.priceRange.min, max: filtersStore.data?.filters.priceRange.max }"
+        >
           <template #min-price-label>
             <span class="uppercase font-semibold text-sm inline-block mb-1.5">
               Від

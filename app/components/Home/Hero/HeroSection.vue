@@ -23,7 +23,7 @@ const priceLabel = computed(() => {
 const bodyTypeLablel = computed(() => {
   const bodyType = selectedFilters.value?.bodyType;
   if (!bodyType?.length) {
-    return "Всі";
+    return;
   }
 
   return bodyType.map((item) => t(`vehicle.bodyTypes.items.${item}`)).join(", ");
@@ -128,6 +128,8 @@ const allBrandCheckboxModel = computed({
         Переглядайте, порівнюйте, обирайте та купуйте — все в одному місці.
       </p>
 
+      <UInput placeholder="TEST" variant="ghost" />
+
       <UForm :state="{}" class="flex items-center gap-6 px-6 py-4 bg-default">
         <UFormField label="Ціна" class="basis-52">
           <UPopover :ui="{ content: 'py-3 px-4' }" :content="{ side: 'bottom', align: 'start', alignOffset: -14.5 }">
@@ -139,7 +141,11 @@ const allBrandCheckboxModel = computed({
             />
 
             <template #content>
-              <PriceFilter />
+              <PriceFilter
+                v-model:min-price="selectedFilters.minPrice"
+                v-model:max-price="selectedFilters.maxPrice"
+                :boundaries="{ min: filtersData?.filters.priceRange.min, max: filtersData?.filters.priceRange.max }"
+              />
             </template>
           </UPopover>
         </UFormField>
@@ -151,7 +157,7 @@ const allBrandCheckboxModel = computed({
             <UInput
               class="w-full"
               variant="ghost"
-              :model-value="bodyTypeLablel"
+              :placeholder="bodyTypeLablel || 'Всі'"
               :ui="{ base: 'text-left' }"
             />
 

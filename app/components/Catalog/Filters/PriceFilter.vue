@@ -1,21 +1,37 @@
 <script setup lang="ts">
 import { PRICE_STEP } from "#shared/priceTemplates";
-import { useFiltersStore } from "~/stores/filters";
+import { refWithControl, useDebounceFn } from "@vueuse/core";
 
-const filtersStore = useFiltersStore();
+const props = defineProps<{
+  boundaries?: {
+    min?: number;
+    max?: number;
+  };
+}>();
 
-const priceRange = computed(() => ({
-  min: filtersStore.data?.filters.priceRange.min ?? 0,
-  max: filtersStore.data?.filters.priceRange.max ?? 200000,
-}));
+const minPrice = defineModel<number>("minPrice");
+const maxPrice = defineModel<number>("maxPrice");
 
-const priceSliderModel = computed({
-  get: () => [Number(filtersStore.selectedFilters.minPrice ?? 0), Number(filtersStore.selectedFilters.maxPrice ?? Infinity)],
-  set: ([from, to]: number[]) => {
-    filtersStore.selectedFilters.minPrice = from;
-    if (Number.isFinite(to)) {
-      filtersStore.selectedFilters.maxPrice = to;
-    }
+const debouncedModelUpdate = useDebounceFn((value: number[]) => {
+  minPrice.value = value[0];
+  if (Number.isFinite(value[1])) {
+    maxPrice.value = value[1];
+  }
+}, 500);
+
+const sliderModel = refWithControl([minPrice.value || 0, maxPrice.value || props.boundaries?.max || Infinity], { onChanged: debouncedModelUpdate });
+
+const minInputModel = computed({
+  get: () => sliderModel.value[0] || props.boundaries?.min || 0,
+  set: (value: number) => {
+    sliderModel.value = [value, sliderModel.value[1] || props.boundaries?.max || Infinity];
+  },
+});
+
+const maxInputModel = computed({
+  get: () => sliderModel.value[1] || props.boundaries?.max || Infinity,
+  set: (value: number) => {
+    sliderModel.value = [sliderModel.value[0] || props.boundaries?.min || 0, value];
   },
 });
 
@@ -33,11 +49,11 @@ const currencyFormatterConfig = {
     <div class="grow">
       <slot name="min-price-label" />
       <UInputNumber
-        v-model="filtersStore.selectedFilters.minPrice"
+        v-model="minInputModel"
         :step="PRICE_STEP"
-        :min="priceRange.min"
-        :max="priceRange.max - PRICE_STEP"
-        :placeholder="filtersStore.data?.filters.priceRange.min?.toString()"
+        :min="boundaries?.min"
+        :max="(boundaries?.max || Infinity) - PRICE_STEP"
+        :placeholder="boundaries?.min?.toString()"
         size="sm"
         class="w-full"
         :format-options="currencyFormatterConfig"
@@ -46,11 +62,11 @@ const currencyFormatterConfig = {
     <div class="grow">
       <slot name="max-price-label" />
       <UInputNumber
-        v-model="filtersStore.selectedFilters.maxPrice"
+        v-model="maxInputModel"
         :step="PRICE_STEP"
-        :min="priceRange.min + PRICE_STEP"
-        :max="priceRange.max"
-        :placeholder="filtersStore.data?.filters.priceRange.max?.toString()"
+        :min="(boundaries?.min || 0) + PRICE_STEP"
+        :max="boundaries?.max"
+        :placeholder="boundaries?.max?.toString()"
         size="sm"
         class="w-full"
         :format-options="currencyFormatterConfig"
@@ -59,9 +75,9 @@ const currencyFormatterConfig = {
   </div>
 
   <USlider
-    v-model="priceSliderModel"
-    :min="priceRange.min"
-    :max="priceRange.max"
+    v-model="sliderModel"
+    :min="boundaries?.min"
+    :max="boundaries?.max"
     :step="PRICE_STEP"
     :ui="{
       root: 'w-[99%] mx-auto',
