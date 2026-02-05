@@ -33,9 +33,9 @@ const carouselItems = computed(() => {
     >
       <template #extra>
         <div class="flex items-center gap-2">
-          <UButton variant="outline">
+          <!-- <UButton variant="outline">
             Дивитися всі
-          </UButton>
+          </UButton> -->
 
           <UButton
             variant="outline"
@@ -61,7 +61,7 @@ const carouselItems = computed(() => {
       loop
       :items="carouselItems"
       :ui="{
-        viewport: 'overflow-visible relative z-10',
+        viewport: 'relative z-10',
       }"
     >
       <div class="grid grid-cols-3 gap-2">

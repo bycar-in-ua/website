@@ -222,7 +222,7 @@ const handleNavigate = () => {
         </QuickFilterPopover>
 
         <UButton
-          :label="`Переглянути ${filtersData?.total} авто`"
+          :label="`Переглянути ${filtersData?.total || ''} авто`"
           size="lg"
           block
           color="primary"
