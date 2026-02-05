@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import type { CheckboxGroupItem } from "@nuxt/ui";
-import PriceFilter from "~/components/Catalog/Filters/PriceFilter.vue";
 import { useCatalogFilters } from "~/composables/useCatalogFilters";
+import { serializeFiltersToQuery } from "~/utils/filters";
+import { useFiltersStore } from "~/stores/filters";
+import PriceFilter from "~/components/Catalog/Filters/PriceFilter.vue";
 import QuickFilterPopover from "./QuickFilterPopover.vue";
 import QuickFilterList from "./QuickFilterList.vue";
 
@@ -12,13 +14,17 @@ const { data: filtersData, selectedFilters } = useCatalogFilters();
 
 const priceLabel = computed(() => {
   if (!selectedFilters.value?.minPrice && !selectedFilters.value?.maxPrice) {
-    return "---";
+    return;
   }
 
   const minPrice = selectedFilters.value?.minPrice || filtersData.value?.filters.priceRange.min || 0;
   const maxPrice = selectedFilters.value?.maxPrice || filtersData.value?.filters.priceRange.max || 200000;
 
   return `$${minPrice} - $${maxPrice}`;
+});
+
+const pricePlaceholder = computed(() => {
+  return `$${filtersData.value?.filters.priceRange.min} - $${filtersData.value?.filters.priceRange.max}`;
 });
 
 const bodyTypeLablel = computed(() => {
@@ -49,7 +55,7 @@ const allBodyTypesCheckboxModel = computed({
 const driveLabel = computed(() => {
   const driveType = selectedFilters.value?.driveType;
   if (!driveType?.length) {
-    return "Всі";
+    return;
   }
 
   return driveType.map((item) => t(`filters.drive.${item}`)).join(", ");
@@ -74,7 +80,7 @@ const allDriveCheckboxModel = computed({
 const brandLabel = computed(() => {
   const brands = selectedFilters.value?.brand;
   if (!brands?.length) {
-    return "Всі";
+    return;
   }
 
   return brands.map((item) => {
@@ -98,6 +104,17 @@ const allBrandCheckboxModel = computed({
     }
   },
 });
+
+const handleNavigate = () => {
+  const filtersStore = useFiltersStore();
+  filtersStore.selectedFilters = selectedFilters.value;
+  filtersStore.applyFilters();
+
+  navigateTo({
+    name: "catalog",
+    query: serializeFiltersToQuery(selectedFilters.value),
+  });
+};
 </script>
 
 <template>
@@ -106,14 +123,14 @@ const allBrandCheckboxModel = computed({
   >
     <div class="absolute inset-0">
       <div class="hero-overlay z-0 absolute inset-0" />
-      <!-- <video
+      <video
         autoplay
         muted
         loop
         class="w-full h-full object-cover -z-10"
       >
         <source src="/videos/hero-background.mp4" type="video/mp4">
-      </video> -->
+      </video>
     </div>
 
     <div class="container z-10">
@@ -129,78 +146,80 @@ const allBrandCheckboxModel = computed({
         Переглядайте, порівнюйте, обирайте та купуйте — все в одному місці.
       </p>
 
-      <UInput placeholder="TEST" variant="ghost" />
-
-      <UForm :state="{}" class="flex items-center gap-6 px-6 py-4 bg-default">
-        <UFormField label="Ціна" class="basis-52">
-          <QuickFilterPopover>
+      <UForm :state="selectedFilters" class="flex items-center gap-6 px-6 py-4 bg-default">
+        <QuickFilterPopover>
+          <UFormField label="Ціна" class="basis-52">
             <UInput
               class="w-full"
               variant="ghost"
+              readonly
               :model-value="priceLabel"
+              :placeholder="pricePlaceholder"
               :ui="{ base: 'text-left' }"
             />
-
-            <template #content>
-              <PriceFilter
-                v-model:min-price="selectedFilters.minPrice"
-                v-model:max-price="selectedFilters.maxPrice"
-                :boundaries="{ min: filtersData?.filters.priceRange.min, max: filtersData?.filters.priceRange.max }"
-              />
-            </template>
-          </QuickFilterPopover>
-        </UFormField>
+          </UFormField>
+          <template #content>
+            <PriceFilter
+              v-model:min-price="selectedFilters.minPrice"
+              v-model:max-price="selectedFilters.maxPrice"
+              :boundaries="{ min: filtersData?.filters.priceRange.min, max: filtersData?.filters.priceRange.max }"
+            />
+          </template>
+        </QuickFilterPopover>
 
         <USeparator orientation="vertical" class="h-12" />
 
-        <UFormField label="Кузов" class="basis-52">
-          <QuickFilterPopover>
+        <QuickFilterPopover>
+          <UFormField label="Кузов" class="basis-52">
             <UInput
               class="w-full"
               variant="ghost"
-              :placeholder="bodyTypeLablel || 'Всі'"
+              readonly
+              :model-value="bodyTypeLablel"
+              placeholder="Всі"
               :ui="{ base: 'text-left' }"
             />
-
-            <template #content>
-              <QuickFilterList v-model="selectedFilters.bodyType" v-model:all-checkbox="allBodyTypesCheckboxModel" :items="bodyTypeItems" />
-            </template>
-          </QuickFilterPopover>
-        </UFormField>
+          </UFormField>
+          <template #content>
+            <QuickFilterList v-model="selectedFilters.bodyType" v-model:all-checkbox="allBodyTypesCheckboxModel" :items="bodyTypeItems" />
+          </template>
+        </QuickFilterPopover>
 
         <USeparator orientation="vertical" class="h-12" />
 
-        <UFormField label="Привід" class="basis-52">
-          <QuickFilterPopover>
+        <QuickFilterPopover>
+          <UFormField label="Привід" class="basis-52">
             <UInput
               class="w-full"
               variant="ghost"
+              readonly
               :model-value="driveLabel"
+              placeholder="Всі"
               :ui="{ base: 'text-left' }"
             />
-
-            <template #content>
-              <QuickFilterList v-model="selectedFilters.driveType" v-model:all-checkbox="allDriveCheckboxModel" :items="driveItems" />
-            </template>
-          </QuickFilterPopover>
-        </UFormField>
+          </UFormField>
+          <template #content>
+            <QuickFilterList v-model="selectedFilters.driveType" v-model:all-checkbox="allDriveCheckboxModel" :items="driveItems" />
+          </template>
+        </QuickFilterPopover>
 
         <USeparator orientation="vertical" class="h-12" />
 
-        <UFormField label="Марка" class="basis-52">
-          <QuickFilterPopover>
+        <QuickFilterPopover>
+          <UFormField label="Марка" class="basis-52">
             <UInput
               class="w-full"
               variant="ghost"
+              readonly
               :model-value="brandLabel"
+              placeholder="Всі"
               :ui="{ base: 'text-left' }"
             />
-
-            <template #content>
-              <QuickFilterList v-model="selectedFilters.brand" v-model:all-checkbox="allBrandCheckboxModel" :items="brandsItems" />
-            </template>
-          </QuickFilterPopover>
-        </UFormField>
+          </UFormField>
+          <template #content>
+            <QuickFilterList v-model="selectedFilters.brand" v-model:all-checkbox="allBrandCheckboxModel" :items="brandsItems" />
+          </template>
+        </QuickFilterPopover>
 
         <UButton
           :label="`Переглянути ${filtersData?.total} авто`"
@@ -208,6 +227,7 @@ const allBrandCheckboxModel = computed({
           block
           color="primary"
           class="basis-64"
+          @click="handleNavigate"
         />
       </UForm>
     </div>

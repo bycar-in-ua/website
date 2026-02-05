@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import type { CheckboxProps } from "@nuxt/ui";
-import type { VehiclesFilters } from "@bycar-in-ua/sdk";
+import type { BodyType, VehiclesFilters } from "@bycar-in-ua/sdk";
 import { useQuizStore } from "#layers/quiz/stores/quiz";
-import { useCatalogStore } from "~/stores/catalog";
 import QuestionContainer from "./QuestionContainer.vue";
 import QuizButton from "./QuizButton.vue";
 import PriceStep from "./PriceStep.vue";
@@ -11,7 +10,7 @@ import ModelsStep from "./ModelsStep.vue";
 const { t } = useI18n();
 
 const quizStore = useQuizStore();
-const catalogStore = useCatalogStore();
+const { data: filtersData } = useCatalogFilters();
 
 const engineTypes: NonNullable<VehiclesFilters["engineType"]> = [
   "gas",
@@ -70,7 +69,7 @@ const checkboxUi: CheckboxProps["ui"] = {
           >
             <div class="flex flex-col gap-4">
               <UCheckbox
-                v-for="brand in catalogStore.dictionary.brands"
+                v-for="brand in filtersData?.filters.brand"
                 :key="brand.id"
                 :label="brand.displayName"
                 :value="brand.id"
@@ -113,16 +112,16 @@ const checkboxUi: CheckboxProps["ui"] = {
           >
             <div class="flex flex-col gap-4">
               <UCheckbox
-                v-for="bodyType in catalogStore.dictionary.bodyTypes"
-                :key="bodyType"
-                :label="t(`vehicle.bodyTypes.items.${bodyType}`)"
-                :value="bodyType"
-                :model-value="quizStore.filters.bodyType?.includes(bodyType)"
+                v-for="bodyType in filtersData?.filters.bodyType"
+                :key="bodyType.value"
+                :label="t(`vehicle.bodyTypes.items.${bodyType.value}`)"
+                :value="bodyType.value"
+                :model-value="quizStore.filters.bodyType?.includes(bodyType.value as BodyType)"
                 :ui="checkboxUi"
                 size="xl"
                 @update:model-value="
                   (checked) =>
-                    quizStore.checkHandler('bodyType', checked, bodyType)
+                    quizStore.checkHandler('bodyType', checked, bodyType.value)
                 "
               />
             </div>
