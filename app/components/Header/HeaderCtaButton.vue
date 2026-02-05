@@ -6,7 +6,7 @@ const quizStore = useQuizStore();
 
 <template>
   <UButton
-    size="lg"
+    size="sm"
     @click="quizStore.openQuiz"
   >
     Підбір авто
