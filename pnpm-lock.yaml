@@ -12,8 +12,8 @@ importers:
         specifier: ^0.1.6
         version: 0.1.6(typescript@5.9.3)
       '@bycar-in-ua/base-nuxt-module':
-        specifier: ^0.0.11
-        version: 0.0.11(magicast@0.5.1)(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3))
+        specifier: ^0.0.13
+        version: 0.0.13(magicast@0.5.1)(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3))
       '@bycar-in-ua/vehicles-sdk':
         specifier: ^0.1.4
         version: 0.1.4(typescript@5.9.3)
@@ -259,8 +259,8 @@ packages:
   '@bycar-in-ua/auth-sdk@0.1.6':
     resolution: {integrity: sha512-BKvL8PDFebEYHX6hSughOn4/VVszr9b3qtsfKCb8ZrzJk69fuocA9ELR4wZlOdDN+whWDOWFBiZqD5oOGiTQmg==, tarball: https://npm.pkg.github.com/download/@bycar-in-ua/auth-sdk/0.1.6/4af953bc8de89eec2e8af685b190f7422c22083d}
 
-  '@bycar-in-ua/base-nuxt-module@0.0.11':
-    resolution: {integrity: sha512-tXmCSNRFgiJr6fltjvATeg6if/6cs5T4GbPusJIS/kF2CCO8vUyp+V9mIeNU9oQ6q+mjyBxB9Cijlr6xM5DhVA==, tarball: https://npm.pkg.github.com/download/@bycar-in-ua/base-nuxt-module/0.0.11/71b23561b5ccf7469cf9fb76d08a28d7ddba7374}
+  '@bycar-in-ua/base-nuxt-module@0.0.13':
+    resolution: {integrity: sha512-XH01GOK/W3rg4lJhV7lQOzWgRSV4QgJwlVd4E4n8avmjJY1LQ0ND6XywK3UpP0LINYCY2XjAYonyQY0FD3M4Ow==, tarball: https://npm.pkg.github.com/download/@bycar-in-ua/base-nuxt-module/0.0.13/0c2b2fa2d2f6d5484f256006dfc31e99400159cd}
 
   '@bycar-in-ua/sdk@0.4.4':
     resolution: {integrity: sha512-qC2zsQLqPFkzVDgMs4DmPF0lQWrpmrb6mTrqwtkFNZHG9sOkwQS+QketgTtp3PbwstEDASXgXkln5XLs7rebMg==, tarball: https://npm.pkg.github.com/download/@bycar-in-ua/sdk/0.4.4/a7a66b97d2e7a2f8247f3f2c78bfe32ee1ea99bc}
@@ -6312,7 +6312,7 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  '@bycar-in-ua/base-nuxt-module@0.0.11(magicast@0.5.1)(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3))':
+  '@bycar-in-ua/base-nuxt-module@0.0.13(magicast@0.5.1)(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3))':
     dependencies:
       '@nuxt/kit': 4.2.2(magicast@0.5.1)
       '@tanstack/vue-query': 5.92.8(vue@3.5.27(typescript@5.9.3))
