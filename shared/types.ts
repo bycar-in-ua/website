@@ -1,5 +1,4 @@
-import type { Brand, Vehicle, VehiclesSearchSchema } from "@bycar-in-ua/sdk";
-import type { YouTubeVideoItem } from "~/components/UI/VideoCard";
+import type { VehiclesSearchSchema } from "@bycar-in-ua/sdk";
 
 export type FiltersState = Omit<
   NonNullable<VehiclesSearchSchema["filters"]>,
@@ -8,13 +7,6 @@ export type FiltersState = Omit<
   priceFrom?: number;
   priceTo?: number;
   availableOnly?: boolean;
-};
-
-export type HomepageData = {
-  latestYoutubeVideos: YouTubeVideoItem[];
-  latestItems: Omit<VehiclesFilterSet, "filters"> & { items: Vehicle[]; };
-  totalItems: number;
-  establishedBrands: Brand[];
 };
 
 export type VehiclesFilterSet = {

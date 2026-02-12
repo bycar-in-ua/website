@@ -1,33 +1,105 @@
 <script setup lang="ts">
-import SectionTitle from "~/components/UI/SectionTitle.vue";
 import type { AccordionItem } from "@nuxt/ui";
-import type { HomepageData } from "~~/shared/types";
+import { useQuery } from "@tanstack/vue-query";
+// Deprecated, export type from vehicles-sdk
+import { BodyType } from "@bycar-in-ua/sdk";
+import SectionTitle from "~/components/UI/SectionTitle.vue";
 import CarCard from "../UI/CarCard/CarCard.vue";
+import type { VehicleSearchDocument } from "@bycar-in-ua/vehicles-sdk";
 
-// TODO: use real dta for each collection
-const props = defineProps<{ latestItems: HomepageData["latestItems"]; }>();
+const vehiclesService = useVehiclesService();
 
-const items: AccordionItem[] = [
-  { label: "Сімейне авто" },
-  { label: "Найкращі гібриди" },
-  { label: "Найкращі електрокари" },
-  { label: "Рекомендовані авто" },
-];
+const { data: vehicles, suspense } = useQuery({
+  queryKey: ["homepage-vehicles-collections"],
+  queryFn: async () => {
+    const defaultPagination = {
+      page: 1,
+      limit: 12,
+    };
 
-const carouselItems = computed(() => {
-  if (props.latestItems.items.length === 0) {
-    return [];
-  }
+    const [
+      familyCars, hybrids, electrics, recommended,
+    ] = await Promise.all([
+      vehiclesService.searchVehicles({
+        filters: {
+          bodyType: [
+            BodyType.SUV, BodyType.universal, BodyType.minivan,
+          ],
+          maxPrice: 60000,
+          maxPower: 200,
+        },
+        pagination: defaultPagination,
+      }),
+      vehiclesService.searchVehicles({
+        filters: { engineType: ["hybrid"] },
+        pagination: defaultPagination,
+      }),
+      vehiclesService.searchVehicles({
+        filters: { engineType: ["electric"] },
+        pagination: defaultPagination,
+      }),
+      vehiclesService.searchVehicles({
+        filters: {
+          bodyType: [
+            BodyType.sedan, BodyType.coupe, BodyType.cabriolet,
+          ],
+          minPower: 200,
+          minPrice: 50000,
+        },
+        pagination: defaultPagination,
+      }),
+    ]);
 
-  // Split items into chunks of 3 for carousel slides
+    return {
+      familyCars,
+      hybrids,
+      electrics,
+      recommended,
+    };
+  },
+});
+
+await suspense();
+
+function toCarouselChunks(vehicles: VehicleSearchDocument[]) {
   const chunkSize = 3;
   const chunks = [];
 
-  for (let i = 0; i < props.latestItems.items.length; i += chunkSize) {
-    chunks.push(props.latestItems.items.slice(i, i + chunkSize));
+  for (let i = 0; i < vehicles.length; i += chunkSize) {
+    chunks.push(vehicles.slice(i, i + chunkSize));
   }
 
   return chunks;
+}
+
+type VehicleAccordionItem = AccordionItem & {
+  count: number;
+  carouselItems: VehicleSearchDocument[][];
+};
+
+const items = computed<VehicleAccordionItem[]>(() => {
+  return [
+    {
+      label: "Сімейне авто",
+      count: vehicles.value?.familyCars.meta.totalItems ?? 0,
+      carouselItems: toCarouselChunks(vehicles.value?.familyCars.items ?? []),
+    },
+    {
+      label: "Найкращі гібриди",
+      count: vehicles.value?.hybrids.meta.totalItems ?? 0,
+      carouselItems: toCarouselChunks(vehicles.value?.hybrids.items ?? []),
+    },
+    {
+      label: "Найкращі електрокари",
+      count: vehicles.value?.electrics.meta.totalItems ?? 0,
+      carouselItems: toCarouselChunks(vehicles.value?.electrics.items ?? []),
+    },
+    {
+      label: "Рекомендовані авто",
+      count: vehicles.value?.recommended.meta.totalItems ?? 0,
+      carouselItems: toCarouselChunks(vehicles.value?.recommended.items ?? []),
+    },
+  ];
 });
 </script>
 
@@ -45,26 +117,25 @@ const carouselItems = computed(() => {
         label: 'text-3xl font-semibold',
       }"
     >
-      <template #trailing>
+      <template #trailing="{ item }">
         <UButton variant="outline" class="ml-auto">
-          {{ carouselItems.length }} пропозиції
+          {{ item.count }} пропозиції
         </UButton>
       </template>
 
-      <template #body>
+      <template #content="{ item: accordionItem }">
         <UCarousel
-          v-slot="{ item }"
+          v-slot="{ item: vehiclesChunk }"
           dots
           loop
-          :items="carouselItems"
+          :items="accordionItem.carouselItems"
           :ui="{
             viewport: 'overflow-visible relative z-10 mb-14',
           }"
         >
-          <div class="grid grid-cols-3 gap-2">
-            <!-- TODO: `is-compared` and `toggle-compare` -->
+          <div class="grid grid-cols-3 gap-2 py-4">
             <CarCard
-              v-for="car in item"
+              v-for="car in vehiclesChunk"
               :key="car.id"
               :car="car"
               :is-compared="true"

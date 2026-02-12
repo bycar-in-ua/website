@@ -1,14 +1,27 @@
 <script setup lang="ts">
 import SectionTitle from "~/components/UI/SectionTitle.vue";
 import CarCard from "~/components/UI/CarCard/CarCard.vue";
-import type { HomepageData } from "#shared/types";
+import { useQuery } from "@tanstack/vue-query";
 
-const props = defineProps<{ latestItems: HomepageData["latestItems"]; }>();
+const vehiclesService = useVehiclesService();
+
+const { data: availableVehicles, suspense } = useQuery({
+  queryKey: ["homepage-available-vehicles"],
+  queryFn: () => vehiclesService.searchAvailableVehicles({
+    filters: {},
+    pagination: {
+      page: 1,
+      limit: 9,
+    },
+  }),
+});
+
+await suspense();
 
 const carousel = useTemplateRef("carousel");
 
 const carouselItems = computed(() => {
-  if (props.latestItems.items.length === 0) {
+  if (!availableVehicles.value || availableVehicles.value?.items.length === 0) {
     return [];
   }
 
@@ -16,8 +29,8 @@ const carouselItems = computed(() => {
   const chunkSize = 3;
   const chunks = [];
 
-  for (let i = 0; i < props.latestItems.items.length; i += chunkSize) {
-    chunks.push(props.latestItems.items.slice(i, i + chunkSize));
+  for (let i = 0; i < availableVehicles.value.items.length; i += chunkSize) {
+    chunks.push(availableVehicles.value.items.slice(i, i + chunkSize));
   }
 
   return chunks;
@@ -28,9 +41,9 @@ const carouselItems = computed(() => {
   <section class="my-10 md:my-20">
     <SectionTitle
       :title="['Авто в наявності', 'Спеціальні пропозиції']"
-      :extra-link="`/catalog?${latestItems.queryString}`"
       class="mb-10"
     >
+      <pre>{{ availableVehicles?.items }}</pre>
       <template #extra>
         <div class="flex items-center gap-2">
           <!-- <UButton variant="outline">
@@ -61,7 +74,7 @@ const carouselItems = computed(() => {
       loop
       :items="carouselItems"
       :ui="{
-        viewport: 'relative z-10',
+        viewport: 'overflow-visible relative z-10 mb-14',
       }"
     >
       <div class="grid grid-cols-3 gap-2">
