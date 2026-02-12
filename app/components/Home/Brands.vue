@@ -1,7 +1,15 @@
 <script setup lang="ts">
-import type { Brand } from "@bycar-in-ua/sdk";
+import { useQuery } from "@tanstack/vue-query";
 
-defineProps<{ establishedBrands: Brand[]; }>();
+const brandService = useBrandService();
+
+const { data: brands, suspense } = useQuery({
+  queryKey: ["established-brands"],
+  queryFn: () => brandService.getBrands(),
+  placeholderData: () => [],
+});
+
+await suspense();
 </script>
 
 <template>
@@ -11,12 +19,12 @@ defineProps<{ establishedBrands: Brand[]; }>();
       pause-on-hover
       :ui="{ root: '[--gap:--spacing(8)]', content: 'w-auto' }"
       :style="{
-        '--duration': `${establishedBrands.length * 2}s`,
+        '--duration': `${brands!.length * 2}s`,
       }"
       :repeat="8"
     >
       <CdnImage
-        v-for="brand in establishedBrands"
+        v-for="brand in brands"
         :key="brand.id"
         :src="brand.logo"
         :alt="brand.displayName"

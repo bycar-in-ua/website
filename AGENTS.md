@@ -1,69 +1,63 @@
-# Agent Instructions
+# AI Agent Guide
 
-## Documentation
+This is the main entry point for agent documentation. Start here, then use the topic docs.
 
-| Topic | File |
-|-------|------|
-| Authentication | [docs/authentication.md](docs/authentication.md) |
+# Project Overview
 
----
+This repo is a Nuxt 4 app with multiple layers (auth, profile, quiz) and SSR-first data flows.
 
-## Task Management (bd)
+## Structure at a Glance
 
-This project uses **bd** (beads) for issue tracking. Run `bd onboard` to get started.
+- app/ for core UI, pages, stores, composables, and plugins.
+- layers/ for feature slices: auth, profile, quiz.
+- server/ for server API routes.
+- shared/ for shared types and helpers.
+- public/ for static assets.
 
-### Quick Reference
+## Entry Points and Global Configuration
 
-```bash
-bd ready              # Find available work
-bd show <id>          # View issue details
-bd update <id> --status in_progress  # Claim work
-bd close <id>         # Complete work
-```
+- Nuxt config: nuxt.config.ts
+- App config: app/app.config.ts
+- App shell: app/app.vue
 
-**IMPORTANT:** Do NOT use `bd sync` unless explicitly requested by the user. BD sync creates commits on the staging branch and should only be used when the user specifically asks for it.
+The app shell wraps everything in UApp and renders layout, header, footer, and global features.
 
-### Change Workflow
+## Data, State, and Caching
 
-**ALWAYS follow this workflow for any code changes:**
+- Vue Query is configured with SSR hydrate/dehydrate in app/plugins/vue-query.ts.
+- Pinia stores live in app/stores and layers/**/stores.
+- Use composables for SDK access and shared logic under app/composables and layers/**/composables.
 
-1. **Start the task** - Update issue status: `bd update <id> --status in_progress`
-2. **Make the change** - Implement the requested modification
-3. **Ask for review** - Present changes to user and ask for approval
-4. **Wait for approval** - Do NOT commit until user explicitly approves
-5. **After approval, complete the task:**
-   ```bash
-   bd close <id>        # Close the task
-   git add .
-   git commit -m "..."
-   git push
-   ```
+## Routing and Layers
 
-**NEVER commit or push changes without explicit user approval.**
+- File-based routes are in app/pages and layers/**/pages.
+- Auth protection is handled via middleware in layers/auth/middleware.
+- The auth layer provides server routes under layers/auth/server.
 
-### Landing the Plane (Session Completion)
+## Localization
 
-**When ending a work session**, you MUST complete ALL steps below. Work is NOT complete until `git push` succeeds.
+- Single locale (ua) is configured in i18n/i18n.config.ts.
+- Translation seeds come from @bycar-in-ua/sdk and local overrides.
 
-**MANDATORY WORKFLOW:**
+## Styling
 
-1. **File issues for remaining work** - Create issues for anything that needs follow-up
-2. **Run quality gates** (if code changed) - Tests, linters, builds
-3. **Update issue status** - Close finished work, update in-progress items
-4. **Ask for final review** - Present all changes and get user approval
-5. **PUSH TO REMOTE** - After approval, this is MANDATORY:
-   ```bash
-   git add .
-   git commit -m "..."
-   git push
-   git status           # MUST show "up to date with origin"
-   ```
-6. **Clean up** - Clear stashes, prune remote branches
-7. **Verify** - All changes committed AND pushed
-8. **Hand off** - Provide context for next session
+- Global styles are in app/assets/css/global.css.
+- Theme tokens are imported from @bycar/theme.
+- Tailwind content sources include app and layers folders.
 
-**CRITICAL RULES:**
-- NEVER commit without user approval
-- Work is NOT complete until `git push` succeeds
-- NEVER stop before pushing - that leaves work stranded locally
-- If push fails, resolve and retry until it succeeds
+
+## Documentation Index
+
+- [Backend Access and SDKs](docs/agents/data-access.md)
+- [Frontend UI and Design](docs/agents/frontend-ui.md)
+- [Integrations and Infra](docs/agents/integrations.md)
+- [Task Workflow (bd)](docs/agents/workflow.md)
+- [Authentication Architecture](docs/authentication.md)
+
+## Critical Rules (Quick Read)
+
+- Do not overuse comments or comment obvious code.
+- Prefer Nuxt UI global configuration in app/app.config.ts over per-component ui overrides.
+- If UI requirements are unclear, ask for Figma references before implementing.
+- Use the SDK-based composables for backend access; avoid ad-hoc fetch calls.
+- Follow the bd workflow in docs/agents/workflow.md and never commit without approval.

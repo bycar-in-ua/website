@@ -6,10 +6,10 @@ import ChatCTA from "./ChatCTA.vue";
 import CardData from "./CardData.vue";
 import SaveButtons from "./SaveButtons.vue";
 import CardMedia from "./CardMedia.vue";
-import type { VehicleSearchDocument } from "@bycar-in-ua/vehicles-sdk";
+import type { VehicleSearchDocument, AvailableVehicleSearchDocument } from "@bycar-in-ua/vehicles-sdk";
 
 const props = defineProps<{
-  car: VehicleSearchDocument;
+  car: VehicleSearchDocument | AvailableVehicleSearchDocument;
   title?: string;
   discount?: boolean;
   isSaved?: boolean;

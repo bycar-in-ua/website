@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { HomepageData } from "#shared/types";
 import ContactForm from "~/components/ContactFormSection.vue";
 import { Hero } from "~/components/Home/Hero";
 import HowItWorks from "~/components/Home/HowItWorks.vue";
@@ -30,28 +29,17 @@ useSeoMeta({
   ogDescription: pageDescription,
 });
 
-const { data } = await useFetch<HomepageData>("/api/homepage-data", {
-  default: () => ({
-    latestYoutubeVideos: [],
-    latestItems: {
-      title: "",
-      queryString: "",
-      items: [],
-    },
-    totalItems: 0,
-    establishedBrands: [],
-  }),
-});
+const { data: filtersData } = useCatalogFilters();
 </script>
 
 <template>
   <main class="overflow-x-hidden lg:overflow-x-visible">
-    <Hero :total-cars="data.totalItems" />
-    <Brands :established-brands="data.establishedBrands" />
+    <Hero :total-cars="filtersData?.total" />
+    <Brands :established-brands="filtersData?.filters.brand" />
     <!-- <LatestVideos :videos="data.latestYoutubeVideos" class="container" /> -->
-    <Latest :latest-items="data.latestItems" class="container" />
+    <Latest class="container" />
     <HowItWorks />
-    <FeaturedCollections :latest-items="data.latestItems" class="container" />
+    <FeaturedCollections class="container" />
     <DualPanel />
     <BodyTypes />
     <ContactForm page="Головна сторінка" :show-affix="false" />
