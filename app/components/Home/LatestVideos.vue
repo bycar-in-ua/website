@@ -2,59 +2,71 @@
 import SectionTitle from "~/components/UI/SectionTitle.vue";
 import { YouTubeVideoCard, type YouTubeVideoItem } from "../UI/VideoCard";
 
-defineProps<{
-  videos: YouTubeVideoItem[];
-}>();
-
-const carouselRef = useTemplateRef("carouselRef");
+const carousel = useTemplateRef("carousel");
 
 const mouseoverHandler = () => {
-  carouselRef.value?.emblaApi?.plugins().autoplay.stop();
+  carousel.value?.emblaApi?.plugins().autoplay.stop();
 };
 
 const mouseleaveHandler = () => {
-  carouselRef.value?.emblaApi?.plugins().autoplay.play();
+  carousel.value?.emblaApi?.plugins().autoplay.play();
 };
+
+const { data: videos } = await useFetch<YouTubeVideoItem[]>(
+  "/api/latest-youtube-video", { default: () => [] },
+);
 </script>
 
 <template>
   <section
     v-if="videos?.length"
-    class="my-10 md:my-24"
+    class="py-12 px-4 md:p-20 bg-black dark"
     @mouseover="mouseoverHandler"
     @mouseleave="mouseleaveHandler"
     @touchstart="mouseoverHandler"
     @touchend="mouseleaveHandler"
   >
-    <SectionTitle title="Останні відео на каналі">
+    <SectionTitle :title="['Огляди', 'Нові відео на каналі']" class="mb-10 dark">
       <template #extra>
-        <UButtonGroup size="sm" orientation="horizontal">
+        <div class="hidden md:flex items-center gap-2 dark">
           <UButton
-            variant="ghost"
-            icon="i-heroicons-chevron-left"
-            @click="carouselRef?.emblaApi?.scrollPrev()"
+            to="https://www.youtube.com/@bycar.in.ua_"
+            color="secondary"
+            variant="solid"
+          >
+            Перейти на канал
+          </UButton>
+
+          <UButton
+            variant="outline"
+            color="secondary"
+            icon="i-lucide-chevron-left"
+            class="ml-4 "
+            @click="carousel?.emblaApi?.scrollPrev()"
           />
           <UButton
-            variant="ghost"
-            icon="i-heroicons-chevron-right"
-            @click="carouselRef?.emblaApi?.scrollNext()"
+            variant="outline"
+            color="secondary"
+            icon="i-lucide-chevron-right"
+            @click="carousel?.emblaApi?.scrollNext()"
           />
-        </UButtonGroup>
+        </div>
       </template>
     </SectionTitle>
 
     <UCarousel
-      ref="carouselRef"
+      ref="carousel"
       :items="videos"
       :ui="{
-        root: 'basis-full',
-        arrows: 'opacity-40 hover:opacity-100 transition-opacity',
-        dots: 'static mt-4',
+        item: 'w-fit h-fit basis-auto transition-opacity [&:not(.is-snapped)]:opacity-10',
+        dots: 'absolute inset-x-0 -bottom-7 flex flex-wrap items-center justify-center gap-3 ',
+        dot: 'bg-gray-800 data-[state=active]:bg-white',
       }"
-      class="overflow-hidden"
+      class-names
       style="--ui-border-inverted: var(--ui-primary)"
       dots
       loop
+      auto-height
       :autoplay="{
         delay: 5000,
       }"
@@ -63,5 +75,14 @@ const mouseleaveHandler = () => {
         <YouTubeVideoCard :item />
       </template>
     </UCarousel>
+
+    <UButton
+      to="https://www.youtube.com/@bycar.in.ua_"
+      color="secondary"
+      variant="solid"
+      class="flex md:hidden mt-15 justify-center"
+    >
+      Перейти на канал
+    </UButton>
   </section>
 </template>

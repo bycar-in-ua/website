@@ -9,11 +9,11 @@ defineProps<{
   <div class="flex items-end">
     <slot name="title">
       <h2
-        class="text-xl sm:text-3xl md:text-5xl font-bold grow"
+        class="text-xl sm:text-3xl md:text-5xl font-bold grow "
       >
-        <span class="text-primary">{{ title?.[0] }}</span>
+        <span class="text-primary dark:text-primary-500">{{ title?.[0] }}</span>
         <br>
-        {{ title?.[1] }}
+        <span class="dark:text-white">{{ title?.[1] }}</span>
       </h2>
     </slot>
 

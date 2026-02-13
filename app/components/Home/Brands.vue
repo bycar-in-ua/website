@@ -19,7 +19,7 @@ await suspense();
       pause-on-hover
       :ui="{ root: '[--gap:--spacing(8)]', content: 'w-auto' }"
       :style="{
-        '--duration': `${brands!.length * 2}s`,
+        // '--duration': `${brands!.length * 2}s`,
       }"
       :repeat="8"
     >
