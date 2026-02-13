@@ -14,6 +14,9 @@ importers:
       '@bycar-in-ua/base-nuxt-module':
         specifier: ^0.0.13
         version: 0.0.13(magicast@0.5.1)(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3))
+      '@bycar-in-ua/brands-sdk':
+        specifier: ^0.0.1
+        version: 0.0.1(typescript@5.9.3)
       '@bycar-in-ua/vehicles-sdk':
         specifier: ^0.1.5
         version: 0.1.5(typescript@5.9.3)
@@ -261,6 +264,9 @@ packages:
 
   '@bycar-in-ua/base-nuxt-module@0.0.13':
     resolution: {integrity: sha512-XH01GOK/W3rg4lJhV7lQOzWgRSV4QgJwlVd4E4n8avmjJY1LQ0ND6XywK3UpP0LINYCY2XjAYonyQY0FD3M4Ow==, tarball: https://npm.pkg.github.com/download/@bycar-in-ua/base-nuxt-module/0.0.13/0c2b2fa2d2f6d5484f256006dfc31e99400159cd}
+
+  '@bycar-in-ua/brands-sdk@0.0.1':
+    resolution: {integrity: sha512-+nsAg2NcirODOK6aN/dhEwJyZ31NM0Ec2/gIWL+DDxvpO40sO3JgjZL0f30n6IALLUCSGpu4VYdPOqvz5DpY4w==, tarball: https://npm.pkg.github.com/download/@bycar-in-ua/brands-sdk/0.0.1/a858a709fb94dfef8046da0d3ed84efd4482665d}
 
   '@bycar-in-ua/sdk@0.4.4':
     resolution: {integrity: sha512-qC2zsQLqPFkzVDgMs4DmPF0lQWrpmrb6mTrqwtkFNZHG9sOkwQS+QketgTtp3PbwstEDASXgXkln5XLs7rebMg==, tarball: https://npm.pkg.github.com/download/@bycar-in-ua/sdk/0.4.4/a7a66b97d2e7a2f8247f3f2c78bfe32ee1ea99bc}
@@ -3963,6 +3969,7 @@ packages:
 
   glob@10.5.0:
     resolution: {integrity: sha512-DfXN8DfhJ7NH3Oe7cFmu3NCu1wKbkReJ8TorzSAFbSKrlNaQSKfIzqYqVY8zlbs2NLBbWpRiU52GX2PbaBVNkg==}
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
     hasBin: true
 
   glob@13.0.0:
@@ -6323,6 +6330,12 @@ snapshots:
       - magicast
       - typescript
       - vue
+
+  '@bycar-in-ua/brands-sdk@0.0.1(typescript@5.9.3)':
+    dependencies:
+      valibot: 1.2.0(typescript@5.9.3)
+    transitivePeerDependencies:
+      - typescript
 
   '@bycar-in-ua/sdk@0.4.4': {}
 

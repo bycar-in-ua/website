@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import SectionTitle from "~/components/UI/SectionTitle.vue";
+
+const { data: filtersData } = useCatalogFilters();
 </script>
 
 <template>
   <section class="flex items-center justify-between all-cars-header">
     <div class="container mx-auto py-16 flex items-end justify-between">
-      <SectionTitle :title="['Всі авто', 'Знайомтесь з моделями']" class="text-white" />
+      <SectionTitle :title="['Каталог моделей', 'Знайомтесь з моделями']" class="text-white" />
 
       <div class="text-white font-semibold uppercase">
-        <!-- TODO: fetch real number -->
-        234 Пропозицій
+        {{ filtersData?.total }} Пропозицій
       </div>
     </div>
   </section>

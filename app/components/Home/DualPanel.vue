@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const panels = [
   {
-    title: "Каталог всіх авто",
+    title: "Каталог моделей",
     description: "характеристики, моделі й ціни в одному місці",
     buttonText: "Дивитися",
     to: "/catalog",

@@ -1,4 +1,4 @@
-import { BrandPublicService } from "@bycar-in-ua/sdk";
+import { BrandPublicService, getBycarFetchClient } from "@bycar-in-ua/brands-sdk";
 
 let brandService: BrandPublicService;
 
@@ -6,7 +6,9 @@ export function useBrandService() {
   if (!brandService) {
     const config = useRuntimeConfig();
 
-    brandService = BrandPublicService.create(config.public.apiHost);
+    const client = getBycarFetchClient(config.public.brandsApiHost);
+
+    brandService = new BrandPublicService(client);
   }
 
   return brandService;

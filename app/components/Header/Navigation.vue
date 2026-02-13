@@ -7,7 +7,7 @@ const { t } = useI18n();
 const { gtag } = useGtag();
 
 const catalogMenuItem: NavigationMenuItem = {
-  label: "Всі авто",
+  label: "Каталог моделей",
   to: "/catalog",
 };
 
@@ -34,8 +34,8 @@ const blogMenuItem: NavigationMenuItem = {
 };
 
 const desktopMenuItems: NavigationMenuItem[] = [
-  catalogMenuItem,
   avilableCatalogMenuItem,
+  catalogMenuItem,
   aboutMenuItem,
   blogMenuItem,
 ];
