@@ -9,7 +9,7 @@ defineProps<{
   <div class="flex items-end">
     <slot name="title">
       <h2
-        class="text-xl sm:text-3xl md:text-5xl font-bold grow"
+        class="text-xl sm:text-3xl md:text-5xl font-bold grow text-default"
       >
         <span class="text-primary">{{ title?.[0] }}</span>
         <br>

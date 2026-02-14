@@ -3,7 +3,7 @@ import ContactForm from "~/components/ContactFormSection.vue";
 import { Hero } from "~/components/Home/Hero";
 import HowItWorks from "~/components/Home/HowItWorks.vue";
 import FeaturedCollections from "~/components/Home/FeaturedCollections.vue";
-// import LatestVideos from "~/components/Home/LatestVideos.vue";
+import LatestVideos from "~/components/Home/LatestVideos.vue";
 import Latest from "~/components/Home/Latest.vue";
 import Brands from "~/components/Home/Brands.vue";
 import DualPanel from "~/components/Home/DualPanel.vue";
@@ -35,15 +35,15 @@ const { data: filtersData } = useCatalogFilters();
 <template>
   <main class="overflow-x-hidden lg:overflow-x-visible">
     <Hero :total-cars="filtersData?.total" />
-    <Brands :established-brands="filtersData?.filters.brand" />
-    <!-- <LatestVideos :videos="data.latestYoutubeVideos" class="container" /> -->
+    <Brands :established-brands="filtersData?.filters.brand ?? {}" />
     <Latest class="container" />
     <HowItWorks />
     <FeaturedCollections class="container" />
     <DualPanel />
-    <BodyTypes />
+    <BodyTypes class="container" />
     <ContactForm page="Головна сторінка" :show-affix="false" />
-    <AboutUs />
+    <AboutUs class="container" />
+    <LatestVideos />
     <PartnershipBanner />
   </main>
 </template>
