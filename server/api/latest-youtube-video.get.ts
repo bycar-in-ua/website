@@ -60,7 +60,7 @@ async function getLatestYoutubeVideos({
   apiKey: string;
 }): Promise<YouTubeVideoItem[]> {
   try {
-    const lastThreeVideos: YouTubeSearchResponse = await $fetch(
+    const videos: YouTubeSearchResponse = await $fetch(
       "youtube/v3/search",
       {
         baseURL: GOOGLE_API_HOST,
@@ -72,12 +72,12 @@ async function getLatestYoutubeVideos({
           videoDuration: "long",
           part: "snippet",
           order: "date",
-          maxResults: 3,
+          maxResults: 5,
         },
       },
     );
 
-    return lastThreeVideos.items.map(
+    return videos.items.map(
       (item): YouTubeVideoItem => ({
         videoId: item.id.videoId,
         title: item.snippet.title,

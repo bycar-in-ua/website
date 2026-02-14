@@ -5,7 +5,7 @@ import SectionTitle from "../UI/SectionTitle.vue";
 
 <template>
   <section
-    class="flex flex-col md:flex-row gap-8 md:gap-4 items-stretch px-4 py-12 md:p-20"
+    class="flex flex-col md:flex-row gap-8 md:gap-4 items-stretch py-12 md:py-20"
   >
     <div class="md:w-1/2 flex flex-col grow">
       <SectionTitle

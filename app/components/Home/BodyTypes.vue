@@ -32,7 +32,7 @@ const bodyTypes = [
 </script>
 
 <template>
-  <section class="flex flex-col px-4 py-12 md:p-20 text-white">
+  <section class="flex flex-col py-12 md:py-20 text-white">
     <SectionTitle
       :title="['Кузов', 'Обирай найкраще для себе']"
       class="mb-8 md:mb-10 text-black justify-between w-full"

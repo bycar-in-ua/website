@@ -20,39 +20,41 @@ const { data: videos } = await useFetch<YouTubeVideoItem[]>(
 <template>
   <section
     v-if="videos?.length"
-    class="py-12 px-4 md:p-20 bg-black dark"
+    class="py-12 md:p-20 bg-black"
     @mouseover="mouseoverHandler"
     @mouseleave="mouseleaveHandler"
     @touchstart="mouseoverHandler"
     @touchend="mouseleaveHandler"
   >
-    <SectionTitle :title="['Огляди', 'Нові відео на каналі']" class="mb-10 dark">
-      <template #extra>
-        <div class="hidden md:flex items-center gap-2 dark">
-          <UButton
-            to="https://www.youtube.com/@bycar.in.ua_"
-            color="secondary"
-            variant="solid"
-          >
-            Перейти на канал
-          </UButton>
+    <div class="container">
+      <SectionTitle :title="['Огляди', 'Нові відео на каналі']" class="mb-10 dark">
+        <template #extra>
+          <div class="hidden md:flex items-center gap-2">
+            <UButton
+              to="https://www.youtube.com/@bycar.in.ua_"
+              color="secondary"
+              variant="solid"
+            >
+              Перейти на канал
+            </UButton>
 
-          <UButton
-            variant="outline"
-            color="secondary"
-            icon="i-lucide-chevron-left"
-            class="ml-4 "
-            @click="carousel?.emblaApi?.scrollPrev()"
-          />
-          <UButton
-            variant="outline"
-            color="secondary"
-            icon="i-lucide-chevron-right"
-            @click="carousel?.emblaApi?.scrollNext()"
-          />
-        </div>
-      </template>
-    </SectionTitle>
+            <UButton
+              variant="outline"
+              color="secondary"
+              icon="i-lucide-chevron-left"
+              class="ml-4 "
+              @click="carousel?.emblaApi?.scrollPrev()"
+            />
+            <UButton
+              variant="outline"
+              color="secondary"
+              icon="i-lucide-chevron-right"
+              @click="carousel?.emblaApi?.scrollNext()"
+            />
+          </div>
+        </template>
+      </SectionTitle>
+    </div>
 
     <UCarousel
       ref="carousel"
@@ -63,7 +65,6 @@ const { data: videos } = await useFetch<YouTubeVideoItem[]>(
         dot: 'bg-gray-800 data-[state=active]:bg-white',
       }"
       class-names
-      style="--ui-border-inverted: var(--ui-primary)"
       dots
       loop
       auto-height

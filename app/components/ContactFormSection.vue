@@ -14,7 +14,7 @@ withDefaults(defineProps<{
     class="contact-form-section px-4 py-12 sm:p-20"
   >
     <div
-      class="text-white flex flex-col sm:flex-row gap-6 sm:gap-10 items-stretch"
+      class="text-white flex flex-col sm:flex-row gap-6 sm:gap-10 items-stretch container"
     >
       <div class="grow flex flex-col">
         <h3 class="text-4xl md:text-5xl font-bold mb-29.75 sm:mb-auto">
