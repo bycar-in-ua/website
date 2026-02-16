@@ -7,7 +7,7 @@ const { data: filtersData } = useCatalogFilters();
 <template>
   <section class="flex items-center justify-between all-cars-header">
     <div class="container mx-auto py-16 flex items-end justify-between">
-      <SectionTitle :title="['Каталог моделей', 'Знайомтесь з моделями']" class="text-white" />
+      <SectionTitle :title="['Каталог моделей', 'Знайомтесь з моделями']" class="dark" />
 
       <div class="text-white font-semibold uppercase">
         {{ filtersData?.total }} Пропозицій

@@ -2,7 +2,6 @@
 import { Gallery, type IGalleryItem } from "~/components/UI/Gallery";
 import ContactForm from "~/components/ContactForm.vue";
 import { getPriceRange } from "~/utils/carHelpers";
-import DiscountPrice from "~/components/UI/CarCard/DiscountPrice.vue";
 import InfoBullet from "./InfoBullet.vue";
 import type { AvailableCar } from "./interface";
 import { getInfoBullets, getPowerUnitTitle } from "./helpers";
@@ -61,17 +60,17 @@ const infoBullets = computed(() =>
     v-model:open="open"
     :title="car.title"
     :ui="{
-      content: 'sm:max-w-full xl:max-w-[1680px] ',
+      content: 'sm:max-w-full xl:max-w-420 ',
       body: 'flex flex-col lg:flex-row gap-4 sm:gap-8',
     }"
   >
     <template #body>
-      <div class="basis-2/3 flex-shrink-0">
+      <div class="basis-2/3 shrink-0">
         <Gallery
           :items="galleryItems"
           :full-screen-available="false"
           :autoplay-interval="5_000"
-          class="lg:h-[600px]"
+          class="lg:h-150"
         />
       </div>
 

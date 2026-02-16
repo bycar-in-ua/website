@@ -1,7 +1,25 @@
 <script setup lang="ts">
+import type { VehicleSearchDocument } from "@bycar-in-ua/vehicles-sdk";
+
 type Status = "avalible" | "discount" | "prev-model";
 
-const props = defineProps<{ status?: Status; }>();
+const props = defineProps<{ car: VehicleSearchDocument; }>();
+
+const status = computed<Status | undefined>(() => {
+  if (props.car.discountedPrice) {
+    return "discount";
+  }
+
+  if (props.car.hasAvailableInstances) {
+    return "avalible";
+  }
+
+  if (!props.car.isCurrentProduction) {
+    return "prev-model";
+  }
+
+  return undefined;
+});
 
 const content: Record<Status, { icon: string;
   text: string; }> = {
@@ -14,18 +32,18 @@ const content: Record<Status, { icon: string;
     text: "Знижка",
   },
   "prev-model": {
-    icon: "i-lucide-clock", // TODO: change icon and text
-    text: "Доступно зараз",
+    icon: "i-lucide-circle-minus", // TODO: change icon and text
+    text: "Попередня модель",
   },
 };
 </script>
 
 <template>
-  <div
-    v-if="props.status"
-    class="bg-white text-black text-xs font-semibold border border-gray-100 px-1.5 py-1 flex items-center justify-center gap-1"
-  >
-    <UIcon :name="content[props.status].icon" class="w-4 h-4" />
-    {{ content[props.status].text }}
-  </div>
+  <UBadge
+    v-if="status"
+    :icon="content[status].icon"
+    :label="content[status].text"
+    variant="solid"
+    :color="status === 'prev-model' ? 'secondary' : 'primary'"
+  />
 </template>

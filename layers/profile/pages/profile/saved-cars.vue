@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useSavedCars } from "#layers/profile/composables/useSavedCars";
-import CarCard from "~/components/UI/CarCard/CarCard.vue";
+import CarCard from "~/components/UI/CarCard";
 import Pagination from "~/components/UI/Pagination.vue";
 import GridSkeleton from "~/components/UI/GridSkeleton.vue";
 import Empty from "~/components/UI/Empty.vue";

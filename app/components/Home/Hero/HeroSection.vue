@@ -10,7 +10,13 @@ import QuickFilterList from "./QuickFilterList.vue";
 defineProps<{ totalCars?: number; }>();
 
 const { t } = useI18n();
-const { data: filtersData, selectedFilters } = useCatalogFilters();
+const {
+  data: filtersData, selectedFilters, suspense,
+} = useCatalogFilters();
+
+if (import.meta.server) {
+  await suspense();
+}
 
 const priceLabel = computed(() => {
   if (!selectedFilters.value?.minPrice && !selectedFilters.value?.maxPrice) {

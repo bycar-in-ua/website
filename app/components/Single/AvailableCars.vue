@@ -5,7 +5,7 @@ import { getCarTitle } from "~/utils/carHelpers";
 import SectionTitle from "./SectionTitle.vue";
 import AvailableCarModal from "./AvailableCarModal.vue";
 import type { AvailableCar } from "./interface";
-import AvailableCarCard from "../UI/CarCard/AvailableCarCard.vue";
+import CarCard from "../UI/CarCard/CardRoot.vue";
 
 const props = defineProps<{
   car: Vehicle;
@@ -66,11 +66,10 @@ function openModal(car: AvailableCar) {
     <div
       class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
     >
-      <AvailableCarCard
+      <CarCard
         v-for="availableCar in availableCars"
         :key="availableCar.id"
         :car="availableCar"
-        :discount="!!availableCar.discountPrice"
         class="cursor-pointer"
         @click="() => openModal(availableCar)"
       />

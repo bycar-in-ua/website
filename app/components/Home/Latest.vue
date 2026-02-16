@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import SectionTitle from "~/components/UI/SectionTitle.vue";
-import CarCard from "~/components/UI/CarCard/CarCard.vue";
+import CarCard from "~/components/UI/CarCard";
 import { useQuery } from "@tanstack/vue-query";
 
 const vehiclesService = useVehiclesService();
@@ -35,10 +35,14 @@ const carouselItems = computed(() => {
 
   return chunks;
 });
+
+const handleCtaClick = (title: string) => {
+  alert(`CTA clicked for car title: ${title}`);
+};
 </script>
 
 <template>
-  <section class="my-10 md:my-20">
+  <section class="mt-10 md:mt-20 mb-8 md:mb-18">
     <SectionTitle
       :title="['Авто в наявності', 'Спеціальні пропозиції']"
       class="mb-10"
@@ -74,17 +78,24 @@ const carouselItems = computed(() => {
       loop
       :items="carouselItems"
       :ui="{
-        viewport: 'overflow-visible relative z-10 mb-14',
+        root: 'overflow-hidden',
+        viewport: 'overflow-visible relative z-10',
+        dots: 'static pt-10 pb-4',
       }"
     >
-      <div class="grid grid-cols-3 gap-2">
-        <!-- TODO: `is-compared` and `toggle-compare` -->
+      <div class="grid grid-cols-3 gap-4">
         <CarCard
           v-for="car in item"
           :key="car.id"
           :car="car"
           :is-compared="true"
-        />
+        >
+          <template #cta>
+            <UButton block @click="handleCtaClick(car.title)">
+              Отримати пропозицію
+            </UButton>
+          </template>
+        </CarCard>
       </div>
     </UCarousel>
   </section>

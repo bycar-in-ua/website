@@ -21,9 +21,9 @@ defineProps<{
         v-else
         src="/images/placeholder-image.jpg"
         class="object-cover h-full"
-      />
+      >
 
-      <div class="p-4 text-white absolute inset-0 flex flex-col z-10">
+      <div class="text-white absolute inset-4 flex flex-col z-10">
         <div class="flex items-start w-full">
           <slot />
         </div>

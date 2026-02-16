@@ -11,7 +11,7 @@ export function useCatalogFilters(initialFilters: VehiclesFiltersSchema = {}) {
   });
 
   const {
-    data, isLoading, error,
+    data, isLoading, error, suspense,
   } = useQuery({
     queryKey: ["catalog-filters", selectedFilters],
     queryFn: () => vehiclesService.getFilters(selectedFilters.value),
@@ -23,5 +23,6 @@ export function useCatalogFilters(initialFilters: VehiclesFiltersSchema = {}) {
     isLoading,
     error,
     selectedFilters,
+    suspense,
   };
 }

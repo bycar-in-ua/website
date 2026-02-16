@@ -28,7 +28,7 @@ export function getPriceRange(complectations?: Complectation[]): string {
   }
 
   if (prices.length === 1) {
-    return `$${prices[0].toLocaleString()}`;
+    return `$${prices[0]?.toLocaleString()}`;
   }
 
   const min = Math.min(...prices);

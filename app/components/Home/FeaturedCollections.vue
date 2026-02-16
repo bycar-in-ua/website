@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/vue-query";
 // Deprecated, export type from vehicles-sdk
 import { BodyType } from "@bycar-in-ua/sdk";
 import SectionTitle from "~/components/UI/SectionTitle.vue";
-import CarCard from "../UI/CarCard/CarCard.vue";
+import CarCard from "../UI/CarCard/CardRoot.vue";
 import type { VehicleSearchDocument } from "@bycar-in-ua/vehicles-sdk";
 
 const vehiclesService = useVehiclesService();
@@ -130,16 +130,24 @@ const items = computed<VehicleAccordionItem[]>(() => {
           loop
           :items="accordionItem.carouselItems"
           :ui="{
-            viewport: 'overflow-visible relative z-10 mb-14',
+            root: 'overflow-hidden pb-8',
+            viewport: 'overflow-visible relative z-10',
+            dots: 'static pt-10',
           }"
         >
-          <div class="grid grid-cols-3 gap-2 py-4">
+          <div class="grid grid-cols-3 gap-4 pt-4">
             <CarCard
               v-for="car in vehiclesChunk"
               :key="car.id"
               :car="car"
               :is-compared="true"
-            />
+            >
+              <template #cta>
+                <UButton block @click="navigateTo({ name: 'SingleCar', params: { slug: car.slug } })">
+                  Дізнатися деталі
+                </UButton>
+              </template>
+            </CarCard>
           </div>
         </UCarousel>
       </template>

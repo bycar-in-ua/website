@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import CarCard from "~/components/UI/CarCard/CarCard.vue";
+import CarCard from "~/components/UI/CarCard";
 import Pagination from "~/components/UI/Pagination.vue";
 import { useCatalogStore } from "~/stores/catalog";
 import ContactFormSection from "../ContactFormSection.vue";
@@ -17,7 +17,7 @@ const list = useTemplateRef<HTMLDivElement>("list");
       class="absolute -top-4 left-0 right-0"
     />
 
-    <template v-if="!catalogStore.data.items.length">
+    <template v-if="!catalogStore.data?.items.length">
       <p class="text-center p-4 text-xl" v-text="$t('emptyCatalog')" />
       <ContactFormSection
         page="Каталог"
@@ -50,13 +50,20 @@ const list = useTemplateRef<HTMLDivElement>("list");
           },
         }"
       >
-        <CarCard :car="car" />
+        <CarCard :car="car">
+          <template #cta>
+            <UButton block @click="navigateTo({ name: 'SingleCar', params: { slug: car.slug } })">
+              Дізнатися деталі
+            </UButton>
+          </template>
+
+        </CarCard>
       </NuxtLink>
     </div>
     <Pagination
       class="mt-10 flex justify-center"
       :page="catalogStore.pagination.page"
-      :pagination="catalogStore.data.meta"
+      :pagination="catalogStore.data!.meta"
       @update:page="
         (page) => {
           catalogStore.pagination = { page };

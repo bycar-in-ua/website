@@ -1,88 +1,55 @@
-import type { Vehicle } from "@bycar-in-ua/sdk";
 import type { Composer } from "#i18n";
-import {
-  GearboxAuto,
-  GearboxManual,
-  Engine,
-  GasStation,
-  ElectricStation,
-  Speedometer,
-} from "~/components/UI/Icons";
+import type { VehicleSearchDocument } from "@bycar-in-ua/vehicles-sdk";
 
-export type InfoBullet = {
-  text: string;
-  title?: string;
-  icon: Component;
-};
+function buildPowerRange(vehicle: VehicleSearchDocument, t: Composer["t"]) {
+  const { min, max } = vehicle.powerRange;
+
+  if (min && max && min !== max) {
+    return `${min} - ${max} ${t("units.power")}`;
+  }
+
+  if (min) {
+    return `${min} ${t("units.power")}`;
+  }
+
+  return "";
+}
+
+function buildEngineType(vehicle: VehicleSearchDocument, t: Composer["t"]) {
+  const engineType = vehicle.engineTypes[0];
+
+  if (engineType) {
+    if (engineType === "electric") {
+      return t("vehicle.engine.electric");
+    }
+
+    if (engineType === "hybrid") {
+      return t("vehicle.engine.hybrid");
+    }
+
+    return t(`vehicle.engine.fuelTypes.${engineType}`);
+  }
+
+  return "";
+}
 
 export function getVehicleInfoBullets(
-  vehicle: Vehicle,
+  vehicle: VehicleSearchDocument,
   t: Composer["t"],
-): InfoBullet[] {
-  const bullets: InfoBullet[] = [];
+): string[] {
+  const bullets: string[] = [t(`vehicle.bodyTypes.items.${vehicle.bodyType}`)];
 
-  const baseComplectation
-    = vehicle.complectations?.find((complectation) => complectation.base)
-      ?? vehicle.complectations?.[0];
+  const powerRange = buildPowerRange(vehicle, t);
+  const engineType = buildEngineType(vehicle, t);
 
-  const basePowerUnit = baseComplectation?.powerUnits?.[0];
+  bullets.push([powerRange, engineType].filter(Boolean).join(", "));
 
-  if (!baseComplectation || !basePowerUnit) {
-    return bullets;
-  }
+  // TODO: add consumption
 
-  if (basePowerUnit.engine?.power) {
-    bullets.push({
-      text: `${basePowerUnit.engine.power} ${t("units.power")}`,
-      title: `${t("from")} ${basePowerUnit.engine.power} ${t("units.power")}`,
-      icon: Engine,
-    });
-  }
+  const drive = vehicle.driveTypes[0] ? `${t(`vehicle.transmission.driveType.${vehicle.driveTypes[0]}`)} привід` : "";
+  const gearbox = vehicle.gearboxTypes[0] ? t(`vehicle.transmission.gearbox.types.${vehicle.gearboxTypes[0]}`) : "";
 
-  if (basePowerUnit.transmission?.gearbox.type) {
-    const type = t(
-      `vehicle.transmission.gearbox.types.${basePowerUnit.transmission.gearbox.type}`,
-    );
-    const subType = basePowerUnit.transmission.gearbox.subType
-      ? t(
-          `vehicle.transmission.gearbox.subTypes.${basePowerUnit.transmission.gearbox.subType}`,
-        )
-      : "";
+  bullets.push([drive, gearbox].filter(Boolean).join(", "));
 
-    bullets.push({
-      text: type,
-      title: `${type} ${subType ? `(${subType})` : ""}`,
-      icon:
-        basePowerUnit.transmission?.gearbox.type === "mechanical"
-          ? GearboxManual
-          : GearboxAuto,
-    });
-  }
-
-  if (
-    basePowerUnit.engine?.isElectric
-    && basePowerUnit.engine.electric.electricDistanceReserve
-  ) {
-    bullets.push({
-      text: `${basePowerUnit.engine.electric.electricDistanceReserve} км.`,
-      title: t("vehicle.engine.electricDistanceReserve"),
-      icon: ElectricStation,
-    });
-  } else if (basePowerUnit.consumption?.mixed) {
-    bullets.push({
-      text: `${basePowerUnit.consumption.mixed} ${t("units.volume")}.`,
-      title: t("vehicle.powerUnits.consumption"),
-      icon: GasStation,
-    });
-  }
-
-  if (basePowerUnit.maxSpeed) {
-    bullets.push({
-      text: `${basePowerUnit.maxSpeed} км./г`,
-      title: t("vehicle.powerUnits.maxSpeed"),
-      icon: Speedometer,
-    });
-  }
-
-  return bullets.slice(0, 3);
+  return bullets;
 }

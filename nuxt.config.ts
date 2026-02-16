@@ -57,8 +57,6 @@ export default defineNuxtConfig({
     },
   },
 
-  devServer: { port: 4000 },
-
   compatibilityDate: "2025-09-14",
 
   typescript: { includeWorkspace: true },

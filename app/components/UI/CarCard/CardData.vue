@@ -1,36 +1,67 @@
 <script setup lang="ts">
-import type { InfoBullet } from "./helpers";
+import type { VehicleSearchDocument } from "@bycar-in-ua/vehicles-sdk";
+import { getVehicleInfoBullets } from "~/components/UI/CarCard/helpers";
 
-defineProps<{
-  carTitle?: string;
-  infoBullets?: InfoBullet[];
-  priceRange?: string;
-}>();
+const props = defineProps<{ car: VehicleSearchDocument; }>();
+
+const { t } = useI18n();
+
+const infoBullets = computed(() => getVehicleInfoBullets(props.car, t));
+
+const priceRange = computed(() => {
+  const minPrice = formatCurrency(props.car.minPrice, {
+    currency: "USD",
+    currencyDisplay: "narrowSymbol",
+    trailingZeroDisplay: "stripIfInteger",
+  });
+
+  if (!props.car.maxPrice) {
+    return minPrice;
+  }
+
+  const maxPrice = formatCurrency(props.car.maxPrice, {
+    currency: "USD",
+    currencyDisplay: "narrowSymbol",
+    trailingZeroDisplay: "stripIfInteger",
+  });
+
+  return `${minPrice} - ${maxPrice}`;
+});
+
+const discountedPrice = computed(() => {
+  if (!props.car.discountedPrice) {
+    return;
+  }
+
+  return formatCurrency(props.car.discountedPrice, {
+    currency: "USD",
+    currencyDisplay: "narrowSymbol",
+    trailingZeroDisplay: "stripIfInteger",
+  });
+});
 </script>
 
 <template>
-  <div class="relative flex flex-col p-4 z-30 bg-white">
+  <div class="relative flex flex-col p-4">
     <div class="space-y-4.5">
       <slot name="header">
         <h3 class="text-lg font-bold">
-          {{ carTitle }}
+          {{ car.title }}
         </h3>
       </slot>
 
-      <ul class="flex flex-wrap gap-1.5 text-gray-700 text-sm font-semibold">
-        <li
+      <div class="flex flex-wrap gap-2">
+        <UBadge
           v-for="(bullet, index) in infoBullets"
           :key="index"
-          class="px-1.5 py-1 border border-gray-100 font-semibold w-fit"
-        >
-          {{ bullet.text }}
-        </li>
-      </ul>
+          color="secondary"
+          :label="bullet "
+        />
+      </div>
 
       <div class="space-x-2">
-        <slot name="price">
-          <span class="text-black text-lg font-bold">{{ priceRange }}</span>
-        </slot>
+        <span v-if="discountedPrice" class="text-dimmed font-medium line-through">{{ priceRange }}</span>
+        <span class="text-black text-lg font-bold">{{ discountedPrice || priceRange }}</span>
       </div>
     </div>
   </div>
