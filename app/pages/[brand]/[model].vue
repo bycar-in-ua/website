@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Complectation, PowerUnit, Vehicle } from "@bycar-in-ua/sdk";
 import { useElementVisibility } from "@vueuse/core";
-import Media from "~/components/Single/Media.vue";
+import VehicleGallery from "~/components/VehicleGallery.vue";
 import Complectations from "~/components/Single/Complectations.vue";
 import SideWrap from "~/components/Single/SideWrap.vue";
 import PowerUnits from "~/components/Single/PowerUnits.vue";
@@ -64,6 +64,18 @@ const { data: availableVehicles } = useAsyncData(
 );
 
 const car = computed(() => data.value as unknown as Vehicle);
+
+const galleryImages = computed(() => {
+  const images = car.value.images ?? [];
+
+  return images
+    .filter(({ image }) => Boolean(image?.path))
+    .map(({ imageId, image }, index) => ({
+      id: imageId ?? `${car.value.id}-${index}`,
+      src: image?.path ?? "",
+      alt: image?.alt || getCarTitle(car.value),
+    }));
+});
 
 const activeComplectation = ref<Complectation | undefined>(
   car.value.complectations?.find((c) => c.base)
@@ -170,7 +182,10 @@ gtag("event", "view_item", {
 
     <div class="container mx-auto relative grid grid-cols-3 gap-6 items-start">
       <div class="col-span-2">
-        <Media :car :title="carTitle" :active-power-unit="activePowerUnit" />
+        <VehicleGallery
+          :images="galleryImages"
+          :is-available-now="availableVehicles.length > 0"
+        />
 
         <div class="w-full flex justify-end mb-4 md:mb-5">
           <ToolBar
