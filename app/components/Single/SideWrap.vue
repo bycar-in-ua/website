@@ -72,16 +72,16 @@ const cdnImage = useCdnImage();
             icon="i-lucide-bookmark"
             color="neutral"
             variant="outline"
-            size="lg"
-            square
+            circle
+            class="rounded-full"
             :aria-label="t('actions.addToFavorites')"
           />
           <UButton
             icon="i-lucide-scale"
             color="neutral"
             variant="outline"
-            size="lg"
             square
+            class="rounded-full"
             :aria-label="t('actions.compare')"
           />
         </div>

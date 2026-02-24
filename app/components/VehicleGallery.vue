@@ -133,12 +133,11 @@ onBeforeUnmount(() => {
   <section v-if="hasImages" class="mb-6 md:mb-10">
     <div class="relative group">
       <UBadge
-        v-if="!isAvailableNow"
+        v-if="isAvailableNow"
         icon="i-lucide-clock-3"
         label="Доступно зараз"
-        color="secondary"
         variant="solid"
-        class="absolute left-4 top-4 z-10"
+        class="absolute left-4 top-4 z-10 bg-white"
       />
 
       <UCarousel
@@ -160,7 +159,7 @@ onBeforeUnmount(() => {
             :src="cdnImage(item.src, mainImageSize)"
             :alt="item.alt || ''"
             loading="lazy"
-            class="w-full aspect-video object-cover cursor-zoom-in"
+            class="w-full aspect-video object-cover cursor-zoom-in border border-gray-200"
             :aria-label="item.alt || 'Відкрити зображення у повноекранному режимі'"
             @click="openFullscreen"
           >
@@ -188,7 +187,8 @@ onBeforeUnmount(() => {
           :alt="item.alt || ''"
           loading="lazy"
           :aria-label="`Перейти до зображення ${index + 1}`"
-          class="w-full h-20 md:h-24 object-cover"
+          class="w-full h-20 md:h-24 object-cover border"
+          :class="currentIndex === index ? 'border-gray-500': 'border-gray-200'"
           @click="scrollTo(index)"
         >
       </template>
