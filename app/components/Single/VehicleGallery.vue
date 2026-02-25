@@ -1,9 +1,5 @@
 <script setup lang="ts">
-type VehicleGalleryImage = {
-  id: string | number;
-  src: string;
-  alt?: string;
-};
+import { type VehicleGalleryImage, useCarouselGallery } from "~/composables/useCarouselGallery";
 
 const props = withDefaults(defineProps<{
   images: VehicleGalleryImage[];
@@ -19,114 +15,17 @@ const cdnImage = useCdnImage();
 const mainCarousel = useTemplateRef("mainCarousel");
 const thumbCarousel = useTemplateRef("thumbCarousel");
 
-const currentIndex = ref(0);
-
-const hasImages = computed(() => props.images.length > 0);
-const canNavigate = computed(() => props.images.length > 1);
-
-const mainImageSize = computed(() => {
-  return currentIndex.value === 0 ? "large" : "medium";
+const {
+  currentIndex, hasImages, scrollTo,
+} = useCarouselGallery({
+  images: props.images,
+  mainCarousel,
+  thumbCarousel,
 });
-
-const setCurrentIndex = (index: number) => {
-  if (!props.images.length) {
-    currentIndex.value = 0;
-    return;
-  }
-
-  const normalizedIndex = Math.max(0, Math.min(index, props.images.length - 1));
-  currentIndex.value = normalizedIndex;
-};
-
-const syncFromMainCarousel = () => {
-  const selectedIndex = mainCarousel.value?.emblaApi?.selectedScrollSnap();
-
-  if (typeof selectedIndex === "number") {
-    setCurrentIndex(selectedIndex);
-    thumbCarousel.value?.emblaApi?.scrollTo(selectedIndex);
-  }
-};
-
-const scrollTo = (index: number) => {
-  if (!canNavigate.value) {
-    return;
-  }
-
-  mainCarousel.value?.emblaApi?.scrollTo(index);
-};
-
-const scrollPrev = () => {
-  if (!canNavigate.value) {
-    return;
-  }
-
-  mainCarousel.value?.emblaApi?.scrollPrev();
-};
-
-const scrollNext = () => {
-  if (!canNavigate.value) {
-    return;
-  }
-
-  mainCarousel.value?.emblaApi?.scrollNext();
-};
 
 const openFullscreen = () => {
   emit("openFullscreen", currentIndex.value);
 };
-
-const onGlobalArrowKeydown = (event: KeyboardEvent) => {
-  if (!canNavigate.value) {
-    return;
-  }
-
-  const target = event.target;
-  if (
-    target instanceof HTMLElement
-    && (target.isContentEditable
-      || [
-        "INPUT", "TEXTAREA", "SELECT",
-      ].includes(target.tagName))
-  ) {
-    return;
-  }
-
-  if (event.key === "ArrowLeft") {
-    event.preventDefault();
-    scrollPrev();
-    return;
-  }
-
-  if (event.key === "ArrowRight") {
-    event.preventDefault();
-    scrollNext();
-  }
-};
-
-watch(
-  () => mainCarousel.value?.emblaApi,
-  (emblaApi, oldEmblaApi) => {
-    if (oldEmblaApi) {
-      oldEmblaApi.off("select", syncFromMainCarousel);
-      oldEmblaApi.off("reInit", syncFromMainCarousel);
-    }
-
-    if (emblaApi) {
-      emblaApi.on("select", syncFromMainCarousel);
-      emblaApi.on("reInit", syncFromMainCarousel);
-      syncFromMainCarousel();
-    }
-  },
-  { flush: "post" },
-);
-
-onMounted(() => {
-  document.addEventListener("keydown", onGlobalArrowKeydown);
-});
-
-onBeforeUnmount(() => {
-  document.removeEventListener("keydown", onGlobalArrowKeydown);
-});
 </script>
 
 <template>
@@ -154,9 +53,9 @@ onBeforeUnmount(() => {
         :next="{ color: 'secondary', variant: 'outline', icon: 'i-lucide-chevron-right', size: 'sm' }"
         class="rounded-none overflow-hidden"
       >
-        <template #default="{ item }">
+        <template #default="{ item, index }">
           <img
-            :src="cdnImage(item.src, mainImageSize)"
+            :src="cdnImage(item.src, index === 0 ? 'large' : 'medium')"
             :alt="item.alt || ''"
             loading="lazy"
             class="w-full aspect-video object-cover cursor-zoom-in border border-gray-200"
