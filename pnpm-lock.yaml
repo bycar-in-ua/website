@@ -12,8 +12,8 @@ importers:
         specifier: ^0.1.6
         version: 0.1.6(typescript@5.9.3)
       '@bycar-in-ua/base-nuxt-module':
-        specifier: ^0.0.13
-        version: 0.0.13(magicast@0.5.1)(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3))
+        specifier: ^0.0.14
+        version: 0.0.14(magicast@0.5.1)(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3))
       '@bycar-in-ua/brands-sdk':
         specifier: ^0.0.1
         version: 0.0.1(typescript@5.9.3)
@@ -262,8 +262,8 @@ packages:
   '@bycar-in-ua/auth-sdk@0.1.6':
     resolution: {integrity: sha512-BKvL8PDFebEYHX6hSughOn4/VVszr9b3qtsfKCb8ZrzJk69fuocA9ELR4wZlOdDN+whWDOWFBiZqD5oOGiTQmg==, tarball: https://npm.pkg.github.com/download/@bycar-in-ua/auth-sdk/0.1.6/4af953bc8de89eec2e8af685b190f7422c22083d}
 
-  '@bycar-in-ua/base-nuxt-module@0.0.13':
-    resolution: {integrity: sha512-XH01GOK/W3rg4lJhV7lQOzWgRSV4QgJwlVd4E4n8avmjJY1LQ0ND6XywK3UpP0LINYCY2XjAYonyQY0FD3M4Ow==, tarball: https://npm.pkg.github.com/download/@bycar-in-ua/base-nuxt-module/0.0.13/0c2b2fa2d2f6d5484f256006dfc31e99400159cd}
+  '@bycar-in-ua/base-nuxt-module@0.0.14':
+    resolution: {integrity: sha512-y24zf0RaRE0D/0E7m/qWen6UixOQkzMMX1B80ey3mJLskuWUzJW0YhkLhukfEl5Dn5+ehbD/ar1IibcsE1D6lQ==, tarball: https://npm.pkg.github.com/download/@bycar-in-ua/base-nuxt-module/0.0.14/653ec07727e9d207609e5f6e2ee1a17133035d4b}
 
   '@bycar-in-ua/brands-sdk@0.0.1':
     resolution: {integrity: sha512-+nsAg2NcirODOK6aN/dhEwJyZ31NM0Ec2/gIWL+DDxvpO40sO3JgjZL0f30n6IALLUCSGpu4VYdPOqvz5DpY4w==, tarball: https://npm.pkg.github.com/download/@bycar-in-ua/brands-sdk/0.0.1/a858a709fb94dfef8046da0d3ed84efd4482665d}
@@ -6319,7 +6319,7 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  '@bycar-in-ua/base-nuxt-module@0.0.13(magicast@0.5.1)(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3))':
+  '@bycar-in-ua/base-nuxt-module@0.0.14(magicast@0.5.1)(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3))':
     dependencies:
       '@nuxt/kit': 4.2.2(magicast@0.5.1)
       '@tanstack/vue-query': 5.92.8(vue@3.5.27(typescript@5.9.3))

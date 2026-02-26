@@ -1,14 +1,11 @@
 <script setup lang="ts">
 import { type VehicleGalleryImage, useCarouselGallery } from "~/composables/useCarouselGallery";
+import FullScreenGallery from "~/components/UI/FullScreenGallery.vue";
 
 const props = withDefaults(defineProps<{
   images: VehicleGalleryImage[];
   isAvailableNow?: boolean;
 }>(), { isAvailableNow: false });
-
-const emit = defineEmits<{
-  openFullscreen: [index: number];
-}>();
 
 const cdnImage = useCdnImage();
 
@@ -23,8 +20,17 @@ const {
   thumbCarousel,
 });
 
+const overlay = useOverlay();
+
+const lightbox = overlay.create(FullScreenGallery);
+
 const openFullscreen = () => {
-  emit("openFullscreen", currentIndex.value);
+  lightbox.open({
+    images: props.images,
+    startIndex: currentIndex.value,
+    index: currentIndex,
+    onSelect: scrollTo,
+  });
 };
 </script>
 
@@ -36,7 +42,7 @@ const openFullscreen = () => {
         icon="i-lucide-clock-3"
         label="Доступно зараз"
         variant="solid"
-        class="absolute left-4 top-4 z-10 bg-white"
+        class="absolute left-4 top-4 z-10"
       />
 
       <UCarousel
