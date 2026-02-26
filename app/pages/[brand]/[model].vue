@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Complectation, PowerUnit, Vehicle } from "@bycar-in-ua/sdk";
 import { useElementVisibility } from "@vueuse/core";
-import VehicleGallery from "~/components/VehicleGallery.vue";
+import VehicleGallery from "~/components/Single/VehicleGallery.vue";
 import Complectations from "~/components/Single/Complectations.vue";
 import SideWrap from "~/components/Single/SideWrap.vue";
 import PowerUnits from "~/components/Single/PowerUnits.vue";

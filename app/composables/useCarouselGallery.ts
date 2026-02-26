@@ -1,0 +1,88 @@
+import type { EmblaCarouselType } from "embla-carousel";
+import type { TemplateRef } from "vue";
+
+export type VehicleGalleryImage = {
+  id: string | number;
+  src: string;
+  alt?: string;
+};
+
+type CarouselExpose = {
+  emblaApi?: EmblaCarouselType;
+};
+
+type CarouselGalleryProps = {
+  images: VehicleGalleryImage[];
+  mainCarousel?: TemplateRef<CarouselExpose>;
+  thumbCarousel?: TemplateRef<CarouselExpose>;
+};
+
+export function useCarouselGallery({
+  images, mainCarousel, thumbCarousel,
+}: CarouselGalleryProps) {
+  const hasImages = computed(() => images.length > 0);
+  const canNavigate = computed(() => images.length > 1);
+  const currentIndex = ref(0);
+
+  const syncFromMainCarousel = () => {
+    const selectedIndex = mainCarousel?.value?.emblaApi?.selectedScrollSnap() ?? 0;
+    thumbCarousel?.value?.emblaApi?.scrollTo(selectedIndex);
+    currentIndex.value = selectedIndex;
+  };
+
+  const scrollTo = (index: number) => {
+    if (!canNavigate.value) {
+      return;
+    }
+
+    mainCarousel?.value?.emblaApi?.scrollTo(index);
+  };
+
+  const onGlobalArrowKeydown = (event: KeyboardEvent) => {
+    if (!canNavigate.value) {
+      return;
+    }
+
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      mainCarousel?.value?.emblaApi?.scrollPrev();
+      return;
+    }
+
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      mainCarousel?.value?.emblaApi?.scrollNext();
+    }
+  };
+
+  watch(
+    () => mainCarousel?.value?.emblaApi,
+    (emblaApi, oldEmblaApi) => {
+      if (oldEmblaApi) {
+        oldEmblaApi.off("select", syncFromMainCarousel);
+        oldEmblaApi.off("reInit", syncFromMainCarousel);
+      }
+
+      if (emblaApi) {
+        emblaApi.on("select", syncFromMainCarousel);
+        emblaApi.on("reInit", syncFromMainCarousel);
+        syncFromMainCarousel();
+      }
+    },
+    { flush: "post" },
+  );
+
+  onMounted(() => {
+    document.addEventListener("keydown", onGlobalArrowKeydown);
+  });
+
+  onBeforeUnmount(() => {
+    document.removeEventListener("keydown", onGlobalArrowKeydown);
+  });
+
+  return {
+    currentIndex: readonly(currentIndex),
+    hasImages,
+    scrollTo,
+  };
+}
