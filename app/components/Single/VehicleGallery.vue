@@ -35,7 +35,7 @@ const openFullscreen = () => {
 </script>
 
 <template>
-  <section v-if="hasImages" class="mb-6 md:mb-10">
+  <section v-if="hasImages">
     <div class="relative group">
       <UBadge
         v-if="isAvailableNow"

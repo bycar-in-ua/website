@@ -16,6 +16,9 @@ export type InfoBlock = {
   }>;
 };
 
+/**
+ * @deprecated Use VehicleSearchDocument from @bycar-in-ua/vehicles-sdk instead
+ */
 export type AvailableCar = Vehicle
   & AvailableVehicle & {
     title: string;

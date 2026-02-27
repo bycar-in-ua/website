@@ -1,26 +1,21 @@
 <script setup lang="ts">
 import type { Complectation, PowerUnit, Vehicle } from "@bycar-in-ua/sdk";
-import { useElementVisibility } from "@vueuse/core";
+// import { useElementVisibility } from "@vueuse/core";
 import VehicleGallery from "~/components/Single/VehicleGallery.vue";
-import Complectations from "~/components/Single/Complectations.vue";
+import TrimsControls from "~/components/Single/TrimsControls.vue";
 import SideWrap from "~/components/Single/SideWrap.vue";
-import PowerUnits from "~/components/Single/PowerUnits.vue";
 import FullInfo from "~/components/Single/FullInfo.vue";
-import ToolBar from "~/components/Single/ToolBar.vue";
 import AvailableCars from "~/components/Single/AvailableCars.vue";
 import ContactFormSection from "~/components/ContactFormSection.vue";
 // import SimilarCars from "~/components/Single/SimilarCars.vue";
 // import BottomBar from "~/components/Single/BottomBar.vue";
 import { getCarTitle, getComplectationsSummary } from "~/utils/carHelpers";
 import { generatePageTitle } from "~/utils/seo";
-import { discounts } from "~/components/Single/discounts.temp";
-import type { AvailableCar } from "~/components/Single/interface";
+import type { AccordionItem } from "@nuxt/ui";
 
 definePageMeta({ name: "SingleCar" });
 
 const vehiclesService = useVehiclesService();
-
-const availableVehiclesService = useAvailableVehiclesService();
 
 const route = useRoute();
 
@@ -47,18 +42,16 @@ const { data: availableVehicles } = useAsyncData(
       return [];
     }
 
-    const response = await availableVehiclesService.searchAvailableVehicles({
-      filters: { vehicleId: data.value.id },
+    const response = await vehiclesService.searchAvailableVehicles({
+      // TODO: add vehicle ID filter to search endpoint
+      filters: { ids: [] },
       pagination: {
         limit: 100,
         page: 1,
       },
     });
 
-    return response.items.map((item) => ({
-      ...item,
-      ...(discounts[item.id] ?? {}),
-    }));
+    return response.items;
   },
   { default: () => [] },
 );
@@ -77,15 +70,15 @@ const galleryImages = computed(() => {
     }));
 });
 
-const activeComplectation = ref<Complectation | undefined>(
+const activeTrim = ref<Complectation | undefined>(
   car.value.complectations?.find((c) => c.base)
   || car.value.complectations?.[0],
 );
 const activePowerUnit = ref<PowerUnit | undefined>(
-  activeComplectation.value?.powerUnits?.[0],
+  activeTrim.value?.powerUnits?.[0],
 );
 const setActiveComplectation = (complectation: Complectation) => {
-  activeComplectation.value = complectation;
+  activeTrim.value = complectation;
   activePowerUnit.value = complectation.powerUnits?.[0];
 };
 const setActivePowerUnit = (powerUnit: PowerUnit) => {
@@ -139,16 +132,16 @@ useHead({
   ],
 });
 
-const pageToolbar = useTemplateRef("pageToolbar");
-const pageToolbarVisible = ref(true);
+// const pageToolbar = useTemplateRef("pageToolbar");
+// const pageToolbarVisible = ref(true);
 
-if (import.meta.client) {
-  const targetIsVisible = useElementVisibility(pageToolbar);
+// if (import.meta.client) {
+//   const targetIsVisible = useElementVisibility(pageToolbar);
 
-  watchEffect(() => {
-    pageToolbarVisible.value = targetIsVisible.value;
-  });
-}
+//   watchEffect(() => {
+//     pageToolbarVisible.value = targetIsVisible.value;
+//   });
+// }
 
 // onMounted(() => {
 //   document?.body.classList.add("pb-24");
@@ -158,6 +151,25 @@ if (import.meta.client) {
 //   pageToolbarVisible.value = true;
 //   document?.body.classList.remove("pb-24");
 // });
+
+const accordionItems: AccordionItem[] = [
+  {
+    slot: "trims",
+    label: "Модельний ряд",
+  },
+  {
+    slot: "specs",
+    label: "Характеристики",
+  },
+  {
+    slot: "options",
+    label: "Опції",
+  },
+  {
+    slot: "description",
+    label: "Опис",
+  },
+];
 
 const { gtag } = useGtag();
 
@@ -185,46 +197,46 @@ gtag("event", "view_item", {
         <VehicleGallery
           :images="galleryImages"
           :is-available-now="availableVehicles.length > 0"
+          class="mb-6 md:mb-12"
         />
 
-        <div class="w-full flex justify-end mb-4 md:mb-5">
-          <ToolBar
-            ref="pageToolbar"
-            class="w-full sm:w-auto"
-            :car-id="car.id"
-            :car-title="carTitle"
-            :available-vehicles-count="availableVehicles.length"
-          />
-        </div>
+        <UAccordion
+          :default-value="['0', '1']"
+          :items="accordionItems"
+          type="multiple"
+          :ui="{
+            label: 'text-3xl font-semibold',
+            content: 'py-6',
+          }"
+        >
+          <template #trailing="{ open }">
+            <UIcon :name="open ? 'i-lucide-minus' : 'i-lucide-plus'" class="ml-auto size-6" />
+          </template>
 
-        <template v-if="car.complectations?.length">
-          <Complectations
-            :compectations="car.complectations"
-            :active-complectation="activeComplectation"
-            :set-active-complectation="setActiveComplectation"
-          />
-          <USeparator class="my-5" />
-        </template>
+          <template #trims>
+            <TrimsControls
+              :trims="car.complectations || []"
+              :active-trim="activeTrim"
+              :set-active-trim="setActiveComplectation"
+              :power-units="activeTrim?.powerUnits || []"
+              :active-power-unit="activePowerUnit"
+              :set-active-power-unit="setActivePowerUnit"
+            />
+          </template>
 
-        <template v-if="activeComplectation?.powerUnits?.length">
-          <PowerUnits
-            :power-units="activeComplectation.powerUnits ?? []"
-            :active-power-unit="activePowerUnit"
-            :set-active-power-unit="setActivePowerUnit"
-          />
-          <USeparator class="my-5" />
-        </template>
+          <template #description>
+            <!-- eslint-disable vue/no-v-html -->
+            <div
+              class="prose"
+              v-html="car.description"
+            />
+          </template>
+        </UAccordion>
 
         <FullInfo
           :car
-          :complectation="activeComplectation"
+          :complectation="activeTrim"
           :power-unit="activePowerUnit"
-        />
-
-        <!-- eslint-disable vue/no-v-html -->
-        <section
-          class="my-6 md:my-10 mx-auto prose max-w-full"
-          v-html="car.description"
         />
       </div>
 
@@ -232,7 +244,7 @@ gtag("event", "view_item", {
         class="sticky top-4"
         :car="car"
         :power-unit="activePowerUnit"
-        :available-vehicles="availableVehicles as AvailableCar[]"
+        :available-vehicles="availableVehicles"
       />
     </div>
 
