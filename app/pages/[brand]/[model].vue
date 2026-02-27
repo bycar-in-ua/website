@@ -13,14 +13,10 @@ import ContactFormSection from "~/components/ContactFormSection.vue";
 // import BottomBar from "~/components/Single/BottomBar.vue";
 import { getCarTitle, getComplectationsSummary } from "~/utils/carHelpers";
 import { generatePageTitle } from "~/utils/seo";
-import { discounts } from "~/components/Single/discounts.temp";
-import type { AvailableCar } from "~/components/Single/interface";
 
 definePageMeta({ name: "SingleCar" });
 
 const vehiclesService = useVehiclesService();
-
-const availableVehiclesService = useAvailableVehiclesService();
 
 const route = useRoute();
 
@@ -47,18 +43,16 @@ const { data: availableVehicles } = useAsyncData(
       return [];
     }
 
-    const response = await availableVehiclesService.searchAvailableVehicles({
-      filters: { vehicleId: data.value.id },
+    const response = await vehiclesService.searchAvailableVehicles({
+      // TODO: add vehicle ID filter to search endpoint
+      filters: { ids: [] },
       pagination: {
         limit: 100,
         page: 1,
       },
     });
 
-    return response.items.map((item) => ({
-      ...item,
-      ...(discounts[item.id] ?? {}),
-    }));
+    return response.items;
   },
   { default: () => [] },
 );
@@ -232,7 +226,7 @@ gtag("event", "view_item", {
         class="sticky top-4"
         :car="car"
         :power-unit="activePowerUnit"
-        :available-vehicles="availableVehicles as AvailableCar[]"
+        :available-vehicles="availableVehicles"
       />
     </div>
 

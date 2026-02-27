@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import type { PowerUnit, Vehicle } from "@bycar-in-ua/sdk";
-import type { AvailableCar } from "./interface";
 import { getInfoBullets, getPowerUnitTitle } from "./helpers";
+import type { VehicleSearchDocument } from "@bycar-in-ua/vehicles-sdk";
 
 const props = defineProps<{
   car: Vehicle;
   powerUnit?: PowerUnit | null;
-  availableVehicles?: AvailableCar[];
+  availableVehicles?: VehicleSearchDocument[];
 }>();
 
 const { t } = useI18n();
