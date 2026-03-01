@@ -6,7 +6,7 @@ import {
   type Vehicle,
 } from "@bycar-in-ua/sdk";
 import type { Composer } from "#i18n";
-import type { InfoBlock, InfoBulletProps } from "./interface";
+import type { InfoLine, InfoBulletProps } from "./interface";
 import {
   ElectricStation,
   Engine as EngineIcon,
@@ -177,125 +177,115 @@ export function getPowerUnitSubtitle(powerUnit: PowerUnit, t: Composer["t"]) {
   return parts.filter(Boolean).join(" ");
 }
 
-export function getGeneralInfoBlock(car: Vehicle, t: Composer["t"]): InfoBlock {
-  return {
-    title: t("vehicle.generalCharacteristics.title"),
-    defaultOpen: true,
-    items: [
-      {
-        title: t("vehicle.model"),
-        value: `${car.brand?.displayName} ${car.model}`,
-      },
-      {
-        title: t("vehicle.bodyName"),
-        value: getSafeValue(car.bodyName, car.bodyName),
-      },
-      {
-        title: t("vehicle.modelYear"),
-        value: [car.yearFrom, car.yearTo].filter(Boolean).join(" - "),
-      },
-      {
-        title: t("vehicle.bodyTypes.title"),
-        value: t(`vehicle.bodyTypes.items.${car.bodyType}`),
-      },
-      {
-        title: t("vehicle.sizeClases.title"),
-        value: getSafeValue(car.sizeClass),
-      },
-      {
-        title: t("vehicle.numberOfDoors"),
-        value: getSafeValue(car.numberOfDoors),
-      },
-      {
-        title: t("vehicle.generalCharacteristics.numberOfSeats"),
-        value: getSafeValue(car.numberOfSeats),
-      },
-      {
-        title: t("vehicle.powerSteerings.title"),
-        value: getSafeValue(
-          car.powerSteering,
-          t(`vehicle.powerSteerings.items.${car.powerSteering}`),
-        ),
-      },
-      {
-        title: t("vehicle.enginePlacements.title"),
-        value: getSafeValue(
-          car.enginePlacement,
-          t(`vehicle.enginePlacements.items.${car.enginePlacement}`),
-        ),
-      },
-      {
-        title: t("vehicle.discDiameter"),
-        value: getSafeValue(car.discDiameter),
-      },
-    ],
-  };
+export function getGeneralInfoBlock(car: Vehicle, t: Composer["t"]): InfoLine[] {
+  return [
+    {
+      title: "Модель",
+      value: `${car.brand?.displayName} ${car.model}`,
+    },
+    {
+      title: "Назва кузову",
+      value: getSafeValue(car.bodyName, car.bodyName),
+    },
+    {
+      title: "Тип кузову",
+      value: t(`vehicle.bodyTypes.items.${car.bodyType}`),
+    },
+    {
+      title: "Модельний рік",
+      value: [car.yearFrom, car.yearTo].filter(Boolean).join(" - "),
+    },
+    {
+      title: "Клас авто",
+      value: getSafeValue(car.sizeClass),
+    },
+    {
+      title: "Кількість дверей",
+      value: getSafeValue(car.numberOfDoors),
+    },
+    {
+      title: "Кількість посадочних місць",
+      value: getSafeValue(car.numberOfSeats),
+    },
+    {
+      title: "Тип підсилювача керма",
+      value: getSafeValue(
+        car.powerSteering,
+        t(`vehicle.powerSteerings.items.${car.powerSteering}`),
+      ),
+    },
+    {
+      title: "Розташування двигуна",
+      value: getSafeValue(
+        car.enginePlacement,
+        t(`vehicle.enginePlacements.items.${car.enginePlacement}`),
+      ),
+    },
+    {
+      title: "Діаметр дисків",
+      value: `${getSafeValue(car.discDiameter)} дюймів`,
+    },
+  ];
 }
 
-export function getDimensionsBlock(car: Vehicle, t: Composer["t"]): InfoBlock {
-  return {
-    title: t("vehicle.generalCharacteristics.dimensions.title"),
-    items: [
-      {
-        title: t("vehicle.generalCharacteristics.dimensions.l"),
-        value: getSafeValue(car.dimensionL),
-      },
+export function getDimensionsBlock(car: Vehicle, t: Composer["t"]): InfoLine[] {
+  return [
+    {
+      title: t("vehicle.generalCharacteristics.dimensions.l"),
+      value: getSafeValue(car.dimensionL),
+    },
 
-      {
-        title: t("vehicle.generalCharacteristics.dimensions.w"),
-        value: getSafeValue(car.dimensionW),
-      },
-      {
-        title: t("vehicle.generalCharacteristics.dimensions.h"),
-        value: getSafeValue(car.dimensionH),
-      },
-      {
-        title: t("vehicle.generalCharacteristics.wheelbase"),
-        value: getSafeValue(car.wheelbase),
-      },
-      {
-        title: t("vehicle.generalCharacteristics.clearance"),
-        value: getSafeValue(car.clearance),
-      },
-    ],
-  };
+    {
+      title: t("vehicle.generalCharacteristics.dimensions.w"),
+      value: getSafeValue(car.dimensionW),
+    },
+    {
+      title: t("vehicle.generalCharacteristics.dimensions.h"),
+      value: getSafeValue(car.dimensionH),
+    },
+    {
+      title: t("vehicle.generalCharacteristics.wheelbase"),
+      value: getSafeValue(car.wheelbase),
+    },
+    {
+      title: t("vehicle.generalCharacteristics.clearance"),
+      value: getSafeValue(car.clearance),
+    },
+  ];
 }
 
 export function getWeightsAndVolumesBlock(
   car: Vehicle,
   t: Composer["t"],
-): InfoBlock {
-  return {
-    title: t("vehicle.generalCharacteristics.weightsNVolumes"),
-    items: [
-      {
-        title: t("vehicle.generalCharacteristics.curbWeight"),
-        value: getSafeValue(car.curbWeight),
-      },
-      {
-        title: t("vehicle.generalCharacteristics.fullWeight"),
-        value: getSafeValue(car.fullWeight),
-      },
-      {
-        title: t("vehicle.generalCharacteristics.gasTankVolume"),
-        value: getSafeValue(car.gasTankVolume),
-      },
-      {
-        title: t("vehicle.generalCharacteristics.trunkVolume"),
-        value: getSafeValue(car.trunkVolume),
-      },
-    ],
-  };
+): InfoLine[] {
+  return [
+    {
+      title: t("vehicle.generalCharacteristics.curbWeight"),
+      value: getSafeValue(car.curbWeight),
+    },
+    {
+      title: t("vehicle.generalCharacteristics.fullWeight"),
+      value: getSafeValue(car.fullWeight),
+    },
+    {
+      title: t("vehicle.generalCharacteristics.gasTankVolume"),
+      value: getSafeValue(car.gasTankVolume),
+    },
+    {
+      title: t("vehicle.generalCharacteristics.trunkVolume"),
+      value: getSafeValue(car.trunkVolume),
+    },
+  ];
 }
 
 export function getPetrolEngineBlock(
   engine: Engine,
   t: Composer["t"],
-): InfoBlock {
+): InfoLine[] {
   const powerRpms = [...new Set([engine?.powerRPMfrom, engine?.powerRPMto])].filter(Boolean);
   const torqueRpms = [...new Set([engine?.torqueRPMfrom, engine?.torqueRPMto])].filter(Boolean);
 
-  const turboFields: InfoBlock["items"] = engine.isTurbo
+  const turboFields: InfoLine[] = engine.isTurbo
     ? [
         {
           title: t("vehicle.engine.turbineQuantity"),
@@ -312,7 +302,7 @@ export function getPetrolEngineBlock(
       ]
     : [];
 
-  const hybridFields: InfoBlock["items"] = [];
+  const hybridFields: InfoLine[] = [];
 
   if (engine.isHybrid) {
     hybridFields.push(
@@ -335,134 +325,126 @@ export function getPetrolEngineBlock(
     );
   }
 
-  return {
-    title: t("vehicle.engine.title"),
-    defaultOpen: true,
-    items: [
-      {
-        title: t("vehicle.engine.fuelType"),
-        value: getSafeValue(
-          engine?.fuelType,
-          t(`vehicle.engine.fuelTypes.${engine?.fuelType}`),
-        ),
-      },
-      {
-        title: t("vehicle.engine.displacement"),
-        value: getSafeValue(engine?.displacement),
-      },
-      {
-        title: t("vehicle.engine.pistonsQuantity"),
-        value: getSafeValue(engine?.pistons),
-      },
-      {
-        title: t("vehicle.engine.numberOfValves"),
-        value: getSafeValue(engine?.numberOfValves),
-      },
-      {
-        title: t("vehicle.engine.pistonsPlacement"),
-        value: getSafeValue(
-          engine?.pistonsPlacement,
-          t(`vehicle.engine.pistonsPlacements.${engine?.pistonsPlacement}`),
-        ),
-      },
-      {
-        title: t("vehicle.engine.injectionType"),
-        value: getSafeValue(
-          engine?.injection,
-          t(`vehicle.engine.injectionTypes.${engine?.injection}`),
-        ),
-      },
-      ...turboFields,
-      {
-        title: t("vehicle.engine.power"),
-        value: getSafeValue(
-          engine?.power,
-          `${engine?.power}${
-            powerRpms.length ? ` (при ${powerRpms.join(" - ")} об./хв)` : ""
-          }`,
-        ),
-      },
-      {
-        title: t("vehicle.engine.torque"),
-        value: getSafeValue(
-          engine?.torque,
-          `${engine?.torque}${
-            torqueRpms.length ? ` (при ${powerRpms.join(" - ")} об./хв)` : ""
-          }`,
-        ),
-      },
-      ...hybridFields,
-      {
-        title: t("tradename"),
-        value: getSafeValue(engine?.tradename),
-      },
-    ],
-  };
+  return [
+    {
+      title: t("vehicle.engine.fuelType"),
+      value: getSafeValue(
+        engine?.fuelType,
+        t(`vehicle.engine.fuelTypes.${engine?.fuelType}`),
+      ),
+    },
+    {
+      title: t("vehicle.engine.displacement"),
+      value: getSafeValue(engine?.displacement),
+    },
+    {
+      title: t("vehicle.engine.pistonsQuantity"),
+      value: getSafeValue(engine?.pistons),
+    },
+    {
+      title: t("vehicle.engine.numberOfValves"),
+      value: getSafeValue(engine?.numberOfValves),
+    },
+    {
+      title: t("vehicle.engine.pistonsPlacement"),
+      value: getSafeValue(
+        engine?.pistonsPlacement,
+        t(`vehicle.engine.pistonsPlacements.${engine?.pistonsPlacement}`),
+      ),
+    },
+    {
+      title: t("vehicle.engine.injectionType"),
+      value: getSafeValue(
+        engine?.injection,
+        t(`vehicle.engine.injectionTypes.${engine?.injection}`),
+      ),
+    },
+    ...turboFields,
+    {
+      title: t("vehicle.engine.power"),
+      value: getSafeValue(
+        engine?.power,
+        `${engine?.power}${
+          powerRpms.length ? ` (при ${powerRpms.join(" - ")} об./хв)` : ""
+        }`,
+      ),
+    },
+    {
+      title: t("vehicle.engine.torque"),
+      value: getSafeValue(
+        engine?.torque,
+        `${engine?.torque}${
+          torqueRpms.length ? ` (при ${powerRpms.join(" - ")} об./хв)` : ""
+        }`,
+      ),
+    },
+    ...hybridFields,
+    {
+      title: t("tradename"),
+      value: getSafeValue(engine?.tradename),
+    },
+  ];
 }
 
 export function getElectricEngineBlock(
   engine: Engine,
   t: Composer["t"],
-): InfoBlock {
-  return {
-    title: t("vehicle.engine.title"),
-    defaultOpen: true,
-    items: [
-      {
-        title: t("vehicle.engine.fuelType"),
-        value: t("vehicle.engine.electric"),
-      },
-      {
-        title: t("vehicle.engine.power"),
-        value: getSafeValue(engine?.power),
-      },
-      {
-        title: t("vehicle.engine.torque"),
-        value: getSafeValue(engine?.torque),
-      },
-      {
-        title: t("vehicle.engine.electricBatteryCapacity"),
-        value: getSafeValue(engine?.electric?.electricBatteryCapacity),
-      },
-      {
-        title: `${t("vehicle.engine.electricDistanceReserve")}, км.`,
-        value: getSafeValue(
-          engine?.electric?.electricDistanceReserve,
-          `${engine?.electric?.electricDistanceReserve}`,
-        ),
-      },
-      {
-        title: t("vehicle.engine.electricBatteryType"),
-        value: getSafeValue(engine?.electric.electricBatteryType),
-      },
-      {
-        title: t("vehicle.engine.electricChargerType"),
-        value: getSafeValue(engine?.electric.electricChargerType),
-      },
-      {
-        title: t("vehicle.engine.electricRegularChargerChargeTime"),
-        value: getSafeValue(engine?.electric.electricRegularChargerChargeTime),
-      },
-      {
-        title: t("vehicle.engine.electricSuperChargerChargeTime"),
-        value: getSafeValue(engine?.electric.electricSuperChargerChargeTime),
-      },
-      {
-        title: t("vehicle.engine.electricEnginesQuantity"),
-        value: getSafeValue(engine?.electric.electricEnginesQuantity),
-      },
-      {
-        title: t("vehicle.engine.electricEnginesPLacement"),
-        value: getSafeValue(engine?.electric.electricEnginesPlacement),
-      },
-    ],
-  };
+): InfoLine[] {
+  return [
+    {
+      title: t("vehicle.engine.fuelType"),
+      value: t("vehicle.engine.electric"),
+    },
+    {
+      title: t("vehicle.engine.power"),
+      value: getSafeValue(engine?.power),
+    },
+    {
+      title: t("vehicle.engine.torque"),
+      value: getSafeValue(engine?.torque),
+    },
+    {
+      title: t("vehicle.engine.electricBatteryCapacity"),
+      value: getSafeValue(engine?.electric?.electricBatteryCapacity),
+    },
+    {
+      title: `${t("vehicle.engine.electricDistanceReserve")}, км.`,
+      value: getSafeValue(
+        engine?.electric?.electricDistanceReserve,
+        `${engine?.electric?.electricDistanceReserve}`,
+      ),
+    },
+    {
+      title: t("vehicle.engine.electricBatteryType"),
+      value: getSafeValue(engine?.electric.electricBatteryType),
+    },
+    {
+      title: t("vehicle.engine.electricChargerType"),
+      value: getSafeValue(engine?.electric.electricChargerType),
+    },
+    {
+      title: t("vehicle.engine.electricRegularChargerChargeTime"),
+      value: getSafeValue(engine?.electric.electricRegularChargerChargeTime),
+    },
+    {
+      title: t("vehicle.engine.electricSuperChargerChargeTime"),
+      value: getSafeValue(engine?.electric.electricSuperChargerChargeTime),
+    },
+    {
+      title: t("vehicle.engine.electricEnginesQuantity"),
+      value: getSafeValue(engine?.electric.electricEnginesQuantity),
+    },
+    {
+      title: t("vehicle.engine.electricEnginesPLacement"),
+      value: getSafeValue(engine?.electric.electricEnginesPlacement),
+    },
+  ];
 }
 
 export function getTransmissionBlock(
   transmission: Transmission,
   t: Composer["t"],
-): InfoBlock {
+): InfoLine[] {
   const gerboxType = [
     transmission.gearbox.type
       ? t(`vehicle.transmission.gearbox.types.${transmission.gearbox.type}`)
@@ -517,45 +499,42 @@ export function getTransmissionBlock(
     .map((b) => t(`vehicle.transmission.brakingSystemTypes.${b}`))
     .join(", ");
 
-  return {
-    title: t("vehicle.transmission.title"),
-    items: [
-      {
-        title: t("vehicle.transmission.drive"),
-        value: getSafeValue(
-          transmission.drive,
-          [
-            t(`vehicle.transmission.driveType.${transmission.drive}`),
-            transmission.driveName,
-          ]
-            .filter(Boolean)
-            .join(", "),
-        ),
-      },
-      {
-        title: t("vehicle.transmission.gearbox.type"),
-        value: getSafeValue(transmission.gearbox?.type, gerboxType),
-      },
-      {
-        title: t("vehicle.transmission.gearbox.numberOfGears"),
-        value: getSafeValue(transmission.gearbox?.numberOfGears),
-      },
-      {
-        title: t("manufacturer"),
-        value: getSafeValue(transmission.gearbox.made),
-      },
-      {
-        title: t("vehicle.transmission.suspensionTypeFront"),
-        value: getSafeValue(frontSuspension),
-      },
-      {
-        title: t("vehicle.transmission.suspensionTypeRear"),
-        value: getSafeValue(rearSuspension),
-      },
-      {
-        title: "Гальма",
-        value: getSafeValue(braks),
-      },
-    ],
-  };
+  return [
+    {
+      title: t("vehicle.transmission.drive"),
+      value: getSafeValue(
+        transmission.drive,
+        [
+          t(`vehicle.transmission.driveType.${transmission.drive}`),
+          transmission.driveName,
+        ]
+          .filter(Boolean)
+          .join(", "),
+      ),
+    },
+    {
+      title: t("vehicle.transmission.gearbox.type"),
+      value: getSafeValue(transmission.gearbox?.type, gerboxType),
+    },
+    {
+      title: t("vehicle.transmission.gearbox.numberOfGears"),
+      value: getSafeValue(transmission.gearbox?.numberOfGears),
+    },
+    {
+      title: t("manufacturer"),
+      value: getSafeValue(transmission.gearbox.made),
+    },
+    {
+      title: t("vehicle.transmission.suspensionTypeFront"),
+      value: getSafeValue(frontSuspension),
+    },
+    {
+      title: t("vehicle.transmission.suspensionTypeRear"),
+      value: getSafeValue(rearSuspension),
+    },
+    {
+      title: "Гальма",
+      value: getSafeValue(braks),
+    },
+  ];
 }
