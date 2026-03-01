@@ -7,13 +7,9 @@ export type InfoBulletProps = {
   icon: string | Component;
 };
 
-export type InfoBlock = {
+export type InfoLine = {
   title: string;
-  defaultOpen?: boolean;
-  items: Array<{
-    title: string;
-    value: string | number;
-  }>;
+  value: string | number;
 };
 
 /**

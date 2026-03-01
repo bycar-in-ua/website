@@ -3,6 +3,7 @@ import type { Complectation, PowerUnit, Vehicle } from "@bycar-in-ua/sdk";
 // import { useElementVisibility } from "@vueuse/core";
 import VehicleGallery from "~/components/Single/VehicleGallery.vue";
 import TrimsControls from "~/components/Single/TrimsControls.vue";
+import SpecsBlock from "~/components/Single/SpecsBlock.vue";
 import SideWrap from "~/components/Single/SideWrap.vue";
 import FullInfo from "~/components/Single/FullInfo.vue";
 import AvailableCars from "~/components/Single/AvailableCars.vue";
@@ -222,6 +223,10 @@ gtag("event", "view_item", {
               :active-power-unit="activePowerUnit"
               :set-active-power-unit="setActivePowerUnit"
             />
+          </template>
+
+          <template #specs>
+            <SpecsBlock :car="car" :trim="activeTrim" :power-unit="activePowerUnit" />
           </template>
 
           <template #description>

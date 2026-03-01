@@ -1,18 +1,10 @@
 <script setup lang="ts">
+/** @deprecated */
 import type { Complectation, PowerUnit, Vehicle } from "@bycar-in-ua/sdk";
 import { OptionsPublicService } from "@bycar-in-ua/sdk";
 import CollapsibleTitle from "~/components/UI/CollapsibleTitle.vue";
 import groupBy from "lodash/groupBy.js";
 import SectionTitle from "./SectionTitle.vue";
-import type { InfoBlock } from "./interface";
-import {
-  getGeneralInfoBlock,
-  getDimensionsBlock,
-  getWeightsAndVolumesBlock,
-  getPetrolEngineBlock,
-  getElectricEngineBlock,
-  getTransmissionBlock,
-} from "./helpers";
 
 const props = defineProps<{
   car: Vehicle;
@@ -41,29 +33,6 @@ const { data: optionCategories } = useAsyncData(
 
 const { t } = useI18n();
 
-const infoBlocks = computed<InfoBlock[][]>(() => {
-  const general = getGeneralInfoBlock(props.car, t);
-  const dimensions = getDimensionsBlock(props.car, t);
-  const weightsAndVolumes = getWeightsAndVolumesBlock(props.car, t);
-
-  const engine = props.powerUnit?.engine
-    ? props.powerUnit.engine.isElectric
-      ? getElectricEngineBlock(props.powerUnit.engine, t)
-      : getPetrolEngineBlock(props.powerUnit.engine, t)
-    : undefined;
-
-  const trnasmission = props.powerUnit?.transmission
-    ? getTransmissionBlock(props.powerUnit.transmission, t)
-    : undefined;
-
-  return [
-    [
-      general, dimensions, weightsAndVolumes,
-    ],
-    [engine, trnasmission].filter(Boolean) as InfoBlock[],
-  ];
-});
-
 const optionsByCategories = computed(() => {
   if (!props.complectation?.options?.length) return [];
 
@@ -86,28 +55,6 @@ const optionsByCategories = computed(() => {
 
 <template>
   <section class="grid md:grid-cols-2 gap-x-10">
-    <div v-for="(blocks, i) in infoBlocks" :key="i">
-      <template v-for="(block, j) in blocks" :key="j">
-        <UCollapsible :default-open="block.defaultOpen">
-          <template #default="{ open }">
-            <CollapsibleTitle :open="open" :title="block.title" />
-          </template>
-
-          <template #content>
-            <template v-for="(item, k) in block.items" :key="k">
-              <div class="flex gap-4 justify-between text-sm">
-                <span class="text-slate-600 max-w-[80%] w-full">
-                  {{ item.title }}:
-                </span>
-                <span class="text-right">{{ item.value }}</span>
-              </div>
-            </template>
-          </template>
-        </UCollapsible>
-        <USeparator class="my-4 last-of-type:hidden" />
-      </template>
-    </div>
-
     <SectionTitle class="md:col-span-2 mt-6">
       {{ t("options.title") }}
       <USeparator class="my-5" />
