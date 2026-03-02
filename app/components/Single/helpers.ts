@@ -2,7 +2,6 @@ import {
   BodyType,
   type Engine,
   type PowerUnit,
-  type Transmission,
   type Vehicle,
 } from "@bycar-in-ua/sdk";
 import type { Composer } from "#i18n";
@@ -19,6 +18,12 @@ import {
 } from "~/components/UI/Icons";
 import type { Component } from "vue";
 import Drive from "~/components/UI/Icons/Drive.vue";
+import type {
+  EngineView,
+  PowerUnitView,
+  TransmissionView,
+  VehicleView,
+} from "@bycar-in-ua/vehicles-sdk";
 
 function getSafeValue<TCheck, TValue>(
   checkable: TCheck,
@@ -33,8 +38,8 @@ export function getInfoBullets(
     car,
     powerUnit,
   }: {
-    car: Vehicle;
-    powerUnit?: PowerUnit | null;
+    car: Vehicle | VehicleView;
+    powerUnit?: PowerUnit | PowerUnitView | null;
   },
   t: Composer["t"],
 ): InfoBulletProps[] {
@@ -131,7 +136,7 @@ export function getBodyTypeIcon(bodyType?: BodyType): Component {
   }
 }
 
-export function getPowerUnitTitle(powerUnit: PowerUnit): string {
+export function getPowerUnitTitle(powerUnit: PowerUnit | PowerUnitView): string {
   const parts: Array<string | undefined> = [getDisplacement(powerUnit.engine?.displacement)];
 
   if (powerUnit.engine?.isHybrid) {
@@ -155,7 +160,7 @@ function getDisplacement(displacement: Engine["displacement"]) {
   return displacement ? (Math.round(displacement / 100) / 10).toFixed(1) : "";
 }
 
-export function getPowerUnitSubtitle(powerUnit: PowerUnit, t: Composer["t"]) {
+export function getPowerUnitSubtitle(powerUnit: PowerUnit | PowerUnitView, t: Composer["t"]) {
   const parts = [];
 
   if (powerUnit.transmission?.gearbox.type) {
@@ -177,7 +182,7 @@ export function getPowerUnitSubtitle(powerUnit: PowerUnit, t: Composer["t"]) {
   return parts.filter(Boolean).join(" ");
 }
 
-export function getGeneralInfoBlock(car: Vehicle, t: Composer["t"]): InfoLine[] {
+export function getGeneralInfoBlock(car: VehicleView, t: Composer["t"]): InfoLine[] {
   return [
     {
       title: "Модель",
@@ -228,7 +233,7 @@ export function getGeneralInfoBlock(car: Vehicle, t: Composer["t"]): InfoLine[] 
   ];
 }
 
-export function getDimensionsBlock(car: Vehicle, t: Composer["t"]): InfoLine[] {
+export function getDimensionsBlock(car: VehicleView, t: Composer["t"]): InfoLine[] {
   return [
     {
       title: t("vehicle.generalCharacteristics.dimensions.l"),
@@ -255,7 +260,7 @@ export function getDimensionsBlock(car: Vehicle, t: Composer["t"]): InfoLine[] {
 }
 
 export function getWeightsAndVolumesBlock(
-  car: Vehicle,
+  car: VehicleView,
   t: Composer["t"],
 ): InfoLine[] {
   return [
@@ -279,7 +284,7 @@ export function getWeightsAndVolumesBlock(
 }
 
 export function getPetrolEngineBlock(
-  engine: Engine,
+  engine: EngineView,
   t: Composer["t"],
 ): InfoLine[] {
   const powerRpms = [...new Set([engine?.powerRPMfrom, engine?.powerRPMto])].filter(Boolean);
@@ -387,7 +392,7 @@ export function getPetrolEngineBlock(
 }
 
 export function getElectricEngineBlock(
-  engine: Engine,
+  engine: EngineView,
   t: Composer["t"],
 ): InfoLine[] {
   return [
@@ -442,7 +447,7 @@ export function getElectricEngineBlock(
 }
 
 export function getTransmissionBlock(
-  transmission: Transmission,
+  transmission: TransmissionView,
   t: Composer["t"],
 ): InfoLine[] {
   const gerboxType = [

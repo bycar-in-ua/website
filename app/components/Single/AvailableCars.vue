@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import type { Vehicle } from "@bycar-in-ua/sdk";
 import SectionTitle from "./SectionTitle.vue";
 import AvailableCarModal from "./AvailableCarModal.vue";
 import CarCard from "../UI/CarCard/CardRoot.vue";
-import type { VehicleSearchDocument } from "@bycar-in-ua/vehicles-sdk";
+import type { VehicleSearchDocument, VehicleView } from "@bycar-in-ua/vehicles-sdk";
 
 defineProps<{
-  car: Vehicle;
+  car: VehicleView;
   availability: VehicleSearchDocument[];
 }>();
 
