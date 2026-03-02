@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import type { PowerUnit, Vehicle } from "@bycar-in-ua/sdk";
 import { getInfoBullets, getPowerUnitTitle } from "./helpers";
-import type { VehicleSearchDocument } from "@bycar-in-ua/vehicles-sdk";
+import type { PowerUnitView, VehicleSearchDocument, VehicleView } from "@bycar-in-ua/vehicles-sdk";
 
 const props = defineProps<{
-  car: Vehicle;
-  powerUnit?: PowerUnit | null;
+  car: VehicleView;
+  powerUnit?: PowerUnitView | null;
   availableVehicles?: VehicleSearchDocument[];
 }>();
 

@@ -36,7 +36,7 @@
     "@bycar-in-ua/auth-sdk": "^0.1.6",
     "@bycar-in-ua/brands-sdk": "^0.0.1",
     "@bycar-in-ua/base-nuxt-module": "^0.0.15",
-    "@bycar-in-ua/vehicles-sdk": "^0.1.6",
+    "@bycar-in-ua/vehicles-sdk": "^0.1.8",
     "@pinia/nuxt": "^0.11.3",
     "@sentry/nuxt": "^10.26.0",
     "@tanstack/vue-query": "^5.91.2",

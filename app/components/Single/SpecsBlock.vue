@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { TabsItem } from "@nuxt/ui";
-import type { Complectation, PowerUnit, Vehicle } from "@bycar-in-ua/sdk";
 import {
   getDimensionsBlock,
   getElectricEngineBlock,
@@ -9,11 +8,12 @@ import {
   getTransmissionBlock,
   getWeightsAndVolumesBlock,
 } from "./helpers";
+import type { PowerUnitView, TrimView, VehicleView } from "@bycar-in-ua/vehicles-sdk";
 
 const props = defineProps<{
-  car: Vehicle;
-  trim?: Complectation;
-  powerUnit?: PowerUnit | null;
+  car: VehicleView;
+  trim?: TrimView;
+  powerUnit?: PowerUnitView | null;
 }>();
 
 const { t } = useI18n();

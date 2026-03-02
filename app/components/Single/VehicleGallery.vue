@@ -51,8 +51,8 @@ const openFullscreen = () => {
         :ui="{
           item: 'basis-full',
           container: 'items-stretch',
-          prev: 'sm:start-4 top-1/2 -translate-y-1/2 rounded-none bg-white hover:bg-white active:bg-white disabled:opacity-0',
-          next: 'sm:end-4 top-1/2 -translate-y-1/2 rounded-none bg-white hover:bg-white active:bg-white disabled:opacity-0',
+          prev: 'sm:inset-s-4 top-1/2 -translate-y-1/2 rounded-none bg-white hover:bg-white active:bg-white disabled:opacity-0',
+          next: 'sm:inset-e-4 top-1/2 -translate-y-1/2 rounded-none bg-white hover:bg-white active:bg-white disabled:opacity-0',
         }"
         arrows
         :prev="{ color: 'secondary', variant: 'outline', icon: 'i-lucide-chevron-left', size: 'sm' }"

@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import type { Complectation, PowerUnit } from "@bycar-in-ua/sdk";
 import Control from "./Control.vue";
 import { getPowerUnitTitle, getPowerUnitSubtitle } from "~/components/Single/helpers";
+import type { PowerUnitView, TrimView } from "@bycar-in-ua/vehicles-sdk";
 
 type TrimsControlsProps = {
-  trims: Complectation[];
-  activeTrim?: Complectation;
-  setActiveTrim: (c: Complectation) => void;
-  powerUnits: PowerUnit[];
-  activePowerUnit?: PowerUnit;
-  setActivePowerUnit: (p: PowerUnit) => void;
+  trims: TrimView[];
+  activeTrim?: TrimView;
+  setActiveTrim: (c: TrimView) => void;
+  powerUnits: PowerUnitView[];
+  activePowerUnit?: PowerUnitView;
+  setActivePowerUnit: (p: PowerUnitView) => void;
 };
 
 const props = defineProps<TrimsControlsProps>();
@@ -21,7 +21,7 @@ const formattingOptions: Intl.NumberFormatOptions = {
   trailingZeroDisplay: "stripIfInteger",
 };
 
-const hoveredTrim = ref<Complectation | null>(null);
+const hoveredTrim = ref<TrimView | null>(null);
 const trimsPriceRange = computed(() => {
   const prices = (hoveredTrim.value ?? props.activeTrim)?.powerUnits?.map((pu) => pu.price) ?? [];
   const minPrice = Math.min(...prices);
@@ -38,7 +38,7 @@ const trimsPriceRange = computed(() => {
   return `${formattedMinPrice} - ${formattedMaxPrice}`;
 });
 
-const hoveredPowerUnit = ref<PowerUnit | null>(null);
+const hoveredPowerUnit = ref<PowerUnitView | null>(null);
 const powerUnitPrice = computed(() => {
   const pu = hoveredPowerUnit.value ?? props.activePowerUnit;
 
