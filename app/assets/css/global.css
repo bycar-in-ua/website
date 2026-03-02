@@ -1,6 +1,27 @@
 @import "@bycar/theme";
 @plugin "@tailwindcss/typography";
 
+.prose {
+  --tw-prose-body: var(--color-gray-700);
+  --tw-prose-headings: var(--color-gray-900);
+  --tw-prose-bold: var(--color-gray-900);
+  --tw-prose-links: var(--color-gray-900);
+  --tw-prose-bullets: var(--color-gray-400);
+  --tw-prose-counters: var(--color-gray-500);
+  --tw-prose-hr: var(--color-gray-200);
+
+  max-width: 850px;
+
+  :where(p) {
+    font-weight: 500;
+  }
+
+  :where(ul > li)::marker {
+    content: "•  ";
+    font-size: 0.75em;
+  }
+}
+
 @utility container {
   margin-inline: auto;
   padding-inline: 1.25rem;
