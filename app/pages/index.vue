@@ -36,7 +36,7 @@ const { data: filtersData } = useCatalogFilters();
   <main class="overflow-x-hidden lg:overflow-x-visible">
     <Hero :total-cars="filtersData?.total" />
     <Brands :established-brands="filtersData?.filters.brand ?? {}" />
-    <Latest class="container" />
+    <Latest />
     <HowItWorks />
     <FeaturedCollections class="container" />
     <DualPanel />
