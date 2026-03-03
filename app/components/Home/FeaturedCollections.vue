@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/vue-query";
 // Deprecated, export type from vehicles-sdk
 import { BodyType } from "@bycar-in-ua/sdk";
 import SectionTitle from "~/components/UI/SectionTitle.vue";
-import CarCard from "../UI/CarCard/CardRoot.vue";
+import VehiclesCarousel from "~/components/VehiclesCarousel.vue";
 import type { VehicleSearchDocument } from "@bycar-in-ua/vehicles-sdk";
 
 const vehiclesService = useVehiclesService();
@@ -44,7 +44,7 @@ const { data: vehicles, suspense } = useQuery({
             BodyType.sedan, BodyType.coupe, BodyType.cabriolet,
           ],
           minPower: 200,
-          minPrice: 50000,
+          minPrice: 40000,
         },
         pagination: defaultPagination,
       }),
@@ -61,20 +61,9 @@ const { data: vehicles, suspense } = useQuery({
 
 await suspense();
 
-function toCarouselChunks(vehicles: VehicleSearchDocument[]) {
-  const chunkSize = 3;
-  const chunks = [];
-
-  for (let i = 0; i < vehicles.length; i += chunkSize) {
-    chunks.push(vehicles.slice(i, i + chunkSize));
-  }
-
-  return chunks;
-}
-
 type VehicleAccordionItem = AccordionItem & {
   count: number;
-  carouselItems: VehicleSearchDocument[][];
+  carouselItems: VehicleSearchDocument[];
 };
 
 const items = computed<VehicleAccordionItem[]>(() => {
@@ -82,22 +71,22 @@ const items = computed<VehicleAccordionItem[]>(() => {
     {
       label: "Сімейне авто",
       count: vehicles.value?.familyCars.meta.totalItems ?? 0,
-      carouselItems: toCarouselChunks(vehicles.value?.familyCars.items ?? []),
+      carouselItems: vehicles.value?.familyCars.items || [],
     },
     {
       label: "Найкращі гібриди",
       count: vehicles.value?.hybrids.meta.totalItems ?? 0,
-      carouselItems: toCarouselChunks(vehicles.value?.hybrids.items ?? []),
+      carouselItems: vehicles.value?.hybrids.items || [],
     },
     {
       label: "Найкращі електрокари",
       count: vehicles.value?.electrics.meta.totalItems ?? 0,
-      carouselItems: toCarouselChunks(vehicles.value?.electrics.items ?? []),
+      carouselItems: vehicles.value?.electrics.items || [],
     },
     {
       label: "Рекомендовані авто",
       count: vehicles.value?.recommended.meta.totalItems ?? 0,
-      carouselItems: toCarouselChunks(vehicles.value?.recommended.items ?? []),
+      carouselItems: vehicles.value?.recommended.items || [],
     },
   ];
 });
@@ -124,32 +113,7 @@ const items = computed<VehicleAccordionItem[]>(() => {
       </template>
 
       <template #content="{ item: accordionItem }">
-        <UCarousel
-          v-slot="{ item: vehiclesChunk }"
-          dots
-          loop
-          :items="accordionItem.carouselItems"
-          :ui="{
-            root: 'overflow-hidden pb-8',
-            viewport: 'overflow-visible relative z-10',
-            dots: 'static pt-10',
-          }"
-        >
-          <div class="grid grid-cols-3 gap-4 pt-4">
-            <CarCard
-              v-for="car in vehiclesChunk"
-              :key="car.id"
-              :car="car"
-              :is-compared="true"
-            >
-              <template #cta>
-                <UButton block @click="navigateTo({ name: 'SingleCar', params: { slug: car.slug } })">
-                  Дізнатися деталі
-                </UButton>
-              </template>
-            </CarCard>
-          </div>
-        </UCarousel>
+        <VehiclesCarousel :vehicles="accordionItem.carouselItems" />
       </template>
     </UAccordion>
   </section>

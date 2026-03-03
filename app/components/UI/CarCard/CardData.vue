@@ -42,27 +42,25 @@ const discountedPrice = computed(() => {
 </script>
 
 <template>
-  <div class="relative flex flex-col p-4">
-    <div class="space-y-4.5">
-      <slot name="header">
-        <h3 class="text-lg font-bold">
-          {{ car.title }}
-        </h3>
-      </slot>
+  <div class="relative flex flex-col p-4 space-y-4.5">
+    <slot name="header">
+      <h3 class="text-lg font-bold">
+        {{ car.title }}
+      </h3>
+    </slot>
 
-      <div class="flex flex-wrap gap-2">
-        <UBadge
-          v-for="(bullet, index) in infoBullets"
-          :key="index"
-          color="secondary"
-          :label="bullet "
-        />
-      </div>
+    <div class="flex flex-wrap gap-2">
+      <UBadge
+        v-for="(bullet, index) in infoBullets"
+        :key="index"
+        color="secondary"
+        :label="bullet "
+      />
+    </div>
 
-      <div class="space-x-2">
-        <span v-if="discountedPrice" class="text-dimmed font-medium line-through">{{ priceRange }}</span>
-        <span class="text-black text-lg font-bold">{{ discountedPrice || priceRange }}</span>
-      </div>
+    <div class="space-x-2 mt-auto">
+      <span v-if="discountedPrice" class="text-dimmed font-medium line-through">{{ priceRange }}</span>
+      <span class="text-black text-lg font-bold">{{ discountedPrice || priceRange }}</span>
     </div>
   </div>
 </template>

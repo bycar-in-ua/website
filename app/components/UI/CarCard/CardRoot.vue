@@ -10,7 +10,7 @@ defineProps<{ car: VehicleSearchDocument; }>();
 
 <template>
   <div
-    class="relative group cursor-pointer border border-gray-200 bg-white"
+    class="flex flex-col relative group cursor-pointer border border-gray-200 bg-white"
   >
     <CardMedia :car-title="car.title" :img-path="car.featureImage?.path">
       <CardBadge :car />
@@ -20,7 +20,7 @@ defineProps<{ car: VehicleSearchDocument; }>();
       />
     </CardMedia>
 
-    <CardData :car />
+    <CardData :car class="grow" />
 
     <div
       class="absolute z-30 -inset-x-px bottom-0 px-4 pb-4 translate-y-0 group-hover:translate-y-full opacity-0 group-hover:opacity-100 transition-all duration-500 bg-white border border-t-0 border-gray-200"

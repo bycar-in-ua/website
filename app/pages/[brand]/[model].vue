@@ -12,6 +12,7 @@ import AvailableCars from "~/components/Single/AvailableCars.vue";
 import ContactFormSection from "~/components/ContactFormSection.vue";
 import { getCarTitle, getComplectationsSummary } from "~/utils/carHelpers";
 import { generatePageTitle } from "~/utils/seo";
+import { useQuery } from "@tanstack/vue-query";
 
 definePageMeta({ name: "SingleCar" });
 
@@ -19,23 +20,29 @@ const vehiclesService = useVehiclesService();
 
 const route = useRoute();
 
-const { data, error } = await useAsyncData(`${route.params.model}`, () =>
-  vehiclesService.getVehicleBySlug(String(route.params.model)),
-);
+const {
+  data: car, suspense, isError, error,
+} = useQuery({
+  queryKey: ["vehicle", route.params.model],
+  queryFn: () => vehiclesService.getVehicleBySlug(String(route.params.model)),
+  retry: 1,
+});
 
-if (!data.value) {
+await suspense();
+
+if (!car.value || isError.value) {
   throw createError({
-    statusCode: error.value?.status || 404,
+    statusCode: 404,
+    cause: error.value?.cause,
     fatal: true,
+    unhandled: true,
   });
 }
 
-const { data: availableVehicles, suspense: availableSuspense } = useAvailableVehicles(data.value.id);
-const { data: similarVehicles, suspense: similarSuspense } = useSimilarVehicles(data.value.id);
+const { data: availableVehicles, suspense: availableSuspense } = useAvailableVehicles(car.value.id);
+const { data: similarVehicles, suspense: similarSuspense } = useSimilarVehicles(car.value.id);
 
 await Promise.allSettled([availableSuspense(), similarSuspense()]);
-
-const car = computed(() => data.value!);
 
 const galleryImages = computed(() => {
   const images = car.value.images ?? [];
