@@ -8,8 +8,8 @@ import TrimsControls from "~/components/Single/TrimsControls.vue";
 import SpecsBlock from "~/components/Single/SpecsBlock.vue";
 import OptionsBlock from "~/components/Single/OptionsBlock.vue";
 import SideWrap from "~/components/Single/SideWrap.vue";
-import AvailableCars from "~/components/Single/AvailableCars.vue";
 import ContactFormSection from "~/components/ContactFormSection.vue";
+import VehiclesCarouselSection from "~/components/VehiclesCarouselSection.vue";
 import { getCarTitle, getComplectationsSummary } from "~/utils/carHelpers";
 import { generatePageTitle } from "~/utils/seo";
 import { useQuery } from "@tanstack/vue-query";
@@ -218,18 +218,18 @@ gtag("event", "view_item", {
       />
     </div>
 
-    <AvailableCars
+    <!-- <AvailableCars
       v-if="Boolean(availableVehicles?.meta.totalItems)"
       :car="car"
       :availability="availableVehicles?.items || []"
       class="container my-5"
-    />
+    /> -->
 
-    <AvailableCars
-      v-if="Boolean(similarVehicles?.length)"
-      :car="car"
-      :availability="similarVehicles || []"
-      class="container my-5"
+    <VehiclesCarouselSection
+      v-if="similarVehicles?.length"
+      :title="['Каталог моделей', 'Подібні авто']"
+      :vehicles="similarVehicles"
+      class="container my-10 md:my-20"
     />
 
     <ContactFormSection
