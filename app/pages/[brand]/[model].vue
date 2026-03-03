@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import type { PowerUnitView, TrimView } from "@bycar-in-ua/vehicles-sdk";
+import type { AccordionItem } from "@nuxt/ui";
+import { useAvailableVehicles } from "~/composables/useAvailableVehicles";
+import { useSimilarVehicles } from "~/composables/useSimilarVehicles";
 import VehicleGallery from "~/components/Single/VehicleGallery.vue";
 import TrimsControls from "~/components/Single/TrimsControls.vue";
 import SpecsBlock from "~/components/Single/SpecsBlock.vue";
@@ -8,8 +12,6 @@ import AvailableCars from "~/components/Single/AvailableCars.vue";
 import ContactFormSection from "~/components/ContactFormSection.vue";
 import { getCarTitle, getComplectationsSummary } from "~/utils/carHelpers";
 import { generatePageTitle } from "~/utils/seo";
-import type { AccordionItem } from "@nuxt/ui";
-import type { PowerUnitView, TrimView } from "@bycar-in-ua/vehicles-sdk";
 
 definePageMeta({ name: "SingleCar" });
 
@@ -23,31 +25,15 @@ const { data, error } = await useAsyncData(`${route.params.model}`, () =>
 
 if (!data.value) {
   throw createError({
-    statusCode: error.value?.statusCode || 404,
+    statusCode: error.value?.status || 404,
     fatal: true,
   });
 }
 
-const { data: availableVehicles } = useAsyncData(
-  `${route.params.model}-availability`,
-  async () => {
-    if (!data.value) {
-      return [];
-    }
+const { data: availableVehicles, suspense: availableSuspense } = useAvailableVehicles(data.value.id);
+const { data: similarVehicles, suspense: similarSuspense } = useSimilarVehicles(data.value.id);
 
-    const response = await vehiclesService.searchAvailableVehicles({
-      // TODO: add vehicle ID filter to search endpoint
-      filters: { ids: [] },
-      pagination: {
-        limit: 100,
-        page: 1,
-      },
-    });
-
-    return response.items;
-  },
-  { default: () => [] },
-);
+await Promise.allSettled([availableSuspense(), similarSuspense()]);
 
 const car = computed(() => data.value!);
 
@@ -170,7 +156,7 @@ gtag("event", "view_item", {
       <div class="col-span-2">
         <VehicleGallery
           :images="galleryImages"
-          :is-available-now="availableVehicles.length > 0"
+          :is-available-now="Boolean(availableVehicles?.meta.totalItems)"
           class="mb-6 md:mb-12"
         />
 
@@ -221,14 +207,21 @@ gtag("event", "view_item", {
         class="sticky top-4"
         :car="car"
         :power-unit="activePowerUnit"
-        :available-vehicles="availableVehicles"
+        :available-vehicles="availableVehicles?.items || []"
       />
     </div>
 
     <AvailableCars
-      v-if="availableVehicles.length > 0"
+      v-if="Boolean(availableVehicles?.meta.totalItems)"
       :car="car"
-      :availability="availableVehicles"
+      :availability="availableVehicles?.items || []"
+      class="container my-5"
+    />
+
+    <AvailableCars
+      v-if="Boolean(similarVehicles?.length)"
+      :car="car"
+      :availability="similarVehicles || []"
       class="container my-5"
     />
 
