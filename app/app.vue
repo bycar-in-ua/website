@@ -2,8 +2,9 @@
 import Header from "~/components/Header/index.vue";
 import Footer from "~/components/Footer/index.vue";
 import CookieBanner from "~/components/CookieBanner.vue";
-import SignInModal from "#layers/profile/components/SignInModal.vue";
+import AuthSlideover from "#layers/auth/components/AuthSlideover.vue";
 import QuizProvider from "#layers/quiz/components/QuizProvider.vue";
+import { useProfileProvider } from "#layers/profile/composables/useProfile";
 
 useHead({
   htmlAttrs: { lang: "ua" },
@@ -25,6 +26,10 @@ const acceptCookieHandler = () => {
   localStorage.setItem("cookieAccepted", "true");
 };
 
+const profile = useProfileProvider();
+
+await profile.suspense();
+
 if (import.meta.client) {
   nuxtApp.hook("page:finish", () => {
     window.scrollTo(0, 0);
@@ -42,7 +47,7 @@ if (import.meta.client) {
 
 <template>
   <UApp :toaster="{ position: 'top-right' }">
-    <SignInModal />
+    <AuthSlideover />
     <QuizProvider />
     <NuxtLayout>
       <NuxtLoadingIndicator color="var(--ui-primary)" />

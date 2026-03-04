@@ -7,15 +7,14 @@ export type InfoBulletProps = {
   icon: string | Component;
 };
 
-export type InfoBlock = {
+export type InfoLine = {
   title: string;
-  defaultOpen?: boolean;
-  items: Array<{
-    title: string;
-    value: string | number;
-  }>;
+  value: string | number;
 };
 
+/**
+ * @deprecated Use VehicleSearchDocument from @bycar-in-ua/vehicles-sdk instead
+ */
 export type AvailableCar = Vehicle
   & AvailableVehicle & {
     title: string;

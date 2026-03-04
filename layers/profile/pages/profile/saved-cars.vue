@@ -1,74 +1,23 @@
 <script setup lang="ts">
-import type { PaginatedResponse, Vehicle } from "@bycar-in-ua/sdk";
-import CarCard from "~/components/UI/CarCard/CarCard.vue";
+import { useSavedCars } from "#layers/profile/composables/useSavedCars";
+import CarCard from "~/components/UI/CarCard";
 import Pagination from "~/components/UI/Pagination.vue";
 import GridSkeleton from "~/components/UI/GridSkeleton.vue";
 import Empty from "~/components/UI/Empty.vue";
-import { useQuery, keepPreviousData } from "@tanstack/vue-query";
-
-import SectionContainer from "../../components/SectionContainer.vue";
 
 definePageMeta({ name: "saved-cars" });
 
-const profileStore = useProfileStore();
-
-const { toggleSave } = useSavedCarActions();
-
-const PAGE_SIZE = 8;
-const page = ref(1);
-
-const vehiclesService = useVehiclesService();
-
-const carsIds = computed<number[]>(() => profileStore.profile?.savedCars ?? []);
-
 const {
-  data: vehicles,
-  isLoading,
-  isPending,
-} = useQuery({
-  queryKey: [
-    "saved-cars", page, carsIds,
-  ],
-  queryFn: async () => {
-    const crsIdsLength = carsIds.value.length;
-
-    if (!crsIdsLength) {
-      return {
-        items: [],
-        meta: {
-          currentPage: 1,
-          totalPages: 1,
-          itemsPerPage: PAGE_SIZE,
-          totalItems: 0,
-        },
-      } as PaginatedResponse<Vehicle>;
-    }
-
-    if (page.value > 1 && crsIdsLength <= PAGE_SIZE * (page.value - 1)) {
-      page.value = 1;
-    }
-
-    const response = await vehiclesService.searchVehicles({
-      filters: { id: carsIds.value },
-      pagination: {
-        page: page.value,
-        limit: PAGE_SIZE,
-      },
-    });
-
-    return response;
-  },
-  placeholderData: keepPreviousData,
-  enabled: () => profileStore.profileFetched,
-});
+  data: vehicles, isLoading, page,
+} = useSavedCars();
 </script>
 
 <template>
-  <SectionContainer title="Збережені авто">
+  <div>
     <GridSkeleton
-      v-if="isPending || (!vehicles?.items.length && isLoading)"
+      v-if="isLoading || (!vehicles?.items.length && isLoading)"
       class="xs:grid-cols-2 sm:grid-cols-4 gap-5"
-      :items-count="PAGE_SIZE"
+      :items-count="8"
     />
 
     <Empty v-else-if="!vehicles?.items.length">
@@ -80,7 +29,7 @@ const {
         та збережіть натиснувши на іконку
         <UIcon
           name="i-heroicons-heart-solid"
-          class="w-6 h-6 relative top-[6px]"
+          class="w-6 h-6 relative top-1.5"
         />
       </div>
     </Empty>
@@ -101,7 +50,7 @@ const {
           },
         }"
       >
-        <CarCard :car="car" :is-saved="true" :toggle-save="toggleSave" />
+        <CarCard :car="car" :is-saved="true" />
       </NuxtLink>
     </div>
 
@@ -111,5 +60,5 @@ const {
       class="mt-10 flex justify-center"
       :pagination="vehicles.meta"
     />
-  </SectionContainer>
+  </div>
 </template>

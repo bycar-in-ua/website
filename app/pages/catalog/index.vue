@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import Sidebar from "~/components/Catalog/Sidebar.vue";
+import PageHeader from "~/components/Catalog/PageHeader.vue";
 import List from "~/components/Catalog/List.vue";
 import Headline from "~/components/Catalog/Headline.vue";
 import ContactForm from "~/components/ContactFormSection.vue";
-import BluredEllipse from "~/components/UI/BluredEllipse.vue";
+import FiltersSlideover from "~/components/Catalog/Filters/FiltersSlideover.vue";
 import { useCatalogStore } from "~/stores/catalog";
+
+const isFiltersOpen = ref(false);
 
 definePageMeta({ name: "catalog" });
 
@@ -12,9 +14,7 @@ const route = useRoute();
 
 const catalogStore = useCatalogStore();
 
-const brandFilterId = catalogStore.appliedFilters
-  .filter((filter) => filter.key === "brand")
-  .at(0)?.value;
+const brandFilterId = catalogStore.filters.brand?.at(0);
 
 const { h1, ...seoInput } = await useCatalogSeo(brandFilterId);
 
@@ -36,7 +36,7 @@ useHead({
   ],
 });
 
-await catalogStore.refresh();
+await catalogStore.refetch();
 
 onUnmounted(() => {
   catalogStore.$dispose();
@@ -44,19 +44,26 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <main class="container pt-24 md:pt-32 pb-5 mb-auto relative">
+  <main>
+    <!-- SEO-only H1 -->
     <h1 class="sr-only">
       {{ h1 }}
     </h1>
-    <BluredEllipse
-      class="absolute w-[410px] h-[220px] z-0 left-0 md:left-56 top-72 md:top-60"
-    />
-    <Headline class="mb-6" />
-    <div class="lg:flex gap-10 relative blured-ellipse-bg">
-      <Sidebar />
 
+    <PageHeader />
+
+    <Headline
+      class="mt-16 container mx-auto"
+      @filter-click="isFiltersOpen = true"
+    />
+    <FiltersSlideover v-model:open="isFiltersOpen" />
+
+    <!-- Main Content: Sidebar + Grid -->
+    <div class="container mx-auto py-16">
       <List />
     </div>
+
+    <!-- Bottom: Contact Form Section -->
     <ContactForm page="Каталог" />
   </main>
 </template>

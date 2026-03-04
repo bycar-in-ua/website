@@ -16,9 +16,9 @@ const { mutateAsync, isPending } = useMutation({
 
 <template>
   <UIcon
-    :name="isSaved ? 'i-heroicons-heart-solid' : 'i-heroicons-heart'"
-    class="size-7 text-white hover:text-gray-300 transition-colors duration-300"
-    :class="{ 'animate-ping': isPending }"
+    name="i-lucide-bookmark"
+    class="size-5"
+    :class="{ 'animate-ping': isPending, 'fill-current': isSaved }"
     @click.prevent.stop="mutateAsync"
   />
 </template>

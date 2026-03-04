@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { usePhoneForm } from "../composables/usePhoneForm";
 
-const authStore = useAuthStore();
+const { user } = useUserSession();
 
 const form = useTemplateRef("form");
 
@@ -36,7 +36,7 @@ const {
       >
         <template #trailing>
           <UIcon
-            v-if="authStore.user?.phoneVerified && !isNewPhone"
+            v-if="user?.data?.phoneVerified && !isNewPhone"
             name="i-lucide-check"
             class="text-success"
             title="Телефон верифікований"

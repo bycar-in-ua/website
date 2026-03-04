@@ -1,11 +1,14 @@
 export default defineNuxtConfig({
-  extends: ["./layers/profile/nuxt.config.ts", "./layers/quiz/nuxt.config.ts"],
+  extends: [
+    "./layers/auth", "./layers/profile", "./layers/quiz",
+  ],
 
   modules: [
+    "@bycar-in-ua/base-nuxt-module",
+    "nuxt-auth-utils",
     "@pinia/nuxt",
     "@nuxtjs/i18n",
     "@nuxt/eslint",
-    "@nuxt/ui",
     "@nuxt/fonts",
     "nuxt-gtag",
     "@nuxtjs/robots",
@@ -18,19 +21,27 @@ export default defineNuxtConfig({
 
   css: ["~/assets/css/global.css"],
 
-  colorMode: {
-    preference: "light",
-    fallback: "light",
-    storageKey: "bycar-color-theme",
-  },
+  colorMode: { preference: "light" },
 
   runtimeConfig: {
     youtubeApiKey: process.env.YOUTUBE_API_KEY,
+    oauth: {
+      google: {
+        clientId: process.env.NUXT_OAUTH_GOOGLE_CLIENT_ID,
+        clientSecret: process.env.NUXT_OAUTH_GOOGLE_CLIENT_SECRET,
+      },
+    },
+
+    session: { password: String(process.env.NUXT_SESSION_PASSWORD) },
 
     public: {
       stage: process.env.STAGE ?? "dev",
+      session: { maxAge: 60 * 60 * 24 * 7 },
       apiHost: process.env.API_URL,
       cdnHost: process.env.CDN_URL,
+      vehiclesApiHost: process.env.VEHICLES_API_URL,
+      authApiHost: process.env.AUTH_API_URL,
+      brandsApiHost: process.env.BRANDS_API_URL,
       sentryDsn: process.env.SENTRY_DSN,
       metapixel: process.env.META_PIXEL_ID
         ? { default: { id: process.env.META_PIXEL_ID } }
@@ -39,18 +50,19 @@ export default defineNuxtConfig({
       youtubeApiKey: process.env.YOUTUBE_API_KEY,
       tgBotToken: process.env.TG_BOT_TOKEN,
       tgLeadsChannelId: process.env.TG_LEADS_CHANNEL_ID,
-      promoVehicles: process.env.PROMO_VEHICLES
-        ? process.env.PROMO_VEHICLES.split(",")
-        : [],
-      promoTimer: Number(process.env.PROMO_TIMER || 3000),
     },
   },
-
-  devServer: { port: 4000 },
 
   compatibilityDate: "2025-09-14",
 
   typescript: { includeWorkspace: true },
+
+  bycar: {
+    config: {
+      apiHost: process.env.API_URL,
+      cdnHost: process.env.CDN_URL,
+    },
+  },
 
   eslint: { config: { stylistic: true } },
 

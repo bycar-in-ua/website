@@ -1,35 +1,34 @@
 <script setup lang="ts">
-import CollapsibleTitle from "~/components/UI/CollapsibleTitle.vue";
+import { useFiltersStore } from "~/stores/filters";
+import FilterLabel from "./FilterLabel.vue";
+import type { CheckboxGroupItemWithCount } from "./types";
 
-const { t } = useI18n();
+export type BrandFilterOption = {
+  id: number;
+  displayName: string;
+  count: number;
+  disabled?: boolean;
+};
 
-defineProps<{
-  brands: { id: number;
-    displayName: string; }[];
-  selectedFilters?: number[];
-}>();
+const filtersStore = useFiltersStore();
 
-const emit = defineEmits<{
-  (e: "change", checked: boolean, brandId: number): void;
-}>();
+const brandOptions = computed<CheckboxGroupItemWithCount[]>(
+  () =>
+    filtersStore.data?.filters?.brand.map((b) => ({
+      label: b.displayName,
+      count: b.count,
+      value: String(b.id),
+      disabled: b.count === 0,
+    })) ?? [],
+);
 </script>
 
 <template>
-  <UCollapsible :default-open="true" :ui="{ content: 'pl-1 pt-1 max-h-40 overflow-y-auto' }">
-    <template #default="{ open }">
-      <CollapsibleTitle :title="t('brand')" :open />
-    </template>
-
-    <template #content>
-      <UCheckbox
-        v-for="brand in brands"
-        :key="brand.id"
-        :label="brand.displayName"
-        :value="brand.id"
-        :model-value="selectedFilters?.includes(brand.id)"
-        class="mb-2"
-        @update:model-value="(checked) => emit('change', !!checked, brand.id)"
-      />
-    </template>
-  </UCollapsible>
+  <div class="max-h-40 overflow-y-auto">
+    <UCheckboxGroup v-model="filtersStore.selectedFilters.brand" :items="brandOptions">
+      <template #label="{ item }">
+        <FilterLabel :label="item.label" :count="item.count" />
+      </template>
+    </UCheckboxGroup>
+  </div>
 </template>

@@ -1,18 +1,18 @@
 <script setup lang="ts">
-const authStore = useAuthStore();
+const { user, loggedIn } = useUserSession();
 </script>
 
 <template>
   <UButton :to="{ name: 'profile-personal' }" variant="link" v-bind="$attrs">
     <template #leading>
-      <UserAvatar :avatar="authStore.user?.avatar" class="size-7">
+      <UserAvatar :avatar="user?.data?.avatar" class="size-5">
         <template #icon>
           <UIcon
-            v-if="authStore.authenticated"
+            v-if="loggedIn"
             name="i-heroicons-user-solid"
-            class="size-7"
+            class="size-5"
           />
-          <UIcon v-else name="i-heroicons-user" class="size-7" />
+          <UIcon v-else name="i-heroicons-user" class="size-5" />
         </template>
       </UserAvatar>
     </template>

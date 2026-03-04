@@ -1,70 +1,96 @@
 <script setup lang="ts">
-import type { BodyType } from "@bycar-in-ua/sdk";
-import type { FiltersState } from "~/stores/catalog";
+import type { AccordionItem } from "@nuxt/ui";
+import { useFiltersStore } from "~/stores/filters";
 import PriceFilter from "./PriceFilter.vue";
 import BrandFilter from "./BrandFilter.vue";
 import BodyTypeFilter from "./BodyTypeFilter.vue";
 import EngineTypeFilter from "./EngineTypeFilter.vue";
 import DriveFilter from "./DriveFilter.vue";
 
-const catalogStore = useCatalogStore();
+const { t } = useI18n();
+const filtersStore = useFiltersStore();
 
-function checkHandler<TValue extends string | number>(
-  field: keyof FiltersState,
-  checked: boolean,
-  value: TValue,
-) {
-  const existedValue = catalogStore.filters[field] ?? [];
+const items = computed<AccordionItem[]>(() => [
+  {
+    label: t("price"),
+    slot: "price",
+  },
+  {
+    label: t("brand"),
+    slot: "brand",
+  },
+  {
+    label: t("vehicle.bodyTypes.title"),
+    slot: "bodyType",
+  },
+  {
+    label: t("filters.engineType.title"),
+    slot: "engineType",
+  },
+  {
+    label: t("filters.drive.title"),
+    slot: "drive",
+  },
+]);
 
-  if (!Array.isArray(existedValue)) {
-    return;
-  }
-
-  if (checked) {
-    catalogStore.updateFilters(field, [...existedValue, value]);
-  } else {
-    catalogStore.updateFilters(
-      field,
-      existedValue.filter((item) => item !== value),
-    );
-  }
-}
+const defaultValue = ref([
+  "0", "1", "2",
+]);
 </script>
 
 <template>
-  <PriceFilter
-    :price-from="catalogStore.filters.priceFrom"
-    :price-to="catalogStore.filters.priceTo"
-    @update:price-from="
-      (value) => catalogStore.updateFilters('priceFrom', value)
-    "
-    @update:price-to="(value) => catalogStore.updateFilters('priceTo', value)"
-  />
+  <div class="relative">
+    <div
+      v-if="filtersStore.isLoading"
+      class="absolute top-2 right-2 z-10"
+    >
+      <UIcon name="i-heroicons-arrow-path" class="w-5 h-5 animate-spin text-primary" />
+    </div>
 
-  <BrandFilter
-    :brands="catalogStore.dictionary.brands"
-    :selected-filters="catalogStore.filters.brand"
-    @change="(checked: boolean, brandId: number) => checkHandler('brand', checked, brandId)"
-  />
-  <USeparator />
+    <UAccordion
+      v-model="defaultValue"
+      type="multiple"
+      :items="items"
+      :ui="{ item: 'px-6', content: 'pb-4' }"
+    >
+      <template #trailing="{ open }">
+        <BycarAccordionTrailingIcon :open="open" class="ms-auto" />
+      </template>
 
-  <BodyTypeFilter
-    :body-types="catalogStore.dictionary.bodyTypes"
-    :selected-filters="catalogStore.filters.bodyType"
-    @change="(checked: boolean, bodyType: BodyType) => checkHandler('bodyType', checked, bodyType)"
-  />
+      <template #price>
+        <PriceFilter
+          v-model:min-price="filtersStore.selectedFilters.minPrice"
+          v-model:max-price="filtersStore.selectedFilters.maxPrice"
+          :boundaries="{ min: filtersStore.data?.filters.priceRange.min, max: filtersStore.data?.filters.priceRange.max }"
+        >
+          <template #min-price-label>
+            <span class="uppercase font-semibold text-sm inline-block mb-1.5">
+              Від
+            </span>
+          </template>
+          <template #max-price-label>
+            <span class="uppercase font-semibold text-sm inline-block mb-1.5">
+              До
+            </span>
+          </template>
+        </PriceFilter>
+      </template>
 
-  <USeparator />
+      <template #brand>
+        <BrandFilter />
+      </template>
 
-  <EngineTypeFilter
-    :selected-filters="catalogStore.filters.engineType"
-    @change="(checked: boolean, engineType:string) => checkHandler('engineType', checked, engineType)"
-  />
+      <template #bodyType>
+        <BodyTypeFilter />
+      </template>
 
-  <USeparator />
+      <template #engineType>
+        <EngineTypeFilter />
+      </template>
 
-  <DriveFilter
-    :selected-filters="catalogStore.filters.drive"
-    @change="(checked: boolean, drive:string) => checkHandler('drive', checked, drive)"
-  />
+      <template #drive>
+        <DriveFilter />
+      </template>
+    </UAccordion>
+  </div>
 </template>

@@ -5,12 +5,11 @@ import { emailSchema } from "../vaidation.shema";
 const formSchema = v.object({ email: emailSchema });
 
 export function useEmailForm() {
-  const authStore = useAuthStore();
+  const { user } = useUserSession();
 
-  const state = reactive({ email: authStore.user?.email });
+  const state = reactive({ email: user.value?.data?.email });
 
-  const isNewEmail = computed(() => state.email !== authStore.user?.email);
-
+  const isNewEmail = computed(() => state.email !== user.value?.data?.email);
   const authService = useAuthService();
   const toast = useToast();
 

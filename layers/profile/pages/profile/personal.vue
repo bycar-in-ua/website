@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import SectionContainer from "../../components/SectionContainer.vue";
-
 definePageMeta({ name: "profile-personal" });
 
-const authStore = useAuthStore();
+const { user } = useUserSession();
 
 const {
   state,
@@ -19,79 +17,87 @@ const fileInput = useTemplateRef("fileInput");
 </script>
 
 <template>
-  <SectionContainer title="Персональні дані">
-    <template #actions>
-      <UButton :disabled="!form?.dirty" :loading @click="form?.submit()">
-        Зберегти
-      </UButton>
-    </template>
-
+  <div>
     <UForm
       ref="form"
       :state="state"
       class="space-y-6"
-      @submit="updatePersonalData"
+      @submit="({ data }) => updatePersonalData(data)"
     >
-      <ProfileFormField label="Ваше фото" name="avatar">
-        <div class="flex justify-between flex-col sm:flex-row gap-4">
-          <UserAvatar :avatar="authStore.user?.avatar" class="w-40 h-40 text-current" />
-          <UInput
-            ref="fileInput"
-            type="file"
-            accept="image/png, image/jpeg"
-            class="sr-only"
-            @change="
-              (e: Event) => {
-                const target = e.target as HTMLInputElement;
+      <UFormField label="Ваше фото" name="avatar">
+        <UserAvatar :avatar="user?.data?.avatar" class="w-40 h-40 text-current mt-4" />
+        <UInput
+          ref="fileInput"
+          type="file"
+          accept="image/png, image/jpeg"
+          class="sr-only"
+          @change="
+            (e: Event) => {
+              const target = e.target as HTMLInputElement;
 
-                if (!target.files?.[0]) {
-                  return;
-                }
-
-                uploadAvatar(target.files[0]);
+              if (!target.files?.[0]) {
+                return;
               }
-            "
-          />
 
-          <div class="flex md:flex-row items-start gap-4">
-            <UButton
-              v-if="authStore.user?.avatar"
-              variant="ghost"
-              size="xs"
-              color="neutral"
-              @click="removeAvatar"
-            >
-              Видалити
-            </UButton>
-            <UButton
-              variant="ghost"
-              size="xs"
-              :loading="isUploadingAvatar"
-              @click="fileInput?.inputRef?.click()"
-            >
-              Завантажити
-            </UButton>
-          </div>
+              uploadAvatar(target.files[0]);
+            }
+          "
+        />
+
+        <div class="flex md:flex-row items-start gap-2 mt-4">
+          <UButton
+            v-if="user?.data?.avatar"
+            variant="outline"
+            color="neutral"
+            size="sm"
+            @click="removeAvatar"
+          >
+            Видалити
+          </UButton>
+          <UButton
+            variant="outline"
+            size="sm"
+            :loading="isUploadingAvatar"
+            @click="fileInput?.inputRef?.click()"
+          >
+            Оновити
+          </UButton>
         </div>
-      </ProfileFormField>
+      </UFormField>
 
-      <USeparator />
-
-      <ProfileFormField label="Ім'я" name="firstName">
+      <UFormField label="Ім'я" name="firstName">
         <UInput
           v-model="state.firstName"
           placeholder="Вкажіть ім'я"
           class="w-full"
         />
-      </ProfileFormField>
+      </UFormField>
 
-      <ProfileFormField label="Прізвище" name="lastName">
+      <UFormField label="Прізвище" name="lastName">
         <UInput
           v-model="state.lastName"
           placeholder="Вкажіть прізвище"
           class="w-full"
         />
-      </ProfileFormField>
+      </UFormField>
+
+      <UFormField label="Пошта" name="email">
+        <UInput
+          v-model="state.email"
+          class="w-full"
+        />
+      </UFormField>
+
+      <UFormField label="Телефон" name="phone">
+        <UInput
+          v-model="state.phone"
+          class="w-full"
+        />
+      </UFormField>
+
+      <UButton :disabled="!form?.dirty" :loading @click="form?.submit()">
+        Зберегти
+      </UButton>
     </UForm>
-  </SectionContainer>
+  </div>
 </template>

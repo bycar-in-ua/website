@@ -15,9 +15,10 @@ export default defineI18nConfig(() => ({
       ...general.ua,
       menu: {
         home: "Головна",
-        catalog: "Каталог",
-        catalogAuto: "Каталог автомобілів",
+        catalog: "Каталог моделей",
+        avaliableAuto: "Авто в наявності",
         about: "Про нас",
+        blog: "Блог",
       },
       filters: {
         title: "Фільтри",

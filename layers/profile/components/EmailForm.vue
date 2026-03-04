@@ -2,7 +2,7 @@
 import { useEmailForm } from "../composables/useEmailForm";
 import ProfileFormField from "./ProfileFormField.vue";
 
-const authStore = useAuthStore();
+const { user } = useUserSession();
 
 const form = useTemplateRef("form");
 
@@ -25,7 +25,7 @@ const {
       >
         <template #trailing>
           <UIcon
-            v-if="authStore.user?.emailVerified && !isNewEmail"
+            v-if="user?.data?.emailVerified && !isNewEmail"
             name="i-lucide-check"
             class="text-success"
             title="Email верифікований"
@@ -46,7 +46,7 @@ const {
 
       <template
         v-if="
-          authStore.user?.email && !authStore.user?.emailVerified && !isNewEmail
+          user?.data?.email && !user?.data?.emailVerified && !isNewEmail
         "
         #help
       >

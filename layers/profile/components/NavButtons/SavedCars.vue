@@ -1,32 +1,30 @@
 <script setup lang="ts">
-const authStore = useAuthStore();
-const profileStore = useProfileStore();
+const profile = useProfile();
 </script>
 
 <template>
   <UChip
-    v-if="authStore.authenticated"
     size="xl"
     inset
-    :show="!!profileStore.profile?.savedCars?.length"
+    :show="!!profile.data.value?.savedCars?.length"
     :ui="{
-      base: 'px-0.5 py-1.5 ring-primary text-white',
+      base: 'px-0.5 py-1.5 ring-primary',
     }"
   >
     <UButton
       :icon="
-        profileStore.profile?.savedCars?.length
-          ? 'i-heroicons-heart-solid'
-          : 'i-heroicons-heart'
+        profile.data.value?.savedCars?.length
+          ? 'i-heroicons-bookmark-solid'
+          : 'i-heroicons-bookmark'
       "
       variant="link"
-      size="xl"
+      size="md"
       :to="{ name: 'saved-cars' }"
       v-bind="$attrs"
     />
 
     <template #content>
-      {{ profileStore.profile?.savedCars?.length }}
+      {{ profile.data.value?.savedCars?.length }}
     </template>
   </UChip>
 </template>

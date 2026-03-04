@@ -1,10 +1,14 @@
 <script setup lang="ts">
-import type { HomepageData } from "#shared/types";
 import ContactForm from "~/components/ContactFormSection.vue";
-import Hero from "~/components/Home/Hero.vue";
+import { Hero } from "~/components/Home/Hero";
+import HowItWorks from "~/components/Home/HowItWorks.vue";
+import FeaturedCollections from "~/components/Home/FeaturedCollections.vue";
 import LatestVideos from "~/components/Home/LatestVideos.vue";
 import Latest from "~/components/Home/Latest.vue";
 import Brands from "~/components/Home/Brands.vue";
+import DualPanel from "~/components/Home/DualPanel.vue";
+import BodyTypes from "~/components/Home/BodyTypes.vue";
+import AboutUs from "~/components/Home/AboutUs.vue";
 import { generatePageTitle } from "~/utils/seo";
 
 const route = useRoute();
@@ -25,29 +29,21 @@ useSeoMeta({
   ogDescription: pageDescription,
 });
 
-const { data } = await useFetch<HomepageData>("/api/homepage-data", {
-  default: () => ({
-    latestYoutubeVideos: [],
-    latestItems: {
-      title: "",
-      queryString: "",
-      items: [],
-    },
-    totalItems: 0,
-    establishedBrands: [],
-  }),
-
-});
+const { data: filtersData } = useCatalogFilters();
 </script>
 
 <template>
-  <main
-    class="overflow-x-hidden lg:overflow-x-visible"
-  >
-    <Hero :total-cars="data.totalItems" />
-    <LatestVideos :videos="data.latestYoutubeVideos" class="container" />
-    <Latest :latest-items="data.latestItems" class="container" />
-    <ContactForm page="Головна сторінка" :show-affix="false" class="container" />
-    <Brands :established-brands="data.establishedBrands" class="container" />
+  <main class="overflow-x-hidden lg:overflow-x-visible">
+    <Hero :total-cars="filtersData?.total" />
+    <Brands :established-brands="filtersData?.filters.brand ?? {}" />
+    <Latest />
+    <HowItWorks />
+    <FeaturedCollections class="container" />
+    <DualPanel />
+    <BodyTypes class="container" />
+    <ContactForm page="Головна сторінка" :show-affix="false" />
+    <AboutUs class="container" />
+    <LatestVideos />
+    <PartnershipBanner />
   </main>
 </template>

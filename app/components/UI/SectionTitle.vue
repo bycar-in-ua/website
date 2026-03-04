@@ -1,19 +1,25 @@
 <script setup lang="ts">
-defineProps<{ title?: string;
-  extraLink?: string; }>();
+defineProps<{
+  title?: string[];
+  extraLink?: string;
+}>();
 </script>
 
 <template>
-  <div class="flex items-center mb-7">
+  <div class="flex items-end">
     <slot name="title">
       <h2
-        class="text-xl sm:text-2xl md:text-3xl font-bold flex-grow"
-        v-text="title"
-      />
+        class="text-xl sm:text-3xl md:text-5xl font-bold grow text-default"
+      >
+        <span class="text-primary">{{ title?.[0] }}</span>
+        <br>
+        {{ title?.[1] }}
+      </h2>
     </slot>
 
     <slot name="extra">
       <UButton
+        v-if="extraLink"
         variant="link"
         icon="i-heroicons-arrow-right"
         trailing

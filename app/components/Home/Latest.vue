@@ -1,43 +1,27 @@
 <script setup lang="ts">
-import SectionTitle from "~/components/UI/SectionTitle.vue";
-import CarCard from "~/components/UI/CarCard/CarCard.vue";
-import type { HomepageData } from "#shared/types";
+import VehiclesCarouselSection from "~/components/VehiclesCarouselSection.vue";
+import { useQuery } from "@tanstack/vue-query";
 
-defineProps<{ latestItems: HomepageData["latestItems"]; }>();
+const vehiclesService = useVehiclesService();
 
-const profileStore = useProfileStore();
+const { data: availableVehicles, suspense } = useQuery({
+  queryKey: ["homepage-available-vehicles"],
+  queryFn: () => vehiclesService.searchAvailableVehicles({
+    filters: {},
+    pagination: {
+      page: 1,
+      limit: 9,
+    },
+  }),
+});
 
-const { toggleSave } = useSavedCarActions();
+await suspense();
 </script>
 
 <template>
-  <section class="my-10 md:my-24">
-    <SectionTitle
-      :title="latestItems.title ?? 'Нові авто в каталозі'"
-      :extra-link="`/catalog?${latestItems.queryString}`"
-    />
-
-    <div
-      class="cards-container grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4 lg:gap-5"
-    >
-      <NuxtLink
-        v-for="car in latestItems.items"
-        :key="car.id"
-        :to="{
-          name: 'SingleCar',
-          params: {
-            brand: car.brand?.slug ?? '',
-            model: car.slug,
-          },
-        }"
-        class="latest-car-card:nth-of-type-[n+7]:hidden lg:nth-of-type-[n+7]:block"
-      >
-        <CarCard
-          :car="car"
-          :toggle-save="toggleSave"
-          :is-saved="profileStore.profile?.savedCars?.includes(car.id)"
-        />
-      </NuxtLink>
-    </div>
-  </section>
+  <VehiclesCarouselSection
+    :title="['Авто в наявності', 'Спеціальні пропозиції']"
+    :vehicles="availableVehicles?.items || []"
+    class="container mt-10 md:mt-20 mb-8 md:mb-18"
+  />
 </template>

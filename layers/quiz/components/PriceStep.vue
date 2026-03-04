@@ -5,7 +5,7 @@ import {
   MAX_PRICE,
   PRICE_STEP,
 } from "#shared/priceTemplates";
-
+import { useQuizStore } from "#layers/quiz/stores/quiz";
 import QuestionContainer from "./QuestionContainer.vue";
 import QuizButton from "./QuizButton.vue";
 
@@ -62,7 +62,7 @@ const availablePriceTo = computed(() => {
         :step="PRICE_STEP"
         :min="MIN_PRICE"
         :max="maxPriceFrom"
-        class="flex-grow"
+        class="grow"
         :format-options="{
           style: 'currency',
           currency: 'USD',
@@ -78,7 +78,7 @@ const availablePriceTo = computed(() => {
         :step="PRICE_STEP"
         :min="minPriceTo"
         :max="MAX_PRICE"
-        class="flex-grow"
+        class="grow"
         :format-options="{
           style: 'currency',
           currency: 'USD',

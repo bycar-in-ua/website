@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type SupportedSize, useCdnImage } from "~/composables/useCdnImage";
+import type { SupportedSize } from "@bycar-in-ua/base-nuxt-module";
 
 const props = defineProps<{
   src: string;

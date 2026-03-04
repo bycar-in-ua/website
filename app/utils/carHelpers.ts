@@ -1,6 +1,7 @@
 import type { Complectation, Vehicle } from "@bycar-in-ua/sdk";
+import type { TrimView, VehicleView } from "@bycar-in-ua/vehicles-sdk";
 
-export function getCarTitle(vehicle: Vehicle) {
+export function getCarTitle(vehicle: Vehicle | VehicleView) {
   const titleParts = [];
 
   if (vehicle.brand?.displayName) {
@@ -12,7 +13,7 @@ export function getCarTitle(vehicle: Vehicle) {
   return titleParts.join(" ").trim();
 }
 
-export function getPriceRange(complectations?: Complectation[]): string {
+export function getPriceRange(complectations?: Complectation[] | TrimView[]): string {
   if (!complectations?.length) {
     return "";
   }
@@ -28,7 +29,7 @@ export function getPriceRange(complectations?: Complectation[]): string {
   }
 
   if (prices.length === 1) {
-    return `$${prices[0].toLocaleString()}`;
+    return `$${prices[0]?.toLocaleString()}`;
   }
 
   const min = Math.min(...prices);
@@ -38,11 +39,11 @@ export function getPriceRange(complectations?: Complectation[]): string {
 }
 
 export function getComplectationsSummary(
-  complectations: Vehicle["complectations"] = [],
+  complectations: Vehicle["complectations"] | TrimView[] = [],
 ) {
   return complectations
     ?.map((complectation) => {
-      const priceRange = getPriceRange([complectation]);
+      const priceRange = getPriceRange([complectation as Complectation]);
 
       return complectation.displayName + (priceRange ? ` (${priceRange})` : "");
     })

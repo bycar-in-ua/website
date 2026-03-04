@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import CdnImage from "~/components/CdnImage.vue";
 import { getPriceRange } from "~/utils/carHelpers";
-
+import { useQuizStore } from "#layers/quiz/stores/quiz";
 import QuestionContainer from "./QuestionContainer.vue";
 import QuizButton from "./QuizButton.vue";
 

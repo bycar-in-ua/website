@@ -3,15 +3,14 @@ import * as v from "valibot";
 import { phoneRegex } from "../vaidation.shema";
 
 export function usePhoneForm() {
-  const authStore = useAuthStore();
+  const { user } = useUserSession();
 
   const state = reactive({
-    phone: authStore.user?.phone,
+    phone: user.value?.data?.phone,
     code: [],
   });
 
-  const isNewPhone = computed(() => state.phone !== authStore.user?.phone);
-
+  const isNewPhone = computed(() => state.phone !== user.value?.data?.phone);
   const formSchema = computed(() => {
     if (!state.phone) {
       return v.object({});
@@ -27,7 +26,7 @@ export function usePhoneForm() {
 
   const codeValid = computed(() => state.code.length === 4);
   const showCodeInput = computed(
-    () => authStore.user?.phone && !authStore.user?.phoneVerified,
+    () => user.value?.data?.phone && !user.value?.data?.phoneVerified,
   );
 
   const toast = useToast();
@@ -49,8 +48,8 @@ export function usePhoneForm() {
         });
 
         if (isNewPhone.value) {
-          authStore.user!.phone = state.phone;
-          authStore.user!.phoneVerified = false;
+          user.value!.data!.phone = state.phone;
+          user.value!.data!.phoneVerified = false;
         }
 
         timeToResend.value = 60;
@@ -84,7 +83,7 @@ export function usePhoneForm() {
         color: "success",
       });
 
-      authStore.user!.phoneVerified = true;
+      user.value!.data!.phoneVerified = true;
 
       return true;
     },
