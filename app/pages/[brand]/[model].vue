@@ -218,17 +218,20 @@ gtag("event", "view_item", {
       />
     </div>
 
-    <!-- <AvailableCars
-      v-if="Boolean(availableVehicles?.meta.totalItems)"
-      :car="car"
-      :availability="availableVehicles?.items || []"
-      class="container my-5"
-    /> -->
+    <VehiclesCarouselSection
+      v-if="availableVehicles?.items?.length"
+      id="available-vehicles"
+      :title="['Авто в наявності', `Оберіть ${carTitle}`]"
+      :vehicles="availableVehicles?.items || []"
+      type="available"
+      class="container my-10 md:my-20"
+    />
 
     <VehiclesCarouselSection
       v-if="similarVehicles?.length"
       :title="['Каталог моделей', 'Подібні авто']"
       :vehicles="similarVehicles"
+      type="model"
       class="container my-10 md:my-20"
     />
 

@@ -27,7 +27,7 @@ defineProps<{ car: VehicleSearchDocument; }>();
     >
       <slot name="cta">
         <UButton block>
-          Написати в чат
+          Дізнатися деталі
         </UButton>
       </slot>
     </div>

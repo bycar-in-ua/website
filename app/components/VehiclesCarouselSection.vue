@@ -2,10 +2,12 @@
 import type { VehicleSearchDocument } from "@bycar-in-ua/vehicles-sdk";
 import VehiclesCarousel from "~/components/VehiclesCarousel.vue";
 import SectionTitle from "~/components/UI/SectionTitle.vue";
+import type { CardType } from "~/components/UI/CarCard";
 
 defineProps<{
   vehicles: VehicleSearchDocument[];
   title: string[];
+  type?: CardType;
 }>();
 
 const carousel = useTemplateRef("carousel");
@@ -17,7 +19,7 @@ const carousel = useTemplateRef("carousel");
       :title
       class="mb-10"
     >
-      <template #extra>
+      <template v-if="carousel?.scrollable" #extra>
         <div class="flex items-center gap-2">
           <!-- <UButton variant="outline">
             Дивитися всі
@@ -43,6 +45,7 @@ const carousel = useTemplateRef("carousel");
     <VehiclesCarousel
       ref="carousel"
       :vehicles
+      :type
     />
   </section>
 </template>

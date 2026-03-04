@@ -43,7 +43,6 @@ const cdnImage = useCdnImage();
 <template>
   <UCard class="sticky top-4">
     <template #header>
-      <!-- Brand logo and car title -->
       <div class="flex items-start gap-4">
         <div v-if="car.brand?.logo" class="size-14 bg-black flex items-center justify-center shrink-0 p-2">
           <img :src="cdnImage(car.brand?.logo, 'thumbnail')" :alt="car.brand.displayName" class="w-full h-full object-contain invert grayscale brightness-100">
@@ -58,7 +57,6 @@ const cdnImage = useCdnImage();
         </div>
       </div>
 
-      <!-- Price and action buttons -->
       <div class="flex items-center justify-between mt-6">
         <div v-if="powerUnit?.price" class="text-xl font-bold">
           {{ formatCurrency(powerUnit.price, { currency: 'USD', style: 'currency', currencyDisplay: 'narrowSymbol', minimumSignificantDigits: 2 }) }}
@@ -87,7 +85,6 @@ const cdnImage = useCdnImage();
       </div>
     </template>
 
-    <!-- Specifications list -->
     <div class="space-y-0">
       <div
         v-for="(bullet, index) in infoBullets"
@@ -117,7 +114,6 @@ const cdnImage = useCdnImage();
     </div>
 
     <template #footer>
-      <!-- Action buttons -->
       <div class="space-y-3">
         <UButton
           v-if="availableVehicles && availableVehicles.length > 0"
@@ -126,6 +122,7 @@ const cdnImage = useCdnImage();
           color="primary"
           variant="solid"
           class="font-semibold"
+          @click="scrollIntoView('#available-vehicles')"
         >
           {{ availableVehicles.length }} авто в наявності
         </UButton>
