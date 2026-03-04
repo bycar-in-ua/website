@@ -22,6 +22,7 @@ await suspense();
   <VehiclesCarouselSection
     :title="['Авто в наявності', 'Спеціальні пропозиції']"
     :vehicles="availableVehicles?.items || []"
+    type="available"
     class="container mt-10 md:mt-20 mb-8 md:mb-18"
   />
 </template>

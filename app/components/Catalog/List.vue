@@ -45,8 +45,7 @@ const list = useTemplateRef<HTMLDivElement>("list");
         :to="{
           name: 'SingleCar',
           params: {
-            brand: car.brand?.slug ?? '',
-            model: car.slug,
+            slug: car.slug,
           },
         }"
       >

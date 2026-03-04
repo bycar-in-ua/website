@@ -86,10 +86,7 @@ export const useQuizStore = defineStore("quiz", () => {
   const selectModel = (car: Vehicle) => {
     navigateTo({
       name: "SingleCar",
-      params: {
-        brand: car.brand!.slug,
-        model: car.slug,
-      },
+      params: { slug: car.slug },
     });
 
     isOpen.value = false;
