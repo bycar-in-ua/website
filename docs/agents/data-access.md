@@ -13,8 +13,7 @@ The app integrates with a cloud backend via SDKs. Prefer SDK clients over raw fe
 These are the preferred entry points for SDK usage:
 
 - app/composables/useVehiclesService.ts uses vehiclesApiHost and getBycarFetchClient.
-- app/composables/useBrandService.ts uses apiHost.
-- app/composables/useAvailableVehiclesService.ts uses apiHost.
+- app/composables/useBrandService.ts uses brandsApiHost and getBycarFetchClient.
 - layers/auth/composables/useAuthService.ts uses authApiHost and session tokens.
 
 Create new SDK usage behind a composable so it is cached and consistent.
