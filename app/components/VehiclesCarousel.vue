@@ -51,7 +51,7 @@ defineExpose({
       <NuxtLink
         v-for="car in item"
         :key="car.id"
-        :to="{ name: 'SingleCar', params: { brand: car.brand?.slug, model: car.slug } }"
+        :to="type === 'model' ? { name: 'SingleCar', params: { slug: car.slug } } : { name: 'AvailableCarSingle', params: { id: car.id } }"
         class="block"
       >
         <CarCard

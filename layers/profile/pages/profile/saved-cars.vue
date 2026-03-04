@@ -45,8 +45,7 @@ const {
         :to="{
           name: 'SingleCar',
           params: {
-            brand: car.brand?.slug ?? '',
-            model: car.slug,
+            slug: car.slug,
           },
         }"
       >
