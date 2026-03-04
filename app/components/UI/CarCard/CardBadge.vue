@@ -1,17 +1,16 @@
 <script setup lang="ts">
 import type { VehicleSearchDocument } from "@bycar-in-ua/vehicles-sdk";
-
-type Status = "avalible" | "discount" | "prev-model";
+import type { CardStatus } from "./interface";
 
 const props = defineProps<{ car: VehicleSearchDocument; }>();
 
-const status = computed<Status | undefined>(() => {
+const status = computed<CardStatus | undefined>(() => {
   if (props.car.discountedPrice) {
     return "discount";
   }
 
   if (props.car.hasAvailableInstances) {
-    return "avalible";
+    return "available";
   }
 
   if (!props.car.isCurrentProduction) {
@@ -21,9 +20,9 @@ const status = computed<Status | undefined>(() => {
   return undefined;
 });
 
-const content: Record<Status, { icon: string;
+const content: Record<CardStatus, { icon: string;
   text: string; }> = {
-  "avalible": {
+  "available": {
     icon: "i-lucide-clock",
     text: "Доступно зараз",
   },

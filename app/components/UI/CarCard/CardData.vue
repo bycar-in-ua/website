@@ -43,11 +43,16 @@ const discountedPrice = computed(() => {
 
 <template>
   <div class="relative flex flex-col p-4 space-y-4.5">
-    <slot name="header">
+    <div>
+      <span v-if="car.dealerLocation" class="inline-flex gap-1 items-center mb-1.5 text-dimmed">
+        <UIcon name="i-lucide-map-pin" class="size-4 shrink-0" />
+        {{ car.dealerLocation }}
+      </span>
+
       <h3 class="text-lg font-bold">
         {{ car.title }}
       </h3>
-    </slot>
+    </div>
 
     <div class="flex flex-wrap gap-2">
       <UBadge

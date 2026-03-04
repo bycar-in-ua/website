@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import type { VehicleSearchDocument } from "@bycar-in-ua/vehicles-sdk";
-import { CarCard } from "~/components/UI/CarCard";
+import { CarCard, type CardType } from "~/components/UI/CarCard";
 
-const props = defineProps<{ vehicles: VehicleSearchDocument[]; }>();
+const props = withDefaults(defineProps<{
+  vehicles: VehicleSearchDocument[];
+  type?: CardType;
+}>(), { type: "model" });
 
 const carouselItems = computed(() => {
   // Split items into chunks of 3 for carousel slides
@@ -22,9 +25,12 @@ const handleCtaClick = (title: string) => {
 
 const carousel = useTemplateRef("carousel");
 
+const scrollable = computed(() => carouselItems.value.length > 1);
+
 defineExpose({
   scrollNext: () => carousel.value?.emblaApi?.scrollNext(),
   scrollPrev: () => carousel.value?.emblaApi?.scrollPrev(),
+  scrollable,
 });
 </script>
 
@@ -54,7 +60,7 @@ defineExpose({
           class="h-full"
         >
           <template #cta>
-            <UButton block @click.prevent="handleCtaClick(car.title)">
+            <UButton v-if="type === 'available'" block @click.prevent="handleCtaClick(car.title)">
               Отримати пропозицію
             </UButton>
           </template>
