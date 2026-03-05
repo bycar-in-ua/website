@@ -19,6 +19,7 @@ import {
 import type { Component } from "vue";
 import Drive from "~/components/UI/Icons/Drive.vue";
 import type {
+  AvailableVehicleView,
   EngineView,
   PowerUnitView,
   TransmissionView,
@@ -182,7 +183,7 @@ export function getPowerUnitSubtitle(powerUnit: PowerUnit | PowerUnitView, t: Co
   return parts.filter(Boolean).join(" ");
 }
 
-export function getGeneralInfoBlock(car: VehicleView, t: Composer["t"]): InfoLine[] {
+export function getGeneralInfoBlock(car: VehicleView | AvailableVehicleView, t: Composer["t"]): InfoLine[] {
   return [
     {
       title: "Модель",
@@ -233,7 +234,7 @@ export function getGeneralInfoBlock(car: VehicleView, t: Composer["t"]): InfoLin
   ];
 }
 
-export function getDimensionsBlock(car: VehicleView, t: Composer["t"]): InfoLine[] {
+export function getDimensionsBlock(car: VehicleView | AvailableVehicleView, t: Composer["t"]): InfoLine[] {
   return [
     {
       title: t("vehicle.generalCharacteristics.dimensions.l"),
@@ -260,7 +261,7 @@ export function getDimensionsBlock(car: VehicleView, t: Composer["t"]): InfoLine
 }
 
 export function getWeightsAndVolumesBlock(
-  car: VehicleView,
+  car: VehicleView | AvailableVehicleView,
   t: Composer["t"],
 ): InfoLine[] {
   return [

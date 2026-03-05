@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { getInfoBullets, getPowerUnitTitle } from "./helpers";
 import type { PowerUnitView, VehicleSearchDocument, VehicleView } from "@bycar-in-ua/vehicles-sdk";
+import WrapTitle from "./WrapTitle.vue";
 
 const props = defineProps<{
   car: VehicleView;
@@ -36,26 +37,12 @@ const yearsRange = computed(() => {
     .filter(Boolean)
     .join("-");
 });
-
-const cdnImage = useCdnImage();
 </script>
 
 <template>
   <UCard class="sticky top-4">
     <template #header>
-      <div class="flex items-start gap-4">
-        <div v-if="car.brand?.logo" class="size-14 bg-black flex items-center justify-center shrink-0 p-2">
-          <img :src="cdnImage(car.brand?.logo, 'thumbnail')" :alt="car.brand.displayName" class="w-full h-full object-contain invert grayscale brightness-100">
-        </div>
-        <div>
-          <h2 class="text-xl font-bold">
-            {{ carTitle }}
-          </h2>
-          <p v-if="powerUnitTitle" class="text-lg font-bold">
-            {{ powerUnitTitle }}
-          </p>
-        </div>
-      </div>
+      <WrapTitle :brand="car.brand" :title="carTitle" :subtitle="powerUnitTitle" />
 
       <div class="flex items-center justify-between mt-6">
         <div v-if="powerUnit?.price" class="text-xl font-bold">

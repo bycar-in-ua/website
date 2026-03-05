@@ -1,7 +1,7 @@
 import type { Complectation, Vehicle } from "@bycar-in-ua/sdk";
-import type { TrimView, VehicleView } from "@bycar-in-ua/vehicles-sdk";
+import type { AvailableVehicleView, TrimView, VehicleView } from "@bycar-in-ua/vehicles-sdk";
 
-export function getCarTitle(vehicle: Vehicle | VehicleView) {
+export function getCarTitle(vehicle: VehicleView | AvailableVehicleView): string {
   const titleParts = [];
 
   if (vehicle.brand?.displayName) {

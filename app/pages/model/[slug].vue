@@ -96,7 +96,7 @@ useSeoMeta({
   ogImage: {
     type: "image/jpeg",
     url: img(
-      car.value.featureImage?.path || car.value.images?.[0]?.path || "",
+      car.value.images?.[0]?.path || "",
       "small",
     ),
     alt: carTitle,
@@ -172,7 +172,7 @@ gtag("event", "view_item", {
           :items="accordionItems"
           type="multiple"
           :ui="{
-            label: 'text-3xl font-semibold',
+            label: 'text-xl font-semibold',
             content: 'pb-6',
             trigger: 'py-6',
           }"

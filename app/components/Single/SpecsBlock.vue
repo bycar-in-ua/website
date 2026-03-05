@@ -8,10 +8,15 @@ import {
   getTransmissionBlock,
   getWeightsAndVolumesBlock,
 } from "./helpers";
-import type { PowerUnitView, TrimView, VehicleView } from "@bycar-in-ua/vehicles-sdk";
+import type {
+  AvailableVehicleView,
+  PowerUnitView,
+  TrimView,
+  VehicleView,
+} from "@bycar-in-ua/vehicles-sdk";
 
 const props = defineProps<{
-  car: VehicleView;
+  car: VehicleView | AvailableVehicleView;
   trim?: TrimView;
   powerUnit?: PowerUnitView | null;
 }>();
