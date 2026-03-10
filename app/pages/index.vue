@@ -44,6 +44,6 @@ const { data: filtersData } = useCatalogFilters();
     <ContactForm page="Головна сторінка" :show-affix="false" />
     <AboutUs class="container" />
     <LatestVideos />
-    <PartnershipBanner />
+    <!-- <PartnershipBanner /> -->
   </main>
 </template>

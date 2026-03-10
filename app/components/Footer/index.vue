@@ -7,17 +7,19 @@ import Logo from "../UI/Logo.vue";
 
 <template>
   <footer class="px-4 pt-12 pb-10 sm:px-20 sm:pt-16 sm:pb-12 bg-black">
-    <div class="grid gap-8 grid-container">
-      <Logo class="h-12 w-36 logo mb-2 sm:mb-0" />
-      <Socials class="socials mt-2 sm:mt-0" />
-      <FooterNavigation />
-    </div>
+    <div class="container">
+      <div class="grid gap-8 grid-container">
+        <Logo class="h-12 w-36 logo mb-2 sm:mb-0" />
+        <Socials class="socials mt-2 sm:mt-0" />
+        <FooterNavigation />
+      </div>
 
-    <USeparator
-      class="mt-10 sm:mt-16 mb-8"
-      :ui="{ border: 'border-gray-900' }"
-    />
-    <Copyright />
+      <USeparator
+        class="mt-10 sm:mt-16 mb-8"
+        :ui="{ border: 'border-gray-900' }"
+      />
+      <Copyright />
+    </div>
   </footer>
 </template>
 

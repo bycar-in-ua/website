@@ -34,6 +34,7 @@ const { data: videos } = await useFetch<YouTubeVideoItem[]>(
               to="https://www.youtube.com/@bycar.in.ua_"
               color="secondary"
               variant="solid"
+              target="_blank"
             >
               Перейти на канал
             </UButton>
