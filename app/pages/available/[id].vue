@@ -33,8 +33,11 @@ if (!data.value || isError.value) {
 }
 
 const { data: availableVehicles } = useQuery({
-  queryKey: ["available-vehicles"],
-  queryFn: () => vehiclesService.searchAvailableVehicles({ filters: { vehicleId: data.value.vehicleId } }),
+  queryKey: ["available-vehicles", data.value.vehicleId],
+  queryFn: () => vehiclesService.searchAvailableVehicles({
+    filters: { vehicleId: data.value.vehicleId },
+    exclude: [availableVehicleId],
+  }),
 });
 
 const images = computed(() => {
