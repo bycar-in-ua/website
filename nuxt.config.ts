@@ -39,9 +39,6 @@ export default defineNuxtConfig({
       session: { maxAge: 60 * 60 * 24 * 7 },
       apiHost: process.env.API_URL,
       cdnHost: process.env.CDN_URL,
-      vehiclesApiHost: process.env.VEHICLES_API_URL,
-      authApiHost: process.env.AUTH_API_URL,
-      brandsApiHost: process.env.BRANDS_API_URL,
       sentryDsn: process.env.SENTRY_DSN,
       metapixel: process.env.META_PIXEL_ID
         ? { default: { id: process.env.META_PIXEL_ID } }

@@ -2,6 +2,7 @@
 import { getInfoBullets, getPowerUnitTitle } from "./helpers";
 import type { PowerUnitView, VehicleSearchDocument, VehicleView } from "@bycar-in-ua/vehicles-sdk";
 import WrapTitle from "./WrapTitle.vue";
+import { useProfile } from "#layers/profile/composables/useProfile";
 
 const props = defineProps<{
   car: VehicleView;
@@ -37,6 +38,15 @@ const yearsRange = computed(() => {
     .filter(Boolean)
     .join("-");
 });
+
+const profile = useProfile();
+const { toggleSave, isPending } = useSavedCarActions();
+
+const isSaved = computed(() => profile.data.value?.savedCars?.includes(props.car.id) ?? false);
+
+function handleCompare() {
+  alert("Compare functionality is not yet implemented.");
+}
 </script>
 
 <template>
@@ -53,12 +63,14 @@ const yearsRange = computed(() => {
         </div>
         <div class="flex gap-3">
           <UButton
-            icon="i-lucide-bookmark"
-            color="neutral"
             variant="outline"
+            color="neutral"
+            :icon="isSaved ? 'i-lucide-bookmark-check' : 'i-lucide-bookmark'"
             circle
             class="rounded-full"
+            :loading="isPending"
             :aria-label="t('actions.addToFavorites')"
+            @click="toggleSave(car.id, carTitle)"
           />
           <UButton
             icon="i-lucide-scale"
@@ -67,6 +79,7 @@ const yearsRange = computed(() => {
             square
             class="rounded-full"
             :aria-label="t('actions.compare')"
+            @click="handleCompare"
           />
         </div>
       </div>
@@ -119,6 +132,7 @@ const yearsRange = computed(() => {
           color="primary"
           variant="outline"
           class="font-semibold"
+          @click="scrollIntoView('#contact-container')"
         >
           Отримати консультацію
         </UButton>
