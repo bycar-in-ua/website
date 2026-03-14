@@ -1,4 +1,4 @@
-import { AuthService, getBycarAuthenticatedFetchClient } from "@bycar-in-ua/auth-sdk";
+import { AuthService, getBycarAuthenticatedFetchClient, getApiHost } from "@bycar-in-ua/auth-sdk";
 
 let authServiceInstance: AuthService | null = null;
 
@@ -8,7 +8,7 @@ export function useAuthService() {
 
     const { user } = useUserSession();
 
-    const client = getBycarAuthenticatedFetchClient(config.public.authApiHost, {
+    const client = getBycarAuthenticatedFetchClient(getApiHost(config.public.stage), {
       getAccessToken: () => user.value?.tokens?.access || "",
       getRefreshToken: () => user.value?.tokens?.refresh || "",
     });
