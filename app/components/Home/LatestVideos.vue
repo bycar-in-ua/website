@@ -20,7 +20,7 @@ const { data: videos } = await useFetch<YouTubeVideoItem[]>(
 <template>
   <section
     v-if="videos?.length"
-    class="py-12 md:p-20 bg-black"
+    class="py-12 md:py-20 bg-black"
     @mouseover="mouseoverHandler"
     @mouseleave="mouseleaveHandler"
     @touchstart="mouseoverHandler"

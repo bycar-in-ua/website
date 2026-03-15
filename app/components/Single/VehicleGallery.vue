@@ -12,6 +12,11 @@ const cdnImage = useCdnImage();
 const mainCarousel = useTemplateRef("mainCarousel");
 const thumbCarousel = useTemplateRef("thumbCarousel");
 
+onMounted(() => {
+  // To enable built in arrow navigation
+  mainCarousel.value?.emblaRef?.closest<HTMLElement>("[tabindex]")?.focus();
+});
+
 const {
   currentIndex, hasImages, scrollTo,
 } = useCarouselGallery({
@@ -28,8 +33,7 @@ const openFullscreen = () => {
   lightbox.open({
     images: props.images,
     startIndex: currentIndex.value,
-    index: currentIndex,
-    onSelect: scrollTo,
+    onLeave: (index) => scrollTo(index, true),
   });
 };
 </script>
@@ -58,6 +62,7 @@ const openFullscreen = () => {
         :prev="{ color: 'secondary', variant: 'outline', icon: 'i-lucide-chevron-left', size: 'sm' }"
         :next="{ color: 'secondary', variant: 'outline', icon: 'i-lucide-chevron-right', size: 'sm' }"
         class="rounded-none overflow-hidden"
+        @keydown="() => {}"
       >
         <template #default="{ item, index }">
           <img

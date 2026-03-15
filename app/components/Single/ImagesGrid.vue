@@ -1,11 +1,24 @@
 <script setup lang="ts">
-defineProps<{ images: VehicleGalleryImage[]; }>();
+import FullScreenGallery from "~/components/UI/FullScreenGallery.vue";
+
+const props = defineProps<{ images: VehicleGalleryImage[]; }>();
 
 const cdnImage = useCdnImage();
+
+const overlay = useOverlay();
+
+const lightbox = overlay.create(FullScreenGallery);
+
+const openFullscreen = (startIndex = 0) => {
+  lightbox.open({
+    images: props.images,
+    startIndex,
+  });
+};
 </script>
 
 <template>
-  <div class="h-screen grid grid-cols-4 gap-2 images-grid">
+  <div class="h-screen grid grid-cols-4 gap-2 images-grid cursor-zoom-in" @click="openFullscreen()">
     <div
       v-if="images[0]"
       class="col-span-4 relative"
@@ -27,7 +40,8 @@ const cdnImage = useCdnImage();
       <img
         :src="cdnImage(image.src, 'medium')"
         :alt="image.alt"
-        class="object-cover absolute inset-0 w-full h-full"
+        class="object-cover absolute inset-0 w-full h-full cursor-zoom-in"
+        @click.stop="openFullscreen(index + 1)"
       >
     </div>
   </div>

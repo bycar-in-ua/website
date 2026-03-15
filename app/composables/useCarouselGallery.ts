@@ -30,29 +30,12 @@ export function useCarouselGallery({
     currentIndex.value = selectedIndex;
   };
 
-  const scrollTo = (index: number) => {
+  const scrollTo = (index: number, jump?: boolean) => {
     if (!canNavigate.value) {
       return;
     }
 
-    mainCarousel?.value?.emblaApi?.scrollTo(index);
-  };
-
-  const onGlobalArrowKeydown = (event: KeyboardEvent) => {
-    if (!canNavigate.value) {
-      return;
-    }
-
-    if (event.key === "ArrowLeft") {
-      event.preventDefault();
-      mainCarousel?.value?.emblaApi?.scrollPrev();
-      return;
-    }
-
-    if (event.key === "ArrowRight") {
-      event.preventDefault();
-      mainCarousel?.value?.emblaApi?.scrollNext();
-    }
+    mainCarousel?.value?.emblaApi?.scrollTo(index, jump);
   };
 
   watch(
@@ -71,14 +54,6 @@ export function useCarouselGallery({
     },
     { flush: "post" },
   );
-
-  onMounted(() => {
-    document.addEventListener("keydown", onGlobalArrowKeydown);
-  });
-
-  onBeforeUnmount(() => {
-    document.removeEventListener("keydown", onGlobalArrowKeydown);
-  });
 
   return {
     currentIndex: readonly(currentIndex),

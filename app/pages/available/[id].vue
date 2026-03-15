@@ -41,7 +41,7 @@ const { data: availableVehicles } = useQuery({
 });
 
 const images = computed(() => {
-  const images = (data.value?.images ?? []).slice(0, 5);
+  const images = (data.value?.images ?? []);
 
   return images
     .map(({
@@ -58,9 +58,9 @@ const images = computed(() => {
   <main>
     <ImagesGrid :images="images">
       <template #overlay>
-        <div class="z-10 absolute inset-0 flex items-center ">
+        <div class="z-10 absolute inset-0 flex items-center">
           <div class="container">
-            <AvailableSideWrap :car="data" class="ml-auto" />
+            <AvailableSideWrap :car="data" class="ml-auto cursor-default" @click.stop />
           </div>
         </div>
       </template>
