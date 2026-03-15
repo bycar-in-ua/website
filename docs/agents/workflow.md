@@ -1,31 +1,17 @@
-# Task Workflow (bd)
+# Task Workflow
 
-This project uses bd (beads) for issue tracking.
+## Change Workflow
 
-## Quick Reference
-
-- bd onboard
-- bd ready
-- bd show <id>
-- bd update <id> --status in_progress
-- bd close <id>
-
-IMPORTANT: Do not run bd sync unless the user explicitly asks for it.
-
-## Change Workflow (Required)
-
-1. Start the task: bd update <id> --status in_progress
+1. Pick up or create a task (in whatever tracker is active, if any).
 2. Make the change.
 3. Ask for review and wait for approval.
 4. After approval:
-   - bd close <id>
-   - git add .
-   - git commit -m "..."
-   - git push
+   - Update the task status (close / mark done).
+   - git add, commit, push.
 
 Never commit or push without explicit approval.
 
-## Landing the Plane (Session Completion)
+## Session Completion
 
 When ending a session:
 
