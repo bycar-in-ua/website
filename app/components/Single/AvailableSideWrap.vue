@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { AvailableVehicleView } from "@bycar-in-ua/vehicles-sdk";
 import { getPowerUnitTitle } from "~/components/Single/helpers";
+import AllOffersSlideover from "~/components/CarRequest/AllOffersSlideover.vue";
 import WrapTitle from "./WrapTitle.vue";
 
 const props = defineProps<{ car: AvailableVehicleView; }>();
@@ -101,15 +102,18 @@ const formattedListPrice = computed(() =>
         >
           Отримати цю пропозицію
         </UButton>
-        <UButton
-          block
-          size="xl"
-          color="primary"
-          variant="outline"
-          class="font-semibold"
-        >
-          Запитати інші пропозиції
-        </UButton>
+
+        <AllOffersSlideover>
+          <UButton
+            block
+            size="xl"
+            color="primary"
+            variant="outline"
+            class="font-semibold"
+          >
+            Запитати інші пропозиції
+          </UButton>
+        </AllOffersSlideover>
       </div>
       <p class="text-xs text-dimmed text-center mt-3">
         Кінцева вартість залежить від обраного дилера та актуальних акцій на момент угоди
