@@ -1,12 +1,23 @@
 <script setup lang="ts">
+import type { CreateLeadResponse } from "@bycar-in-ua/crm-sdk";
 import type { RequestFormProps } from "../crm.types";
 import { useCarRequestForm } from "../composables/useCarRequestForm";
 
 const props = withDefaults(defineProps<RequestFormProps>(), { direct: false });
 
+const emit = defineEmits<{
+  success: [data: CreateLeadResponse];
+}>();
+
 const {
-  state, schema, submit, isPending,
+  state, schema, submit, isPending, isSuccess, data,
 } = useCarRequestForm();
+
+watch(isSuccess, (val) => {
+  if (val && data.value) {
+    emit("success", data.value);
+  }
+});
 </script>
 
 <template>

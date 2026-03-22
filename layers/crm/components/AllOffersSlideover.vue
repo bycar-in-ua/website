@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import type { CreateLeadResponse } from "@bycar-in-ua/crm-sdk";
 import { useMutationState } from "@tanstack/vue-query";
 import DrawerSlideover from "~/components/UI/DrawerSlideover.vue";
 import type { RequestFormProps } from "../crm.types";
 import RequestForm from "./RequestForm.vue";
+import RequestSuccessState from "./RequestSuccessState.vue";
 
 const props = defineProps<RequestFormProps>();
 
@@ -15,11 +17,28 @@ const tooltipSteps = [
 const mutationsState = useMutationState({ filters: { mutationKey: ["create-lead"] } });
 
 const isPending = computed(() => mutationsState.value.some((m) => m.status === "pending"));
+
+const successData = ref<CreateLeadResponse | null>(null);
+
+function onSuccess(data: CreateLeadResponse) {
+  successData.value = data;
+}
+
+const { loggedIn } = useUserSession();
+const authSlideover = useAuthSlideover();
+
+function onNavigate() {
+  if (loggedIn.value) {
+    navigateTo("/profile");
+  } else {
+    authSlideover.openSlideover("/profile");
+  }
+}
 </script>
 
 <template>
   <DrawerSlideover>
-    <template #header>
+    <template v-if="!successData" #header>
       <div>
         <h3
           class="text-xl sm:text-3xl font-bold"
@@ -66,10 +85,24 @@ const isPending = computed(() => mutationsState.value.some((m) => m.status === "
     </template>
 
     <template #body>
-      <RequestForm id="all-offers-request-form" v-bind="props" />
+      <RequestSuccessState
+        v-if="successData"
+        :direct="false"
+        :resolution-deadline="successData.resolutionDeadline"
+        :otp-sent="successData.otpSent"
+        :has-flexible-search="Boolean(successData.vehicleFlexible || successData.trimFlexible)"
+        :contact-channel="successData.email ? 'Email' : 'SMS'"
+        @navigate="onNavigate"
+      />
+      <RequestForm
+        v-else
+        id="all-offers-request-form"
+        v-bind="props"
+        @success="onSuccess"
+      />
     </template>
 
-    <template #footer>
+    <template v-if="!successData" #footer>
       <div class="grow">
         <UButton
           form="all-offers-request-form"

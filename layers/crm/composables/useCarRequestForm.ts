@@ -25,19 +25,13 @@ export function useCarRequestForm() {
   });
 
   const leadService = useLeadService();
-  const toast = useToast();
 
-  const { mutateAsync: submit, isPending } = useMutation({
+  const {
+    mutateAsync: submit, isPending, isSuccess, data,
+  } = useMutation({
     mutationKey: ["create-lead"],
     mutationFn: async (payload: FormSchema & RequestFormProps) => {
-      await leadService.createLead(payload);
-    },
-    onSuccess: () => {
-      toast.add({
-        title: "Запит надіслано",
-        description: "Ми зв'яжемося з вами найближчим часом",
-        color: "success",
-      });
+      return leadService.createLead(payload);
     },
   });
 
@@ -46,5 +40,7 @@ export function useCarRequestForm() {
     schema,
     submit,
     isPending,
+    isSuccess,
+    data,
   };
 }
