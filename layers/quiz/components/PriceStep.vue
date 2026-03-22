@@ -13,31 +13,31 @@ const quizStore = useQuizStore();
 
 const priceSliderModel = computed({
   get: () => [
-    Number(quizStore.filters.priceFrom ?? 0),
-    Number(quizStore.filters.priceTo ?? Infinity),
+    Number(quizStore.filters.minPrice ?? 0),
+    Number(quizStore.filters.maxPrice ?? Infinity),
   ],
   set: ([from, to]: number[]) => {
-    quizStore.filters.priceFrom = from;
+    quizStore.filters.minPrice = from;
 
     if (Number.isFinite(to)) {
-      quizStore.filters.priceTo = to;
+      quizStore.filters.maxPrice = to;
     }
   },
 });
 
 const maxPriceFrom = computed(() => {
-  return quizStore.filters.priceTo
-    ? quizStore.filters.priceTo - PRICE_STEP
+  return quizStore.filters.maxPrice
+    ? quizStore.filters.maxPrice - PRICE_STEP
     : MAX_PRICE;
 });
 const minPriceTo = computed(() => {
-  return quizStore.filters.priceFrom
-    ? quizStore.filters.priceFrom + PRICE_STEP
+  return quizStore.filters.minPrice
+    ? quizStore.filters.minPrice + PRICE_STEP
     : MIN_PRICE;
 });
 
 const availablePriceFrom = computed(() => {
-  const value = quizStore.filters.priceTo;
+  const value = quizStore.filters.maxPrice;
 
   return value
     ? [...priceTemplates].filter((item) => item.value < value)
@@ -45,7 +45,7 @@ const availablePriceFrom = computed(() => {
 });
 
 const availablePriceTo = computed(() => {
-  const value = quizStore.filters.priceFrom;
+  const value = quizStore.filters.minPrice;
 
   return value
     ? [...priceTemplates].filter((item) => item.value > value)
@@ -57,7 +57,7 @@ const availablePriceTo = computed(() => {
   <QuestionContainer step="Крок 1/3" title="Обери бюджет:">
     <div class="flex gap-2 items-center mb-8">
       <UInputNumber
-        v-model="quizStore.filters.priceFrom"
+        v-model="quizStore.filters.minPrice"
         size="lg"
         :step="PRICE_STEP"
         :min="MIN_PRICE"
@@ -73,7 +73,7 @@ const availablePriceTo = computed(() => {
       />
       <span class="basis-2">-</span>
       <UInputNumber
-        v-model="quizStore.filters.priceTo"
+        v-model="quizStore.filters.maxPrice"
         size="lg"
         :step="PRICE_STEP"
         :min="minPriceTo"
@@ -101,7 +101,7 @@ const availablePriceTo = computed(() => {
       <div class="flex items-center grow gap-4">
         <UFormField label="Від:" class="w-full">
           <USelectMenu
-            v-model="quizStore.filters.priceFrom"
+            v-model="quizStore.filters.minPrice"
             :items="availablePriceFrom"
             class="w-full"
             :search-input="false"
@@ -113,7 +113,7 @@ const availablePriceTo = computed(() => {
       <div class="flex items-center grow gap-4">
         <UFormField label="До:" class="w-full">
           <USelectMenu
-            v-model="quizStore.filters.priceTo"
+            v-model="quizStore.filters.maxPrice"
             :items="availablePriceTo"
             class="w-full"
             :search-input="false"
@@ -124,7 +124,7 @@ const availablePriceTo = computed(() => {
     </div>
 
     <template #footer>
-      <QuizButton variant="outline" @click="quizStore.$reset()">
+      <QuizButton variant="outline" @click="quizStore.resetState()">
         Назад
       </QuizButton>
       <QuizButton @click="quizStore.step += 1">

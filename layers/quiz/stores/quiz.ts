@@ -1,22 +1,31 @@
 import type { Vehicle } from "@bycar-in-ua/sdk";
+import type { VehiclesFiltersSchema } from "@bycar-in-ua/vehicles-sdk";
 import { defineStore } from "pinia";
-import type { LocationQueryRaw } from "vue-router";
-import type { FiltersState } from "#shared/types";
+import { serializeFiltersToQuery } from "~/utils/filters";
 
-const initialFilters: FiltersState = Object.freeze({
+const initialFilters: VehiclesFiltersSchema = Object.freeze({
   brand: [],
   bodyType: [],
   engineType: [],
-  drive: [],
-  priceTo: undefined,
-  priceFrom: undefined,
+  driveType: [],
+  gearboxType: [],
+  minPrice: undefined,
+  maxPrice: undefined,
+  yearFrom: undefined,
+  yearTo: undefined,
+  minDisplacement: undefined,
+  maxDisplacement: undefined,
+  minPower: undefined,
+  maxPower: undefined,
+  availability: undefined,
+  productionRelevance: undefined,
 });
 
 export const useQuizStore = defineStore("quiz", () => {
   const isOpen = ref(false);
   const step = ref(0);
   const isUserKnow = ref<boolean | null>(null);
-  const filters = ref<FiltersState>({ ...initialFilters });
+  const filters = ref<VehiclesFiltersSchema>({ ...initialFilters });
 
   const resetState = () => {
     step.value = 0;
@@ -29,10 +38,10 @@ export const useQuizStore = defineStore("quiz", () => {
   const canFinishQuiz = computed(() => {
     return Boolean(
       filters.value.bodyType?.length
-      || filters.value.drive?.length
+      || filters.value.driveType?.length
       || filters.value.engineType?.length
-      || filters.value.priceFrom
-      || filters.value.priceTo,
+      || filters.value.minPrice
+      || filters.value.maxPrice,
     );
   });
 
@@ -53,21 +62,7 @@ export const useQuizStore = defineStore("quiz", () => {
       return;
     }
 
-    const query: LocationQueryRaw = Object.entries(filters.value).reduce(
-      (acc, [key, value]) => {
-        if ((key === "priceFrom" || key === "priceTo") && !!value) {
-          acc[key] = value;
-          return acc;
-        }
-
-        if (Array.isArray(value) && value.length) {
-          acc[key] = value.join(",");
-        }
-
-        return acc;
-      },
-      {} as LocationQueryRaw,
-    );
+    const query = serializeFiltersToQuery(filters.value);
 
     gtag("event", "quiz_finished", {
       event_category: "quiz",
@@ -100,7 +95,7 @@ export const useQuizStore = defineStore("quiz", () => {
   };
 
   const checkHandler = <TValue extends string | number>(
-    field: keyof FiltersState,
+    field: keyof VehiclesFiltersSchema,
     checked: boolean | "indeterminate",
     value: TValue,
   ) => {
@@ -131,6 +126,7 @@ export const useQuizStore = defineStore("quiz", () => {
     canFinishQuiz,
     openQuiz,
     finishQuiz,
+    resetState,
     selectModel,
     checkHandler,
   };

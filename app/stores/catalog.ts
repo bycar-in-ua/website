@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
 import type { VehiclesSearchSchema } from "@bycar-in-ua/sdk";
-import type { FiltersState } from "#shared/types";
 import type { SearchVehiclesInput, VehiclesFiltersSchema } from "@bycar-in-ua/vehicles-sdk";
 import { keepPreviousData, useQuery } from "@tanstack/vue-query";
 import { useFiltersStore } from "~/stores/filters";
@@ -60,7 +59,7 @@ export const useCatalogStore = defineStore("catalog", () => {
   };
 
   const clearFilters = () => {
-    filters.value = {} as FiltersState;
+    filters.value = {} as VehiclesFiltersSchema;
     pagination.value.page = 1;
   };
 

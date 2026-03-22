@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { CheckboxProps } from "@nuxt/ui";
-import type { BodyType, VehiclesFilters } from "@bycar-in-ua/sdk";
+import type { VehiclesFiltersSchema } from "@bycar-in-ua/vehicles-sdk";
 import { useQuizStore } from "#layers/quiz/stores/quiz";
 import QuestionContainer from "./QuestionContainer.vue";
 import QuizButton from "./QuizButton.vue";
@@ -12,7 +12,10 @@ const { t } = useI18n();
 const quizStore = useQuizStore();
 const { data: filtersData } = useCatalogFilters();
 
-const engineTypes: NonNullable<VehiclesFilters["engineType"]> = [
+type EngineType = NonNullable<VehiclesFiltersSchema["engineType"]>[number];
+type BodyType = NonNullable<VehiclesFiltersSchema["bodyType"]>[number];
+
+const engineTypes: EngineType[] = [
   "gas",
   "dt",
   "hybrid",
@@ -84,7 +87,7 @@ const checkboxUi: CheckboxProps["ui"] = {
             </div>
 
             <template #footer>
-              <QuizButton variant="outline" @click="quizStore.$reset()">
+              <QuizButton variant="outline" @click="quizStore.resetState()">
                 Назад
               </QuizButton>
               <QuizButton
