@@ -6,7 +6,6 @@ const props = defineProps<{
   resolutionDeadline: Date | string | null;
   otpSent: boolean;
   hasFlexibleSearch: boolean;
-  contactChannel: "SMS" | "Email";
 }>();
 
 const { loggedIn } = useUserSession();
@@ -14,9 +13,7 @@ const { loggedIn } = useUserSession();
 const formattedDeadline = computed(() => {
   if (!props.resolutionDeadline) return null;
 
-  const date = typeof props.resolutionDeadline === "string"
-    ? new Date(props.resolutionDeadline)
-    : props.resolutionDeadline;
+  const date = new Date(props.resolutionDeadline);
 
   return date.toLocaleDateString("uk-UA", {
     day: "numeric",
@@ -29,7 +26,7 @@ const description = computed(() => {
     if (loggedIn.value) {
       return "Вибір зафіксовано. Очікуйте на дзвінок дилера найближчим часом. Деталі вже з'явилися у розділі «Мої пропозиції» особистого кабінета.";
     }
-    return `Вибір зафіксовано. Очікуйте на дзвінок дилера найближчим часом. Ми надіслали код для входу в кабінет вам у ${props.contactChannel}.`;
+    return `Вибір зафіксовано. Очікуйте на дзвінок дилера найближчим часом. Ми надіслали код для входу в кабінет вам у SMS.`;
   }
 
   const parts: string[] = [];
@@ -45,23 +42,19 @@ const description = computed(() => {
   if (loggedIn.value) {
     parts.push("Результати з'являться у розділі «Мої пропозиції» особистого кабінета.");
   } else {
-    parts.push(`Ми надіслали інструкцію та код для входу в кабінет вам у ${props.contactChannel}.`);
+    parts.push(`Ми надіслали інструкцію та код для входу в кабінет вам у SMS.`);
   }
 
   return parts.join("\n");
 });
 
-const ctaLabel = computed(() =>
-  loggedIn.value ? "Перейти до моїх пропозицій" : "Увійти в кабінет",
-);
-
-const emit = defineEmits<{
-  navigate: [];
-}>();
+const handleUnauthenticatedNavigation = () => {
+  window.alert("TO DO");
+};
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-center text-center grow gap-6 px-4">
+  <div class="flex flex-col items-center justify-center text-center grow gap-6 h-full">
     <RoadSign>
       Запит
       <br>
@@ -71,16 +64,22 @@ const emit = defineEmits<{
     <p class="text-base font-medium text-gray-700 whitespace-pre-line max-w-sm">
       {{ description }}
     </p>
+
+    <UButton
+      v-if="loggedIn"
+      block
+      size="xl"
+      :to="{ name: 'Profile' }"
+    >
+      Перейти до моїх пропозицій
+    </UButton>
+    <UButton
+      v-else
+      block
+      size="xl"
+      @click="handleUnauthenticatedNavigation"
+    >
+      Увійти в кабінет
+    </UButton>
   </div>
-
-  <div class="grow" />
-
-  <UButton
-    block
-    size="xl"
-    class="uppercase font-semibold"
-    @click="emit('navigate')"
-  >
-    {{ ctaLabel }}
-  </UButton>
 </template>

@@ -91,7 +91,6 @@ function onNavigate() {
         :resolution-deadline="successData.resolutionDeadline"
         :otp-sent="successData.otpSent"
         :has-flexible-search="Boolean(successData.vehicleFlexible || successData.trimFlexible)"
-        :contact-channel="successData.email ? 'Email' : 'SMS'"
         @navigate="onNavigate"
       />
       <RequestForm
