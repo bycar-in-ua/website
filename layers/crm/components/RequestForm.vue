@@ -2,7 +2,7 @@
 import type { RequestFormProps } from "../crm.types";
 import { useCarRequestForm } from "../composables/useCarRequestForm";
 
-const props = defineProps<RequestFormProps>();
+const props = withDefaults(defineProps<RequestFormProps>(), { direct: false });
 
 const {
   state, schema, submit, isPending,
@@ -47,26 +47,28 @@ const {
       />
     </UFormField>
 
-    <UFormField label="Комплектації">
-      <div class="flex justijy-between items-start gap-4 mt-1.5">
-        <p class="text-base font-medium text-dimmed max-w-85.5 mr-auto">
-          Запропонуємо варіанти з іншим набором опцій для пошуку кращої ціни
-        </p>
+    <template v-if="!direct">
+      <UFormField label="Комплектації">
+        <div class="flex justify-between items-start gap-4 mt-1.5">
+          <p class="text-base font-medium text-dimmed max-w-85.5 mr-auto">
+            Запропонуємо варіанти з іншим набором опцій для пошуку кращої ціни
+          </p>
 
-        <USwitch v-model="state.trimFlexible" />
-      </div>
-    </UFormField>
+          <USwitch v-model="state.trimFlexible" />
+        </div>
+      </UFormField>
 
-    <USeparator :ui="{ border: 'border-gray-200' }" />
+      <USeparator :ui="{ border: 'border-gray-200' }" />
 
-    <UFormField label="Альтернативи">
-      <div class="flex justijy-between items-start gap-4 mt-1.5">
-        <p class="text-base font-medium text-dimmed max-w-85.5 mr-auto">
-          Підіберемо найкращі альтернативи в класі для порівняння
-        </p>
+      <UFormField label="Альтернативи">
+        <div class="flex justify-between items-start gap-4 mt-1.5">
+          <p class="text-base font-medium text-dimmed max-w-85.5 mr-auto">
+            Підіберемо найкращі альтернативи в класі для порівняння
+          </p>
 
-        <USwitch v-model="state.vehicleFlexible" />
-      </div>
-    </UFormField>
+          <USwitch v-model="state.vehicleFlexible" />
+        </div>
+      </UFormField>
+    </template>
   </UForm>
 </template>

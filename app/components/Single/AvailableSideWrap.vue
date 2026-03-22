@@ -2,6 +2,7 @@
 import type { AvailableVehicleView } from "@bycar-in-ua/vehicles-sdk";
 import { getPowerUnitTitle } from "~/components/Single/helpers";
 import { useAllOffersSlideover } from "#layers/crm/composables/useAllOffersSlideover";
+import { useThisOfferSlideover } from "#layers/crm/composables/useThisOfferSlideover";
 import WrapTitle from "./WrapTitle.vue";
 
 const props = defineProps<{ car: AvailableVehicleView; }>();
@@ -47,6 +48,7 @@ const formattedListPrice = computed(() =>
     : "",
 );
 
+const thisOfferSlideover = useThisOfferSlideover();
 const allOffersSlideover = useAllOffersSlideover();
 </script>
 
@@ -101,6 +103,13 @@ const allOffersSlideover = useAllOffersSlideover();
           color="primary"
           variant="solid"
           class="font-semibold"
+          @click="thisOfferSlideover.open({
+            vehicleId: car.vehicleId,
+            availableVehicleId: car.id,
+            trimId: car.trim?.id,
+            powerUnitId: car.trim?.powerUnits?.[0]?.id,
+            direct: true,
+          })"
         >
           Отримати цю пропозицію
         </UButton>
