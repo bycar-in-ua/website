@@ -1,9 +1,3 @@
-<script setup lang="ts">
-import type { SlideoverProps } from "@nuxt/ui";
-
-defineProps<SlideoverProps>();
-</script>
-
 <template>
   <USlideover
     inset
@@ -15,8 +9,6 @@ defineProps<SlideoverProps>();
       footer: 'sm:p-8 sm:pt-6',
     }"
   >
-    <slot />
-
     <template v-if="$slots.header" #header="{ close }">
       <slot name="header" />
 

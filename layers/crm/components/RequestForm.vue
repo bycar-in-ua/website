@@ -1,6 +1,11 @@
 <script setup lang="ts">
+import type { RequestFormProps } from "../crm.types";
+import { useCarRequestForm } from "../composables/useCarRequestForm";
+
+const props = defineProps<RequestFormProps>();
+
 const {
-  state, schema, onSubmit,
+  state, schema, submit, isPending,
 } = useCarRequestForm();
 </script>
 
@@ -9,7 +14,13 @@ const {
     :state
     :schema
     class="space-y-4"
-    @submit="onSubmit"
+    :disabled="isPending"
+    @submit="({ data }) => {
+      submit({
+        ...data,
+        ...props,
+      })
+    }"
   >
     <UFormField label="Ім'я" name="name">
       <UInput
@@ -23,6 +34,7 @@ const {
       <UInput
         v-model="state.phone"
         placeholder="+380"
+        type="tel"
         class="w-full"
       />
     </UFormField>
@@ -41,7 +53,7 @@ const {
           Запропонуємо варіанти з іншим набором опцій для пошуку кращої ціни
         </p>
 
-        <USwitch />
+        <USwitch v-model="state.trimFlexible" />
       </div>
     </UFormField>
 
@@ -53,7 +65,7 @@ const {
           Підіберемо найкращі альтернативи в класі для порівняння
         </p>
 
-        <USwitch />
+        <USwitch v-model="state.vehicleFlexible" />
       </div>
     </UFormField>
   </UForm>

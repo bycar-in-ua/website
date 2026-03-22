@@ -1,6 +1,9 @@
 export default defineNuxtConfig({
   extends: [
-    "./layers/auth", "./layers/profile", "./layers/quiz",
+    "./layers/auth",
+    "./layers/profile",
+    "./layers/crm",
+    "./layers/quiz",
   ],
 
   modules: [

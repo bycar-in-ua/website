@@ -1,18 +1,24 @@
 <script setup lang="ts">
+import { useMutationState } from "@tanstack/vue-query";
 import DrawerSlideover from "~/components/UI/DrawerSlideover.vue";
+import type { RequestFormProps } from "../crm.types";
 import RequestForm from "./RequestForm.vue";
+
+const props = defineProps<RequestFormProps>();
 
 const tooltipSteps = [
   "Отримання пропозицій в кабінеті",
   "Порівняння цін та комплектацій",
   "Оформлення та отримання авто",
 ];
+
+const mutationsState = useMutationState({ filters: { mutationKey: ["create-lead"] } });
+
+const isPending = computed(() => mutationsState.value.some((m) => m.status === "pending"));
 </script>
 
 <template>
   <DrawerSlideover>
-    <slot />
-
     <template #header>
       <div>
         <h3
@@ -60,7 +66,7 @@ const tooltipSteps = [
     </template>
 
     <template #body>
-      <RequestForm id="all-offers-request-form" />
+      <RequestForm id="all-offers-request-form" v-bind="props" />
     </template>
 
     <template #footer>
@@ -68,6 +74,7 @@ const tooltipSteps = [
         <UButton
           form="all-offers-request-form"
           type="submit"
+          :loading="isPending"
           block
         >
           Запитати пропозиції

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { AvailableVehicleView } from "@bycar-in-ua/vehicles-sdk";
 import { getPowerUnitTitle } from "~/components/Single/helpers";
-import AllOffersSlideover from "~/components/CarRequest/AllOffersSlideover.vue";
+import { useAllOffersSlideover } from "#layers/crm/composables/useAllOffersSlideover";
 import WrapTitle from "./WrapTitle.vue";
 
 const props = defineProps<{ car: AvailableVehicleView; }>();
@@ -46,6 +46,8 @@ const formattedListPrice = computed(() =>
       })
     : "",
 );
+
+const allOffersSlideover = useAllOffersSlideover();
 </script>
 
 <template>
@@ -103,17 +105,22 @@ const formattedListPrice = computed(() =>
           Отримати цю пропозицію
         </UButton>
 
-        <AllOffersSlideover>
-          <UButton
-            block
-            size="xl"
-            color="primary"
-            variant="outline"
-            class="font-semibold"
-          >
-            Запитати інші пропозиції
-          </UButton>
-        </AllOffersSlideover>
+        <UButton
+          block
+          size="xl"
+          color="primary"
+          variant="outline"
+          class="font-semibold"
+          @click="allOffersSlideover.open({
+            vehicleId: car.vehicleId,
+            availableVehicleId: car.id,
+            trimId: car.trim?.id,
+            powerUnitId: car.trim?.powerUnits?.[0]?.id,
+            direct: false,
+          })"
+        >
+          Запитати інші пропозиції
+        </UButton>
       </div>
       <p class="text-xs text-dimmed text-center mt-3">
         Кінцева вартість залежить від обраного дилера та актуальних акцій на момент угоди
