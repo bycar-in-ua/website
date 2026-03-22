@@ -41,9 +41,9 @@ const { data: filtersData } = useCatalogFilters();
     <FeaturedCollections class="container" />
     <DualPanel />
     <BodyTypes class="container" />
-    <ContactForm page="Головна сторінка" :show-affix="false" />
-    <AboutUs class="container" />
     <LatestVideos />
+    <AboutUs class="container" />
+    <ContactForm page="Головна сторінка" :show-affix="false" />
     <!-- <PartnershipBanner /> -->
   </main>
 </template>

@@ -1,12 +1,5 @@
-## Issue Tracking
+# Copilot Instructions
 
-This project uses **bd (beads)** for issue tracking.
-Run `bd prime` for workflow context, or install hooks (`bd hooks install`) for auto-injection.
+All project documentation, coding rules, and workflow instructions live in [AGENTS.md](../AGENTS.md).
 
-**Quick reference:**
-- `bd ready` - Find unblocked work
-- `bd create "Title" --type task --priority 2` - Create issue
-- `bd close <id>` - Complete work
-- `bd dolt push` - Push beads to remote
-
-For full workflow details: `bd prime`
+Copilot loads AGENTS.md automatically — no need to duplicate content here.

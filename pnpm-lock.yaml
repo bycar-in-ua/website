@@ -17,6 +17,9 @@ importers:
       '@bycar-in-ua/brands-sdk':
         specifier: ^0.0.5
         version: 0.0.5(typescript@5.9.3)
+      '@bycar-in-ua/crm-sdk':
+        specifier: ^0.0.5
+        version: 0.0.5(typescript@5.9.3)
       '@bycar-in-ua/vehicles-sdk':
         specifier: ^0.1.16
         version: 0.1.16(typescript@5.9.3)
@@ -292,6 +295,9 @@ packages:
 
   '@bycar-in-ua/brands-sdk@0.0.5':
     resolution: {integrity: sha512-aSy/vR+kkO/OoStm3fyFBWdryoEtxDthbHqjjTbitjpN3KgMT1GL+IOWBOhRBd6P1EumISSWXqXuBZLWEXg/OQ==, tarball: https://npm.pkg.github.com/download/@bycar-in-ua/brands-sdk/0.0.5/e2bc1c6d0a7c667b644fc006dba0b6f775e18211}
+
+  '@bycar-in-ua/crm-sdk@0.0.5':
+    resolution: {integrity: sha512-enk3YKnz0Kn6Pq4vtUS37W66ZQa8FERV+cXjEW0GqDX9eh24JWfoL7VYdqx1Hgq5vss0BGSzWMGeT5UQ0A4w/A==, tarball: https://npm.pkg.github.com/download/@bycar-in-ua/crm-sdk/0.0.5/ab8b960a5652654082ed49506f7a95a4f57690a2}
 
   '@bycar-in-ua/sdk@0.4.4':
     resolution: {integrity: sha512-qC2zsQLqPFkzVDgMs4DmPF0lQWrpmrb6mTrqwtkFNZHG9sOkwQS+QketgTtp3PbwstEDASXgXkln5XLs7rebMg==, tarball: https://npm.pkg.github.com/download/@bycar-in-ua/sdk/0.4.4/a7a66b97d2e7a2f8247f3f2c78bfe32ee1ea99bc}
@@ -6833,6 +6839,12 @@ snapshots:
       - vue
 
   '@bycar-in-ua/brands-sdk@0.0.5(typescript@5.9.3)':
+    dependencies:
+      valibot: 1.2.0(typescript@5.9.3)
+    transitivePeerDependencies:
+      - typescript
+
+  '@bycar-in-ua/crm-sdk@0.0.5(typescript@5.9.3)':
     dependencies:
       valibot: 1.2.0(typescript@5.9.3)
     transitivePeerDependencies:

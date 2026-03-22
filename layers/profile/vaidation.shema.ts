@@ -1,6 +1,6 @@
 import * as v from "valibot";
 
-const defaultMandatoryStringMessage = "Це обов'язкове поле";
+export const defaultMandatoryStringMessage = "Це обов'язкове поле";
 
 export const emailSchema = v.pipe(
   v.string(defaultMandatoryStringMessage),
