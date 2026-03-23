@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { useMutationState } from "@tanstack/vue-query";
 import { useSignIn } from "#layers/auth/composables/useSignIn";
 import DrawerSlideover from "~/components/UI/DrawerSlideover.vue";
 import type { RequestFormProps } from "../crm.types";
-import { useCarRequestForm } from "../composables/useCarRequestForm";
+import { useCarRequestStore } from "../stores/car-request";
 import RequestForm from "./RequestForm.vue";
 import RequestSuccessState from "./RequestSuccessState.vue";
 
@@ -35,10 +34,10 @@ const copy = computed(() => props.direct
     },
 );
 
-const mutationsState = useMutationState({ filters: { mutationKey: ["create-lead"] } });
-const isPending = computed(() => mutationsState.value.some((m) => m.status === "pending"));
-
-const { stage, successData } = useCarRequestForm();
+const store = useCarRequestStore();
+const {
+  stage, successData, isPending,
+} = storeToRefs(store);
 const { loggedIn } = useUserSession();
 const authSlideover = useAuthSlideover();
 

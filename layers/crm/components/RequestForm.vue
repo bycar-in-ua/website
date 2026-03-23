@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import type { RequestFormProps } from "../crm.types";
-import { useCarRequestFormContext } from "../composables/useCarRequestForm";
+import { useCarRequestStore } from "#layers/crm/stores/car-request";
 
-const props = withDefaults(defineProps<RequestFormProps>(), { direct: false });
+withDefaults(defineProps<RequestFormProps>(), { direct: false });
 
-const {
-  state, schema, submit, isPending,
-} = useCarRequestFormContext();
+const store = useCarRequestStore();
+const { state, isPending } = storeToRefs(store);
+const { schema, submitForm: submit } = store;
 </script>
 
 <template>
@@ -15,12 +15,7 @@ const {
     :schema
     class="space-y-4"
     :disabled="isPending"
-    @submit="({ data }) => {
-      submit({
-        ...data,
-        ...props,
-      })
-    }"
+    @submit="submit()"
   >
     <UFormField label="Ім'я" name="name">
       <UInput
