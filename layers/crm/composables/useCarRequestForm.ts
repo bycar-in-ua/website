@@ -1,7 +1,10 @@
 import * as v from "valibot";
+import type { InjectionKey } from "vue";
 import { phoneSchema, defaultMandatoryStringMessage } from "#layers/profile/vaidation.shema";
 import type { RequestFormProps } from "../crm.types";
 import { useMutation } from "@tanstack/vue-query";
+
+export type CarRequestStage = "form" | "success";
 
 const schema = v.object({
   name: v.pipe(v.string(defaultMandatoryStringMessage), v.minLength(1, defaultMandatoryStringMessage)),
@@ -16,6 +19,8 @@ type FormSchema = v.InferOutput<typeof schema>;
 export function useCarRequestForm() {
   const { user } = useUserSession();
 
+  const stage = ref<CarRequestStage>("form");
+
   const state = reactive<FormSchema>({
     name: user.value?.data.firstName || "",
     phone: user.value?.data.phone || "",
@@ -27,20 +32,39 @@ export function useCarRequestForm() {
   const leadService = useLeadService();
 
   const {
-    mutateAsync: submit, isPending, isSuccess, data,
+    mutateAsync: submit, isPending, data: successData,
   } = useMutation({
     mutationKey: ["create-lead"],
     mutationFn: async (payload: FormSchema & RequestFormProps) => {
       return leadService.createLead(payload);
     },
+    onSuccess: () => {
+      stage.value = "success";
+    },
   });
 
-  return {
+  const api = {
     state,
     schema,
     submit,
     isPending,
-    isSuccess,
-    data,
+    stage,
+    successData,
   };
+
+  provide(carRequestFormKey, api);
+
+  return api;
+}
+
+type CarRequestFormApi = ReturnType<typeof useCarRequestForm>;
+
+const carRequestFormKey = Symbol("car-request-form") as InjectionKey<CarRequestFormApi>;
+
+export function useCarRequestFormContext() {
+  const ctx = inject(carRequestFormKey);
+  if (!ctx) {
+    throw new Error("useCarRequestFormContext must be used within a CarRequestSlideover");
+  }
+  return ctx;
 }

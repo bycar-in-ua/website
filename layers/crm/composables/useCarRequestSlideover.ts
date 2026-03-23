@@ -1,10 +1,10 @@
 import type { RequestFormProps } from "../crm.types";
-import AllOffersSlideover from "../components/AllOffersSlideover.vue";
+import CarRequestSlideover from "../components/CarRequestSlideover.vue";
 
-export function useAllOffersSlideover() {
+export function useCarRequestSlideover() {
   const overlay = useOverlay();
 
-  const slideover = overlay.create(AllOffersSlideover);
+  const slideover = overlay.create(CarRequestSlideover);
 
   const open = (props: RequestFormProps) => {
     slideover.open(props);

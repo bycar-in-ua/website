@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import type { AvailableVehicleView } from "@bycar-in-ua/vehicles-sdk";
 import { getPowerUnitTitle } from "~/components/Single/helpers";
-import { useAllOffersSlideover } from "#layers/crm/composables/useAllOffersSlideover";
-import { useThisOfferSlideover } from "#layers/crm/composables/useThisOfferSlideover";
+import { useCarRequestSlideover } from "#layers/crm/composables/useCarRequestSlideover";
 import WrapTitle from "./WrapTitle.vue";
 
 const props = defineProps<{ car: AvailableVehicleView; }>();
@@ -48,8 +47,7 @@ const formattedListPrice = computed(() =>
     : "",
 );
 
-const thisOfferSlideover = useThisOfferSlideover();
-const allOffersSlideover = useAllOffersSlideover();
+const carRequestSlideover = useCarRequestSlideover();
 </script>
 
 <template>
@@ -103,7 +101,7 @@ const allOffersSlideover = useAllOffersSlideover();
           color="primary"
           variant="solid"
           class="font-semibold"
-          @click="thisOfferSlideover.open({
+          @click="carRequestSlideover.open({
             vehicleId: car.vehicleId,
             availableVehicleId: car.id,
             trimId: car.trim?.id,
@@ -120,7 +118,7 @@ const allOffersSlideover = useAllOffersSlideover();
           color="primary"
           variant="outline"
           class="font-semibold"
-          @click="allOffersSlideover.open({
+          @click="carRequestSlideover.open({
             vehicleId: car.vehicleId,
             availableVehicleId: car.id,
             trimId: car.trim?.id,

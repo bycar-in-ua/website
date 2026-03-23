@@ -3,12 +3,14 @@ import RoadSign from "~/components/UI/RoadSign.vue";
 
 const props = defineProps<{
   direct: boolean;
+  loggedIn: boolean;
   resolutionDeadline: Date | string | null;
-  otpSent: boolean;
   hasFlexibleSearch: boolean;
 }>();
 
-const { loggedIn } = useUserSession();
+const emit = defineEmits<{
+  navigate: [];
+}>();
 
 const formattedDeadline = computed(() => {
   if (!props.resolutionDeadline) return null;
@@ -18,15 +20,17 @@ const formattedDeadline = computed(() => {
   return date.toLocaleDateString("uk-UA", {
     day: "numeric",
     month: "long",
+    hour: "numeric",
+    minute: "numeric",
   });
 });
 
 const description = computed(() => {
   if (props.direct) {
-    if (loggedIn.value) {
+    if (props.loggedIn) {
       return "Вибір зафіксовано. Очікуйте на дзвінок дилера найближчим часом. Деталі вже з'явилися у розділі «Мої пропозиції» особистого кабінета.";
     }
-    return `Вибір зафіксовано. Очікуйте на дзвінок дилера найближчим часом. Ми надіслали код для входу в кабінет вам у SMS.`;
+    return "Вибір зафіксовано. Очікуйте на дзвінок дилера найближчим часом. Ми надіслали код для входу в кабінет вам у SMS.";
   }
 
   const parts: string[] = [];
@@ -39,18 +43,14 @@ const description = computed(() => {
     parts.push(`Пропозиції будуть готові до ${formattedDeadline.value}.`);
   }
 
-  if (loggedIn.value) {
+  if (props.loggedIn) {
     parts.push("Результати з'являться у розділі «Мої пропозиції» особистого кабінета.");
   } else {
-    parts.push(`Ми надіслали інструкцію та код для входу в кабінет вам у SMS.`);
+    parts.push("Ми надіслали інструкцію та код для входу в кабінет вам у SMS.");
   }
 
   return parts.join("\n");
 });
-
-const handleUnauthenticatedNavigation = () => {
-  window.alert("TO DO");
-};
 </script>
 
 <template>
@@ -69,7 +69,7 @@ const handleUnauthenticatedNavigation = () => {
       v-if="loggedIn"
       block
       size="xl"
-      :to="{ name: 'Profile' }"
+      to="/profile"
     >
       Перейти до моїх пропозицій
     </UButton>
@@ -77,7 +77,7 @@ const handleUnauthenticatedNavigation = () => {
       v-else
       block
       size="xl"
-      @click="handleUnauthenticatedNavigation"
+      @click="emit('navigate')"
     >
       Увійти в кабінет
     </UButton>

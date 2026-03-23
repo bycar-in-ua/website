@@ -1,58 +1,64 @@
 <script setup lang="ts">
-import type { CreateLeadResponse } from "@bycar-in-ua/crm-sdk";
 import { useMutationState } from "@tanstack/vue-query";
 import DrawerSlideover from "~/components/UI/DrawerSlideover.vue";
 import type { RequestFormProps } from "../crm.types";
+import { useCarRequestForm } from "../composables/useCarRequestForm";
 import RequestForm from "./RequestForm.vue";
 import RequestSuccessState from "./RequestSuccessState.vue";
 
 const props = defineProps<RequestFormProps>();
 
-const tooltipSteps = [
-  "Отримання пропозицій в кабінеті",
-  "Порівняння цін та комплектацій",
-  "Оформлення та отримання авто",
-];
+const formId = computed(() => props.direct ? "this-offer-request-form" : "all-offers-request-form");
+
+const copy = computed(() => props.direct
+  ? {
+      heading: "Отримання пропозиції",
+      subheading: "Найкоротший шлях до авто",
+      description: "Залиште запит — і ми передамо ваші дані дилеру, щоб він якнайшвидше зв'язався з вами для обговорення деталей та узгодження умов.",
+      steps: [
+        "Обговорення умов із дилером",
+        "Оформлення та отримання авто",
+      ],
+      submitLabel: "Отримати цю пропозицію",
+    }
+  : {
+      heading: "Запит пропозицій",
+      subheading: "Ваші індивідуальні умови",
+      description: "Залиште запит — і ми зробимо всю роботу. Актуальні пропозиції надійдуть в особистий кабінет, де ви зможете порівняти їх, зробити вибір і перейти до оформлення покупки.",
+      steps: [
+        "Отримання пропозицій в кабінеті",
+        "Порівняння цін та комплектацій",
+        "Оформлення та отримання авто",
+      ],
+      submitLabel: "Запитати пропозиції",
+    },
+);
 
 const mutationsState = useMutationState({ filters: { mutationKey: ["create-lead"] } });
-
 const isPending = computed(() => mutationsState.value.some((m) => m.status === "pending"));
 
-const successData = ref<CreateLeadResponse | null>(null);
-
-function onSuccess(data: CreateLeadResponse) {
-  successData.value = data;
-}
-
+const { stage, successData } = useCarRequestForm();
 const { loggedIn } = useUserSession();
 const authSlideover = useAuthSlideover();
 
 function onNavigate() {
-  if (loggedIn.value) {
-    navigateTo("/profile");
-  } else {
-    authSlideover.openSlideover("/profile");
-  }
+  // TODO: open auth slideover with prefilled phone & OTP stage
+  authSlideover.openSlideover("/profile");
 }
 </script>
 
 <template>
   <DrawerSlideover>
-    <template v-if="!successData" #header>
+    <template v-if="stage === 'form'" #header>
       <div>
-        <h3
-          class="text-xl sm:text-3xl font-bold"
-        >
-          <span class="text-primary">Запит пропозицій</span>
+        <h3 class="text-xl sm:text-3xl font-bold">
+          <span class="text-primary">{{ copy.heading }}</span>
           <br>
-          Ваші індивідуальні умови
+          {{ copy.subheading }}
         </h3>
         <div class="flex items-start gap-2 mt-4">
           <p class="flex-1 text-base font-medium leading-relaxed text-gray-700">
-            Залиште запит — і ми зробимо всю роботу.
-            Актуальні пропозиції надійдуть в особистий кабінет,
-            де ви зможете порівняти їх, зробити вибір і перейти
-            до оформлення покупки.
+            {{ copy.description }}
           </p>
           <UPopover
             mode="hover"
@@ -68,7 +74,7 @@ function onNavigate() {
               </p>
               <div class="flex flex-col gap-2">
                 <div
-                  v-for="(step, i) in tooltipSteps"
+                  v-for="(step, i) in copy.steps"
                   :key="i"
                   class="flex items-center gap-2"
                 >
@@ -86,30 +92,29 @@ function onNavigate() {
 
     <template #body>
       <RequestSuccessState
-        v-if="successData"
-        :direct="false"
+        v-if="stage === 'success' && successData"
+        :direct="props.direct ?? false"
+        :logged-in="loggedIn"
         :resolution-deadline="successData.resolutionDeadline"
-        :otp-sent="successData.otpSent"
         :has-flexible-search="Boolean(successData.vehicleFlexible || successData.trimFlexible)"
         @navigate="onNavigate"
       />
       <RequestForm
         v-else
-        id="all-offers-request-form"
+        :id="formId"
         v-bind="props"
-        @success="onSuccess"
       />
     </template>
 
-    <template v-if="!successData" #footer>
+    <template v-if="stage === 'form'" #footer>
       <div class="grow">
         <UButton
-          form="all-offers-request-form"
+          :form="formId"
           type="submit"
           :loading="isPending"
           block
         >
-          Запитати пропозиції
+          {{ copy.submitLabel }}
         </UButton>
 
         <p class="text-sm font-medium text-center mt-4 text-gray-900">
