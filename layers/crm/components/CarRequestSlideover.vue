@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { useSignIn } from "#layers/auth/composables/useSignIn";
 import DrawerSlideover from "~/components/UI/DrawerSlideover.vue";
 import type { RequestFormProps } from "../crm.types";
 import { useCarRequestStore } from "../stores/car-request";
+import { useAuthSlideoverStore } from "#layers/auth/stores/auth-slideover";
 import RequestForm from "./RequestForm.vue";
 import RequestSuccessState from "./RequestSuccessState.vue";
 
@@ -35,27 +35,20 @@ const copy = computed(() => props.direct
 );
 
 const store = useCarRequestStore();
-const {
-  stage, successData, isPending,
-} = storeToRefs(store);
 const { loggedIn } = useUserSession();
-const authSlideover = useAuthSlideover();
-
-const signIn = useSignIn();
+const authSlideoverStore = useAuthSlideoverStore();
 
 function onNavigate() {
   props?.close?.();
 
-  signIn.setStage("confirm-otp");
-
   // TODO: open auth slideover with prefilled phone & OTP stage
-  authSlideover.openSlideover("/profile");
+  authSlideoverStore.openSlideover("/profile");
 }
 </script>
 
 <template>
-  <DrawerSlideover :hide-borders="stage === 'success'">
-    <template v-if="stage !== 'success'" #header>
+  <DrawerSlideover :hide-borders="store.stage === 'success'">
+    <template v-if="store.stage !== 'success'" #header>
       <div>
         <h3 class="text-xl sm:text-3xl font-bold">
           <span class="text-primary">{{ copy.heading }}</span>
@@ -98,11 +91,11 @@ function onNavigate() {
 
     <template #body>
       <RequestSuccessState
-        v-if="stage === 'success' && successData"
+        v-if="store.stage === 'success' && store.successData"
         :direct="props.direct ?? false"
         :logged-in="loggedIn"
-        :resolution-deadline="successData.resolutionDeadline"
-        :has-flexible-search="Boolean(successData.vehicleFlexible || successData.trimFlexible)"
+        :resolution-deadline="store.successData.resolutionDeadline"
+        :has-flexible-search="Boolean(store.successData.vehicleFlexible || store.successData.trimFlexible)"
         @navigate="onNavigate"
       />
       <RequestForm
@@ -112,12 +105,12 @@ function onNavigate() {
       />
     </template>
 
-    <template v-if="stage === 'form'" #footer>
+    <template v-if="store.stage === 'form'" #footer>
       <div class="grow">
         <UButton
           :form="formId"
           type="submit"
-          :loading="isPending"
+          :loading="store.isPending"
           block
         >
           {{ copy.submitLabel }}

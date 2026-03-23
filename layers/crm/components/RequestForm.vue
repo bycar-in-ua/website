@@ -5,21 +5,19 @@ import { useCarRequestStore } from "#layers/crm/stores/car-request";
 withDefaults(defineProps<RequestFormProps>(), { direct: false });
 
 const store = useCarRequestStore();
-const { state, isPending } = storeToRefs(store);
-const { schema, submitForm: submit } = store;
 </script>
 
 <template>
   <UForm
-    :state
-    :schema
+    :state="store.state"
+    :schema="store.schema"
     class="space-y-4"
-    :disabled="isPending"
-    @submit="submit()"
+    :disabled="store.isPending"
+    @submit="store.submitForm()"
   >
     <UFormField label="Ім'я" name="name">
       <UInput
-        v-model="state.name"
+        v-model="store.state.name"
         placeholder="Введіть ваше імʼя"
         class="w-full"
       />
@@ -27,7 +25,7 @@ const { schema, submitForm: submit } = store;
 
     <UFormField label="Телефон" name="phone">
       <UInput
-        v-model="state.phone"
+        v-model="store.state.phone"
         placeholder="+380"
         type="tel"
         class="w-full"
@@ -36,7 +34,7 @@ const { schema, submitForm: submit } = store;
 
     <UFormField label="Пошта" name="email">
       <UInput
-        v-model="state.email"
+        v-model="store.state.email"
         placeholder="example@gmail.com"
         class="w-full"
       />
@@ -49,7 +47,7 @@ const { schema, submitForm: submit } = store;
             Запропонуємо варіанти з іншим набором опцій для пошуку кращої ціни
           </p>
 
-          <USwitch v-model="state.trimFlexible" />
+          <USwitch v-model="store.state.trimFlexible" />
         </div>
       </UFormField>
 
@@ -58,10 +56,10 @@ const { schema, submitForm: submit } = store;
       <UFormField label="Альтернативи">
         <div class="flex justify-between items-start gap-4 mt-1.5">
           <p class="text-base font-medium text-dimmed max-w-85.5 mr-auto">
-            Підіберемо найкращі альтернативи в класі для порівняння
+            Підберемо найкращі альтернативи в класі для порівняння
           </p>
 
-          <USwitch v-model="state.vehicleFlexible" />
+          <USwitch v-model="store.state.vehicleFlexible" />
         </div>
       </UFormField>
     </template>

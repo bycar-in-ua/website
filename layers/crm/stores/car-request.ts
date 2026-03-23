@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import * as v from "valibot";
 import { useMutation } from "@tanstack/vue-query";
 import type { CreateLeadResponse } from "@bycar-in-ua/crm-sdk";
-import { phoneSchema, defaultMandatoryStringMessage } from "#layers/profile/vaidation.shema";
+import { phoneSchema, defaultMandatoryStringMessage } from "#shared/validation";
 import type { RequestFormProps } from "../crm.types";
 
 export type CarRequestStage = "form" | "success";

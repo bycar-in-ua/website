@@ -1,16 +1,11 @@
 <script setup lang="ts">
 import * as v from "valibot";
 import InputPassword from "~/components/UI/InputPassword.vue";
-import { useSignIn } from "../composables/useSignIn";
-import { useAuthSlideover } from "../composables/useAuthSlideover";
+import { useAuthSlideoverStore } from "#layers/auth/stores/auth-slideover";
+import { passwordSchema } from "#shared/validation";
 import AuthFormHeadline from "./AuthFormHeadline.vue";
 
-const { setStage } = useSignIn();
-
-const passwordSchema = v.pipe(
-  v.string("Це обов'язкове поле"),
-  v.minLength(8, "Пароль не може бути коротшим за 8 символів"),
-);
+const store = useAuthSlideoverStore();
 
 const formSchema = v.object({
   code: v.pipe(
@@ -42,8 +37,7 @@ async function resetPassword() {
     await new Promise((resolve) => setTimeout(resolve, 800));
 
     // Success: close modal
-    const { closeSlideover } = useAuthSlideover();
-    closeSlideover();
+    store.closeSlideover();
   } catch (error) {
     console.error("Password reset failed:", error);
   } finally {
@@ -97,7 +91,7 @@ async function resetPassword() {
       <UButton
         variant="link"
         color="neutral"
-        @click="setStage('enter-credential')"
+        @click="store.setStage('enter-credential')"
       >
         Повернутися до форми входу
       </UButton>
