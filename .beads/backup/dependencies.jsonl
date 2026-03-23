@@ -6,6 +6,7 @@
 {"created_at":"2026-03-23T19:41:36Z","created_by":"Vladyslav Bezsmertnyi","depends_on_id":"web-z1i.10","issue_id":"web-z1i.10.2","type":"parent-child"}
 {"created_at":"2026-03-23T19:41:36Z","created_by":"Vladyslav Bezsmertnyi","depends_on_id":"web-z1i.10.1","issue_id":"web-z1i.10.2","type":"blocks"}
 {"created_at":"2026-03-23T19:41:48Z","created_by":"Vladyslav Bezsmertnyi","depends_on_id":"web-z1i.10","issue_id":"web-z1i.10.3","type":"parent-child"}
+{"created_at":"2026-03-23T20:00:27Z","created_by":"Vladyslav Bezsmertnyi","depends_on_id":"web-z1i.10.3","issue_id":"web-z1i.10.3.1","type":"parent-child"}
 {"created_at":"2026-03-23T19:41:57Z","created_by":"Vladyslav Bezsmertnyi","depends_on_id":"web-z1i.10","issue_id":"web-z1i.10.4","type":"parent-child"}
 {"created_at":"2026-03-23T19:41:57Z","created_by":"Vladyslav Bezsmertnyi","depends_on_id":"web-z1i.10.3","issue_id":"web-z1i.10.4","type":"blocks"}
 {"created_at":"2026-03-23T19:42:10Z","created_by":"Vladyslav Bezsmertnyi","depends_on_id":"web-z1i.10","issue_id":"web-z1i.10.5","type":"parent-child"}
