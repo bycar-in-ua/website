@@ -1,15 +1,19 @@
+<script setup lang="ts">
+defineProps<{ hideBorders?: boolean; }>();
+</script>
+
 <template>
   <USlideover
     inset
     close
     :ui="{
       content: 'md:max-w-131 w-full',
-      header: 'sm:p-8 sm:pb-6 relative',
+      header: `sm:p-8 sm:pb-6 relative ${hideBorders ? 'border-b-0' : ''}`,
       body: 'sm:p-8',
-      footer: 'sm:p-8 sm:pt-6',
+      footer: `sm:p-8 sm:pt-6 ${hideBorders ? 'border-t-0' : ''}`,
     }"
   >
-    <template v-if="$slots.header" #header="{ close }">
+    <template #header="{ close }">
       <slot name="header" />
 
       <UButton

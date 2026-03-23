@@ -6,9 +6,19 @@ export function useCarRequestSlideover() {
 
   const slideover = overlay.create(CarRequestSlideover);
 
-  const open = (props: RequestFormProps) => {
-    slideover.open(props);
+  const close = () => {
+    slideover.close();
   };
 
-  return { open };
+  const open = (props: RequestFormProps) => {
+    slideover.open({
+      ...props,
+      close,
+    });
+  };
+
+  return {
+    open,
+    close,
+  };
 }

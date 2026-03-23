@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { useMutationState } from "@tanstack/vue-query";
+import { useSignIn } from "#layers/auth/composables/useSignIn";
 import DrawerSlideover from "~/components/UI/DrawerSlideover.vue";
 import type { RequestFormProps } from "../crm.types";
 import { useCarRequestForm } from "../composables/useCarRequestForm";
 import RequestForm from "./RequestForm.vue";
 import RequestSuccessState from "./RequestSuccessState.vue";
 
-const props = defineProps<RequestFormProps>();
+const props = defineProps<RequestFormProps & { close?: () => void; }>();
 
 const formId = computed(() => props.direct ? "this-offer-request-form" : "all-offers-request-form");
 
@@ -41,15 +42,21 @@ const { stage, successData } = useCarRequestForm();
 const { loggedIn } = useUserSession();
 const authSlideover = useAuthSlideover();
 
+const signIn = useSignIn();
+
 function onNavigate() {
+  props?.close?.();
+
+  signIn.setStage("confirm-otp");
+
   // TODO: open auth slideover with prefilled phone & OTP stage
   authSlideover.openSlideover("/profile");
 }
 </script>
 
 <template>
-  <DrawerSlideover>
-    <template v-if="stage === 'form'" #header>
+  <DrawerSlideover :hide-borders="stage === 'success'">
+    <template v-if="stage !== 'success'" #header>
       <div>
         <h3 class="text-xl sm:text-3xl font-bold">
           <span class="text-primary">{{ copy.heading }}</span>

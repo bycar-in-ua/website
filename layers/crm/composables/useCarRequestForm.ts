@@ -3,6 +3,7 @@ import type { InjectionKey } from "vue";
 import { phoneSchema, defaultMandatoryStringMessage } from "#layers/profile/vaidation.shema";
 import type { RequestFormProps } from "../crm.types";
 import { useMutation } from "@tanstack/vue-query";
+import type { CreateLeadResponse } from "@bycar-in-ua/crm-sdk";
 
 export type CarRequestStage = "form" | "success";
 
@@ -19,7 +20,7 @@ type FormSchema = v.InferOutput<typeof schema>;
 export function useCarRequestForm() {
   const { user } = useUserSession();
 
-  const stage = ref<CarRequestStage>("form");
+  const stage = ref<CarRequestStage>("success");
 
   const state = reactive<FormSchema>({
     name: user.value?.data.firstName || "",
@@ -32,7 +33,7 @@ export function useCarRequestForm() {
   const leadService = useLeadService();
 
   const {
-    mutateAsync: submit, isPending, data: successData,
+    mutateAsync: submit, isPending, data: _successData,
   } = useMutation({
     mutationKey: ["create-lead"],
     mutationFn: async (payload: FormSchema & RequestFormProps) => {
@@ -42,6 +43,29 @@ export function useCarRequestForm() {
       stage.value = "success";
     },
   });
+
+  const successData: CreateLeadResponse = {
+    id: "1",
+    userId: null,
+    name: undefined,
+    phone: "",
+    email: undefined,
+    vehicleId: null,
+    trimId: null,
+    powerUnitId: null,
+    availableVehicleId: null,
+    availableVehicle: undefined,
+    proposals: undefined,
+    status: "pending",
+    location: null,
+    message: null,
+    vehicleFlexible: null,
+    trimFlexible: null,
+    resolutionDeadline: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days from now
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    otpSent: true,
+  };
 
   const api = {
     state,
