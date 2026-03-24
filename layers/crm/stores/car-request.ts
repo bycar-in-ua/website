@@ -24,6 +24,7 @@ export type CarRequestOpenProps = RequestFormProps & {
 export const useCarRequestStore = defineStore("car-request", () => {
   const { user } = useUserSession();
   const leadService = useLeadService();
+  const toast = useToast();
 
   const stage = ref<CarRequestStage>("form");
 
@@ -48,6 +49,12 @@ export const useCarRequestStore = defineStore("car-request", () => {
     mutationFn: (payload) => leadService.createLead(payload),
     onSuccess: () => {
       stage.value = "success";
+    },
+    onError: () => {
+      toast.add({
+        color: "error",
+        title: "Не вдалося надіслати запит. Будь ласка, спробуйте ще раз.",
+      });
     },
   });
 
