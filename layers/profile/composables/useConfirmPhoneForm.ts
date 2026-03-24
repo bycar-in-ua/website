@@ -1,4 +1,4 @@
-import { useSignInModalStore } from "../stores/sign-in-modal";
+import { useAuthSlideoverStore } from "#layers/auth/stores/auth-slideover";
 
 type FormState = {
   code: string[];
@@ -11,7 +11,7 @@ export function useConfirmPhoneForm() {
 
   const { fetch: fetchUser } = useUserSession();
   const authService = useAuthService();
-  const signInModal = useSignInModalStore();
+  const authSlideoverStore = useAuthSlideoverStore();
 
   const toast = useToast();
 
@@ -22,7 +22,7 @@ export function useConfirmPhoneForm() {
         await authService.phoneVerification(state.code.join(""));
 
         await fetchUser();
-        signInModal.open = false;
+        authSlideoverStore.closeSlideover();
 
         toast.add({
           title: "Підтвердження номеру",

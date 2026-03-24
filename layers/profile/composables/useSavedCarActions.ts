@@ -1,6 +1,6 @@
 import type { Profile } from "@bycar-in-ua/auth-sdk";
 import { useMutation } from "@tanstack/vue-query";
-import { useSignInModalStore } from "#layers/profile/stores/sign-in-modal";
+import { useAuthSlideoverStore } from "#layers/auth/stores/auth-slideover";
 import { useAuthService } from "#layers/auth/composables/useAuthService";
 
 export function useSavedCarActions() {
@@ -10,7 +10,7 @@ export function useSavedCarActions() {
   const route = useRoute();
   const { gtag } = useGtag();
 
-  const signInModalStore = useSignInModalStore();
+  const authSlideoverStore = useAuthSlideoverStore();
 
   const profile = useProfile();
 
@@ -49,7 +49,7 @@ export function useSavedCarActions() {
       duration: 3000,
     });
 
-    signInModalStore.openModal(route.fullPath);
+    authSlideoverStore.openSlideover(route.fullPath);
   };
 
   const handleRemove = async (carId: number, title?: string) => {
