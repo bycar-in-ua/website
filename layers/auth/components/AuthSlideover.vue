@@ -49,8 +49,6 @@ function onAfterEnter() {
       </div>
     </template>
   </USlideover>
-
-  <slot />
 </template>
 
 <style>

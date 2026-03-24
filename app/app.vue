@@ -47,18 +47,17 @@ if (import.meta.client) {
 
 <template>
   <UApp :toaster="{ position: 'top-right' }">
-    <AuthSlideover>
-      <QuizProvider />
-      <NuxtLayout>
-        <NuxtLoadingIndicator color="var(--ui-primary)" />
-        <Header />
-        <NuxtPage />
-        <Footer />
-        <CookieBanner
-          v-if="!cookieAccepted"
-          @accept-cookie="acceptCookieHandler"
-        />
-      </NuxtLayout>
-    </AuthSlideover>
+    <AuthSlideover />
+    <QuizProvider />
+    <NuxtLayout>
+      <NuxtLoadingIndicator color="var(--ui-primary)" />
+      <Header />
+      <NuxtPage />
+      <Footer />
+      <CookieBanner
+        v-if="!cookieAccepted"
+        @accept-cookie="acceptCookieHandler"
+      />
+    </NuxtLayout>
   </UApp>
 </template>
