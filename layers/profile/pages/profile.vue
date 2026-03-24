@@ -25,6 +25,11 @@ const { logout } = useLogout();
 
 const navItems: NavigationMenuItem[] = [
   {
+    label: "Мої пропозиції",
+    icon: "i-lucide-file-text",
+    to: "/profile/offers",
+  },
+  {
     label: "Особисті дані",
     icon: "i-lucide-user",
     to: "/profile/personal",
@@ -45,7 +50,7 @@ const route = useRoute();
 
 onMounted(() => {
   if (route.path === "/profile") {
-    navigateTo("/profile/personal");
+    navigateTo("/profile/offers");
   }
 });
 </script>

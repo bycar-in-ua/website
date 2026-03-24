@@ -1,4 +1,4 @@
-import { getBycarAuthenticatedFetchClient, AuthService } from "@bycar-in-ua/auth-sdk";
+import { getBycarAuthenticatedFetchClient, AuthService, getApiHost } from "@bycar-in-ua/auth-sdk";
 import type { H3Event } from "h3";
 
 /**
@@ -10,7 +10,7 @@ export async function getAuthService(event: H3Event): Promise<AuthService> {
   const config = useRuntimeConfig(event);
   const session = await getUserSession(event);
 
-  const client = getBycarAuthenticatedFetchClient(config.public.authApiHost, {
+  const client = getBycarAuthenticatedFetchClient(getApiHost(config.public.stage), {
     getAccessToken: () => session.user?.tokens?.access || "",
     getRefreshToken: () => session.user?.tokens?.refresh || "",
     onTokenRefresh: async (data) => {

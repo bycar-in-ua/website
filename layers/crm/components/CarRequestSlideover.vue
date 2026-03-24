@@ -41,8 +41,18 @@ const authSlideoverStore = useAuthSlideoverStore();
 function onNavigate() {
   props?.close?.();
 
-  // TODO: open auth slideover with prefilled phone & OTP stage
-  authSlideoverStore.openSlideover("/profile");
+  if (loggedIn.value) {
+    navigateTo("/profile/offers");
+    return;
+  }
+
+  authSlideoverStore.openSlideover({
+    redirectTo: "/profile/offers",
+    prefill: {
+      phone: store.state.phone,
+      stage: "confirm-otp",
+    },
+  });
 }
 </script>
 

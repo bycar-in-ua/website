@@ -66,20 +66,16 @@ const description = computed(() => {
     </p>
 
     <UButton
-      v-if="loggedIn"
-      block
-      size="xl"
-      to="/profile"
-    >
-      Перейти до моїх пропозицій
-    </UButton>
-    <UButton
-      v-else
       block
       size="xl"
       @click="emit('navigate')"
     >
-      Увійти в кабінет
+      <template v-if="loggedIn">
+        Перейти до моїх пропозицій
+      </template>
+      <template v-else>
+        Увійти в кабінет
+      </template>
     </UButton>
   </div>
 </template>
