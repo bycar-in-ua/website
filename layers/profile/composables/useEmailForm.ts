@@ -1,6 +1,5 @@
 import * as v from "valibot";
-
-import { emailSchema } from "../vaidation.shema";
+import { emailSchema } from "#shared/validation";
 
 const formSchema = v.object({ email: emailSchema });
 

@@ -1,0 +1,27 @@
+import type { RequestFormProps } from "../crm.types";
+import CarRequestSlideover from "../components/CarRequestSlideover.vue";
+import { useCarRequestStore } from "../stores/car-request";
+
+export function useCarRequestSlideover() {
+  const overlay = useOverlay();
+  const store = useCarRequestStore();
+
+  const slideover = overlay.create(CarRequestSlideover);
+
+  const close = () => {
+    slideover.close();
+  };
+
+  const open = (props: RequestFormProps) => {
+    store.open(props);
+    slideover.open({
+      ...props,
+      close,
+    });
+  };
+
+  return {
+    open,
+    close,
+  };
+}

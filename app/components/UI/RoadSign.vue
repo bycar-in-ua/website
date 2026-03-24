@@ -6,7 +6,7 @@ withDefaults(defineProps<{
 
 <template>
   <div class="inline-flex flex-col items-center">
-    <div class="bg-primary outline-3 outline-offset-2 outline-primary rounded-[16px] px-6 py-3 sm:px-8 sm:py-4 text-center text-white text-xl sm:text-2xl font-bold uppercase leading-tight">
+    <div class="bg-primary outline-3 outline-offset-2 outline-primary rounded-[16px] px-6 py-3 sm:px-8 sm:py-4 text-center text-white text-xl sm:text-2xl font-bold uppercase leading-tight min-w-72">
       <slot />
     </div>
     <img

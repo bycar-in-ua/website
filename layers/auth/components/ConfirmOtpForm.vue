@@ -1,37 +1,35 @@
 <script setup lang="ts">
 import AuthFormHeadline from "./AuthFormHeadline.vue";
-import { useSignIn } from "../composables/useSignIn";
+import { useAuthSlideoverStore } from "#layers/auth/stores/auth-slideover";
 
-const {
-  signInData, signInPending, state, signIn,
-} = useSignIn();
+const authStore = useAuthSlideoverStore();
 
 const messageText = computed(() => {
-  if (!signInData?.value || !isNextStepResponse(signInData.value)) {
+  if (!authStore.signInData || !isNextStepResponse(authStore.signInData)) {
     return "";
   }
 
-  if (signInData.value.loginType === "email") {
-    return "Ми надіслали код пошту " + state.login;
+  if (authStore.signInData.loginType === "email") {
+    return "Ми надіслали код пошту " + authStore.state.login;
   }
 
-  if (signInData.value.loginType === "phone") {
-    return "Ми надіслали код номер " + state.login;
+  if (authStore.signInData.loginType === "phone") {
+    return "Ми надіслали код номер " + authStore.state.login;
   }
 
   return "" as never;
 });
 
 const pinInputModel = computed({
-  get: () => state.otp?.split("").map((char) => char) || [],
+  get: () => authStore.state.otp?.split("").map((char: string) => char) || [],
   set: (val: number[]) => {
-    state.otp = val.join("");
+    authStore.state.otp = val.join("");
   },
 });
 </script>
 
 <template>
-  <UForm :state class="space-y-4">
+  <UForm :state="authStore.state" class="space-y-4">
     <AuthFormHeadline title="Вхід до акаунту" description="Доступ до вибраних авто та найкращих цін" />
 
     <UFormField label="Введіть код" name="otp">
@@ -50,8 +48,8 @@ const pinInputModel = computed({
       block
       size="xl"
       type="submit"
-      :loading="signInPending"
-      @click="signIn()"
+      :loading="authStore.signInPending"
+      @click="authStore.signIn()"
     >
       Підтвердити
     </UButton>

@@ -1,20 +1,18 @@
 <script setup lang="ts">
-import { useSignIn } from "../composables/useSignIn";
+import { useAuthSlideoverStore } from "#layers/auth/stores/auth-slideover";
 import GoogleSignInButton from "./GoogleSignInButton.vue";
 import AuthFormHeadline from "./AuthFormHeadline.vue";
 
-const {
-  state, formSchema, signIn, signInPending,
-} = useSignIn();
+const store = useAuthSlideoverStore();
 </script>
 
 <template>
   <UForm
-    :schema="formSchema"
-    :state="state"
+    :schema="store.formSchema"
+    :state="store.state"
     class="w-full"
-    :disabled="signInPending"
-    @submit="signIn"
+    :disabled="store.signInPending"
+    @submit="store.signIn"
   >
     <AuthFormHeadline
       title="Вхід до акаунту"
@@ -27,7 +25,7 @@ const {
 
     <UFormField label="Телефон або пошта" name="login" class="mb-6">
       <UInput
-        v-model="state.login"
+        v-model="store.state.login"
         placeholder="Введіть ваш телефон або пошту"
         class="w-full"
         size="xl"
@@ -39,7 +37,7 @@ const {
       size="xl"
       block
       type="submit"
-      :loading="signInPending"
+      :loading="store.signInPending"
     >
       Увійти
     </UButton>

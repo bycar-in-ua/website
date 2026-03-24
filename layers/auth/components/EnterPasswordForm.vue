@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import AuthFormHeadline from "./AuthFormHeadline.vue";
-import { useSignIn } from "../composables/useSignIn";
+import { useAuthSlideoverStore } from "../stores/auth-slideover";
 
-const {
-  signInPending, state, signIn,
-} = useSignIn();
+const store = useAuthSlideoverStore();
+const { signInPending, state } = storeToRefs(store);
+const { signIn } = store;
 </script>
 
 <template>

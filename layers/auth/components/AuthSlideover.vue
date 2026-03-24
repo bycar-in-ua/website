@@ -1,15 +1,14 @@
 <script setup lang="ts">
 import Logo from "~/components/UI/Logo.vue";
-import type { AuthStage } from "../composables/useSignIn";
-import { useAuthSlideover } from "../composables/useAuthSlideover";
+import type { AuthStage } from "#layers/auth/stores/auth-slideover";
+import { useAuthSlideoverStore } from "#layers/auth/stores/auth-slideover";
 import UnifiedSignInForm from "./UnifiedSignInForm.vue";
 import ConfirmOtpForm from "./ConfirmOtpForm.vue";
 import EnterPasswordForm from "./EnterPasswordForm.vue";
 import ForgotPasswordForm from "./ForgotPasswordForm.vue";
 import ResetPasswordForm from "./ResetPasswordForm.vue";
 
-const { open } = useAuthSlideover();
-const { stage, reset } = useSignInProvider();
+const store = useAuthSlideoverStore();
 
 const stageComponents: Record<AuthStage, Component> = {
   "enter-credential": UnifiedSignInForm,
@@ -31,12 +30,12 @@ function onAfterEnter() {
 
 <template>
   <USlideover
-    v-model:open="open"
+    v-model:open="store.isOpen"
     side="right"
     inset
     :ui="{ content: 'divide-none max-w-lg', body: '' }"
     @after:enter="onAfterEnter"
-    @after:leave="reset"
+    @after:leave="store.reset"
   >
     <template #body>
       <div class="flex flex-col items-center sm:mt-6 md:mt-14">
@@ -44,7 +43,7 @@ function onAfterEnter() {
 
         <div class="w-full">
           <Transition name="fade" mode="out-in">
-            <component :is="stageComponents[stage]" :key="stage" />
+            <component :is="stageComponents[store.stage]" :key="store.stage" />
           </Transition>
         </div>
       </div>

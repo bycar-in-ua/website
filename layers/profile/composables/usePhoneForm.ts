@@ -1,6 +1,5 @@
 import * as v from "valibot";
-
-import { phoneRegex } from "../vaidation.shema";
+import { phoneRegex } from "#shared/validation";
 
 export function usePhoneForm() {
   const { user } = useUserSession();

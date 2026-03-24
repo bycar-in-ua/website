@@ -1,32 +1,13 @@
 <script setup lang="ts">
 import * as v from "valibot";
-import { useSignIn } from "../composables/useSignIn";
+import { useAuthSlideoverStore } from "#layers/auth/stores/auth-slideover";
+import { emailOrPhoneSchema } from "#shared/validation";
 import AuthFormHeadline from "./AuthFormHeadline.vue";
 import GoogleSignInButton from "./GoogleSignInButton.vue";
 
-const { setStage } = useSignIn();
+const store = useAuthSlideoverStore();
 
-const emailSchema = v.pipe(
-  v.string("Це обов'язкове поле"),
-  v.minLength(1, "Це обов'язкове поле"),
-  v.email("Недійсний email"),
-);
-
-const phoneRegex
-  = /^(\+38|38|8)?[\s-]?(\(?\d{3}\)?[\s-]?\d{3}[\s-]?\d{2}[\s-]?\d{2}|\(?\d{3}\)?[\s-]?\d{2}[\s-]?\d{2}[\s-]?\d{3})$/;
-
-const phoneSchema = v.pipe(
-  v.string("Це обов'язкове поле"),
-  v.minLength(1, "Це обов'язкове поле"),
-  v.regex(phoneRegex, "Недійсний номер телефону"),
-);
-
-const formSchema = v.object({
-  login: v.union(
-    [emailSchema, phoneSchema],
-    "Введіть дійсний email або номер телефону",
-  ),
-});
+const formSchema = v.object({ login: emailOrPhoneSchema });
 
 const state = reactive({ login: "" });
 
@@ -39,8 +20,7 @@ async function sendForgotPasswordRequest() {
     // TODO: Replace with actual API call
     await new Promise((resolve) => setTimeout(resolve, 800));
 
-    // Store login for reset password stage
-    setStage("reset-password");
+    store.setStage("reset-password");
   } catch (error) {
     console.error("Forgot password request failed:", error);
   } finally {
@@ -85,7 +65,7 @@ async function sendForgotPasswordRequest() {
     <div class="flex justify-center items-center text-sm mt-4">
       <UButton
         variant="link"
-        @click="setStage('enter-credential')"
+        @click="store.setStage('enter-credential')"
       >
         Повернутися до форми входу
       </UButton>
