@@ -19,9 +19,16 @@ const carouselItems = computed(() => {
   return chunks;
 });
 
-const handleCtaClick = (title: string) => {
-  alert(`CTA clicked for car title: ${title}`);
-};
+const carRequestSlideover = useCarRequestSlideover();
+
+function openRequest(car: VehicleSearchDocument) {
+  if (!car.vehicleId) return;
+  carRequestSlideover.open({
+    vehicleId: car.vehicleId,
+    availableVehicleId: car.id,
+    direct: true,
+  });
+}
 
 const carousel = useTemplateRef("carousel");
 
@@ -60,7 +67,7 @@ defineExpose({
           class="h-full"
         >
           <template #cta>
-            <UButton v-if="type === 'available'" block @click.prevent="handleCtaClick(car.title)">
+            <UButton v-if="type === 'available'" block @click.prevent.stop="openRequest(car)">
               Отримати пропозицію
             </UButton>
           </template>
