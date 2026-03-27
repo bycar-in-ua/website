@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { AvailableVehicleView } from "@bycar-in-ua/vehicles-sdk";
-import { getPowerUnitTitle } from "~/components/Single/helpers";
 import { useCarRequestSlideover } from "#layers/crm/composables/useCarRequestSlideover";
-import WrapTitle from "./WrapTitle.vue";
+import { getPowerUnitTitle } from "~/components/Single/helpers";
+import WrapTitle from "~/components/UI/WrapTitle.vue";
 
 const props = defineProps<{ car: AvailableVehicleView; }>();
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useQuery } from "@tanstack/vue-query";
-import MyOffersLeadCollapsible from "#layers/profile/components/MyOffersLeadCollapsible.vue";
 import Empty from "~/components/UI/Empty.vue";
+import { OffersCollapsible } from "#layers/profile/components/Offers";
 
 definePageMeta({ name: "profile-offers" });
 
@@ -62,7 +62,7 @@ const {
     </Empty>
 
     <div v-else class="space-y-6">
-      <MyOffersLeadCollapsible
+      <OffersCollapsible
         v-for="(lead, index) in leads.items"
         :key="lead.id"
         :lead="lead"

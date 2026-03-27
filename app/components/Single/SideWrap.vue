@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { getInfoBullets, getPowerUnitTitle } from "./helpers";
 import type { PowerUnitView, VehicleSearchDocument, VehicleView } from "@bycar-in-ua/vehicles-sdk";
-import WrapTitle from "./WrapTitle.vue";
 import { useProfile } from "#layers/profile/composables/useProfile";
+import WrapTitle from "~/components/UI/WrapTitle.vue";
 
 const props = defineProps<{
   car: VehicleView;
