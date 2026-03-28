@@ -25,14 +25,14 @@ const { logout } = useLogout();
 
 const navItems: NavigationMenuItem[] = [
   {
-    label: "Мої пропозиції",
-    icon: "i-lucide-file-text",
-    to: "/profile/offers",
-  },
-  {
     label: "Особисті дані",
     icon: "i-lucide-user",
     to: "/profile/personal",
+  },
+  {
+    label: "Мої пропозиції",
+    icon: "i-lucide-file-text",
+    to: "/profile/offers",
   },
   {
     label: "Обране",
@@ -57,8 +57,8 @@ onMounted(() => {
 
 <template>
   <main>
-    <div class="profile-header bg-cover bg-center object-cover bg-no-repeat">
-      <SectionTitle :title="['Мій кабінет', 'Все під вашим контролем']" preset="dark" class="container mx-auto py-16" />
+    <div class="profile-header bg-cover bg-center object-cover bg-no-repeat dark">
+      <SectionTitle :title="['Мій кабінет', 'Все під вашим контролем']" class="container mx-auto py-16" />
     </div>
 
     <div class="container mx-auto py-16 flex justify-between gap-8">
