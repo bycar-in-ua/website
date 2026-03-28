@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import type { Lead } from "@bycar-in-ua/crm-sdk";
+import type { LeadView } from "@bycar-in-ua/crm-sdk";
 import { useQuery } from "@tanstack/vue-query";
 import { formatDate } from "#shared/date";
 import LeadTitle from "./LeadTitle.vue";
+import ProposalsList from "./ProposalsList.vue";
 
 const props = withDefaults(defineProps<{
-  lead: Lead;
+  lead: LeadView;
   defaultOpen?: boolean;
 }>(), { defaultOpen: false });
 
@@ -13,17 +14,12 @@ const leadsService = useLeadService();
 
 const isOpen = ref(props.defaultOpen);
 
-const shouldLoadProposals = computed(() =>
-  isOpen.value
-  && (props.lead.status === "offers_received" || props.lead.status === "resolved"),
-);
-
-const { data: proposals } = useQuery({
+const { data: proposals, isLoading } = useQuery({
   queryKey: [
     "profile", "offers", props.lead.id, "proposals",
   ],
   queryFn: () => leadsService.getLeadProposals(props.lead.id),
-  enabled: shouldLoadProposals,
+  enabled: isOpen,
   staleTime: 60_000,
 });
 
@@ -48,30 +44,33 @@ const formattedDeadline = computed(() => {
     </template>
 
     <template #content>
-      <div class="px-4 pt-2 pb-4 border-t border-gray-200">
+      <div class="p-4 border-t border-gray-200">
         <UAlert
-          v-if="lead.status === 'pending'"
-          color="warning"
-          variant="subtle"
-          class="mt-2"
-        >
-          <template #description>
-            Ми вже збираємо найкращі пропозиції від дилерів. Надішлемо сповіщення, як тільки вони будуть готові<span v-if="formattedDeadline">, але не пізніше {{ formattedDeadline }}</span>.
-          </template>
-        </UAlert>
-
-        <UAlert
-          v-else-if="lead.status === 'canceled'"
+          v-if="lead.status === 'canceled'"
           color="error"
           variant="subtle"
-          class="mt-2"
         >
           <template #description>
             На жаль, час на вибір авто за цим запитом вичерпано. Ви можете створити новий запит, щоб отримати актуальні ціни та наявність у дилерів.
           </template>
         </UAlert>
 
-        <pre>{{ proposals }}</pre>
+        <UAlert
+          v-else-if="lead.status === 'pending' && !proposals?.length"
+          color="warning"
+          variant="subtle"
+        >
+          <template #description>
+            Ми вже збираємо найкращі пропозиції від дилерів. Надішлемо сповіщення, як тільки вони будуть готові<span v-if="formattedDeadline">, але не пізніше {{ formattedDeadline }}</span>.
+          </template>
+        </UAlert>
+
+        <ProposalsList v-else :proposals="proposals || []" />
+
+        <div v-if="isLoading" class="space-y-6">
+          <USkeleton class="h-10 rounded-none" />
+          <USkeleton class="h-10 rounded-none" />
+        </div>
       </div>
     </template>
   </UCollapsible>

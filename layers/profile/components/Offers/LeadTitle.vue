@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Lead } from "@bycar-in-ua/crm-sdk";
+import type { LeadView } from "@bycar-in-ua/crm-sdk";
 import type { PowerUnitView } from "@bycar-in-ua/vehicles-sdk";
 import type { BadgeProps } from "@nuxt/ui";
 import { formatDate } from "#shared/date";
@@ -7,7 +7,7 @@ import { getPowerUnitTitle } from "~/components/Single/helpers";
 import WrapTitle from "~/components/UI/WrapTitle.vue";
 
 const props = defineProps<{
-  lead: Lead;
+  lead: LeadView;
   open?: boolean;
 }>();
 
@@ -15,7 +15,7 @@ const leadTitle = computed(() => {
   const sourceVehicle = props.lead.vehicle;
   const brand = sourceVehicle?.brand?.displayName ?? "";
   const model = sourceVehicle?.model ?? "";
-  const trim = props.lead.vehicle?.complectations?.[0]?.displayName ?? "";
+  const trim = props.lead.vehicle?.trims?.[0]?.displayName ?? "";
 
   return [
     brand, model, trim,
@@ -23,7 +23,7 @@ const leadTitle = computed(() => {
 });
 
 const leadSubtitle = computed(() => {
-  const powerUnit = props.lead.vehicle?.complectations?.[0]?.powerUnits?.[0];
+  const powerUnit = props.lead.vehicle?.trims?.[0]?.powerUnits?.[0];
 
   if (!powerUnit) return "";
 
@@ -107,7 +107,7 @@ const statusMeta = computed<Pick<BadgeProps, "label" | "color">>(() => {
       >
         <span class="inline-flex items-center gap-1 text-sm font-semibold text-gray-700 cursor-default">
           <UIcon name="i-lucide-calendar-search" class="size-4 shrink-0 text-gray-300" />
-          TO DO
+          {{ formatDate(lead.expirationTime) }}
         </span>
       </UTooltip>
 
@@ -119,7 +119,7 @@ const statusMeta = computed<Pick<BadgeProps, "label" | "color">>(() => {
       >
         <span class="inline-flex items-center gap-1 text-sm font-semibold text-gray-700 cursor-default">
           <UIcon name="i-lucide-calendar-check" class="size-4 shrink-0 text-gray-300" />
-          TO DO
+          {{ formatDate(lead.updatedAt) }}
         </span>
       </UTooltip>
 
