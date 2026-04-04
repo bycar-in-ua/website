@@ -40,7 +40,6 @@ export default defineNuxtConfig({
     public: {
       stage: process.env.STAGE ?? "dev",
       session: { maxAge: 60 * 60 * 24 * 7 },
-      apiHost: process.env.API_URL,
       cdnHost: process.env.CDN_URL,
       sentryDsn: process.env.SENTRY_DSN,
       metapixel: process.env.META_PIXEL_ID

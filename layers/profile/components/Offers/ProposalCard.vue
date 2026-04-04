@@ -29,14 +29,6 @@ function formatProposalPrice(price: number) {
   });
 }
 
-const image = computed(() => {
-  if (props.proposal.vehicle?.images?.[0]?.path) {
-    return props.proposal.vehicle.images[0].path;
-  }
-
-  return "/images/placeholder-image.jpg";
-});
-
 const dealerName = computed(() => {
   return [props.proposal.dealer.location, props.proposal.dealer.name]
     .filter(Boolean)
@@ -49,8 +41,7 @@ const dealerName = computed(() => {
     <div class="flex min-w-0 flex-1 items-center">
       <div class="h-12 w-16 shrink-0 overflow-hidden me-3">
         <CdnImage
-          v-if="image"
-          :src="image"
+          :src="proposal.vehicle?.image?.path"
           size="small"
           :densities="['small:1x', 'medium:2x']"
           class="h-full w-full object-cover"
@@ -59,10 +50,10 @@ const dealerName = computed(() => {
 
       <div class="min-w-0 text-sm font-bold text-gray-900">
         <p class="truncate">
-          {{ proposal.vehicle.brand?.displayName }} {{ props.proposal.vehicle.model }} {{ proposal.vehicle.trim.displayName }}
+          {{ proposal.vehicle.brand?.displayName }} {{ props.proposal.vehicle.model }} {{ proposal.vehicle.trim?.displayName }}
         </p>
         <p class="truncate">
-          {{ getPowerUnitTitle(proposal.vehicle.trim.powerUnits[0]!) }}
+          {{ proposal.vehicle.trim?.powerUnits?.[0] && getPowerUnitTitle(proposal.vehicle.trim?.powerUnits?.[0]) }}
         </p>
       </div>
     </div>
