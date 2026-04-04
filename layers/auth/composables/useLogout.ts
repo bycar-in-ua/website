@@ -1,9 +1,10 @@
 export function useLogout() {
   const { clear } = useUserSession();
+  const requestFetch = useRequestFetch();
 
   const { execute, pending } = useAsyncData("logout", async () => {
     navigateTo("/");
-    await $fetch("/api/auth/logout");
+    await requestFetch("/api/auth/logout");
     await clear();
   }, { immediate: false });
 

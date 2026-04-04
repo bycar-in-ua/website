@@ -1,10 +1,10 @@
-import { getBycarFetchClient, AuthService } from "@bycar-in-ua/auth-sdk";
+import { getBycarFetchClient, AuthService, getApiHost } from "@bycar-in-ua/auth-sdk";
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig(event);
   const session = await getUserSession(event);
 
-  const refreshToken = session.user?.tokens?.refresh;
+  const refreshToken = session.secure?.tokens?.refresh;
 
   if (!refreshToken) {
     throw createError({
@@ -13,14 +13,14 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const bycarFetchClient = getBycarFetchClient(config.public.authApiHost);
+  const bycarFetchClient = getBycarFetchClient(getApiHost(config.public.stage));
   const authService = new AuthService(bycarFetchClient);
 
   const refreshResponse = await authService.refresh({ headers: { Authorization: `Bearer ${refreshToken}` } });
 
   await replaceUserSession(event, {
-    user: {
-      data: refreshResponse.user,
+    user: { data: refreshResponse.user },
+    secure: {
       tokens: {
         access: refreshResponse.accessToken,
         refresh: refreshResponse.refreshToken,

@@ -5,7 +5,7 @@ import { OffersCollapsible } from "#layers/profile/components/Offers";
 
 definePageMeta({ name: "profile-offers" });
 
-const leadsService = useLeadService();
+const requestFetch = useRequestFetch();
 
 const {
   data: leads,
@@ -15,7 +15,7 @@ const {
   refetch,
 } = useQuery({
   queryKey: ["profile", "leads"],
-  queryFn: () => leadsService.getMyLeads(),
+  queryFn: () => requestFetch("/api/crm/leads"),
 });
 </script>
 

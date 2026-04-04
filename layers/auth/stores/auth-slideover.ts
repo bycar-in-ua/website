@@ -27,6 +27,7 @@ export const authFormSchema = v.object({
 export const useAuthSlideoverStore = defineStore("auth-slideover", () => {
   const router = useRouter();
   const toast = useToast();
+  const requestFetch = useRequestFetch();
 
   const isOpen = computed<boolean>({
     get() {
@@ -101,7 +102,7 @@ export const useAuthSlideoverStore = defineStore("auth-slideover", () => {
   async function signIn() {
     signInPending.value = true;
     try {
-      const authResponse = await $fetch<SignInResponse>("/api/auth/sign-in", {
+      const authResponse = await requestFetch<SignInResponse>("/api/auth/sign-in", {
         method: "POST",
         body: state,
       });

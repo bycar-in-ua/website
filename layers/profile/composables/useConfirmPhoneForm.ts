@@ -10,7 +10,7 @@ export function useConfirmPhoneForm() {
   const isValid = computed(() => state.code.length === 4);
 
   const { fetch: fetchUser } = useUserSession();
-  const authService = useAuthService();
+  const requestFetch = useRequestFetch();
   const authSlideoverStore = useAuthSlideoverStore();
 
   const toast = useToast();
@@ -19,7 +19,10 @@ export function useConfirmPhoneForm() {
     "confirm-phone",
     async () => {
       try {
-        await authService.phoneVerification(state.code.join(""));
+        await requestFetch("/api/auth/phone-verification", {
+          method: "POST",
+          body: { code: state.code.join("") },
+        });
 
         await fetchUser();
         authSlideoverStore.closeSlideover();

@@ -29,16 +29,17 @@ export function usePhoneForm() {
   );
 
   const toast = useToast();
-  const authService = useAuthService();
+  const requestFetch = useRequestFetch();
   const timeToResend = ref(0);
 
   const { execute: sendVerificationCode, status: sendVerificationCodeStatus }
     = useAsyncData(
       "send-phone-verification",
       async () => {
-        await authService.sendPhoneVerificationSms(
-          isNewPhone.value ? state.phone : undefined,
-        );
+        await requestFetch("/api/auth/send-phone-verification", {
+          method: "POST",
+          body: { phone: isNewPhone.value ? state.phone : undefined },
+        });
 
         toast.add({
           title: "Код для підтвердження",
@@ -74,7 +75,10 @@ export function usePhoneForm() {
     "verify-phone",
     async () => {
       const code = state.code.join("");
-      await authService.phoneVerification(code);
+      await requestFetch("/api/auth/phone-verification", {
+        method: "POST",
+        body: { code },
+      });
 
       toast.add({
         title: "Телефон верифікований",

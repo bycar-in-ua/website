@@ -1,11 +1,11 @@
-import type { LeadView, ProposalView } from "@bycar-in-ua/crm-sdk";
+import type { LeadProposalView, MyLeadView } from "@bycar-in-ua/crm-sdk";
 
 export interface ProposalBucket {
   label: string;
-  proposals: ProposalView[];
+  proposals: LeadProposalView[];
 }
 
-export function triageProposals(lead: LeadView, proposals: ProposalView[]): ProposalBucket[] {
+export function triageProposals(lead: MyLeadView, proposals: LeadProposalView[]): ProposalBucket[] {
   const {
     relevant, similar, alternatives,
   } = proposals.reduce(
@@ -20,9 +20,9 @@ export function triageProposals(lead: LeadView, proposals: ProposalView[]): Prop
       return acc;
     },
     {
-      relevant: [] as ProposalView[],
-      similar: [] as ProposalView[],
-      alternatives: [] as ProposalView[],
+      relevant: [] as LeadProposalView[],
+      similar: [] as LeadProposalView[],
+      alternatives: [] as LeadProposalView[],
     },
   );
 

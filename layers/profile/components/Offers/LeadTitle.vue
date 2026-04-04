@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { LeadView } from "@bycar-in-ua/crm-sdk";
+import type { MyLeadView } from "@bycar-in-ua/crm-sdk";
 import type { PowerUnitView } from "@bycar-in-ua/vehicles-sdk";
 import type { BadgeProps } from "@nuxt/ui";
 import { formatDate } from "#shared/date";
@@ -7,7 +7,7 @@ import { getPowerUnitTitle } from "~/components/Single/helpers";
 import WrapTitle from "~/components/UI/WrapTitle.vue";
 
 const props = defineProps<{
-  lead: LeadView;
+  lead: MyLeadView;
   open?: boolean;
 }>();
 

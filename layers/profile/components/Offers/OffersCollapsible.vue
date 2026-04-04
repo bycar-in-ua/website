@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import type { LeadView } from "@bycar-in-ua/crm-sdk";
+import type { MyLeadView } from "@bycar-in-ua/crm-sdk";
 import { useQuery } from "@tanstack/vue-query";
 import { formatDate } from "#shared/date";
 import LeadTitle from "./LeadTitle.vue";
 import ProposalsList from "./ProposalsList.vue";
 
 const props = withDefaults(defineProps<{
-  lead: LeadView;
+  lead: MyLeadView;
   defaultOpen?: boolean;
 }>(), { defaultOpen: false });
 
-const leadsService = useLeadService();
+const requestFetch = useRequestFetch();
 
 const isOpen = ref(props.defaultOpen);
 
@@ -18,7 +18,7 @@ const { data: proposals, isLoading } = useQuery({
   queryKey: [
     "profile", "offers", props.lead.id, "proposals",
   ],
-  queryFn: () => leadsService.getLeadProposals(props.lead.id),
+  queryFn: () => requestFetch(`/api/crm/leads/${props.lead.id}/proposals`),
   enabled: isOpen,
   staleTime: 60_000,
 });

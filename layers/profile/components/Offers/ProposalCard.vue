@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { ProposalView } from "@bycar-in-ua/crm-sdk";
+import type { LeadProposalView } from "@bycar-in-ua/crm-sdk";
 import { getPowerUnitTitle } from "~/components/Single/helpers";
 
-const props = defineProps<{ proposal: ProposalView; }>();
+const props = defineProps<{ proposal: LeadProposalView; }>();
 
-function getAvailabilityLabel(availability: ProposalView["availability"]) {
+function getAvailabilityLabel(availability: LeadProposalView["availability"]) {
   switch (availability) {
     case "dealer_stock":
       return "В наявності у дилера";

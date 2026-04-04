@@ -1,9 +1,9 @@
 import { defineStore } from "pinia";
 import * as v from "valibot";
 import { useMutation } from "@tanstack/vue-query";
-import type { CreateLeadResponse } from "@bycar-in-ua/crm-sdk";
 import { phoneSchema, defaultMandatoryStringMessage } from "#shared/validation";
 import type { RequestFormProps } from "../crm.types";
+import type { CreateLeadInput } from "@bycar-in-ua/crm-sdk";
 
 export type CarRequestStage = "form" | "success";
 
@@ -23,7 +23,7 @@ export type CarRequestOpenProps = RequestFormProps & {
 
 export const useCarRequestStore = defineStore("car-request", () => {
   const { user } = useUserSession();
-  const leadService = useLeadService();
+  const requestFetch = useRequestFetch();
   const toast = useToast();
 
   const stage = ref<CarRequestStage>("form");
@@ -44,9 +44,12 @@ export const useCarRequestStore = defineStore("car-request", () => {
     data: successData,
     error,
     reset: _resetMutation,
-  } = useMutation<CreateLeadResponse, Error, FormSchema & RequestFormProps>({
+  } = useMutation({
     mutationKey: ["create-lead"],
-    mutationFn: (payload) => leadService.createLead(payload),
+    mutationFn: (payload: CreateLeadInput) => requestFetch("/api/crm/leads", {
+      method: "POST",
+      body: payload,
+    }),
     onSuccess: () => {
       stage.value = "success";
     },

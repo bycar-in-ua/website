@@ -34,11 +34,11 @@
     "valibot": "^1.1.0"
   },
   "dependencies": {
-    "@bycar-in-ua/auth-sdk": "^0.1.10",
+    "@bycar-in-ua/auth-sdk": "0.1.10",
     "@bycar-in-ua/base-nuxt-module": "^0.0.15",
-    "@bycar-in-ua/brands-sdk": "^0.0.5",
-    "@bycar-in-ua/crm-sdk": "^0.0.13",
-    "@bycar-in-ua/vehicles-sdk": "^0.1.16",
+    "@bycar-in-ua/brands-sdk": "0.1.0",
+    "@bycar-in-ua/crm-sdk": "0.1.0",
+    "@bycar-in-ua/vehicles-sdk": "0.2.0",
     "@pinia/nuxt": "^0.11.3",
     "@sentry/nuxt": "^10.26.0",
     "@tanstack/vue-query": "^5.91.2",

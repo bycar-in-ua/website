@@ -1,5 +1,4 @@
 import { useQuery, type UseQueryReturnType } from "@tanstack/vue-query";
-import { useAuthService } from "#layers/auth/composables/useAuthService";
 import type { InjectionKey } from "vue";
 import type { Profile } from "@bycar-in-ua/sdk";
 
@@ -9,7 +8,7 @@ export function useProfileProvider() {
   const {
     user, ready, loggedIn,
   } = useUserSession();
-  const authService = useAuthService();
+  const requestFetch = useRequestFetch();
 
   const query = useQuery({
     queryKey: [
@@ -17,11 +16,10 @@ export function useProfileProvider() {
     ],
     queryFn: async () => {
       if (!loggedIn.value) {
-        // Will be reworked when non authenticated save car actions are implemented
         return { savedCars: [] } as Profile;
       }
 
-      return authService.getProfile();
+      return requestFetch("/api/profile");
     },
     enabled: ready,
   });

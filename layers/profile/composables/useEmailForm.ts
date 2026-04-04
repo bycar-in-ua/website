@@ -9,7 +9,7 @@ export function useEmailForm() {
   const state = reactive({ email: user.value?.data?.email });
 
   const isNewEmail = computed(() => state.email !== user.value?.data?.email);
-  const authService = useAuthService();
+  const requestFetch = useRequestFetch();
   const toast = useToast();
 
   const { execute: sendVerification, status: sendVerificationStatus }
@@ -22,9 +22,12 @@ export function useEmailForm() {
           message: "Email верифікований",
         }).href;
 
-        await authService.sendVerificationEmail({
-          email: isNewEmail.value ? state.email : undefined,
-          redirectUrl,
+        await requestFetch("/api/auth/send-verification-email", {
+          method: "POST",
+          body: {
+            email: isNewEmail.value ? state.email : undefined,
+            redirectUrl,
+          },
         });
 
         toast.add({

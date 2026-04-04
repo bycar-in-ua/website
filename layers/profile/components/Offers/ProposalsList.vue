@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { LeadView, ProposalView } from "@bycar-in-ua/crm-sdk";
+import type { MyLeadView, LeadProposalView } from "@bycar-in-ua/crm-sdk";
 import ProposalCard from "./ProposalCard.vue";
 import { triageProposals } from "./proposalTriage";
 
 const props = defineProps<{
-  lead: LeadView;
-  proposals: ProposalView[];
+  lead: MyLeadView;
+  proposals: LeadProposalView[];
 }>();
 
 const proposalsBuckets = computed(() => triageProposals(props.lead, props.proposals));

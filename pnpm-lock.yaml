@@ -9,20 +9,20 @@ importers:
   .:
     dependencies:
       '@bycar-in-ua/auth-sdk':
-        specifier: ^0.1.10
+        specifier: 0.1.10
         version: 0.1.10(typescript@5.9.3)
       '@bycar-in-ua/base-nuxt-module':
         specifier: ^0.0.15
         version: 0.0.15(magicast@0.5.1)(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3))
       '@bycar-in-ua/brands-sdk':
-        specifier: ^0.0.5
-        version: 0.0.5(typescript@5.9.3)
+        specifier: 0.1.0
+        version: 0.1.0(typescript@5.9.3)
       '@bycar-in-ua/crm-sdk':
-        specifier: ^0.0.13
-        version: 0.0.13(typescript@5.9.3)
+        specifier: 0.1.0
+        version: 0.1.0(typescript@5.9.3)
       '@bycar-in-ua/vehicles-sdk':
-        specifier: ^0.1.16
-        version: 0.1.16(typescript@5.9.3)
+        specifier: 0.2.0
+        version: 0.2.0(typescript@5.9.3)
       '@pinia/nuxt':
         specifier: ^0.11.3
         version: 0.11.3(magicast@0.5.1)(pinia@3.0.4(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))
@@ -293,17 +293,17 @@ packages:
   '@bycar-in-ua/base-nuxt-module@0.0.15':
     resolution: {integrity: sha512-i93UHmjBkQqkySoxtzYJz4Q4AHfwH/DA3m7VYmSUY0fPylWJp4mbyqS7FTyILb4NF+6cv0P2+eTIP31ur2y8ww==, tarball: https://npm.pkg.github.com/download/@bycar-in-ua/base-nuxt-module/0.0.15/482de795ef7156e7961b84de6ec48c835cf00ae0}
 
-  '@bycar-in-ua/brands-sdk@0.0.5':
-    resolution: {integrity: sha512-aSy/vR+kkO/OoStm3fyFBWdryoEtxDthbHqjjTbitjpN3KgMT1GL+IOWBOhRBd6P1EumISSWXqXuBZLWEXg/OQ==, tarball: https://npm.pkg.github.com/download/@bycar-in-ua/brands-sdk/0.0.5/e2bc1c6d0a7c667b644fc006dba0b6f775e18211}
+  '@bycar-in-ua/brands-sdk@0.1.0':
+    resolution: {integrity: sha512-gOKJeF9+wMxFH1e5sZi748Pd8XO/873If6fTzDHhL6K0yCPm5o9vZ+muEXdZkoIeQKke9Vxgq04cFmE6Rq3Y2A==, tarball: https://npm.pkg.github.com/download/@bycar-in-ua/brands-sdk/0.1.0/8be168aa5c723a62ecaeb7e87a556c48d93f43bc}
 
-  '@bycar-in-ua/crm-sdk@0.0.13':
-    resolution: {integrity: sha512-lzte4oOVdx1nAXZFhHWkFUfgqAoy2Il+UFMI9ze/5jYorEYGeWLsrDVeX2o9y5ql2ueqoXMjljlJXP0pIVI6BA==, tarball: https://npm.pkg.github.com/download/@bycar-in-ua/crm-sdk/0.0.13/c4fee7dfe34533a49879f3034ea0c1814c5ddc5f}
+  '@bycar-in-ua/crm-sdk@0.1.0':
+    resolution: {integrity: sha512-gA1R7BtAz7Pm5HqwB72qah65n0qzI5Gp2vUViuzn5ok86x7gBMgifpwh1ktvSXyVcpFKeAsnMxYYk1W2CUnsKA==, tarball: https://npm.pkg.github.com/download/@bycar-in-ua/crm-sdk/0.1.0/b86d0768d6f1a07920ff3f80dc3d57519bc55354}
 
   '@bycar-in-ua/sdk@0.4.4':
     resolution: {integrity: sha512-qC2zsQLqPFkzVDgMs4DmPF0lQWrpmrb6mTrqwtkFNZHG9sOkwQS+QketgTtp3PbwstEDASXgXkln5XLs7rebMg==, tarball: https://npm.pkg.github.com/download/@bycar-in-ua/sdk/0.4.4/a7a66b97d2e7a2f8247f3f2c78bfe32ee1ea99bc}
 
-  '@bycar-in-ua/vehicles-sdk@0.1.16':
-    resolution: {integrity: sha512-QMPQQ7qdm+ElE7gd8ALCGHJf9cttqJK8O8ixFSSrlex6kN5rax4A5WHQrzOXqKhqR/8VYyVq/4b7ZcDIg/5Png==, tarball: https://npm.pkg.github.com/download/@bycar-in-ua/vehicles-sdk/0.1.16/4a752a9ab52b047f91fd8d44e279986d4c62fdf6}
+  '@bycar-in-ua/vehicles-sdk@0.2.0':
+    resolution: {integrity: sha512-3IyaYjsVHvEuICBLoO8MrialfvP2eQQiSyykPjFsV35zQyCbz1zuXjWjFf9UKLG2wT7vIwucvTSY/LYJAXmleQ==, tarball: https://npm.pkg.github.com/download/@bycar-in-ua/vehicles-sdk/0.2.0/0dffa6546fc022e01206d6d8c645e5ea44fbc6bb}
 
   '@capsizecss/unpack@4.0.0':
     resolution: {integrity: sha512-VERIM64vtTP1C4mxQ5thVT9fK0apjPFobqybMtA1UdUujWka24ERHbRHFGmpbbhp73MhV+KSsHQH9C6uOTdEQA==}
@@ -6838,13 +6838,13 @@ snapshots:
       - typescript
       - vue
 
-  '@bycar-in-ua/brands-sdk@0.0.5(typescript@5.9.3)':
+  '@bycar-in-ua/brands-sdk@0.1.0(typescript@5.9.3)':
     dependencies:
       valibot: 1.2.0(typescript@5.9.3)
     transitivePeerDependencies:
       - typescript
 
-  '@bycar-in-ua/crm-sdk@0.0.13(typescript@5.9.3)':
+  '@bycar-in-ua/crm-sdk@0.1.0(typescript@5.9.3)':
     dependencies:
       valibot: 1.2.0(typescript@5.9.3)
     transitivePeerDependencies:
@@ -6852,7 +6852,7 @@ snapshots:
 
   '@bycar-in-ua/sdk@0.4.4': {}
 
-  '@bycar-in-ua/vehicles-sdk@0.1.16(typescript@5.9.3)':
+  '@bycar-in-ua/vehicles-sdk@0.2.0(typescript@5.9.3)':
     dependencies:
       valibot: 1.2.0(typescript@5.9.3)
     transitivePeerDependencies:

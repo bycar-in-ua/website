@@ -11,8 +11,8 @@ export default defineEventHandler(async (event) => {
 
   if (!isNextStepResponse(signInResponse)) {
     await setUserSession(event, {
-      user: {
-        data: signInResponse.user,
+      user: { data: signInResponse.user },
+      secure: {
         tokens: {
           access: signInResponse.accessToken,
           refresh: signInResponse.refreshToken,

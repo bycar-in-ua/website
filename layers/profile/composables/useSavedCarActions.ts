@@ -1,11 +1,10 @@
 import type { Profile } from "@bycar-in-ua/auth-sdk";
 import { useMutation } from "@tanstack/vue-query";
 import { useAuthSlideoverStore } from "#layers/auth/stores/auth-slideover";
-import { useAuthService } from "#layers/auth/composables/useAuthService";
 
 export function useSavedCarActions() {
   const { user, loggedIn } = useUserSession();
-  const authService = useAuthService();
+  const requestFetch = useRequestFetch();
   const toast = useToast();
   const route = useRoute();
   const { gtag } = useGtag();
@@ -18,7 +17,10 @@ export function useSavedCarActions() {
     = useMutation({
       mutationKey: ["update-profile", user.value?.data?.id],
       mutationFn: (payload: Partial<Profile>) => {
-        return authService.updateProfile(payload);
+        return requestFetch("/api/profile", {
+          method: "PATCH",
+          body: payload,
+        });
       },
       onSuccess: () => profile.refetch(),
     });
