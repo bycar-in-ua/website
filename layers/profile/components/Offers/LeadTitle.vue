@@ -15,7 +15,7 @@ const leadTitle = computed(() => {
   const sourceVehicle = props.lead.vehicle;
   const brand = sourceVehicle?.brand?.displayName ?? "";
   const model = sourceVehicle?.model ?? "";
-  const trim = props.lead.vehicle?.trims?.[0]?.displayName ?? "";
+  const trim = props.lead.vehicle?.trim?.displayName ?? "";
 
   return [
     brand, model, trim,
@@ -23,7 +23,7 @@ const leadTitle = computed(() => {
 });
 
 const leadSubtitle = computed(() => {
-  const powerUnit = props.lead.vehicle?.trims?.[0]?.powerUnits?.[0];
+  const powerUnit = props.lead.vehicle?.trim?.powerUnits?.[0];
 
   if (!powerUnit) return "";
 

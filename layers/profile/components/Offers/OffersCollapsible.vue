@@ -44,7 +44,7 @@ const formattedDeadline = computed(() => {
     </template>
 
     <template #content>
-      <div class="p-4 border-t border-gray-200">
+      <div class="border-t border-gray-200" :class="lead.status !== 'offers_received' ? 'p-4' : ''">
         <UAlert
           v-if="lead.status === 'canceled'"
           color="error"
@@ -65,9 +65,9 @@ const formattedDeadline = computed(() => {
           </template>
         </UAlert>
 
-        <ProposalsList v-else :proposals="proposals || []" />
+        <ProposalsList v-else :lead :proposals="proposals || []" />
 
-        <div v-if="isLoading" class="space-y-6">
+        <div v-if="isLoading" class="space-y-6 mt-4">
           <USkeleton class="h-10 rounded-none" />
           <USkeleton class="h-10 rounded-none" />
         </div>

@@ -38,9 +38,6 @@ These routes use useRuntimeConfig(event) and should not access process.env direc
 
 Public runtime config used by SDKs and services:
 
-- public.apiHost
-- public.vehiclesApiHost
-- public.authApiHost
 - public.cdnHost
 - public.bycarChannelId
 - public.tgBotToken
