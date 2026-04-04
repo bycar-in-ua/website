@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import type { VehiclesOrder } from "@bycar-in-ua/sdk";
+import type { SearchVehiclesInput } from "@bycar-in-ua/vehicles-sdk";
 import type { DropdownMenuItem } from "@nuxt/ui";
 import { useFiltersStore } from "~/stores/filters";
+import { useCatalogStore } from "~/stores/catalog";
 
 defineEmits<{
   (e: "filter-click"): void;
@@ -10,20 +11,37 @@ defineEmits<{
 const { t } = useI18n();
 
 const filtersStore = useFiltersStore();
+const catalogStore = useCatalogStore();
 
-const orders: VehiclesOrder[] = [
-  "price-asc",
-  "price-desc",
-  "yearFrom-desc",
-  "yearFrom-asc",
-];
+type OrderOption = NonNullable<NonNullable<SearchVehiclesInput["sort"]>["field"]>;
 
-const options: DropdownMenuItem[] = orders.map(
+const orderLabels: Record<OrderOption, string> = Object.freeze({
+  recommended: "Рекомендовані",
+  popular: "Популярні",
+  price_desc: "Від найбільшої ціни",
+  price_asc: "Від найменшої ціни",
+  year_desc: "Від найновішого року",
+  year_asc: "Від найстарішого року",
+});
+
+const orders: OrderOption[] = [
+  "recommended",
+  "price_asc",
+  "price_desc",
+  "year_desc",
+  "year_asc",
+] as const;
+
+const options = computed<DropdownMenuItem[]>(() => orders.map(
   (order) => ({
-    label: t(`orders.${order}`),
+    label: orderLabels[order],
     value: order,
+    active: catalogStore.order?.field === order,
+    onSelect: () => {
+      catalogStore.order = { field: order };
+    },
   }),
-);
+));
 
 const quickFilters = computed(() => filtersStore.data?.filters?.bodyType?.filter((filter) => filter.count > 0) || []);
 
@@ -36,6 +54,11 @@ const toggleQuickFilter = (value: string) => {
 
   filtersStore.applyFilters();
 };
+
+const filterButtonLabel = computed(() => {
+  const count = filtersStore.appliedFiltersCount;
+  return `Фільтр${count > 0 ? ` (${count})` : ""}`;
+});
 </script>
 
 <template>
@@ -43,7 +66,7 @@ const toggleQuickFilter = (value: string) => {
     class="flex sm:items-center sm:justify-between gap-4 flex-col sm:flex-row flex-wrap md:flex-nowrap"
   >
     <UButton
-      :label="`Фільтр ${filtersStore.appliedFiltersCount > 0 ? `(${filtersStore.appliedFiltersCount})` : ''}`"
+      :label="filterButtonLabel"
       color="secondary"
       variant="outline"
       icon="i-lucide-settings-2"
@@ -64,7 +87,7 @@ const toggleQuickFilter = (value: string) => {
 
     <div class="flex w-full md:w-auto">
       <UButton
-        label="Фільтр (2)"
+        :label="filterButtonLabel"
         color="secondary"
         variant="outline"
         icon="i-lucide-settings-2"
@@ -74,11 +97,19 @@ const toggleQuickFilter = (value: string) => {
 
       <UDropdownMenu :items="options" class="basis-full">
         <UButton
-          label="Рекомендовані"
+          :label="orderLabels[catalogStore.order?.field || 'recommended']"
           color="secondary"
           variant="outline"
           icon="i-lucide-arrow-up-down"
         />
+
+        <template #item-trailing="{ active }">
+          <UIcon
+            name="i-lucide-check"
+            class="text-primary size-4"
+            :class="{ 'opacity-0': !active }"
+          />
+        </template>
       </UDropdownMenu>
     </div>
   </div>

@@ -29,7 +29,7 @@ export const useCatalogStore = defineStore("catalog", () => {
     },
   });
 
-  const order = ref<SearchVehiclesInput["sort"]>({});
+  const order = ref<SearchVehiclesInput["sort"]>({ field: "recommended" });
 
   const vehiclesService = useVehiclesService();
 
