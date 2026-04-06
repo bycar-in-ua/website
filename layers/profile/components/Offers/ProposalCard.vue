@@ -4,6 +4,8 @@ import { getPowerUnitTitle } from "~/components/Single/helpers";
 
 const props = defineProps<{ proposal: LeadProposalView; }>();
 
+defineEmits<{ accept: []; }>();
+
 function getAvailabilityLabel(availability: LeadProposalView["availability"]) {
   switch (availability) {
     case "dealer_stock":
@@ -74,6 +76,11 @@ const dealerName = computed(() => {
       </span>
     </div>
 
-    <UButton label="Обрати це авто" variant="outline" size="sm" />
+    <UButton
+      label="Обрати це авто"
+      variant="outline"
+      size="sm"
+      @click="$emit('accept')"
+    />
   </div>
 </template>
