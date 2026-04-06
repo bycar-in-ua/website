@@ -1,27 +1,11 @@
 <script setup lang="ts">
 import type { LeadProposalView } from "@bycar-in-ua/crm-sdk";
 import { getPowerUnitTitle } from "~/components/Single/helpers";
+import { getAvailabilityLabel } from "#layers/crm/utils/helpers";
 
 const props = defineProps<{ proposal: LeadProposalView; }>();
 
 defineEmits<{ accept: []; }>();
-
-function getAvailabilityLabel(availability: LeadProposalView["availability"]) {
-  switch (availability) {
-    case "dealer_stock":
-      return "В наявності у дилера";
-    case "domestic_stock":
-      return "Склад в Україні";
-    case "foreign_stock":
-      return "Склад закордоном";
-    case "shipping":
-      return "В дорозі";
-    case "factory_order":
-      return "Під замовлення";
-    default:
-      return "Доступність уточнюється";
-  }
-}
 
 function formatProposalPrice(price: number) {
   return formatCurrency(price, {

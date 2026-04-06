@@ -1,8 +1,24 @@
 <script setup lang="ts">
-import DrawerSlideover from "~/components/UI/DrawerSlideover.vue";
 import type { LeadProposalView } from "@bycar-in-ua/crm-sdk";
+import { getAvailabilityLabel } from "#layers/crm/utils/helpers";
+import DrawerSlideover from "~/components/UI/DrawerSlideover.vue";
+import { CardMedia } from "~/components/UI/CarCard";
+import { getPowerUnitTitle } from "~/components/Single/helpers";
 
-defineProps<{ proposal: LeadProposalView; }>();
+const props = defineProps<{ proposal: LeadProposalView; }>();
+
+const carTitle = computed(() => {
+  const vehicle = props.proposal.vehicle;
+  const trim = vehicle.trim;
+  const powerUnit = trim?.powerUnits?.[0];
+
+  return [
+    vehicle.brand?.displayName,
+    vehicle.model,
+    trim?.displayName,
+    powerUnit && getPowerUnitTitle(powerUnit),
+  ].filter(Boolean).join(" ");
+});
 </script>
 
 <template>
@@ -21,7 +37,9 @@ defineProps<{ proposal: LeadProposalView; }>();
 
     <template #body>
       <div>
-        <pre>{{ proposal }}</pre>
+        <CardMedia :car-title :img-path="proposal.vehicle.image.path">
+          <UBadge color="secondary" :label="getAvailabilityLabel(proposal.availability)" />
+        </CardMedia>
       </div>
 
       <UAlert
