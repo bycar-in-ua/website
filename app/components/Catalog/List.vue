@@ -10,7 +10,7 @@ const list = useTemplateRef<HTMLDivElement>("list");
 </script>
 
 <template>
-  <div class="w-full relative">
+  <div class="w-full relative" data-testid="carlistcatalog">
     <UProgress
       v-if="catalogStore.isLoading"
       animation="carousel"
