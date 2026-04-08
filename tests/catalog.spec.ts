@@ -10,31 +10,29 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe("cars catalog", () => {
-  test("find cars catalog and click on it", async ({ page }) => {
-    await page.locator("header").getByRole("link", { name: "Aвто в наявності" }).click();
-    await expect(page).toHaveURL("/catalog");
-  });
-
   test("hover the first car in the list and open it", async ({ page }) => {
     await page.locator("header").getByRole("link", { name: "Aвто в наявності" }).click();
-    const catalog = page.getByTestId("carlistcatalog");
+    const catalog = page.getByTestId("cars-catalog");
     const firstCar = catalog.locator("a").first();
 
     await firstCar.hover();
     await page.mouse.wheel(0, 200);
     await firstCar.click();
-    page.getByRole("button", { name: "Отримати консультацію" });
+    expect(page.url()).toContain(appUrl + "/model/");
+    await expect(page.getByRole("button", { name: "Отримати консультацію" })).toBeVisible();
   });
 });
 
 test("hover the second car, click, hovering other cars", async ({ page }) => {
   await page.locator("header").getByRole("link", { name: "Aвто в наявності" }).click();
-  const catalog = page.getByTestId("carlistcatalog");
-  const items = catalog.locator("a");
+  const items = page.getByTestId("cars-catalog-grid").getByTestId("catalog-car");
+  const secondCar = items.nth(1);
+
   await page.mouse.wheel(0, 200);
-  await items.nth(1).hover();
-  await items.nth(1).click();
-  page.getByRole("button", { name: "Отримати консультацію" });
+  await secondCar.hover();
+  await secondCar.click();
+
+  await expect (page.getByRole("button", { name: "Отримати консультацію" })).toBeVisible();
   await page.goBack();
 
   for (let i = 0; i < 3; i++) {
@@ -42,26 +40,19 @@ test("hover the second car, click, hovering other cars", async ({ page }) => {
   }
 });
 
-test.describe("visit catalog and check sorting", () => {
-  test("opens catalog page", async ({ page }) => {
-    await page.locator("header").getByRole("link", { name: "Aвто в наявності" }).click();
-    await expect(page).toHaveURL("/catalog");
-  });
+test("opens sorting dropdown", async ({ page }) => {
+  await page.locator("header").getByRole("link", { name: "Aвто в наявності" }).click();
+  await expect(page).toHaveURL("/catalog");
 
-  test("opens sorting dropdown", async ({ page }) => {
-    await page.locator("header").getByRole("link", { name: "Aвто в наявності" }).click();
-    await expect(page).toHaveURL("/catalog");
-
-    const sortButton = page.getByTestId("catalog-sort-button");
-    await expect(sortButton).toBeVisible();
+  const sortButton = page.getByTestId("catalog-sort-button");
+  await expect(sortButton).toBeVisible();
+  await sortButton.click();
+  const sortingItem = page.getByRole("menuitem");
+  await expect(sortingItem).toHaveCount(4);
+  for (let i = 0; i < 4; i++) {
+    await sortingItem.nth(i).click();
+    await sortingItem.nth(i).highlight();
     await sortButton.click();
-    const sortingItem = page.getByRole("menuitem");
-    await expect(sortingItem).toHaveCount(4);
-    for (let i = 0; i < 4; i++) {
-      await sortingItem.nth(i).click();
-      await sortingItem.nth(i).highlight();
-      await sortButton.click();
-      await sortButton.highlight();
-    }
-  });
+    await sortButton.highlight();
+  }
 });
