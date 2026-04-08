@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import DrawerSlideover from "~/components/UI/DrawerSlideover.vue";
-import type { RequestFormProps } from "../crm.types";
-import { useCarRequestStore } from "../stores/car-request";
 import { useAuthSlideoverStore } from "#layers/auth/stores/auth-slideover";
+import type { RequestFormProps } from "../../crm.types";
+import { useCarRequestStore } from "../../stores/car-request";
 import RequestForm from "./RequestForm.vue";
 import RequestSuccessState from "./RequestSuccessState.vue";
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { RequestFormProps } from "../crm.types";
+import type { RequestFormProps } from "../../crm.types";
 import { useCarRequestStore } from "#layers/crm/stores/car-request";
 
 withDefaults(defineProps<RequestFormProps>(), { direct: false });
