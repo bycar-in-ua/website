@@ -7,6 +7,7 @@ const props = defineProps<{
     min?: number;
     max?: number;
   };
+  testIdPrefix?: string;
 }>();
 
 const minPrice = defineModel<number>("minPrice");
@@ -42,10 +43,20 @@ const currencyFormatterConfig = {
   minimumFractionDigits: 0,
   maximumFractionDigits: 0,
 } as const;
+
+const getStepperButtonProps = (field: "min" | "max", action: "plus" | "minus") => {
+  if (!props.testIdPrefix) {
+    return true;
+  }
+
+  return {
+    "data-testid": `${props.testIdPrefix}-${field}-${action}`,
+  };
+};
 </script>
 
 <template>
-  <div class="flex gap-2 items-center mb-4">
+  <div :data-testid="props.testIdPrefix ? `${props.testIdPrefix}-content` : undefined" class="flex gap-2 items-center mb-4">
     <div class="grow">
       <slot name="min-price-label" />
       <UInputNumber
@@ -57,6 +68,9 @@ const currencyFormatterConfig = {
         size="sm"
         class="w-full"
         :format-options="currencyFormatterConfig"
+        :data-testid="props.testIdPrefix ? `${props.testIdPrefix}-min` : undefined"
+        :increment="getStepperButtonProps('min', 'plus')"
+        :decrement="getStepperButtonProps('min', 'minus')"
       />
     </div>
     <div class="grow">
@@ -70,17 +84,22 @@ const currencyFormatterConfig = {
         size="sm"
         class="w-full"
         :format-options="currencyFormatterConfig"
+        :data-testid="props.testIdPrefix ? `${props.testIdPrefix}-max` : undefined"
+        :increment="getStepperButtonProps('max', 'plus')"
+        :decrement="getStepperButtonProps('max', 'minus')"
       />
     </div>
   </div>
 
-  <USlider
-    v-model="sliderModel"
-    :min="boundaries?.min"
-    :max="boundaries?.max"
-    :step="PRICE_STEP"
-    :ui="{
-      root: 'w-[99%] mx-auto',
-    }"
-  />
+  <div :data-testid="props.testIdPrefix ? `${props.testIdPrefix}-slider` : undefined">
+    <USlider
+      v-model="sliderModel"
+      :min="boundaries?.min"
+      :max="boundaries?.max"
+      :step="PRICE_STEP"
+      :ui="{
+        root: 'w-[99%] mx-auto',
+      }"
+    />
+  </div>
 </template>

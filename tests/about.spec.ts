@@ -1,19 +1,27 @@
 import { expect, test } from "@playwright/test";
+import { acceptCookies } from "./helpers/acceptCookies";
+
+const appUrl = process.env.APP_URL || "http://localhost:3000";
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("http://localhost:3000");
-  await page.getByRole("button", { name: "Зрозуміло" }).click();
+  await page.goto(appUrl + "/about");
+  expect(page.url()).toBe(appUrl + "/about");
+  await acceptCookies(page);
 });
 
-test.describe("about page", () => {
-  test("should open the site and check that it's correctly opened", async ({ page }) => {
-    await expect(page).toHaveTitle("Легкий шлях до нового авто | bycar.in.ua");
+test.describe("About page", () => {
+  test("check that header exists", async ({ page }) => {
+    const header = page.getByTestId("about-header");
+    await expect(header).toBeVisible();
   });
-
-  test("find the /about, click on it, confirm this page", async ({ page }) => {
-    await page.locator("header").getByRole("link", { name: "Про нас" }).click();
-    await expect(page).toHaveURL("/about");
-    await page.mouse.wheel(0, 1500);
-    await expect(page.getByText("Вітаємо вас на сайті ByCar!")).toBeVisible();
+  test("check that footer exists", async ({ page }) => {
+    const footer = page.getByTestId("about-footer");
+    await expect(footer).toBeVisible();
+  });
+  test("check that main not empty and contain text", async ({ page }) => {
+    const main = page.getByTestId("about-main");
+    await expect(main).toBeVisible();
+    await expect(main).not.toBeEmpty();
+    await expect(main).toContainText("авто");
   });
 });
