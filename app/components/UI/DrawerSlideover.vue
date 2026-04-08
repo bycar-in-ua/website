@@ -29,8 +29,8 @@ defineProps<{
       />
     </template>
 
-    <template #body>
-      <slot name="body" />
+    <template #body="bodyProps">
+      <slot name="body" v-bind="bodyProps" />
     </template>
 
     <template v-if="$slots.footer" #footer>

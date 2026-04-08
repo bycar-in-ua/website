@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { LeadProposalView } from "@bycar-in-ua/crm-sdk";
 import { getAvailabilityLabel } from "#layers/crm/utils/helpers";
-import DrawerSlideover from "~/components/UI/DrawerSlideover.vue";
 import { CarCardMedia, CarCardData } from "~/components/UI/CarCard";
 import { getPowerUnitTitle } from "~/components/Single/helpers";
 
@@ -66,53 +65,21 @@ const infoBullets = computed(() => {
 </script>
 
 <template>
-  <DrawerSlideover body-class="flex flex-col justify-between">
-    <template #header>
-      <div>
-        <h2 class="text-3xl font-bold mb-4">
-          Підтвердження вибору
-        </h2>
+  <div class="space-y-4">
+    <CarCardMedia :car-title :img-path="proposal.vehicle.image.path">
+      <UBadge color="secondary" :label="getAvailabilityLabel(proposal.availability)" />
+    </CarCardMedia>
 
-        <p class="text-dimmed">
-          Після підтвердження ми надішлемо ваші контакти офіційному дилеру для подальшого зв'язку.
-        </p>
-      </div>
-    </template>
-
-    <template #body>
-      <div class="space-y-4">
-        <CarCardMedia :car-title :img-path="proposal.vehicle.image.path">
-          <UBadge color="secondary" :label="getAvailabilityLabel(proposal.availability)" />
-        </CarCardMedia>
-
-        <CarCardData
-          :title="carTitle"
-          :location="[proposal.dealer.location, proposal.dealer.name].filter(Boolean).join(', ')"
-          :info-bullets="infoBullets"
-          :min-price="proposal.price"
-          :price-format="{
-            currency: 'UAH',
-            currencyDisplay: 'narrowSymbol',
-            trailingZeroDisplay: 'stripIfInteger',
-          }"
-        />
-      </div>
-
-      <UAlert
-        color="warning"
-        variant="subtle"
-        icon="i-lucide-info"
-        description="Зверніть увагу, що після підтвердження інші пропозиції за цим запитом стануть неактивними."
-      />
-    </template>
-
-    <template #footer>
-      <UButton
-        type="submit"
-        block
-      >
-        Підтвердити вибір
-      </UButton>
-    </template>
-  </DrawerSlideover>
+    <CarCardData
+      :title="carTitle"
+      :location="[proposal.dealer.location, proposal.dealer.name].filter(Boolean).join(', ')"
+      :info-bullets="infoBullets"
+      :min-price="proposal.price"
+      :price-format="{
+        currency: 'UAH',
+        currencyDisplay: 'narrowSymbol',
+        trailingZeroDisplay: 'stripIfInteger',
+      }"
+    />
+  </div>
 </template>

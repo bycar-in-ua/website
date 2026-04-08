@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { MyLeadView, LeadProposalView } from "@bycar-in-ua/crm-sdk";
 import ProposalCard from "./ProposalCard.vue";
-import AcceptProposalSlideover from "./AcceptProposalSlideover.vue";
+import { useAcceptOfferSlideover } from "#layers/crm/composables/useAcceptOfferSlideover";
 import { triageProposals } from "./proposalTriage";
 
 const props = defineProps<{
@@ -11,13 +11,7 @@ const props = defineProps<{
 
 const proposalsBuckets = computed(() => triageProposals(props.lead, props.proposals));
 
-const overlay = useOverlay();
-
-const acceptProposalOverlay = overlay.create(AcceptProposalSlideover);
-
-function onAcceptProposal(proposal: LeadProposalView) {
-  acceptProposalOverlay.open({ proposal });
-}
+const { open: openAcceptProposal } = useAcceptOfferSlideover();
 </script>
 
 <template>
@@ -26,7 +20,7 @@ function onAcceptProposal(proposal: LeadProposalView) {
       v-for="proposal in proposalsBuckets[0]?.proposals"
       :key="proposal.id"
       :proposal="proposal"
-      @accept="onAcceptProposal(proposal)"
+      @accept="openAcceptProposal(lead.id, proposal)"
     />
   </div>
 
@@ -44,7 +38,7 @@ function onAcceptProposal(proposal: LeadProposalView) {
           v-for="proposal in item.proposals"
           :key="proposal.id"
           :proposal="proposal"
-          @accept="onAcceptProposal(proposal)"
+          @accept="openAcceptProposal(lead.id, proposal)"
         />
       </div>
     </template>

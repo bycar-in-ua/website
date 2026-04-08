@@ -61,6 +61,7 @@ const dealerName = computed(() => {
     </div>
 
     <UButton
+      v-if="proposal.status === 'submitted'"
       label="Обрати це авто"
       variant="outline"
       size="sm"
