@@ -1,5 +1,5 @@
 import type { RequestFormProps } from "../crm.types";
-import CarRequestSlideover from "../components/CarRequestSlideover.vue";
+import { CarRequestSlideover } from "../components/CarRequest";
 import { useCarRequestStore } from "../stores/car-request";
 
 export function useCarRequestSlideover() {

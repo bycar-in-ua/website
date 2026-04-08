@@ -44,7 +44,7 @@ const formattedDeadline = computed(() => {
     </template>
 
     <template #content>
-      <div class="border-t border-gray-200" :class="lead.status !== 'offers_received' ? 'p-4' : ''">
+      <div class="border-t border-gray-200 p-4">
         <UAlert
           v-if="lead.status === 'canceled'"
           color="error"
@@ -66,6 +66,18 @@ const formattedDeadline = computed(() => {
         </UAlert>
 
         <ProposalsList v-else :lead :proposals="proposals || []" />
+
+        <UAlert
+          v-if="lead.status === 'resolved'"
+          icon="i-lucide-info"
+          color="neutral"
+          variant="subtle"
+          class="mt-4"
+        >
+          <template #description>
+            Вибір завершено. Вашу заявку на цей автомобіль було надіслано дилеру для подальшого зв’язку.
+          </template>
+        </UAlert>
 
         <div v-if="isLoading" class="space-y-6 mt-4">
           <USkeleton class="h-10 rounded-none" />

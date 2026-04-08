@@ -1,56 +1,47 @@
 <script setup lang="ts">
-import type { VehicleSearchDocument } from "@bycar-in-ua/vehicles-sdk";
-import { getVehicleInfoBullets } from "~/components/UI/CarCard/helpers";
+type Props = {
+  title: string;
+  location?: string;
+  infoBullets: string[];
+  minPrice: number;
+  maxPrice?: number;
+  discountedPrice?: number;
+  priceFormat?: Intl.NumberFormatOptions;
+};
 
-const props = defineProps<{ car: VehicleSearchDocument; }>();
-
-const { t } = useI18n();
-
-const infoBullets = computed(() => getVehicleInfoBullets(props.car, t));
+const props = defineProps<Props>();
 
 const priceRange = computed(() => {
-  const minPrice = formatCurrency(props.car.minPrice, {
-    currency: "USD",
-    currencyDisplay: "narrowSymbol",
-    trailingZeroDisplay: "stripIfInteger",
-  });
+  const minPrice = formatCurrency(props.minPrice, props.priceFormat);
 
-  if (!props.car.maxPrice) {
+  if (!props.maxPrice) {
     return minPrice;
   }
 
-  const maxPrice = formatCurrency(props.car.maxPrice, {
-    currency: "USD",
-    currencyDisplay: "narrowSymbol",
-    trailingZeroDisplay: "stripIfInteger",
-  });
+  const maxPrice = formatCurrency(props.maxPrice, props.priceFormat);
 
   return `${minPrice} - ${maxPrice}`;
 });
 
 const discountedPrice = computed(() => {
-  if (!props.car.discountedPrice) {
+  if (!props.discountedPrice) {
     return;
   }
 
-  return formatCurrency(props.car.discountedPrice, {
-    currency: "USD",
-    currencyDisplay: "narrowSymbol",
-    trailingZeroDisplay: "stripIfInteger",
-  });
+  return formatCurrency(props.discountedPrice, props.priceFormat);
 });
 </script>
 
 <template>
-  <div class="relative flex flex-col p-4 space-y-4.5">
+  <div class="relative flex flex-col space-y-4.5">
     <div>
-      <span v-if="car.dealerLocation" class="inline-flex gap-1 items-center mb-1.5 text-dimmed">
+      <span v-if="location" class="inline-flex gap-1 items-center mb-1.5 text-dimmed">
         <UIcon name="i-lucide-map-pin" class="size-4 shrink-0" />
-        {{ car.dealerLocation }}
+        {{ location }}
       </span>
 
       <h3 class="text-lg font-bold">
-        {{ car.title }}
+        {{ title }}
       </h3>
     </div>
 
