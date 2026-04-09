@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import PageHeader from "~/components/Catalog/PageHeader.vue";
+import PageHeader from "~/components/UI/PageHeader.vue";
 import List from "~/components/Catalog/List.vue";
 import Headline from "~/components/Catalog/Headline.vue";
 import ContactForm from "~/components/ContactFormSection.vue";
@@ -13,6 +13,7 @@ definePageMeta({ name: "catalog" });
 const route = useRoute();
 
 const catalogStore = useCatalogStore();
+const { data: filtersData } = useCatalogFilters();
 
 const brandFilterId = catalogStore.filters.brand?.at(0);
 
@@ -45,12 +46,16 @@ onUnmounted(() => {
 
 <template>
   <main>
-    <!-- SEO-only H1 -->
     <h1 class="sr-only">
       {{ h1 }}
     </h1>
 
-    <PageHeader />
+    <PageHeader
+      :title="['Каталог моделей', 'Знайомтесь з моделями']"
+      bg-url="/images/catalog-banner.jpg"
+      :extra="`${filtersData?.total} Пропозицій`"
+      class="catalog-page-header"
+    />
 
     <Headline
       class="mt-16 container mx-auto"
@@ -58,12 +63,16 @@ onUnmounted(() => {
     />
     <FiltersSlideover v-model:open="isFiltersOpen" />
 
-    <!-- Main Content: Sidebar + Grid -->
     <div class="container mx-auto py-16">
       <List />
     </div>
 
-    <!-- Bottom: Contact Form Section -->
     <ContactForm page="Каталог" />
   </main>
 </template>
+
+<style>
+.catalog-page-header {
+  background: linear-gradient(90deg, #000 26.23%, rgba(0, 0, 0, 0.00) 40.98%, rgba(0, 0, 0, 0.00) 65%, #000 94.4%);
+}
+</style>

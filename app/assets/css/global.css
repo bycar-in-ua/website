@@ -2,23 +2,39 @@
 @plugin "@tailwindcss/typography";
 
 .prose {
-  --tw-prose-body: var(--color-gray-700);
-  --tw-prose-headings: var(--color-gray-900);
+  --tw-prose-body: var(--color-gray-500);
+  --tw-prose-headings: var(--color-black);
   --tw-prose-bold: var(--color-gray-900);
-  --tw-prose-links: var(--color-gray-900);
+  --tw-prose-links: var(--color-primary);
   --tw-prose-bullets: var(--color-gray-400);
   --tw-prose-counters: var(--color-gray-500);
   --tw-prose-hr: var(--color-gray-200);
 
   max-width: 850px;
 
-  :where(p) {
-    font-weight: 500;
+  :where(h1, h2, h3, h4, th) {
+    @apply font-bold;
+  }
+
+  :where(h3) {
+    @apply text-xl;
+  }
+
+  :where(p, li) {
+    @apply text-base font-medium;
+  }
+
+  :where(ul, ol, li) {
+    @apply my-0;
   }
 
   :where(ul > li)::marker {
     content: "•  ";
     font-size: 0.75em;
+  }
+
+  :where(a) {
+    @apply font-semibold no-underline;
   }
 }
 

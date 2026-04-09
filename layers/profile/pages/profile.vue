@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from "@nuxt/ui";
-import SectionTitle from "~/components/UI/SectionTitle.vue";
+import PageHeader from "~/components/UI/PageHeader.vue";
 
 definePageMeta({
   middleware: "auth",
@@ -57,9 +57,7 @@ onMounted(() => {
 
 <template>
   <main>
-    <div class="profile-header bg-cover bg-center object-cover bg-no-repeat dark">
-      <SectionTitle :title="['Мій кабінет', 'Все під вашим контролем']" class="container mx-auto py-16" />
-    </div>
+    <PageHeader :title="['Мій кабінет', 'Все під вашим контролем']" bg-url="/images/profile-bg.png" />
 
     <div class="container mx-auto py-16 flex justify-between gap-8">
       <div class="max-w-xs w-full space-y-2">
@@ -85,9 +83,3 @@ onMounted(() => {
     </div>
   </main>
 </template>
-
-<style>
-.profile-header {
-  background-image: url(/images/profile-bg.png);
-}
-</style>

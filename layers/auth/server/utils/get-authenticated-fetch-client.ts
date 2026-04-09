@@ -22,7 +22,7 @@ export async function getAuthenticatedFetchClient(event: H3Event, apiHost: strin
   });
 
   client.useErrorInterceptor(async (response, _request, error) => {
-    console.error("Authenticated fetch error", {
+    console.warn("Authenticated fetch error", {
       error,
       request: {
         url: _request.url,
