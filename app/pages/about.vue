@@ -5,6 +5,7 @@ import SubHero from "~/components/About/SubHero.vue";
 import ValuesSection from "~/components/About/ValuesSection.vue";
 import InfoBullets from "~/components/About/InfoBullets.vue";
 import TeamSection from "~/components/About/TeamSection.vue";
+import PartnersSection from "~/components/About/PartnersSection.vue";
 
 const route = useRoute();
 
@@ -48,5 +49,6 @@ useHead({
     <ValuesSection />
     <InfoBullets />
     <TeamSection />
+    <PartnersSection />
   </main>
 </template>
