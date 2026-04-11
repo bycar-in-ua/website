@@ -12,7 +12,7 @@ const values = [
 <template>
   <section class="bg-black dark py-12 sm:py-16 md:py-20">
     <div class="container">
-      <SectionTitle :title="['Наші цінності', 'Лише важливе']" />
+      <SectionTitle :title="['Наші цінності', 'Лише важливе']" heading-class="text-3xl" />
 
       <div class="mt-8 sm:mt-12 grid grid-cols-1 md:grid-cols-2">
         <div
@@ -23,7 +23,7 @@ const values = [
           <h3 class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-100">
             {{ value[0] }}
           </h3>
-          <p class="sm:text-lg text-gray-200 md:text-black group-hover:text-gray-200 transition-colors">
+          <p class="sm:text-lg text-gray-200 lg:text-black group-hover:text-gray-200 transition-colors">
             {{ value[1] }}
           </p>
         </div>
