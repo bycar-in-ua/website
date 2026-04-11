@@ -38,12 +38,20 @@
   }
 }
 
+@theme {
+  --bycar-container-width: calc(1280px + 2.5rem);
+}
+
 @utility container {
   margin-inline: auto;
-  padding-inline: 1.25rem;
+  padding-inline: 1rem;
+
+  @media (min-width: theme(--breakpoint-md)) {
+    padding-inline: 1.25rem;
+  }
 
   @media (width >= 1280px) {
-    max-width: calc(1280px + 2.5rem);
+    max-width: var(--bycar-container-width);
   }
 }
 

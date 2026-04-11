@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { generatePageTitle } from "~/utils/seo";
-import LogoWhiteBackground from "~/components/UI/Icons/LogoWhiteBackground.vue";
+import HeroSection from "~/components/About/HeroSection.vue";
+import SubHero from "~/components/About/SubHero.vue";
+import ValuesSection from "~/components/About/ValuesSection.vue";
+import InfoBullets from "~/components/About/InfoBullets.vue";
+import TeamSection from "~/components/About/TeamSection.vue";
+import PartnersSection from "~/components/About/PartnersSection.vue";
+import DualPanel from "~/components/Home/DualPanel.vue";
 
 const route = useRoute();
 
@@ -38,53 +44,13 @@ useHead({
 </script>
 
 <template>
-  <main class="container pt-32 pb-5 prose xl:prose-xl">
-    <div class="flex justify-center">
-      <LogoWhiteBackground class="max-w-lg w-full h-auto" />
-    </div>
-    <p>
-      Сучасна автомобільна індустрія стрімко рухається до повної діджиталізації.
-      Все більше виробників автомобілів планують відмовлятися від традиційних
-      шоурумів і переходити до продажів через інтернет, зокрема через
-      автомобільні маркетплейси.
-    </p>
-    <p>
-      Але в Україні була проблема: у нас ще зовсім нещодавно не існувало
-      якісного сайту-каталогу для нових авто.
-    </p>
-    <p>
-      Наша мета — створити сучасний, зручний сервіс, де кожен зможе пройти
-      повний шлях від мрії про автомобіль до його купівлі. Ми хочемо
-      запропонувати вам платформу, яка допоможе обрати ідеальне авто, а наші
-      спеціалісти завжди будуть поруч, щоб вас підтримати. Ми мріємо створити
-      сайт, якого заслуговує Україна!
-    </p>
-    <h3>Хто ми?</h3>
-    <p>
-      ByCar — це команда професіоналів: дипломовані автомобільні інженери,
-      журналісти та люди з багаторічним досвідом в автобізнесі. Ми закохані в
-      автомобілі та прагнемо бути корисними нашій країні й людям.
-    </p>
-    <p>
-      Важливою частиною (і родзинкою) нашого проєкту є наш YouTube-канал, який
-      так і називається — ByCar. Там ми класно проводимо час, пізнаючи
-      захопливий світ найбільш популярного і емоційного технічного засобу у
-      світі — автомобіля.
-    </p>
-    <p>
-      Ми створюємо унікальні тести цікавих і рідкісних авто, експерименти та
-      перегони, а також серйозні порівняльні тест-драйви з детальними замірами
-      важливих характеристик авто, щоб ви краще розуміли, яке авто підходить
-      саме вам. Нам цікаво і весело на зйомках, щоб вам було так само класно під
-      час перегляду!
-    </p>
-
-    <h4 class="text-center">
-      Вітаємо вас на сайті ByCar!
-    </h4>
-    <p>
-      Наразі ми активно працюємо над його запуском, і зовсім скоро ви зможете
-      оцінити всі його переваги.
-    </p>
+  <main>
+    <HeroSection />
+    <SubHero />
+    <ValuesSection />
+    <InfoBullets />
+    <TeamSection />
+    <PartnersSection />
+    <DualPanel />
   </main>
 </template>

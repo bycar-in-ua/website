@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { twMerge } from "tailwind-merge";
+
 defineProps<{
   title?: string[];
   extraLink?: string;
+  headingClass?: string;
 }>();
 </script>
 
@@ -9,7 +12,7 @@ defineProps<{
   <div class="flex items-end">
     <slot name="title" :title>
       <h2
-        class="text-xl sm:text-3xl md:text-5xl font-bold grow text-default"
+        :class="twMerge('text-xl sm:text-3xl md:text-5xl font-bold grow text-default', headingClass)"
       >
         <span class="text-primary">{{ title?.[0] }}</span>
         <br>
