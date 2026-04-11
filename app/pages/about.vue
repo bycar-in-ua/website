@@ -3,6 +3,7 @@ import { generatePageTitle } from "~/utils/seo";
 import HeroSection from "~/components/About/HeroSection.vue";
 import SubHero from "~/components/About/SubHero.vue";
 import ValuesSection from "~/components/About/ValuesSection.vue";
+import InfoBullets from "~/components/About/InfoBullets.vue";
 
 const route = useRoute();
 
@@ -44,5 +45,6 @@ useHead({
     <HeroSection />
     <SubHero />
     <ValuesSection />
+    <InfoBullets />
   </main>
 </template>
