@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { generatePageTitle } from "~/utils/seo";
 import LogoWhiteBackground from "~/components/UI/Icons/LogoWhiteBackground.vue";
+import HeroSection from "~/components/About/HeroSection.vue";
 
 const route = useRoute();
 
@@ -38,7 +39,9 @@ useHead({
 </script>
 
 <template>
-  <main class="container pt-32 pb-5 prose xl:prose-xl">
+  <main>
+    <HeroSection />
+
     <div class="flex justify-center">
       <LogoWhiteBackground class="max-w-lg w-full h-auto" />
     </div>
