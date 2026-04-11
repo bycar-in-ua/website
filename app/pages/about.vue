@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { generatePageTitle } from "~/utils/seo";
-import LogoWhiteBackground from "~/components/UI/Icons/LogoWhiteBackground.vue";
 import HeroSection from "~/components/About/HeroSection.vue";
+import SubHero from "~/components/About/SubHero.vue";
 
 const route = useRoute();
 
@@ -41,10 +41,8 @@ useHead({
 <template>
   <main>
     <HeroSection />
+    <SubHero />
 
-    <div class="flex justify-center">
-      <LogoWhiteBackground class="max-w-lg w-full h-auto" />
-    </div>
     <p>
       Сучасна автомобільна індустрія стрімко рухається до повної діджиталізації.
       Все більше виробників автомобілів планують відмовлятися від традиційних
