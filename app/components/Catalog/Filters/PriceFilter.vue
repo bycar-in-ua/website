@@ -7,7 +7,6 @@ const props = defineProps<{
     min?: number;
     max?: number;
   };
-  testIdPrefix?: string;
 }>();
 
 const minPrice = defineModel<number>("minPrice");
@@ -44,19 +43,10 @@ const currencyFormatterConfig = {
   maximumFractionDigits: 0,
 } as const;
 
-const getStepperButtonProps = (field: "min" | "max", action: "plus" | "minus") => {
-  if (!props.testIdPrefix) {
-    return true;
-  }
-
-  return {
-    "data-testid": `${props.testIdPrefix}-${field}-${action}`,
-  };
-};
 </script>
 
 <template>
-  <div :data-testid="props.testIdPrefix ? `${props.testIdPrefix}-content` : undefined" class="flex gap-2 items-center mb-4">
+  <div class="flex gap-2 items-center mb-4">
     <div class="grow">
       <slot name="min-price-label" />
       <UInputNumber
@@ -68,9 +58,6 @@ const getStepperButtonProps = (field: "min" | "max", action: "plus" | "minus") =
         size="sm"
         class="w-full"
         :format-options="currencyFormatterConfig"
-        :data-testid="props.testIdPrefix ? `${props.testIdPrefix}-min` : undefined"
-        :increment="getStepperButtonProps('min', 'plus')"
-        :decrement="getStepperButtonProps('min', 'minus')"
       />
     </div>
     <div class="grow">
@@ -84,14 +71,11 @@ const getStepperButtonProps = (field: "min" | "max", action: "plus" | "minus") =
         size="sm"
         class="w-full"
         :format-options="currencyFormatterConfig"
-        :data-testid="props.testIdPrefix ? `${props.testIdPrefix}-max` : undefined"
-        :increment="getStepperButtonProps('max', 'plus')"
-        :decrement="getStepperButtonProps('max', 'minus')"
       />
     </div>
   </div>
 
-  <div :data-testid="props.testIdPrefix ? `${props.testIdPrefix}-slider` : undefined">
+  <div>
     <USlider
       v-model="sliderModel"
       :min="boundaries?.min"

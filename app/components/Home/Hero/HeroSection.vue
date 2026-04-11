@@ -152,7 +152,7 @@ const handleNavigate = () => {
         Переглядайте, порівнюйте, обирайте та купуйте — все в одному місці.
       </p>
 
-      <UForm data-testid="home-filter" :state="selectedFilters" class="flex items-center gap-6 px-6 py-4 bg-default">
+      <UForm :state="selectedFilters" class="flex items-center gap-6 px-6 py-4 bg-default">
         <QuickFilterPopover>
           <UFormField label="Ціна" class="basis-52">
             <UInput
@@ -162,7 +162,6 @@ const handleNavigate = () => {
               :model-value="priceLabel"
               :placeholder="pricePlaceholder"
               :ui="{ base: 'text-left' }"
-              data-testid="home-filter-price"
             />
           </UFormField>
           <template #content>
@@ -170,7 +169,6 @@ const handleNavigate = () => {
               v-model:min-price="selectedFilters.minPrice"
               v-model:max-price="selectedFilters.maxPrice"
               :boundaries="{ min: filtersData?.filters.priceRange.min, max: filtersData?.filters.priceRange.max }"
-              test-id-prefix="home-filter-price"
             />
           </template>
         </QuickFilterPopover>
@@ -186,7 +184,6 @@ const handleNavigate = () => {
               :model-value="bodyTypeLablel"
               placeholder="Всі"
               :ui="{ base: 'text-left' }"
-              data-testid="home-filter-body"
             />
           </UFormField>
           <template #content>
@@ -194,7 +191,6 @@ const handleNavigate = () => {
               v-model="selectedFilters.bodyType"
               v-model:all-checkbox="allBodyTypesCheckboxModel"
               :items="bodyTypeItems"
-              test-id-prefix="home-filter-body"
             />
           </template>
         </QuickFilterPopover>
@@ -210,7 +206,6 @@ const handleNavigate = () => {
               :model-value="driveLabel"
               placeholder="Всі"
               :ui="{ base: 'text-left' }"
-              data-testid="home-filter-drive"
             />
           </UFormField>
           <template #content>
@@ -218,7 +213,6 @@ const handleNavigate = () => {
               v-model="selectedFilters.driveType"
               v-model:all-checkbox="allDriveCheckboxModel"
               :items="driveItems"
-              test-id-prefix="home-filter-drive"
             />
           </template>
         </QuickFilterPopover>
@@ -234,7 +228,6 @@ const handleNavigate = () => {
               :model-value="brandLabel"
               placeholder="Всі"
               :ui="{ base: 'text-left' }"
-              data-testid="home-filter-brand"
             />
           </UFormField>
           <template #content>
@@ -242,13 +235,11 @@ const handleNavigate = () => {
               v-model="selectedFilters.brand"
               v-model:all-checkbox="allBrandCheckboxModel"
               :items="brandsItems"
-              test-id-prefix="home-filter-brand"
             />
           </template>
         </QuickFilterPopover>
 
         <UButton
-          data-testid="home-filter-submit"
           :label="`Переглянути ${filtersData?.total || ''} авто`"
           size="lg"
           block

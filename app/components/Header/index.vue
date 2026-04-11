@@ -6,7 +6,7 @@ import ProfileMenu from "./ProfileMenu.vue";
 
 <template>
   <header
-    data-testid="about-header"
+    data-testid="bycar-header"
     class="py-4"
   >
     <div
