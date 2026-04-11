@@ -6,6 +6,7 @@ import ValuesSection from "~/components/About/ValuesSection.vue";
 import InfoBullets from "~/components/About/InfoBullets.vue";
 import TeamSection from "~/components/About/TeamSection.vue";
 import PartnersSection from "~/components/About/PartnersSection.vue";
+import DualPanel from "~/components/Home/DualPanel.vue";
 
 const route = useRoute();
 
@@ -50,5 +51,6 @@ useHead({
     <InfoBullets />
     <TeamSection />
     <PartnersSection />
+    <DualPanel />
   </main>
 </template>
