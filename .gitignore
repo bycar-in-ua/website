@@ -6,6 +6,7 @@ nuxt.d.ts
 .env
 .data
 .idea
+.DS_Store
 
 # bv (beads viewer) local config and caches
 .bv/
@@ -13,3 +14,10 @@ nuxt.d.ts
 # Dolt database files (added by bd init)
 .dolt/
 *.db
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/

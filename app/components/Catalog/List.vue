@@ -10,7 +10,7 @@ const list = useTemplateRef<HTMLDivElement>("list");
 </script>
 
 <template>
-  <div class="w-full relative">
+  <div class="w-full relative" data-testid="cars-catalog">
     <UProgress
       v-if="catalogStore.isLoading"
       animation="carousel"
@@ -36,12 +36,14 @@ const list = useTemplateRef<HTMLDivElement>("list");
     </template>
     <div
       ref="list"
+      data-testid="cars-catalog-grid"
       class="grid xs:grid-cols-2 sm:grid-cols-3 gap-5"
       :class="{ 'blur-sm': catalogStore.isLoading }"
     >
       <NuxtLink
         v-for="car in catalogStore?.data?.items || []"
         :key="car.id"
+        data-testid="catalog-car"
         :to="{
           name: 'SingleCar',
           params: {

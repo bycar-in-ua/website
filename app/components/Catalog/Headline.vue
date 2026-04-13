@@ -101,6 +101,7 @@ const filterButtonLabel = computed(() => {
           color="secondary"
           variant="outline"
           icon="i-lucide-arrow-up-down"
+          data-testid="catalog-sort-button"
         />
 
         <template #item-trailing="{ active }">

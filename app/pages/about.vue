@@ -44,7 +44,7 @@ useHead({
 </script>
 
 <template>
-  <main>
+  <main data-testid="about-main">
     <HeroSection />
     <SubHero />
     <ValuesSection />
