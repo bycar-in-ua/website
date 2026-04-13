@@ -6,6 +6,7 @@ nuxt.d.ts
 .env
 .data
 .idea
+.DS_Store
 
 # bv (beads viewer) local config and caches
 .bv/

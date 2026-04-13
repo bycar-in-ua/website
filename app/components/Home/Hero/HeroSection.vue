@@ -187,11 +187,7 @@ const handleNavigate = () => {
             />
           </UFormField>
           <template #content>
-            <QuickFilterList
-              v-model="selectedFilters.bodyType"
-              v-model:all-checkbox="allBodyTypesCheckboxModel"
-              :items="bodyTypeItems"
-            />
+            <QuickFilterList v-model="selectedFilters.bodyType" v-model:all-checkbox="allBodyTypesCheckboxModel" :items="bodyTypeItems" />
           </template>
         </QuickFilterPopover>
 
@@ -209,11 +205,7 @@ const handleNavigate = () => {
             />
           </UFormField>
           <template #content>
-            <QuickFilterList
-              v-model="selectedFilters.driveType"
-              v-model:all-checkbox="allDriveCheckboxModel"
-              :items="driveItems"
-            />
+            <QuickFilterList v-model="selectedFilters.driveType" v-model:all-checkbox="allDriveCheckboxModel" :items="driveItems" />
           </template>
         </QuickFilterPopover>
 
@@ -231,11 +223,7 @@ const handleNavigate = () => {
             />
           </UFormField>
           <template #content>
-            <QuickFilterList
-              v-model="selectedFilters.brand"
-              v-model:all-checkbox="allBrandCheckboxModel"
-              :items="brandsItems"
-            />
+            <QuickFilterList v-model="selectedFilters.brand" v-model:all-checkbox="allBrandCheckboxModel" :items="brandsItems" />
           </template>
         </QuickFilterPopover>
 

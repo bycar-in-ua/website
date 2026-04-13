@@ -42,7 +42,6 @@ const currencyFormatterConfig = {
   minimumFractionDigits: 0,
   maximumFractionDigits: 0,
 } as const;
-
 </script>
 
 <template>
@@ -75,15 +74,13 @@ const currencyFormatterConfig = {
     </div>
   </div>
 
-  <div>
-    <USlider
-      v-model="sliderModel"
-      :min="boundaries?.min"
-      :max="boundaries?.max"
-      :step="PRICE_STEP"
-      :ui="{
-        root: 'w-[99%] mx-auto',
-      }"
-    />
-  </div>
+  <USlider
+    v-model="sliderModel"
+    :min="boundaries?.min"
+    :max="boundaries?.max"
+    :step="PRICE_STEP"
+    :ui="{
+      root: 'w-[99%] mx-auto',
+    }"
+  />
 </template>
