@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import Socials from "~/components/UI/Socials.vue";
 import FooterNavigation from "./FooterNavigation.vue";
-import Socials from "./Socials.vue";
 import Copyright from "./Copyright.vue";
 import Logo from "../UI/Logo.vue";
 </script>

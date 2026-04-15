@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import { twMerge } from "tailwind-merge";
 import { YOUTUBE_CHANNEL_URL, INSTAGRAM_CHANNEL_URL, TELEGRAM_CHANNEL_URL } from "~/utils/constants";
-import TelegramLogo from "../UI/Icons/TelegramLogo.vue";
+import { TelegramLogo } from "./Icons";
+
+defineProps<{ linkClass?: string; }>();
 
 const socials = [
   {
@@ -29,14 +32,12 @@ const socials = [
       :to="social.to"
       target="_blank"
       :title="social.title"
-      class="inline-flex justify-center items-center w-11 h-11 bg-gray-900 text-white p-2.5 rounded-full"
+      :class="twMerge('inline-flex justify-center items-center w-11 h-11 bg-gray-900 text-white p-2.5 rounded-full', linkClass)"
     >
       <UIcon
-        v-if="typeof social.icon === 'string'"
         :name="social.icon"
         class="w-full h-full"
       />
-      <component :is="social.icon" v-else />
     </NuxtLink>
   </div>
 </template>

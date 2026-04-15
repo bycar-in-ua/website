@@ -11,3 +11,6 @@ export { default as Coupe } from "./Coupe.vue";
 export { default as Hatchback } from "./Hatchback.vue";
 export { default as Minivan } from "./Minivan.vue";
 export { default as Car } from "./Car.vue";
+export { default as UserFilled } from "./UserFilled.vue";
+export { default as BookmarkFilled } from "./BookmarkFilled.vue";
+export { default as TelegramLogo } from "./TelegramLogo.vue";

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { BookmarkFilled } from "~/components/UI/Icons";
+
 const profile = useProfile();
 </script>
 
@@ -14,11 +16,13 @@ const profile = useProfile();
     <UButton
       :icon="
         profile.data.value?.savedCars?.length
-          ? 'i-heroicons-bookmark-solid'
-          : 'i-heroicons-bookmark'
+          ? BookmarkFilled
+          : 'i-lucide-bookmark'
       "
       variant="link"
-      size="md"
+      color="secondary"
+      size="sm"
+      :ui="{ leadingIcon: 'size-6 lg:size-5' }"
       :to="{ name: 'saved-cars' }"
       v-bind="$attrs"
     />

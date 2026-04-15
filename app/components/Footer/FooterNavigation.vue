@@ -13,15 +13,11 @@ const menuItems: NavigationMenuItem[] = [
   },
   {
     label: t("menu.avaliableAuto"),
-    disabled: true,
+    to: "/catalog",
   },
   {
     label: t("menu.about"),
     to: "/about",
-  },
-  {
-    label: t("menu.blog"),
-    to: "/about", // TODO: add `/articles` page and change `to` here
   },
 ];
 
@@ -30,14 +26,14 @@ const contacts: NavigationMenuItem[] = [
     label: "Звʼязатися з нами",
     to: "#contact-container",
   },
-  {
-    label: "Співробітництво",
-    to: "#partnership-container", // TODO: check after merge BCR-138
-  },
-  {
-    label: "Повідомити про проблему",
-    disabled: true,
-  },
+  // {
+  //   label: "Співробітництво",
+  //   to: "#partnership-container", // TODO: check after merge BCR-138
+  // },
+  // {
+  //   label: "Повідомити про проблему",
+  //   disabled: true,
+  // },
 ];
 
 const policies: NavigationMenuItem[] = [
