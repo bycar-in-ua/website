@@ -12,7 +12,7 @@ const values = [
 <template>
   <section class="bg-black dark py-12 sm:py-16 md:py-20">
     <div class="container">
-      <SectionTitle :title="['Наші цінності', 'Лише важливе']" heading-class="text-3xl" />
+      <SectionTitle :title="['Наші цінності', 'Лише важливе']" />
 
       <div class="mt-8 sm:mt-12 grid grid-cols-1 md:grid-cols-2">
         <div
