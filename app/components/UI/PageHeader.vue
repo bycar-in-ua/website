@@ -11,7 +11,7 @@ defineProps<{
 <template>
   <section class="relative flex items-center justify-between page-header dark">
     <img :src="bgUrl" :alt="title[0]" class="absolute inset-0 w-full h-full object-cover -z-10">
-    <div class="container mx-auto py-16 flex items-end justify-between">
+    <div class="container mx-auto py-12 md:py-16 flex items-end justify-between">
       <SectionTitle :title />
 
       <div v-if="extra" class="text-white font-semibold uppercase">

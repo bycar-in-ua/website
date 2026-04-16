@@ -16,7 +16,7 @@ await suspense();
 
 <template>
   <section class="container py-12 sm:py-16 md:py-20">
-    <SectionTitle :title="['Наші партнери', 'Тільки офіційні дилери']" class="mb-8 lg:mb-0" heading-class="text-3xl" />
+    <SectionTitle :title="['Наші партнери', 'Тільки офіційні дилери']" class="mb-8 lg:mb-0" />
 
     <UMarquee
       :overlay="false"
