@@ -10,6 +10,8 @@ const profile = useProfile();
 const open = ref(false);
 
 watchEffect(() => {
+  if (import.meta.server) return;
+
   document.documentElement.style.overflow = open.value ? "hidden" : "";
 
   if (open.value) {

@@ -22,6 +22,7 @@ export function useProfileProvider() {
       return requestFetch("/api/profile");
     },
     enabled: ready,
+    placeholderData: () => ({ savedCars: [] } as Profile),
   });
 
   provide(provideKey, query);
