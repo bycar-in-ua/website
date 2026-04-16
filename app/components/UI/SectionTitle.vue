@@ -12,7 +12,7 @@ defineProps<{
   <div class="flex items-end">
     <slot name="title" :title>
       <h2
-        :class="twMerge('text-xl sm:text-3xl md:text-5xl font-bold grow text-default', headingClass)"
+        :class="twMerge('text-3xl md:text-5xl font-bold grow text-default', headingClass)"
       >
         <span class="text-primary">{{ title?.[0] }}</span>
         <br>

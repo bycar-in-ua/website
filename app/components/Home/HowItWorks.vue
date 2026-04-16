@@ -27,23 +27,23 @@ const steps = [
 </script>
 
 <template>
-  <section class="bg-black text-white py-20">
-    <div class="container grid grid-cols-2 gap-4">
+  <section class="bg-black text-white py-12 md:py-16 lg:py-20">
+    <div class="container grid lg:grid-cols-2 gap-8 lg:gap-4">
       <div>
-        <SectionTitle :title="['Крок за кроком', 'Шлях до отримання авто']" class="mb-12 dark" />
+        <SectionTitle :title="['Крок за кроком', 'Шлях до отримання авто']" class="mb-8 lg:mb-12 dark" />
 
         <div class="divide-y divide-gray-900 border-t border-b border-gray-900">
           <div v-for="(step, index) in steps" :key="index" class="flex items-start space-x-4 py-8">
             <div class="shrink-0">
-              <div class="text-dimmed font-semibold">
+              <div class="text-sm md:text-base text-dimmed font-semibold">
                 (0{{ index + 1 }})
               </div>
             </div>
             <div>
-              <h3 class="text-3xl font-bold">
+              <h3 class="text-xl md:text-3xl font-bold">
                 {{ step.title }}
               </h3>
-              <p class="mt-1 text-lg text-gray-300">
+              <p class="mt-2 text-base md:text-lg text-gray-300">
                 {{ step.subtitle }}
               </p>
             </div>
@@ -51,8 +51,8 @@ const steps = [
         </div>
       </div>
 
-      <div class="pl-12">
-        <img src="/images/how-it-works.png" alt="How It Works" class="w-full h-full object-cover object-left">
+      <div class="xl:pl-12">
+        <img src="/images/how-it-works.png" alt="How It Works" class="w-full h-full object-cover object-left aspect-3/4 lg:aspect-auto">
       </div>
     </div>
   </section>
