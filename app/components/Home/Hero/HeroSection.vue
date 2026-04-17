@@ -129,14 +129,14 @@ const handleNavigate = () => {
   >
     <div class="absolute inset-0">
       <div class="hero-overlay z-0 absolute inset-0" />
-      <video
+      <!-- <video
         autoplay
         muted
         loop
         class="w-full h-full object-cover -z-10"
       >
         <source src="/videos/hero-background.mp4" type="video/mp4">
-      </video>
+      </video> -->
     </div>
 
     <div class="container z-10">
@@ -152,8 +152,8 @@ const handleNavigate = () => {
         Переглядайте, порівнюйте, обирайте та купуйте — все в одному місці.
       </p>
 
-      <UForm :state="selectedFilters" class="flex flex-col md:flex-row md:flex-wrap lg:flex-nowrap md:items-center justify-between gap-4 lg:gap-6 px-4 md:px-6 py-4 bg-default divide-y divide-gray-200">
-        <QuickFilterPopover>
+      <UForm :state="selectedFilters" class="flex flex-col md:flex-row md:flex-wrap lg:flex-nowrap md:items-center justify-between gap-4 lg:gap-6 px-4 md:px-6 py-4 bg-default divide-y md:divide-y-0 divide-gray-200">
+        <QuickFilterPopover title="Ціна" @reset="selectedFilters.minPrice = undefined; selectedFilters.maxPrice = undefined">
           <UFormField label="Ціна" class="md:basis-[21%] lg:basis-52">
             <UInput
               class="w-full"
@@ -175,7 +175,7 @@ const handleNavigate = () => {
 
         <USeparator orientation="vertical" class="h-12 hidden md:block" />
 
-        <QuickFilterPopover>
+        <QuickFilterPopover title="Кузов" @reset="selectedFilters.bodyType = []">
           <UFormField label="Кузов" class="md:basis-[21%] lg:basis-52">
             <UInput
               class="w-full"
@@ -193,7 +193,7 @@ const handleNavigate = () => {
 
         <USeparator orientation="vertical" class="h-12 hidden md:block" />
 
-        <QuickFilterPopover>
+        <QuickFilterPopover title="Привід" @reset="selectedFilters.driveType = []">
           <UFormField label="Привід" class="md:basis-[21%] lg:basis-52">
             <UInput
               class="w-full"
@@ -211,7 +211,7 @@ const handleNavigate = () => {
 
         <USeparator orientation="vertical" class="h-12 hidden md:block" />
 
-        <QuickFilterPopover>
+        <QuickFilterPopover title="Марка" @reset="selectedFilters.brand = []">
           <UFormField label="Марка" class="md:basis-[21%] lg:basis-52">
             <UInput
               class="w-full"
@@ -232,7 +232,7 @@ const handleNavigate = () => {
           size="lg"
           block
           color="primary"
-          class="lg:basis-64"
+          class="lg:basis-64 mt-2 md:mt-0 max-md:min-h-10 text-base md:text-lg"
           @click="handleNavigate"
         />
       </UForm>
