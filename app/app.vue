@@ -1,10 +1,13 @@
 <script setup lang="ts">
+import { provideSSRWidth } from "@vueuse/core";
 import Header from "~/components/Header/index.vue";
 import Footer from "~/components/Footer/index.vue";
 import CookieBanner from "~/components/CookieBanner.vue";
 import AuthSlideover from "#layers/auth/components/AuthSlideover.vue";
 import QuizProvider from "#layers/quiz/components/QuizProvider.vue";
 import { useProfileProvider } from "#layers/profile/composables/useProfile";
+
+provideSSRWidth(500);
 
 useHead({
   htmlAttrs: { lang: "ua" },

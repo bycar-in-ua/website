@@ -125,7 +125,7 @@ const handleNavigate = () => {
 
 <template>
   <section
-    class="hero-section h-[calc(100vh-72px)] text-inverted bg-cover relative flex flex-col justify-end pb-20"
+    class="hero-section h-[calc(100svh-72px)] text-inverted bg-cover relative flex flex-col justify-end pb-4 md:pb-10 lg:pb-20"
   >
     <div class="absolute inset-0">
       <div class="hero-overlay z-0 absolute inset-0" />
@@ -141,20 +141,20 @@ const handleNavigate = () => {
 
     <div class="container z-10">
       <h1
-        class="text-4xl md:text-5xl lg:text-9xl font-bold break-all sm:break-normal mb-8"
+        class="text-4xl md:text-5xl lg:text-9xl font-bold break-all sm:break-normal mb-3 md:mb-6 lg:mb-8"
       >
         Легкий шлях
         <br>
         до нового авто
       </h1>
 
-      <p class="text-xl font-medium mb-12 text-gray-200">
+      <p class="text-base md:text-xl font-medium mb-8 md:mb-12 text-gray-200">
         Переглядайте, порівнюйте, обирайте та купуйте — все в одному місці.
       </p>
 
-      <UForm :state="selectedFilters" class="flex items-center gap-6 px-6 py-4 bg-default">
-        <QuickFilterPopover>
-          <UFormField label="Ціна" class="basis-52">
+      <UForm :state="selectedFilters" class="flex flex-col md:flex-row md:flex-wrap lg:flex-nowrap md:items-center justify-between gap-4 lg:gap-6 px-4 md:px-6 py-4 bg-default divide-y md:divide-y-0 divide-gray-200">
+        <QuickFilterPopover title="Ціна" @reset="selectedFilters.minPrice = undefined; selectedFilters.maxPrice = undefined">
+          <UFormField label="Ціна" class="md:basis-[21%] lg:basis-52">
             <UInput
               class="w-full"
               variant="ghost"
@@ -173,10 +173,10 @@ const handleNavigate = () => {
           </template>
         </QuickFilterPopover>
 
-        <USeparator orientation="vertical" class="h-12" />
+        <USeparator orientation="vertical" class="h-12 hidden md:block" />
 
-        <QuickFilterPopover>
-          <UFormField label="Кузов" class="basis-52">
+        <QuickFilterPopover title="Кузов" @reset="selectedFilters.bodyType = []">
+          <UFormField label="Кузов" class="md:basis-[21%] lg:basis-52">
             <UInput
               class="w-full"
               variant="ghost"
@@ -191,10 +191,10 @@ const handleNavigate = () => {
           </template>
         </QuickFilterPopover>
 
-        <USeparator orientation="vertical" class="h-12" />
+        <USeparator orientation="vertical" class="h-12 hidden md:block" />
 
-        <QuickFilterPopover>
-          <UFormField label="Привід" class="basis-52">
+        <QuickFilterPopover title="Привід" @reset="selectedFilters.driveType = []">
+          <UFormField label="Привід" class="md:basis-[21%] lg:basis-52">
             <UInput
               class="w-full"
               variant="ghost"
@@ -209,10 +209,10 @@ const handleNavigate = () => {
           </template>
         </QuickFilterPopover>
 
-        <USeparator orientation="vertical" class="h-12" />
+        <USeparator orientation="vertical" class="h-12 hidden md:block" />
 
-        <QuickFilterPopover>
-          <UFormField label="Марка" class="basis-52">
+        <QuickFilterPopover title="Марка" @reset="selectedFilters.brand = []">
+          <UFormField label="Марка" class="md:basis-[21%] lg:basis-52">
             <UInput
               class="w-full"
               variant="ghost"
@@ -232,7 +232,7 @@ const handleNavigate = () => {
           size="lg"
           block
           color="primary"
-          class="basis-64"
+          class="lg:basis-64 mt-2 md:mt-0 max-md:min-h-10 text-base md:text-lg"
           @click="handleNavigate"
         />
       </UForm>

@@ -1,11 +1,78 @@
+<script setup lang="ts">
+import { breakpointsTailwind, useBreakpoints } from "@vueuse/core";
+
+defineProps<{ title: string; }>();
+
+const emit = defineEmits<{
+  apply: [];
+  reset: [];
+}>();
+
+const breakpoints = useBreakpoints(breakpointsTailwind);
+
+const largerThenMd = breakpoints.greater("md");
+
+const drawerOpen = ref(false);
+</script>
+
 <template>
-  <UPopover :ui="{ content: 'py-3 px-4 popover-content' }" :content="{ side: 'bottom', align: 'start', alignOffset: -14.5 }">
+  <UPopover v-if="largerThenMd" :ui="{ content: 'py-3 px-4 popover-content' }" :content="{ side: 'bottom', align: 'start', alignOffset: -14.5 }">
     <slot />
 
     <template #content>
       <slot name="content" />
     </template>
   </UPopover>
+
+  <UDrawer
+    v-else
+    v-model:open="drawerOpen"
+    direction="bottom"
+    inset
+    :ui="{
+      header: 'border-b border-gray-200 flex items-center justify-between pt-2',
+      content: 'min-h-[50svh]',
+      container: 'flex-1',
+      overlay: 'bg-black/20',
+    }"
+  >
+    <slot />
+
+    <template #header>
+      <span class="basis-6 shrink-0" />
+
+      <h3 class="text-center text-lg font-bold basis-full flex-1">
+        {{ title }}
+      </h3>
+
+      <UIcon
+        name="i-lucide-x"
+        class="size-6 basis-6 shrink-0 text-dimmed"
+        @click="drawerOpen = false"
+      />
+    </template>
+
+    <template #body>
+      <slot name="content" />
+    </template>
+
+    <template #footer>
+      <UButton
+        block
+        @click="emit('apply'); drawerOpen = false"
+      >
+        Застосувати
+      </UButton>
+      <UButton
+        block
+        variant="outline"
+        color="secondary"
+        @click="emit('reset'); drawerOpen = false"
+      >
+        Скинути
+      </UButton>
+    </template>
+  </UDrawer>
 </template>
 
 <style>
