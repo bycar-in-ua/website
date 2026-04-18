@@ -32,40 +32,31 @@ const bodyTypes = [
 </script>
 
 <template>
-  <section class="flex flex-col py-12 md:py-20 text-white">
+  <section class="flex flex-col pt-12 md:pt-20 md:pb-6 text-white">
     <SectionTitle
       :title="['Кузов', 'Обирай найкраще для себе']"
-      class="mb-8 md:mb-10 text-black justify-between w-full"
+      class="mb-8 md:mb-10"
     >
       <template #extra>
         <UButton
           variant="outline"
           to="/catalog"
-          class="hidden md:flex ml-4 whitespace-nowrap"
+          class="hidden sm:flex ml-4 whitespace-nowrap"
         >
           Всі авто
         </UButton>
       </template>
     </SectionTitle>
 
-    <div class="hidden xl:flex justify-between gap-5">
-      <BodyTypeCard
-        v-for="item in bodyTypes"
-        :key="item.title"
-        :title="item.title"
-        :image="item.image"
-        :query="item.query"
-      />
-    </div>
-
     <UCarousel
       v-slot="{ item }"
       :items="bodyTypes"
       :ui="{
-        item: 'basis-1/2 md:basis-1/3',
+        viewport: 'max-sm:-me-4',
+        item: 'basis-[55%] sm:basis-1/3 md:basis-1/4 lg:basis-1/5',
       }"
-      class="xl:hidden mb-14"
-      dots
+      align="start"
+      class="mb-14"
     >
       <BodyTypeCard
         :title="item.title"
@@ -77,7 +68,8 @@ const bodyTypes = [
     <UButton
       variant="outline"
       to="/catalog"
-      class="md:hidden w-full flex justify-center"
+      class="sm:hidden w-full flex justify-center"
+      block
     >
       Всі авто
     </UButton>

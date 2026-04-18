@@ -1,22 +1,21 @@
 <script setup lang="ts">
 import type { AccordionItem } from "@nuxt/ui";
 import { useQuery } from "@tanstack/vue-query";
-// Deprecated, export type from vehicles-sdk
-import { BodyType } from "@bycar-in-ua/sdk";
+import { BodyType } from "@bycar-in-ua/vehicles-sdk";
 import SectionTitle from "~/components/UI/SectionTitle.vue";
 import VehiclesCarousel from "~/components/VehiclesCarousel.vue";
 import type { VehicleSearchDocument } from "@bycar-in-ua/vehicles-sdk";
 
 const vehiclesService = useVehiclesService();
 
+const defaultPagination = {
+  page: 1,
+  limit: 6,
+};
+
 const { data: vehicles, suspense } = useQuery({
   queryKey: ["homepage-vehicles-collections"],
   queryFn: async () => {
-    const defaultPagination = {
-      page: 1,
-      limit: 12,
-    };
-
     const [
       familyCars, hybrids, electrics, recommended,
     ] = await Promise.all([
@@ -93,27 +92,44 @@ const items = computed<VehicleAccordionItem[]>(() => {
 </script>
 
 <template>
-  <section class="my-10 md:my-20">
+  <section class="my-12 md:my-20">
     <SectionTitle
       :title="['Всі авто', 'Підбірки найкращих моделей']"
-      class="mb-10"
+      class="mb-8 md:mb-10"
     />
 
     <UAccordion
       default-value="0"
       :items="items"
       :ui="{
-        label: 'text-3xl font-semibold',
+        label: 'text-xl sm:text-2xl md:text-3xl font-semibold',
+        trigger: 'max-sm:py-6 max-sm:data-[state=closed]:px-4',
+        content: 'max-sm:pb-6 max-sm:overflow-visible',
       }"
     >
-      <template #trailing="{ item }">
-        <UButton variant="outline" class="ml-auto">
+      <template #trailing="{ item, open }">
+        <UButton variant="outline" class="hidden sm:flex ml-auto">
           {{ item.count }} пропозиції
         </UButton>
+
+        <UIcon
+          name="i-lucide-chevron-down"
+          class="size-7 ml-auto sm:hidden transition-transform"
+          :class="{ 'rotate-180': open }"
+        />
       </template>
 
       <template #content="{ item: accordionItem }">
         <VehiclesCarousel :vehicles="accordionItem.carouselItems" />
+
+        <UButton
+          variant="outline"
+          class="sm:hidden mt-2"
+          block
+          size="sm"
+        >
+          {{ accordionItem.count }} пропозиції
+        </UButton>
       </template>
     </UAccordion>
   </section>
