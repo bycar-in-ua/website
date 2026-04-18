@@ -17,14 +17,10 @@ const carousel = useTemplateRef("carousel");
   <section>
     <SectionTitle
       :title
-      class="mb-10"
+      class="mb-8 md:mb-10"
     >
       <template v-if="carousel?.scrollable" #extra>
-        <div class="flex items-center gap-2">
-          <!-- <UButton variant="outline">
-            Дивитися всі
-          </UButton> -->
-
+        <div class="hidden md:flex items-center gap-2">
           <UButton
             variant="outline"
             color="secondary"

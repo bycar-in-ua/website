@@ -7,18 +7,6 @@ const props = withDefaults(defineProps<{
   type?: CardType;
 }>(), { type: "model" });
 
-const carouselItems = computed(() => {
-  // Split items into chunks of 3 for carousel slides
-  const chunkSize = 3;
-  const chunks = [];
-
-  for (let i = 0; i < props.vehicles.length; i += chunkSize) {
-    chunks.push(props.vehicles.slice(i, i + chunkSize));
-  }
-
-  return chunks;
-});
-
 const carRequestSlideover = useCarRequestSlideover();
 
 function openRequest(car: VehicleSearchDocument) {
@@ -32,7 +20,7 @@ function openRequest(car: VehicleSearchDocument) {
 
 const carousel = useTemplateRef("carousel");
 
-const scrollable = computed(() => carouselItems.value.length > 1);
+const scrollable = computed(() => props.vehicles.length > 1);
 
 defineExpose({
   scrollNext: () => carousel.value?.emblaApi?.scrollNext(),
@@ -44,35 +32,35 @@ defineExpose({
 <template>
   <UCarousel
     ref="carousel"
-    v-slot="{ item }"
+    v-slot="{ item: car }"
     dots
     loop
-    :items="carouselItems"
+    align="start"
+    :items="vehicles"
     :ui="{
-      root: 'overflow-hidden',
+      root: 'overflow-hidden max-sm:-me-4',
       viewport: 'overflow-visible relative z-10',
+      container: 'items-stretch',
       dots: 'static pt-10 pb-4',
+      item: 'basis-[calc(100%-2rem)] sm:basis-1/2 lg:basis-1/3',
     }"
   >
-    <div class="grid grid-cols-3 gap-4">
-      <NuxtLink
-        v-for="car in item"
-        :key="car.id"
-        :to="type === 'model' ? { name: 'SingleCar', params: { slug: car.slug } } : { name: 'AvailableCarSingle', params: { id: car.id } }"
-        class="block"
+    <NuxtLink
+      :key="car.id"
+      :to="type === 'model' ? { name: 'SingleCar', params: { slug: car.slug } } : { name: 'AvailableCarSingle', params: { id: car.id } }"
+      class="block h-full"
+    >
+      <CarCard
+        :car="car"
+        :is-compared="true"
+        class="h-full"
       >
-        <CarCard
-          :car="car"
-          :is-compared="true"
-          class="h-full"
-        >
-          <template #cta>
-            <UButton v-if="type === 'available'" block @click.prevent.stop="openRequest(car)">
-              Отримати пропозицію
-            </UButton>
-          </template>
-        </CarCard>
-      </NuxtLink>
-    </div>
+        <template #cta>
+          <UButton v-if="type === 'available'" block @click.prevent.stop="openRequest(car)">
+            Отримати пропозицію
+          </UButton>
+        </template>
+      </CarCard>
+    </NuxtLink>
   </UCarousel>
 </template>
