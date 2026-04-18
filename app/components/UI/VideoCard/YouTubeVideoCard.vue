@@ -21,9 +21,9 @@ function getYouTubeThumbnail(
 </script>
 
 <template>
-  <div class="relative sm:basis-2/3 sm:shrink-0">
+  <div class="relative">
     <div
-      class="aspect-video rounded-3xl overflow-hidden w-full md:max-h-[450px] flex items-center"
+      class="aspect-video rounded-3xl overflow-hidden w-full md:max-h-112 flex items-center"
     >
       <iframe
         v-if="isIframeShown"

@@ -20,21 +20,23 @@ const { data: videos } = await useFetch<YouTubeVideoItem[]>(
 <template>
   <section
     v-if="videos?.length"
-    class="py-12 md:py-20 bg-black"
+    class="py-12 md:py-20 bg-black dark"
     @mouseover="mouseoverHandler"
     @mouseleave="mouseleaveHandler"
     @touchstart="mouseoverHandler"
     @touchend="mouseleaveHandler"
   >
     <div class="container">
-      <SectionTitle :title="['Огляди', 'Нові відео на каналі']" class="mb-10 dark">
+      <SectionTitle :title="['Огляди', 'Нові відео на каналі']" class="mb-10">
         <template #extra>
-          <div class="hidden md:flex items-center gap-2">
+          <div class="hidden md:flex flex-wrap lg:flex-nowrap items-center gap-2">
             <UButton
               to="https://www.youtube.com/@bycar.in.ua_"
               color="secondary"
               variant="solid"
               target="_blank"
+              block
+              class="hidden lg:inline-flex"
             >
               Перейти на канал
             </UButton>
@@ -61,8 +63,9 @@ const { data: videos } = await useFetch<YouTubeVideoItem[]>(
       ref="carousel"
       :items="videos"
       :ui="{
-        item: 'w-fit h-fit basis-auto transition-opacity [&:not(.is-snapped)]:opacity-10',
-        dots: 'absolute inset-x-0 -bottom-7 flex flex-wrap items-center justify-center gap-3 ',
+        item: 'max-w-[calc(100%-1.5rem)] md:max-w-212 ps-2 md:ps-4 w-fit h-fit transition-opacity [&:not(.is-snapped)]:opacity-10',
+        container: '-ms-1 md:-ms-2',
+        dots: 'absolute inset-x-0 -bottom-7 flex flex-wrap items-center justify-center gap-3',
         dot: 'bg-gray-800 data-[state=active]:bg-white',
       }"
       class-names
@@ -78,13 +81,15 @@ const { data: videos } = await useFetch<YouTubeVideoItem[]>(
       </template>
     </UCarousel>
 
-    <UButton
-      to="https://www.youtube.com/@bycar.in.ua_"
-      color="secondary"
-      variant="solid"
-      class="flex md:hidden mt-15 justify-center"
-    >
-      Перейти на канал
-    </UButton>
+    <div class="container">
+      <UButton
+        to="https://www.youtube.com/@bycar.in.ua_"
+        color="secondary"
+        variant="solid"
+        class="flex lg:hidden mt-15 justify-center sm:w-fit mx-auto"
+      >
+        Перейти на канал
+      </UButton>
+    </div>
   </section>
 </template>
