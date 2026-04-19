@@ -111,7 +111,7 @@ const orderValue = ref("");
   <UForm
     :state="formState"
     :validate="validate"
-    class="p-8 flex flex-col gap-4 shadow-xl bg-white sm:max-w-104 min-w-64 w-full"
+    class="p-4 md:p-8 flex flex-col gap-4 shadow-xl bg-white sm:max-w-104 min-w-64 w-full"
     :validate-on="['blur']"
     @submit="(e) => submitForm(e.data)"
   >
