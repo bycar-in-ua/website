@@ -39,7 +39,7 @@ const { $fbq } = useNuxtApp();
 const toast = useToast();
 
 const {
-  mutate: submitForm, isSuccess, isPending, isIdle, reset: resetMutation,
+  mutate: submitForm, isSuccess, isPending, reset: resetMutation,
 } = useMutation({
   mutationKey: [
     "contact-form-submit", props.page, user?.value?.data?.id,
@@ -91,8 +91,20 @@ const requests = ref([
 
 <template>
   <div class="p-4 md:p-8 shadow-xl bg-white sm:max-w-104 min-w-64 w-full">
+    <div v-if="isSuccess" class="text-default flex flex-col items-center pt-2">
+      <RoadSign class="mb-2">
+        Запит отримано
+      </RoadSign>
+
+      <p class="text-center text-toned mb-8">
+        Ми вже отримали ваш запит і незабаром зв’яжемось, щоб допомогти з вибором авто
+      </p>
+
+      <UButton block label="Залишити ще один запит" @click="resetForm" />
+    </div>
+
     <UForm
-      v-if="isIdle"
+      v-else
       :state="formState"
       :schema="formStateSchema"
       :validate-on="['blur']"
@@ -182,17 +194,5 @@ const requests = ref([
         Отримати консультацію
       </UButton>
     </UForm>
-
-    <div v-if="isSuccess" class="text-default flex flex-col items-center">
-      <RoadSign class="mb-2">
-        Запит отримано
-      </RoadSign>
-
-      <p class="text-center text-toned mb-8">
-        Ми вже отримали ваш запит і незабаром зв’яжемось, щоб допомогти з вибором авто
-      </p>
-
-      <UButton block label="Залишити ще один запит" @click="resetForm" />
-    </div>
   </div>
 </template>
