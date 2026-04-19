@@ -1,20 +1,32 @@
 <script setup lang="ts">
-import type { FormError } from "#ui/types";
 import { useMutation } from "@tanstack/vue-query";
+import * as v from "valibot";
+import { phoneRegex } from "#shared/validation";
+import RoadSign from "~/components/UI/RoadSign.vue";
 
-const props = withDefaults(defineProps<{ page: string;
-  id?: string; }>(), { id: "contact-form" });
+type Props = {
+  page: string;
+  id?: string;
+};
+
+const props = withDefaults(defineProps<Props>(), { id: "contact-form" });
 
 const { user } = useUserSession();
 
-type FormState = {
-  name: string;
-  phone: string;
-};
+const formStateSchema = v.object({
+  name: v.optional(v.string()),
+  phone: v.pipe(v.string(), v.regex(phoneRegex, "Недійсний номер телефону")),
+  request: v.optional(v.string()),
+  message: v.optional(v.string()),
+});
+
+type FormState = v.InferInput<typeof formStateSchema>;
 
 const formState = reactive<FormState>({
   name: user?.value?.data?.firstName ?? "",
   phone: user?.value?.data?.phone ?? "",
+  request: "",
+  message: "",
 });
 
 watch([user], () => {
@@ -22,65 +34,31 @@ watch([user], () => {
   formState.phone = user?.value?.data?.phone ?? "";
 });
 
-const validate = (state: Partial<FormState>): FormError[] => {
-  const errors = [];
-
-  if (!state.name) {
-    errors.push({
-      path: "name",
-      message: "Будь ласка, вкажіть ім'я",
-    });
-  }
-
-  const phone = state?.phone;
-
-  if (!phone) {
-    errors.push({
-      path: "phone",
-      message: "Будь ласка, вкажіть номер телефону",
-    });
-
-    return errors;
-  }
-
-  if (/[a-z]/i.test(phone)) {
-    errors.push({
-      path: "phone",
-      message: "Номер телефону не повинен містити літер",
-    });
-  }
-
-  const isTooShort = phone.startsWith("0") && phone.length < 10;
-  const isNotMatchingFormat = !/^\d{10,12}$/.test(
-    state?.phone?.replace(/\D/g, "") ?? "",
-  );
-
-  if (isTooShort || isNotMatchingFormat) {
-    errors.push({
-      path: "phone",
-      message: "Введіть коректний номер телефону",
-    });
-  }
-
-  return errors;
-};
-
 const { gtag } = useGtag();
 const { $fbq } = useNuxtApp();
+const toast = useToast();
 
 const {
-  mutate: submitForm, isSuccess, isPending,
+  mutate: submitForm, isSuccess, isPending, isIdle, reset: resetMutation,
 } = useMutation({
   mutationKey: [
     "contact-form-submit", props.page, user?.value?.data?.id,
   ],
-  mutationFn: ({ name, phone }: FormState) => $fetch("/api/contact-form", {
+  mutationFn: (state: FormState) => $fetch("/api/contact-form", {
     method: "POST",
     body: {
-      name,
-      phone,
+      ...state,
       page: props.page,
       userId: user?.value?.data?.id,
+    },
+    onResponseError({ response }) {
+      const data = response._data as { message?: string; };
+
+      toast.add({
+        color: "error",
+        title: "Сталася помилка при відправці форми",
+        description: data?.message,
+      });
     },
   }),
   onSuccess: () => {
@@ -95,100 +73,126 @@ const {
   },
 });
 
-// TODO: use real data
-const orderItems = ref([
-  "Авто під мій бюджет",
-  "Авто під стиль життя",
-  "Сімейне авто",
-  "Авто для бізнесу",
-  "Авто для початківця",
+const resetForm = () => {
+  formState.name = user?.value?.data?.firstName ?? "";
+  formState.phone = user?.value?.data?.phone ?? "";
+  formState.request = "";
+  formState.message = "";
+  resetMutation();
+};
+
+const requests = ref([
+  "Не можу визначитися з вибором авто",
+  "Хочу отримати консультацію щодо конкретної моделі",
+  "Шукаю кращу ціну на конкретну модель",
   "Інше",
 ]);
-const orderValue = ref("");
 </script>
 
 <template>
-  <UForm
-    :state="formState"
-    :validate="validate"
-    class="p-8 flex flex-col gap-4 shadow-xl bg-white sm:max-w-104 min-w-64 w-full"
-    :validate-on="['blur']"
-    @submit="(e) => submitForm(e.data)"
-  >
-    <UFormField name="name" label="Імʼя" :ui="{ container: 'mt-1.5' }">
-      <UInput
-        :id="`${id}-name`"
-        v-model:model-value="formState.name"
-        placeholder="Введіть ваше імʼя"
-        size="lg"
-        :disabled="isSuccess"
-        class="w-full placeholder:text-gray-500 font-medium text-base text-gray-950"
-      />
-    </UFormField>
-
-    <UFormField name="phone" label="Телефон" :ui="{ container: 'mt-1.5' }">
-      <UInput
-        :id="`${id}-phone`"
-        v-model:model-value="formState.phone"
-        placeholder="+380"
-        size="lg"
-        mask="+38 (###) ###-##-##"
-        type="tel"
-        :disabled="isSuccess"
-        class="w-full placeholder:text-gray-500 font-medium text-base text-gray-950"
-      />
-    </UFormField>
-
-    <UFormField
-      name="request"
-      label="Запит"
-      class="mb-4"
-      :ui="{ container: 'mt-1.5' }"
+  <div class="p-4 md:p-8 shadow-xl bg-white sm:max-w-104 min-w-64 w-full">
+    <UForm
+      v-if="isIdle"
+      :state="formState"
+      :schema="formStateSchema"
+      :validate-on="['blur']"
+      class="flex flex-col gap-4 "
+      @submit="(e) => submitForm(e.data)"
     >
-      <USelectMenu
-        v-model="orderValue"
-        :items="orderItems"
-        placeholder="Оберіть ваш запит"
-        class="w-full p-0 pb-1.5 border-b border-gray-200 disabled:border-gray-200 hover:border-primary font-medium text-base text-gray-950"
-        variant="none"
-        :ui="{
-          placeholder:
-            'text-gray-500 font-semibold hover:text-gray-700 w-full text-start',
-          input: 'hidden px-4',
-          group: 'py-3 px-3 gap-2',
-          item: ['p-0 data-highlighted:not-data-disabled:before:bg-elevated/0'],
-        }"
+      <UFormField name="name" label="Імʼя" :ui="{ container: 'mt-1.5' }">
+        <UInput
+          :id="`${id}-name`"
+          v-model:model-value="formState.name"
+          placeholder="Введіть ваше імʼя"
+          size="lg"
+          :disabled="isSuccess"
+          class="w-full placeholder:text-gray-500 font-medium text-base text-gray-950"
+        />
+      </UFormField>
+
+      <UFormField name="phone" label="Телефон" :ui="{ container: 'mt-1.5' }">
+        <UInput
+          :id="`${id}-phone`"
+          v-model:model-value="formState.phone"
+          placeholder="+380"
+          size="lg"
+          mask="+38 (###) ###-##-##"
+          type="tel"
+          :disabled="isSuccess"
+          class="w-full placeholder:text-gray-500 font-medium text-base text-gray-950"
+        />
+      </UFormField>
+
+      <UFormField
+        name="request"
+        label="Запит"
+        :ui="{ container: 'mt-1.5' }"
       >
-        <template #item="{ item, index }">
-          <div class="w-full">
+        <USelectMenu
+          v-model="formState.request"
+          :items="requests"
+          placeholder="Оберіть ваш запит"
+          class="w-full p-0 pb-1.5 border-b border-gray-200 disabled:border-gray-200 hover:border-primary font-medium text-base text-gray-950"
+          variant="none"
+          :ui="{
+            placeholder:
+              'text-gray-500 font-semibold hover:text-gray-700 w-full text-start',
+            input: 'hidden px-4',
+            group: 'py-1 px-4 gap-2 divide-y divide-gray-100',
+            item: 'px-0 py-2',
+          }"
+        >
+          <template #item="{ item }">
             <URadioGroup
-              v-model="orderValue"
+              v-model="formState.request"
               :items="[item]"
               indicator="end"
               size="sm"
-              class="font-semibold text-sm text-gray-700"
               :ui="{
+                root: 'w-full',
                 wrapper: 'font-semibold text-sm text-gray-700',
               }"
             />
-            <USeparator v-if="index !== orderItems.length - 1" class="my-2" />
-          </div>
-        </template>
-      </USelectMenu>
-    </UFormField>
+          </template>
+        </USelectMenu>
+      </UFormField>
 
-    <UButton v-if="isSuccess" block disabled>
-      Заявку надіслано!<br>
-      Дякуємо за звернення
-    </UButton>
+      <UFormField
+        v-if="formState.request === 'Інше'"
+        name="message"
+        label="Повідомлення"
+      >
+        <UTextarea
+          :id="`${id}-message`"
+          v-model:model-value="formState.message"
+          placeholder="Додайте повідомлення (необовʼязково)"
+          size="lg"
+          autoresize
+          :max-rows="3"
+          class="w-full"
+        />
+      </UFormField>
 
-    <UButton
-      v-else
-      block
-      type="submit"
-      :loading="isPending"
-    >
-      Отримати консультацію
-    </UButton>
-  </UForm>
+      <UButton
+        block
+        type="submit"
+        class="mt-4"
+        :loading="isPending"
+      >
+        Отримати консультацію
+      </UButton>
+    </UForm>
+
+    <div v-if="isSuccess" class="text-default flex flex-col items-center">
+      <RoadSign class="mb-2">
+        Запит отримано
+      </RoadSign>
+
+      <p class="text-center text-toned mb-8">
+        Ми вже отримали ваш запит і незабаром зв’яжемось, щоб допомогти з вибором авто
+      </p>
+
+      <UButton block label="Залишити ще один запит" @click="resetForm" />
+    </div>
+  </div>
 </template>

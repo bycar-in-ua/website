@@ -43,7 +43,7 @@ const { data: filtersData } = useCatalogFilters();
     <BodyTypes class="container" />
     <LatestVideos />
     <AboutUs class="container" />
-    <ContactForm page="Головна сторінка" :show-affix="false" />
+    <ContactForm page="Головна сторінка" />
     <!-- <PartnershipBanner /> -->
   </main>
 </template>
