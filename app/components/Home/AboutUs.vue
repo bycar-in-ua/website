@@ -48,7 +48,7 @@ import SectionTitle from "../UI/SectionTitle.vue";
         <div
           class="absolute left-6 bottom-6.5 md:left-8 md:bottom-3.5 text-white"
         >
-          <p class="text-xl font-bold">
+          <p class="text-xl font-bold uppercase">
             Евгеній Тхор
           </p>
           <p class="text-base font-medium">

@@ -148,11 +148,11 @@ const handleNavigate = () => {
         до нового авто
       </h1>
 
-      <p class="text-base md:text-xl font-medium mb-8 md:mb-12 text-gray-200">
+      <p class="text-base md:text-xl font-medium mb-8 md:mb-14 text-gray-200">
         Переглядайте, порівнюйте, обирайте та купуйте — все в одному місці.
       </p>
 
-      <UForm :state="selectedFilters" class="flex flex-col md:flex-row md:flex-wrap lg:flex-nowrap md:items-center justify-between gap-4 lg:gap-6 px-4 md:px-6 py-4 bg-default divide-y md:divide-y-0 divide-gray-200">
+      <UForm :state="selectedFilters" class="flex flex-col md:flex-row md:flex-wrap lg:flex-nowrap md:items-center justify-between gap-4 lg:gap-6 px-4 md:px-6 lg:pe-4 py-4 bg-default divide-y md:divide-y-0 divide-gray-200">
         <QuickFilterPopover title="Ціна" @reset="selectedFilters.minPrice = undefined; selectedFilters.maxPrice = undefined">
           <UFormField label="Ціна" class="md:basis-[21%] lg:basis-52">
             <UInput
@@ -161,7 +161,7 @@ const handleNavigate = () => {
               readonly
               :model-value="priceLabel"
               :placeholder="pricePlaceholder"
-              :ui="{ base: 'text-left' }"
+              :ui="{ base: 'text-left md:pb-0' }"
             />
           </UFormField>
           <template #content>
@@ -173,7 +173,7 @@ const handleNavigate = () => {
           </template>
         </QuickFilterPopover>
 
-        <USeparator orientation="vertical" class="h-12 hidden md:block" />
+        <USeparator orientation="vertical" class="h-12 hidden md:block" :ui="{ border: 'border-gray-200' }" />
 
         <QuickFilterPopover title="Кузов" @reset="selectedFilters.bodyType = []">
           <UFormField label="Кузов" class="md:basis-[21%] lg:basis-52">
@@ -183,7 +183,7 @@ const handleNavigate = () => {
               readonly
               :model-value="bodyTypeLablel"
               placeholder="Всі"
-              :ui="{ base: 'text-left' }"
+              :ui="{ base: 'text-left md:pb-0' }"
             />
           </UFormField>
           <template #content>
@@ -191,7 +191,7 @@ const handleNavigate = () => {
           </template>
         </QuickFilterPopover>
 
-        <USeparator orientation="vertical" class="h-12 hidden md:block" />
+        <USeparator orientation="vertical" class="h-12 hidden md:block" :ui="{ border: 'border-gray-200' }" />
 
         <QuickFilterPopover title="Привід" @reset="selectedFilters.driveType = []">
           <UFormField label="Привід" class="md:basis-[21%] lg:basis-52">
@@ -201,7 +201,7 @@ const handleNavigate = () => {
               readonly
               :model-value="driveLabel"
               placeholder="Всі"
-              :ui="{ base: 'text-left' }"
+              :ui="{ base: 'text-left md:pb-0' }"
             />
           </UFormField>
           <template #content>
@@ -209,7 +209,7 @@ const handleNavigate = () => {
           </template>
         </QuickFilterPopover>
 
-        <USeparator orientation="vertical" class="h-12 hidden md:block" />
+        <USeparator orientation="vertical" class="h-12 hidden md:block" :ui="{ border: 'border-gray-200' }" />
 
         <QuickFilterPopover title="Марка" @reset="selectedFilters.brand = []">
           <UFormField label="Марка" class="md:basis-[21%] lg:basis-52">
@@ -219,7 +219,7 @@ const handleNavigate = () => {
               readonly
               :model-value="brandLabel"
               placeholder="Всі"
-              :ui="{ base: 'text-left' }"
+              :ui="{ base: 'text-left md:pb-0' }"
             />
           </UFormField>
           <template #content>

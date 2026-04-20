@@ -4,27 +4,32 @@ import SectionTitle from "../UI/SectionTitle.vue";
 
 const bodyTypes = [
   {
-    image: "/images/crossover.png",
+    image: "/images/body-types/crossover.png",
+    hoverImage: "/images/body-types/crossover-rotated.png",
     title: "Кросовер",
     query: "crossover",
   },
   {
-    image: "/images/hatchback.png",
+    image: "/images/body-types/hatchback.png",
+    hoverImage: "/images/body-types/hatchback-rotated.png",
     title: "Хетчбек",
     query: "hatchback",
   },
   {
-    image: "/images/sedan.png",
+    image: "/images/body-types/sedan.png",
+    hoverImage: "/images/body-types/sedan-rotated.png",
     title: "Седан",
     query: "sedan",
   },
   {
-    image: "/images/liftback.png",
+    image: "/images/body-types/liftback.png",
+    hoverImage: "/images/body-types/liftback-rotated.png",
     title: "Ліфтбек",
     query: "liftback",
   },
   {
-    image: "/images/universal.png",
+    image: "/images/body-types/universal.png",
+    hoverImage: "/images/body-types/universal-rotated.png",
     title: "Універсал",
     query: "universal",
   },
@@ -32,7 +37,7 @@ const bodyTypes = [
 </script>
 
 <template>
-  <section class="flex flex-col pt-12 md:pt-20 md:pb-6 text-white">
+  <section class="flex flex-col pt-12 md:pt-20 pb-12 md:pb-6 text-white">
     <SectionTitle
       :title="['Кузов', 'Обирай найкраще для себе']"
       class="mb-8 md:mb-10"
@@ -58,11 +63,7 @@ const bodyTypes = [
       align="start"
       class="mb-14"
     >
-      <BodyTypeCard
-        :title="item.title"
-        :image="item.image"
-        :query="item.query"
-      />
+      <BodyTypeCard v-bind="item" />
     </UCarousel>
 
     <UButton

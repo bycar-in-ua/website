@@ -103,8 +103,8 @@ const items = computed<VehicleAccordionItem[]>(() => {
       :items="items"
       :ui="{
         label: 'text-xl sm:text-2xl md:text-3xl font-semibold',
-        trigger: 'max-sm:py-6 max-sm:data-[state=closed]:px-4',
-        content: 'max-sm:pb-6 max-sm:overflow-visible',
+        trigger: 'py-6 sm:py-8 max-sm:data-[state=closed]:px-4',
+        content: 'pb-6 sm:pb-4 max-sm:overflow-visible',
       }"
     >
       <template #trailing="{ item, open }">

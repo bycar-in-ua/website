@@ -41,7 +41,7 @@ defineExpose({
       root: 'overflow-hidden max-sm:-me-4',
       viewport: 'overflow-visible relative z-10',
       container: 'items-stretch',
-      dots: 'static pt-10 pb-4 max-sm:pe-4',
+      dots: 'static pt-10 pb-4 max-sm:pe-4 z-20',
       item: 'basis-[calc(100%-2rem)] sm:basis-1/2 lg:basis-1/3',
     }"
   >

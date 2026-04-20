@@ -57,7 +57,7 @@ const columns = [
     links: contacts,
   },
   {
-    title: "Політика конфіденційності",
+    title: "Юридична інформація",
     links: policies,
   },
 ];

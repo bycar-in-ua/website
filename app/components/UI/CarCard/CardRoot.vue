@@ -41,7 +41,7 @@ const infoBullets = computed(() => getVehicleInfoBullets(props.car, t));
     />
 
     <div
-      class="absolute z-30 -inset-x-px bottom-0 px-4 pb-4 translate-y-0 group-hover:translate-y-full opacity-0 group-hover:opacity-100 transition-all duration-500 bg-white border border-t-0 border-gray-200"
+      class="absolute top-full hidden group-hover:block -inset-x-px px-4 pb-4 bg-white border border-t-0 border-gray-200"
     >
       <slot name="cta">
         <UButton block>

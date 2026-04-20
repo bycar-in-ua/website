@@ -18,23 +18,10 @@ const aboutMenuItem: NavigationMenuItem = {
   to: "/about",
 };
 
-// const blogMenuItem: NavigationMenuItem = {
-//   label: "Блог",
-//   to: "/about",
-//   target: "_blank",
-//   onSelect: () => {
-//     gtag("event", "hf_oscpv_click", {
-//       event_category: "affiliate",
-//       event_label: "oscpv",
-//     });
-//   },
-// };
-
 const desktopMenuItems: NavigationMenuItem[] = [
   avilableCatalogMenuItem,
   catalogMenuItem,
   aboutMenuItem,
-  // blogMenuItem,
 ];
 </script>
 
@@ -45,7 +32,7 @@ const desktopMenuItems: NavigationMenuItem[] = [
     variant="link"
     :ui="{
       item: 'py-0',
-      link: 'font-semibold uppercase text-default',
+      link: 'font-semibold uppercase text-default hover:text-primary',
     }"
   />
 </template>

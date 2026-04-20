@@ -32,7 +32,7 @@ const socials = [
       :to="social.to"
       target="_blank"
       :title="social.title"
-      :class="twMerge('inline-flex justify-center items-center w-11 h-11 bg-gray-900 text-white p-2.5 rounded-full', linkClass)"
+      :class="twMerge('inline-flex justify-center items-center w-11 h-11 bg-gray-900 hover:bg-primary transition-colors text-white p-2.5 rounded-full', linkClass)"
     >
       <UIcon
         :name="social.icon"

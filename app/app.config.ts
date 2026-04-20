@@ -18,5 +18,7 @@ export default defineAppConfig({
         size: { md: { item: "px-0 py-2" } },
       },
     },
+    input: { variants: { variant: { ghost: "hover:bg-transparent focus:bg-transparent hover:placeholder:text-gray-700 hover:text-primary" } } },
+    selectMenu: { slots: { trailing: "pe-0! transition-all group-data-[state=open]:rotate-180" } },
   },
 });
