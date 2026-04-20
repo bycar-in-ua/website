@@ -3,54 +3,65 @@ definePageMeta({ name: "profile-personal" });
 
 const {
   state,
+  schema,
   updatePersonalData,
   loading,
 } = usePersonalDataForm();
 
 const form = useTemplateRef("form");
+
+const { logout } = useLogout();
 </script>
 
 <template>
-  <div>
-    <UForm
-      ref="form"
-      :state="state"
-      class="space-y-6"
-      @submit="(e) => { updatePersonalData(e.data) }"
-    >
-      <UFormField label="Ім'я" name="firstName">
-        <UInput
-          v-model="state.firstName"
-          placeholder="Вкажіть ім'я"
-          class="w-full"
-        />
-      </UFormField>
+  <UForm
+    ref="form"
+    :state
+    :schema
+    class="space-y-6"
+    @submit="(e) => { updatePersonalData(e.data) }"
+  >
+    <UFormField label="Ім'я" name="firstName">
+      <UInput
+        v-model="state.name"
+        placeholder="Вкажіть ім'я"
+        class="w-full"
+      />
+    </UFormField>
 
-      <UFormField label="Прізвище" name="lastName">
-        <UInput
-          v-model="state.lastName"
-          placeholder="Вкажіть прізвище"
-          class="w-full"
-        />
-      </UFormField>
+    <UFormField label="Пошта" name="email">
+      <UInput
+        v-model="state.email"
+        class="w-full"
+      />
+    </UFormField>
 
-      <UFormField label="Пошта" name="email">
-        <UInput
-          v-model="state.email"
-          class="w-full"
-        />
-      </UFormField>
+    <UFormField label="Телефон" name="phone">
+      <UInput
+        v-model="state.phone"
+        class="w-full"
+      />
+    </UFormField>
 
-      <UFormField label="Телефон" name="phone">
-        <UInput
-          v-model="state.phone"
-          class="w-full"
-        />
-      </UFormField>
+    <div class="flex flex-col gap-6 sm:flex-row">
+      <UButton
+        label="Зберегти"
+        :disabled="!form?.dirty"
+        :loading
+        block
+        class="lg:w-fit"
+        @click="form?.submit()"
+      />
 
-      <UButton :disabled="!form?.dirty" :loading @click="form?.submit()">
-        Зберегти
-      </UButton>
-    </UForm>
-  </div>
+      <UButton
+        label="Вийти"
+        icon="i-lucide-log-out"
+        block
+        variant="outline"
+        color="neutral"
+        class="lg:hidden"
+        @click="logout()"
+      />
+    </div>
+  </UForm>
 </template>

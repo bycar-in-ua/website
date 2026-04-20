@@ -23,7 +23,7 @@ useHead({
 
 const { logout } = useLogout();
 
-const navItems: NavigationMenuItem[] = [
+const responsiveNavItems: NavigationMenuItem[] = [
   {
     label: "Особисті дані",
     icon: "i-lucide-user",
@@ -39,6 +39,10 @@ const navItems: NavigationMenuItem[] = [
     icon: "i-lucide-bookmark",
     to: "/profile/saved-cars",
   },
+] as const;
+
+const navItems: NavigationMenuItem[] = [
+  ...responsiveNavItems,
   {
     label: "Вийти",
     icon: "i-lucide-log-out",
@@ -59,8 +63,21 @@ onMounted(() => {
   <main>
     <PageHeader :title="['Мій кабінет', 'Все під вашим контролем']" bg-url="/images/profile-bg.png" />
 
-    <div class="container mx-auto py-16 flex justify-between gap-8">
-      <div class="max-w-xs w-full space-y-2">
+    <div class="container mx-auto pt-8 pb-12 md:py-16 lg:flex justify-between gap-8">
+      <div class="flex gap-1.5 sm:gap-2 items-center mb-6 sm:mb-8 lg:hidden overflow-y-auto no-scrollbar -me-2 sm:me-0 pe-2 sm:pe-0">
+        <UButton
+          v-for="(item, i) in responsiveNavItems"
+          :key="i"
+          size="sm"
+          :label="item.label"
+          :to="item.to"
+          :variant="route.path === item.to ? 'solid' : 'outline'"
+          :color="route.path === item.to ? 'primary' : 'secondary'"
+          :leading-icon="item.icon"
+        />
+      </div>
+
+      <div class="hidden lg:block max-w-2xs lg:max-w-xs w-full space-y-2">
         <UButton
           v-for="(item, i) in navItems"
           :key="i"
