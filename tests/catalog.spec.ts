@@ -14,7 +14,7 @@ test.describe("cars catalog", () => {
     await firstCar.hover();
     await page.mouse.wheel(0, 200);
     await firstCar.click();
-    expect(page.url()).toContain("/model/");
+    await expect(page).toHaveURL(/\/model\//);
     await expect(page.getByRole("button", { name: "Отримати консультацію" })).toBeVisible();
   });
 
@@ -26,7 +26,7 @@ test.describe("cars catalog", () => {
     await secondCar.hover();
     await secondCar.click();
 
-    await expect (page.getByRole("button", { name: "Отримати консультацію" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Отримати консультацію" })).toBeVisible();
     await page.goBack();
 
     for (let i = 0; i < 3; i++) {
