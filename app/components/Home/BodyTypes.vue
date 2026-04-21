@@ -57,7 +57,7 @@ const bodyTypes = [
       v-slot="{ item }"
       :items="bodyTypes"
       :ui="{
-        viewport: 'max-sm:-me-4',
+        viewport: 'max-sm:-me-4 overflow-visible',
         item: 'basis-[55%] sm:basis-1/3 md:basis-1/4 lg:basis-1/5',
       }"
       align="start"

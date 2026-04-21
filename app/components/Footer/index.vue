@@ -6,12 +6,12 @@ import Logo from "../UI/Logo.vue";
 </script>
 
 <template>
-  <footer data-testid="bycar-footer" class="px-4 pt-12 pb-10 sm:px-20 sm:pt-16 sm:pb-12 bg-black dark">
+  <footer data-testid="bycar-footer" class="px-4 pt-12 pb-10 sm:px-20 sm:pt-16 sm:pb-12 bg-black">
     <div class="container">
       <div class="grid gap-8 grid-container">
         <Logo class="h-12 w-36 logo mb-2 sm:mb-0" />
         <Socials class="socials mt-2 sm:mt-0" />
-        <FooterNavigation />
+        <FooterNavigation class="dark" />
       </div>
 
       <USeparator

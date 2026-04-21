@@ -43,23 +43,21 @@ const { logout } = useLogout();
       />
     </UFormField>
 
-    <div class="flex flex-col gap-6 sm:flex-row">
+    <div class="flex flex-col items-start sm:flex-row sm:justify-between gap-6">
       <UButton
         label="Зберегти"
         :disabled="!form?.dirty"
         :loading
-        block
-        class="lg:w-fit"
+        class="max-sm:w-full justify-center"
         @click="form?.submit()"
       />
 
       <UButton
         label="Вийти"
         icon="i-lucide-log-out"
-        block
         variant="outline"
         color="neutral"
-        class="lg:hidden"
+        class="max-sm:w-full justify-center lg:hidden"
         @click="logout()"
       />
     </div>
