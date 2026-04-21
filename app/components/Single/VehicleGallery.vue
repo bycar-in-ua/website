@@ -40,7 +40,7 @@ const openFullscreen = () => {
 
 <template>
   <section v-if="hasImages">
-    <div class="relative group">
+    <div class="relative group" data-testid="vehicle-gallery">
       <UBadge
         v-if="isAvailableNow"
         icon="i-lucide-clock-3"
