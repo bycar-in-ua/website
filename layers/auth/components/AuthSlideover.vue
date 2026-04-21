@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Logo from "~/components/UI/Logo.vue";
+import DrawerSlideover from "~/components/UI/DrawerSlideover.vue";
 import type { AuthStage } from "#layers/auth/stores/auth-slideover";
 import { useAuthSlideoverStore } from "#layers/auth/stores/auth-slideover";
 import UnifiedSignInForm from "./UnifiedSignInForm.vue";
@@ -29,17 +30,15 @@ function onAfterEnter() {
 </script>
 
 <template>
-  <USlideover
+  <DrawerSlideover
     v-model:open="store.isOpen"
-    side="right"
-    inset
-    :ui="{ content: 'divide-none max-w-lg', body: '' }"
+    hide-borders
     @after:enter="onAfterEnter"
     @after:leave="store.reset"
   >
     <template #body>
-      <div class="flex flex-col items-center sm:mt-6 md:mt-14">
-        <Logo class="h-10 mb-6" />
+      <div class="flex flex-col items-center mt-1.5 sm:mt-3 md:mt-14">
+        <Logo class="h-8 sm:h-10 mb-6" />
 
         <div class="w-full">
           <Transition name="fade" mode="out-in">
@@ -48,7 +47,7 @@ function onAfterEnter() {
         </div>
       </div>
     </template>
-  </USlideover>
+  </DrawerSlideover>
 </template>
 
 <style>

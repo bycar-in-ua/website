@@ -17,9 +17,10 @@ function loginWithGoogle() {
     variant="outline"
     block
     :loading="loading"
+    class="max-sm:min-h-9 max-sm:text-sm"
     @click="loginWithGoogle"
   >
-    <Google />
+    <Google class="max-sm:size-5" />
     <slot>Увійти через Google</slot>
   </UButton>
 </template>
