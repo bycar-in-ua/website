@@ -21,7 +21,7 @@ const store = useAuthSlideoverStore();
 
     <GoogleSignInButton />
 
-    <USeparator label="або" :ui="{ root: 'my-8', border: 'border-gray-200', label: 'text-gray-200 text-base' }" />
+    <USeparator label="або" :ui="{ root: 'my-6 sm:my-8', border: 'border-gray-200', label: 'text-gray-200 text-xs sm:text-base' }" />
 
     <UFormField label="Телефон або пошта" name="login" class="mb-6">
       <UInput
