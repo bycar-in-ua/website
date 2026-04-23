@@ -61,6 +61,18 @@ export const useAuthSlideoverStore = defineStore("auth-slideover", () => {
   });
 
   const stage = ref<AuthStage>("enter-credential");
+  const otpTimer = ref(0);
+
+  const startOtpTimer = () => {
+    otpTimer.value = 30;
+    const interval = setInterval(() => {
+      if (otpTimer.value > 0) {
+        otpTimer.value -= 1;
+      } else {
+        clearInterval(interval);
+      }
+    }, 1000);
+  };
 
   const state = reactive<SignInPayload>({
     login: "",
@@ -112,6 +124,7 @@ export const useAuthSlideoverStore = defineStore("auth-slideover", () => {
       if (isNextStepResponse(authResponse)) {
         switch (authResponse.nextStep) {
           case "NEED_OTP":
+            startOtpTimer();
             setStage("confirm-otp");
             break;
           case "NEED_PASSWORD":
@@ -147,12 +160,14 @@ export const useAuthSlideoverStore = defineStore("auth-slideover", () => {
     state.otp = undefined;
     state.password = undefined;
     signInData.value = undefined;
+    otpTimer.value = 0;
   }
 
   return {
     isOpen,
     redirect,
     stage,
+    otpTimer,
     state,
     formSchema: authFormSchema,
     signIn,
