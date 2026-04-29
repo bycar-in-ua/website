@@ -21,9 +21,8 @@ test.describe("Single car page", () => {
   });
 
   test("check car configuration and price dynamically change", async ({ page }) => {
-    // Get trims section
     const trimsSection = page.getByTestId("trims-list");
-    const trims = trimsSection.locator("> div"); // Get direct children (trim items)
+    const trims = trimsSection.locator("> div");
 
     const trimsCount = await trims.count();
     expect(trimsCount).toBeGreaterThan(1);
@@ -59,4 +58,12 @@ test.describe("Single car page", () => {
   });
 });
 
-// add check for Двигун та Трансмісія when you choose different trims and power units
+test.only("check that Similar cars section is displayed and contains at least 3 cars", async ({ page }) => {
+  const similarCarsSection = page.locator("section", { hasText: "Подібні авто" });
+  const similarCars = similarCarsSection.locator("[data-slot=\"item\"]");
+  await expect(similarCarsSection).toBeVisible();
+  expect(await similarCars.count()).toBeGreaterThan(2);
+  // const similarCarButton = similarCars.locator("button");
+  // const similarCarButtonForward = similarCarButton.locator("[data-slot=\"leadingIcon\"]").nth(1);
+  // await similarCarButtonForward.click();
+});
