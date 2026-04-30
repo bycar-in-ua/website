@@ -1,20 +1,25 @@
 <script setup lang="ts">
-import AuthFormHeadline from "./AuthFormHeadline.vue";
 import { useAuthSlideoverStore } from "#layers/auth/stores/auth-slideover";
+import { useSignIn } from "../composables/useSignIn";
+import AuthFormHeadline from "./AuthFormHeadline.vue";
 
 const authStore = useAuthSlideoverStore();
 
+const {
+  signIn, isPending, data: signInData,
+} = useSignIn();
+
 const descriptionText = computed(() => {
-  if (!authStore.signInData || !isNextStepResponse(authStore.signInData)) {
+  if (!signInData.value || !isNextStepResponse(signInData.value)) {
     return "Введіть його нижче, щоб ми знали, що це саме ви.";
   }
 
-  if (authStore.signInData.loginType === "phone") {
-    return `Надіслали SMS із кодом на телефон ${authStore.state.login}.\nВведіть його нижче, щоб ми знали, що це саме ви.`;
+  if (signInData.value.loginType === "phone") {
+    return `Надіслали SMS із кодом на телефон ${authStore.signInFormState.login}.\nВведіть його нижче, щоб ми знали, що це саме ви.`;
   }
 
-  if (authStore.signInData.loginType === "email") {
-    return `Надіслали код на пошту ${authStore.state.login}.\nВведіть його нижче, щоб ми знали, що це саме ви.`;
+  if (signInData.value.loginType === "email") {
+    return `Надіслали код на пошту ${authStore.signInFormState.login}.\nВведіть його нижче, щоб ми знали, що це саме ви.`;
   }
 
   return "Введіть його нижче, щоб ми знали, що це саме ви.";
@@ -31,7 +36,7 @@ const twoDigits = new Intl.NumberFormat("uk-UA", {
 </script>
 
 <template>
-  <UForm :state="authStore.state">
+  <UForm :state="authStore.signInFormState">
     <AuthFormHeadline title="Останній штрих">
       <template #description>
         <span class="whitespace-pre-line">{{ descriptionText }}</span>
@@ -40,7 +45,7 @@ const twoDigits = new Intl.NumberFormat("uk-UA", {
 
     <UFormField label="Введіть код" name="otp" :ui="{ root: 'mb-6 sm:mb-8' }">
       <UInput
-        v-model="authStore.state.otp"
+        v-model="authStore.signInFormState.otp"
         placeholder="– – – – – –"
         size="xl"
         class="w-full"
@@ -53,8 +58,8 @@ const twoDigits = new Intl.NumberFormat("uk-UA", {
     <UButton
       block
       type="submit"
-      :loading="authStore.signInPending"
-      @click="authStore.signIn()"
+      :loading="isPending"
+      @click="signIn()"
     >
       Продовжити
     </UButton>
@@ -67,7 +72,7 @@ const twoDigits = new Intl.NumberFormat("uk-UA", {
         label="Надіслати код повторно"
         variant="link"
         size="sm"
-        @click="authStore.signIn()"
+        @click="signIn()"
       />
 
       <span v-else>

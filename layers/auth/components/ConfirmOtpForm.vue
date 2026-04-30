@@ -1,30 +1,35 @@
 <script setup lang="ts">
 import Logo from "~/components/UI/Logo.vue";
 import { useAuthSlideoverStore } from "#layers/auth/stores/auth-slideover";
+import { useSignIn } from "../composables/useSignIn";
 import AuthFormHeadline from "./AuthFormHeadline.vue";
 
 const authStore = useAuthSlideoverStore();
 
+const {
+  signIn, isPending, data: signInData,
+} = useSignIn();
+
 const messageText = computed(() => {
-  if (!authStore.signInData || !isNextStepResponse(authStore.signInData)) {
+  if (!signInData.value || !isNextStepResponse(signInData.value)) {
     return "";
   }
 
-  if (authStore.signInData.loginType === "email") {
-    return "Ми надіслали код пошту " + authStore.state.login;
+  if (signInData.value.loginType === "email") {
+    return "Ми надіслали код пошту " + authStore.signInFormState.login;
   }
 
-  if (authStore.signInData.loginType === "phone") {
-    return "Ми надіслали код номер " + authStore.state.login;
+  if (signInData.value.loginType === "phone") {
+    return "Ми надіслали код номер " + authStore.signInFormState.login;
   }
 
   return "" as never;
 });
 
 const pinInputModel = computed({
-  get: () => authStore.state.otp?.split("").map((char: string) => char) || [],
+  get: () => authStore.signInFormState.otp?.split("").map((char: string) => char) || [],
   set: (val: number[]) => {
-    authStore.state.otp = val.join("");
+    authStore.signInFormState.otp = val.join("");
   },
 });
 
@@ -39,7 +44,7 @@ const twoDigits = new Intl.NumberFormat("uk-UA", {
 </script>
 
 <template>
-  <UForm :state="authStore.state">
+  <UForm :state="authStore.signInFormState">
     <Logo class="h-8 sm:h-10 mb-6 mx-auto" />
 
     <AuthFormHeadline title="Вхід до акаунту" description="Доступ до вибраних авто та найкращих цін" />
@@ -60,8 +65,8 @@ const twoDigits = new Intl.NumberFormat("uk-UA", {
     <UButton
       block
       type="submit"
-      :loading="authStore.signInPending"
-      @click="authStore.signIn()"
+      :loading="isPending"
+      @click="signIn()"
     >
       Продовжити
     </UButton>
@@ -73,7 +78,7 @@ const twoDigits = new Intl.NumberFormat("uk-UA", {
         label="Надіслати код повторно"
         variant="link"
         size="sm"
-        @click="authStore.signIn()"
+        @click="signIn()"
       />
 
       <span v-else>
