@@ -52,7 +52,6 @@ async function sendForgotPasswordRequest() {
     </UFormField>
 
     <UButton
-      size="xl"
       block
       type="submit"
       :loading="loading"

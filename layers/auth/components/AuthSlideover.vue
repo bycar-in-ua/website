@@ -8,6 +8,7 @@ import ConfirmOtpForm from "./ConfirmOtpForm.vue";
 import EnterPasswordForm from "./EnterPasswordForm.vue";
 import ForgotPasswordForm from "./ForgotPasswordForm.vue";
 import ResetPasswordForm from "./ResetPasswordForm.vue";
+import CompleteIntroduction from "./CompleteIntroduction.vue";
 
 const store = useAuthSlideoverStore();
 
@@ -17,7 +18,10 @@ const stageComponents: Record<AuthStage, Component> = {
   "enter-password": EnterPasswordForm,
   "forgot-password": ForgotPasswordForm,
   "reset-password": ResetPasswordForm,
+  "complete-introduction": CompleteIntroduction,
 };
+
+const showLogo = computed(() => ["enter-credential", "confirm-otp"].includes(store.stage));
 
 const { gtag } = useGtag();
 
@@ -38,7 +42,7 @@ function onAfterEnter() {
   >
     <template #body>
       <div class="flex flex-col items-center mt-1.5 sm:mt-3 md:mt-14">
-        <Logo class="h-8 sm:h-10 mb-6" />
+        <Logo v-if="showLogo" class="h-8 sm:h-10 mb-6" />
 
         <div class="w-full">
           <Transition name="fade" mode="out-in">

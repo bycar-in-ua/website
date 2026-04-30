@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@bycar-in-ua/auth-sdk':
-        specifier: 0.1.10
-        version: 0.1.10(typescript@5.9.3)
+        specifier: 0.3.0
+        version: 0.3.0(typescript@5.9.3)
       '@bycar-in-ua/base-nuxt-module':
         specifier: ^0.0.15
         version: 0.0.15(magicast@0.5.1)(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3))
@@ -299,8 +299,8 @@ packages:
       commander:
         optional: true
 
-  '@bycar-in-ua/auth-sdk@0.1.10':
-    resolution: {integrity: sha512-oRSJyYih6TfT04bhnp2+rtNL+bP5eUUlw90CFu+cLWFmk4B1Dw3tazkZSGJlRCssohx7DkRhhxZCZTlNGk2izA==, tarball: https://npm.pkg.github.com/download/@bycar-in-ua/auth-sdk/0.1.10/234362fcb9ee3f6fabd74f2f4416f099fb664214}
+  '@bycar-in-ua/auth-sdk@0.3.0':
+    resolution: {integrity: sha512-5pb7F1F5xSsxKrxJU0RN8ZsfoW0pWSpvQrF1C+KZnQO+QPM4IKi69yZ/0fnp41WdfHOk+vcpfxQmXllmILawCw==, tarball: https://npm.pkg.github.com/download/@bycar-in-ua/auth-sdk/0.3.0/0302b54898de2abc3204e1b19f8841cd7d3df81b}
 
   '@bycar-in-ua/base-nuxt-module@0.0.15':
     resolution: {integrity: sha512-i93UHmjBkQqkySoxtzYJz4Q4AHfwH/DA3m7VYmSUY0fPylWJp4mbyqS7FTyILb4NF+6cv0P2+eTIP31ur2y8ww==, tarball: https://npm.pkg.github.com/download/@bycar-in-ua/base-nuxt-module/0.0.15/482de795ef7156e7961b84de6ec48c835cf00ae0}
@@ -7023,7 +7023,7 @@ snapshots:
       cac: 6.7.14
       citty: 0.2.1
 
-  '@bycar-in-ua/auth-sdk@0.1.10(typescript@5.9.3)':
+  '@bycar-in-ua/auth-sdk@0.3.0(typescript@5.9.3)':
     dependencies:
       valibot: 1.2.0(typescript@5.9.3)
     transitivePeerDependencies:

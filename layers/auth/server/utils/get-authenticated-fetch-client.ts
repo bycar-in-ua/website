@@ -3,13 +3,13 @@ import type { BycarFetchClient } from "@bycar-in-ua/auth-sdk";
 import type { H3Event } from "h3";
 
 export async function getAuthenticatedFetchClient(event: H3Event, apiHost: string): Promise<BycarFetchClient> {
-  const session = await getUserSession(event);
+  const { secure } = await getUserSession(event);
 
   // Use a mutable token holder so that getAccessToken/getRefreshToken
   // always return the latest tokens even after onTokenRefresh updates them.
   const tokens = {
-    access: session.secure?.tokens?.access || "",
-    refresh: session.secure?.tokens?.refresh || "",
+    access: secure?.tokens?.access || "",
+    refresh: secure?.tokens?.refresh || "",
   };
 
   const client = getBycarAuthenticatedFetchClient(apiHost, {

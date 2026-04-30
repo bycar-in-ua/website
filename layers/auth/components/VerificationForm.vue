@@ -52,7 +52,6 @@ const twoDigits = new Intl.NumberFormat("uk-UA", {
 
     <UButton
       block
-      size="xl"
       type="submit"
       :loading="authStore.signInPending"
       @click="authStore.signIn()"

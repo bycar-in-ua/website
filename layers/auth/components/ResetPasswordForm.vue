@@ -79,7 +79,6 @@ async function resetPassword() {
     </UFormField>
 
     <UButton
-      size="xl"
       block
       type="submit"
       :loading="loading"

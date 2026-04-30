@@ -38,7 +38,7 @@
     "vitest": "^4.0.2"
   },
   "dependencies": {
-    "@bycar-in-ua/auth-sdk": "0.1.10",
+    "@bycar-in-ua/auth-sdk": "0.3.0",
     "@bycar-in-ua/base-nuxt-module": "^0.0.15",
     "@bycar-in-ua/brands-sdk": "0.1.0",
     "@bycar-in-ua/crm-sdk": "0.1.0",

@@ -1,14 +1,16 @@
 import { defineStore } from "pinia";
-import type { SignInPayload, SignInResponse } from "@bycar-in-ua/auth-sdk";
+import type { SignInInput } from "@bycar-in-ua/auth-sdk";
 import * as v from "valibot";
 import { emailOrPhoneSchema } from "#shared/validation";
+import { useMutation } from "@tanstack/vue-query";
 
 export type AuthStage
   = | "enter-credential"
     | "confirm-otp"
     | "enter-password"
     | "forgot-password"
-    | "reset-password";
+    | "reset-password"
+    | "complete-introduction";
 
 export type AuthSlideoverOpenOptions = {
   redirectTo?: string;
@@ -27,7 +29,6 @@ export const authFormSchema = v.object({
 export const useAuthSlideoverStore = defineStore("auth-slideover", () => {
   const router = useRouter();
   const toast = useToast();
-  const requestFetch = useRequestFetch();
 
   const isOpen = computed<boolean>({
     get() {
@@ -74,14 +75,11 @@ export const useAuthSlideoverStore = defineStore("auth-slideover", () => {
     }, 1000);
   };
 
-  const state = reactive<SignInPayload>({
+  const state = reactive<SignInInput>({
     login: "",
     otp: undefined,
     password: undefined,
   });
-
-  const signInPending = ref(false);
-  const signInData = ref<SignInResponse | undefined>();
 
   function setStage(newStage: AuthStage) {
     stage.value = newStage;
@@ -111,56 +109,77 @@ export const useAuthSlideoverStore = defineStore("auth-slideover", () => {
     isOpen.value = false;
   }
 
-  async function signIn() {
-    signInPending.value = true;
-    try {
-      const authResponse = await requestFetch<SignInResponse>("/api/auth/sign-in", {
-        method: "POST",
-        body: state,
-      });
+  const requestFetch = useRequestFetch();
+  const userSession = useUserSession();
 
-      signInData.value = authResponse;
+  const signInHandler = async () => {
+    const authResponse = await requestFetch("/api/auth/sign-in", {
+      method: "POST",
+      body: state,
+    });
 
-      if (isNextStepResponse(authResponse)) {
-        switch (authResponse.nextStep) {
-          case "NEED_OTP":
-            startOtpTimer();
-            setStage("confirm-otp");
-            break;
-          case "NEED_PASSWORD":
-            setStage("enter-password");
-            break;
-          case "GOOGLE_USER":
-            break;
-          default:
-            break;
-        }
+    if (isNextStepResponse(authResponse)) {
+      switch (authResponse.nextStep) {
+        case "NEED_OTP":
+          startOtpTimer();
+          setStage("confirm-otp");
+          break;
+        case "NEED_PASSWORD":
+          setStage("enter-password");
+          break;
+        case "GOOGLE_USER":
+          break;
+        default:
+          break;
+      }
+    } else {
+      await userSession.fetch();
+
+      const user = userSession.user.value?.data;
+
+      const shouldCompleteIntroduction = Boolean(user && (!user.phone || !user.email));
+
+      if (redirect.value) {
+        await navigateTo({
+          path: redirect.value,
+          query: { authSlideover: shouldCompleteIntroduction ? "open" : undefined },
+        });
+      }
+
+      if (shouldCompleteIntroduction) {
+        setStage("complete-introduction");
       } else {
-        await useUserSession().fetch();
-
-        if (redirect.value) {
-          await navigateTo(redirect.value);
-        }
-
         closeSlideover();
       }
-    } catch {
+    }
+
+    return authResponse;
+  };
+
+  const {
+    mutateAsync: signIn,
+    isPending: signInPending,
+    data: signInData,
+    reset: resetSignInData,
+  } = useMutation({
+    mutationKey: ["auth", "sign-in"],
+    mutationFn: signInHandler,
+    onError: (error) => {
       toast.add({
         color: "error",
         title: "Помилка під час входу. Будь ласка, спробуйте ще раз.",
+        description: error.message,
       });
-    } finally {
-      signInPending.value = false;
-    }
-  }
+    },
+  });
 
   function reset() {
     stage.value = "enter-credential";
     state.login = "";
     state.otp = undefined;
     state.password = undefined;
-    signInData.value = undefined;
     otpTimer.value = 0;
+    resetSignInData();
   }
 
   return {

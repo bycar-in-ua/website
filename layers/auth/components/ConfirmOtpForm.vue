@@ -56,12 +56,11 @@ const twoDigits = new Intl.NumberFormat("uk-UA", {
 
     <UButton
       block
-      size="xl"
       type="submit"
       :loading="authStore.signInPending"
       @click="authStore.signIn()"
     >
-      Підтвердити
+      Продовжити
     </UButton>
     <div class="mt-4 md:mt-3 flex flex-col md:flex-row gap-1 justify-center items-center text-sm text-muted font-medium">
       <span>Не отримали код?</span>
@@ -71,7 +70,7 @@ const twoDigits = new Intl.NumberFormat("uk-UA", {
         label="Надіслати код повторно"
         variant="link"
         size="sm"
-        @click="authStore.signIn"
+        @click="authStore.signIn()"
       />
 
       <span v-else>

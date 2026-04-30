@@ -34,7 +34,6 @@ const store = useAuthSlideoverStore();
     </UFormField>
 
     <UButton
-      size="xl"
       block
       type="submit"
       :loading="store.signInPending"

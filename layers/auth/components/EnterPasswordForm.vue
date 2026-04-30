@@ -21,7 +21,6 @@ const { signIn } = store;
 
     <UButton
       block
-      size="xl"
       type="submit"
       :loading="signInPending"
       @click="signIn()"
