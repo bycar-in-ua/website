@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Logo from "~/components/UI/Logo.vue";
 import { useAuthSlideoverStore } from "#layers/auth/stores/auth-slideover";
 import GoogleSignInButton from "./GoogleSignInButton.vue";
 import AuthFormHeadline from "./AuthFormHeadline.vue";
@@ -12,8 +13,10 @@ const store = useAuthSlideoverStore();
     :state="store.state"
     class="w-full"
     :disabled="store.signInPending"
-    @submit="store.signIn"
+    @submit="store.signIn()"
   >
+    <Logo class="h-8 sm:h-10 mb-6 mx-auto" />
+
     <AuthFormHeadline
       title="Вхід до акаунту"
       description="Доступ до вибраних авто та найкращих цін"

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Logo from "~/components/UI/Logo.vue";
 import AuthFormHeadline from "./AuthFormHeadline.vue";
 import { useAuthSlideoverStore } from "../stores/auth-slideover";
 
@@ -9,6 +10,8 @@ const { signIn } = store;
 
 <template>
   <UForm :state class="space-y-4">
+    <Logo class="h-8 sm:h-10 mb-6 mx-auto" />
+
     <AuthFormHeadline title="Вхід до акаунту" description="Доступ до вибраних авто та найкращих цін" />
 
     <UFormField

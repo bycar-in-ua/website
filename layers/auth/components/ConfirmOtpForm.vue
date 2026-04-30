@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import AuthFormHeadline from "./AuthFormHeadline.vue";
+import Logo from "~/components/UI/Logo.vue";
 import { useAuthSlideoverStore } from "#layers/auth/stores/auth-slideover";
+import AuthFormHeadline from "./AuthFormHeadline.vue";
 
 const authStore = useAuthSlideoverStore();
 
@@ -39,6 +40,8 @@ const twoDigits = new Intl.NumberFormat("uk-UA", {
 
 <template>
   <UForm :state="authStore.state">
+    <Logo class="h-8 sm:h-10 mb-6 mx-auto" />
+
     <AuthFormHeadline title="Вхід до акаунту" description="Доступ до вибраних авто та найкращих цін" />
 
     <UFormField label="Введіть код" name="otp" :ui="{ root: 'mb-6 sm:mb-8', help: 'text-sm font-medium' }">

@@ -67,7 +67,7 @@ const twoDigits = new Intl.NumberFormat("uk-UA", {
         label="Надіслати код повторно"
         variant="link"
         size="sm"
-        @click="authStore.signIn"
+        @click="authStore.signIn()"
       />
 
       <span v-else>

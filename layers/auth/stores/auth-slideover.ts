@@ -8,7 +8,6 @@ export type AuthStage
   = | "enter-credential"
     | "confirm-otp"
     | "enter-password"
-    | "forgot-password"
     | "reset-password"
     | "complete-introduction";
 
