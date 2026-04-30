@@ -7,6 +7,7 @@ import ConfirmOtpForm from "./ConfirmOtpForm.vue";
 import EnterPasswordForm from "./EnterPasswordForm.vue";
 import ResetPasswordForm from "./ResetPasswordForm.vue";
 import CompleteIntroduction from "./CompleteIntroduction.vue";
+import ConfirmSecondContact from "./ConfirmSecondContact.vue";
 
 const store = useAuthSlideoverStore();
 
@@ -16,6 +17,7 @@ const stageComponents: Record<AuthStage, Component> = {
   "enter-password": EnterPasswordForm,
   "reset-password": ResetPasswordForm,
   "complete-introduction": CompleteIntroduction,
+  "confirm-second-contact": ConfirmSecondContact,
 };
 
 const { gtag } = useGtag();

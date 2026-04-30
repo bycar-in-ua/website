@@ -6,7 +6,8 @@ export type AuthStage
     | "confirm-otp"
     | "enter-password"
     | "reset-password"
-    | "complete-introduction";
+    | "complete-introduction"
+    | "confirm-second-contact";
 
 export type AuthSlideoverOpenOptions = {
   redirectTo?: string;
