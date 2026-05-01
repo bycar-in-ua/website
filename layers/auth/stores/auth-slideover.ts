@@ -7,7 +7,9 @@ export type AuthStage
     | "enter-password"
     | "reset-password"
     | "complete-introduction"
-    | "confirm-second-contact";
+    | "confirm-second-contact"
+    | "relogin-confirmation-request"
+    | "contact-change-request";
 
 export type AuthSlideoverOpenOptions = {
   redirectTo?: string;

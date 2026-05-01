@@ -8,5 +8,12 @@ export default defineEventHandler(async (event) => {
 
   const verifyContactResponse = await authService.verifyContact(payload);
 
+  const session = await getUserSession(event);
+
+  await replaceUserSession(event, {
+    ...session,
+    user: { data: verifyContactResponse },
+  });
+
   return verifyContactResponse;
 });

@@ -8,6 +8,8 @@ import EnterPasswordForm from "./EnterPasswordForm.vue";
 import ResetPasswordForm from "./ResetPasswordForm.vue";
 import CompleteIntroduction from "./CompleteIntroduction.vue";
 import ConfirmSecondContact from "./ConfirmSecondContact.vue";
+import ReloginConfirmationRequest from "./ReLoginConfirmationRequest.vue";
+import ReLoginContactChange from "./ReLoginContactChange.vue";
 
 const store = useAuthSlideoverStore();
 
@@ -18,6 +20,8 @@ const stageComponents: Record<AuthStage, Component> = {
   "reset-password": ResetPasswordForm,
   "complete-introduction": CompleteIntroduction,
   "confirm-second-contact": ConfirmSecondContact,
+  "relogin-confirmation-request": ReloginConfirmationRequest,
+  "contact-change-request": ReLoginContactChange,
 };
 
 const { gtag } = useGtag();

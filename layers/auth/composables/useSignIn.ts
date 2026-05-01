@@ -29,19 +29,22 @@ export function useSignIn() {
     } else {
       await userSession.fetch();
 
-      const user = userSession.user.value?.data;
+      const user = authResponse.user;
 
       const shouldCompleteIntroduction = Boolean(user && (!user.phone || !user.email));
+      const shouldConfirmContact = (user?.phone && !user?.phoneVerified) || (user?.email && !user?.emailVerified);
 
       if (authSlideoverStore.redirect) {
         await navigateTo({
           path: authSlideoverStore.redirect,
-          query: { authSlideover: shouldCompleteIntroduction ? "open" : undefined },
+          query: { authSlideover: shouldCompleteIntroduction || shouldConfirmContact ? "open" : undefined },
         });
       }
 
       if (shouldCompleteIntroduction) {
         authSlideoverStore.setStage("complete-introduction");
+      } else if (shouldConfirmContact) {
+        authSlideoverStore.setStage("relogin-confirmation-request");
       } else {
         authSlideoverStore.closeSlideover();
       }
