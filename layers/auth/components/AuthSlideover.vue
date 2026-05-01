@@ -5,7 +5,6 @@ import { useAuthSlideoverStore } from "#layers/auth/stores/auth-slideover";
 import UnifiedSignInForm from "./UnifiedSignInForm.vue";
 import ConfirmOtpForm from "./ConfirmOtpForm.vue";
 import EnterPasswordForm from "./EnterPasswordForm.vue";
-import ResetPasswordForm from "./ResetPasswordForm.vue";
 import CompleteIntroduction from "./CompleteIntroduction.vue";
 import ConfirmSecondContact from "./ConfirmSecondContact.vue";
 import ReloginConfirmationRequest from "./ReLoginConfirmationRequest.vue";
@@ -17,7 +16,6 @@ const stageComponents: Record<AuthStage, Component> = {
   "enter-credential": UnifiedSignInForm,
   "confirm-otp": ConfirmOtpForm,
   "enter-password": EnterPasswordForm,
-  "reset-password": ResetPasswordForm,
   "complete-introduction": CompleteIntroduction,
   "confirm-second-contact": ConfirmSecondContact,
   "relogin-confirmation-request": ReloginConfirmationRequest,

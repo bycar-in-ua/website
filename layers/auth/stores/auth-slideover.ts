@@ -5,7 +5,6 @@ export type AuthStage
   = | "enter-credential"
     | "confirm-otp"
     | "enter-password"
-    | "reset-password"
     | "complete-introduction"
     | "confirm-second-contact"
     | "relogin-confirmation-request"
