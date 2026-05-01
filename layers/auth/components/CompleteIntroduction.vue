@@ -8,15 +8,19 @@ const showPhoneInput = computed(() => !user.value?.data.phone);
 const showEmailInput = computed(() => !user.value?.data.email);
 
 const {
-  state, formSchema, submit, isPending,
+  schema,
+  state,
+  submit,
+  isPending,
 } = useCompleteIntroduction();
 </script>
 
 <template>
   <UForm
     :state
-    :schema="formSchema"
+    :schema
     :disabled="isPending"
+    @error="console.log"
     @submit="submit()"
   >
     <AuthFormHeadline title="Давайте знайомитись" description="Вкажіть свої контакти, щоб ми могли тримати вас у курсі (і просто знати, як вас звати)" class="mb-10" />

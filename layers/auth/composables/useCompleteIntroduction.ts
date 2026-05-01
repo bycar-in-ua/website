@@ -1,9 +1,10 @@
 import * as v from "valibot";
 import { useMutation } from "@tanstack/vue-query";
-import { emailSchema, phoneSchema } from "#shared/validation";
+import { phoneSchema, emailSchema } from "#shared/validation";
 import { useAuthSlideoverStore } from "../stores/auth-slideover";
+import { useUpdateContact } from "./useUpdateContact";
 
-const formSchema = v.object({
+const schema = v.object({
   name: v.optional(v.string()),
   contact: v.union(
     [emailSchema, phoneSchema],
@@ -11,57 +12,53 @@ const formSchema = v.object({
   ),
 });
 
-type FormState = v.InferInput<typeof formSchema>;
+type State = v.InferInput<typeof schema>;
 
 export function useCompleteIntroduction() {
-  const state = reactive<FormState>({
-    name: "",
+  const state = reactive<State>({
+    name: undefined,
     contact: "",
   });
 
   const userSession = useUserSession();
   const fetch = useRequestFetch();
-  const saveName = async (name: string) => {
-    const [firstName = "", ...lastNameParts] = name.split(" ");
-    const lastName = lastNameParts.join(" ");
-
-    await fetch("/api/auth/personal-data", {
-      method: "PATCH",
-      body: {
-        firstName,
-        lastName,
-      },
-    });
-  };
-
-  const submitHandler = async () => {
-    if (state.name) {
-      await saveName(state.name);
-    }
-
-    const updateContactResponse = await fetch("/api/auth/update-contact", {
-      method: "PATCH",
-      body: { contact: state.contact },
-    });
-
-    await userSession.fetch();
-
-    return updateContactResponse;
-  };
 
   const authSlideoverStore = useAuthSlideoverStore();
 
+  const { mutateAsync: updateContact } = useUpdateContact();
+
   const { mutateAsync: submit, isPending } = useMutation({
     mutationKey: ["complete-introduction"],
-    mutationFn: submitHandler,
+    mutationFn: async () => {
+      const isEmail = v.safeParse(emailSchema, state.contact).success;
+      const isPhone = v.safeParse(phoneSchema, state.contact).success;
+
+      // Save name and a contact to show later on UI
+      const profilePromise = fetch("/api/auth/personal-data", {
+        method: "PATCH",
+        body: {
+          name: state.name,
+          email: isEmail ? state.contact : undefined,
+          phone: isPhone ? state.contact : undefined,
+        },
+      });
+
+      const updateContactResponse = await updateContact(state.contact);
+
+      await profilePromise;
+
+      return updateContactResponse;
+    },
     onSuccess: () => {
+      userSession.fetch();
       authSlideoverStore.setStage("confirm-second-contact");
+      authSlideoverStore.startOtpTimer();
     },
   });
 
   return {
+    schema,
     state,
-    formSchema,
     submit,
     isPending,
   };
