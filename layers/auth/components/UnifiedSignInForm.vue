@@ -1,19 +1,26 @@
 <script setup lang="ts">
+import { signInInput } from "@bycar-in-ua/auth-sdk";
+import Logo from "~/components/UI/Logo.vue";
 import { useAuthSlideoverStore } from "#layers/auth/stores/auth-slideover";
+import { useSignIn } from "../composables/useSignIn";
 import GoogleSignInButton from "./GoogleSignInButton.vue";
 import AuthFormHeadline from "./AuthFormHeadline.vue";
 
 const store = useAuthSlideoverStore();
+
+const { signIn, isPending } = useSignIn();
 </script>
 
 <template>
   <UForm
-    :schema="store.formSchema"
-    :state="store.state"
+    :schema="signInInput"
+    :state="store.signInFormState"
     class="w-full"
-    :disabled="store.signInPending"
-    @submit="store.signIn"
+    :disabled="isPending"
+    @submit="signIn()"
   >
+    <Logo class="h-8 sm:h-10 mb-6 mx-auto" />
+
     <AuthFormHeadline
       title="Вхід до акаунту"
       description="Доступ до вибраних авто та найкращих цін"
@@ -25,7 +32,7 @@ const store = useAuthSlideoverStore();
 
     <UFormField label="Телефон або пошта" name="login" class="mb-6">
       <UInput
-        v-model="store.state.login"
+        v-model="store.signInFormState.login"
         placeholder="Введіть ваш телефон або пошту"
         class="w-full"
         size="xl"
@@ -34,10 +41,9 @@ const store = useAuthSlideoverStore();
     </UFormField>
 
     <UButton
-      size="xl"
       block
       type="submit"
-      :loading="store.signInPending"
+      :loading="isPending"
     >
       Увійти
     </UButton>

@@ -1,38 +1,29 @@
-import * as v from "valibot";
+import { updatePersonalInput, type UpdatePersonalInput } from "@bycar-in-ua/auth-sdk";
 import { useMutation } from "@tanstack/vue-query";
-import { phoneRegex, emailSchema } from "#shared/validation";
-
-const profileFormSchema = v.object({
-  name: v.string(),
-  phone: v.optional(v.pipe(v.string(), v.regex(phoneRegex, "Невірний формат номера телефону"))),
-  email: v.optional(emailSchema),
-});
-
-type ProfileFormData = v.InferInput<typeof profileFormSchema>;
 
 export function usePersonalDataForm() {
   const { user, fetch: fetchUserSession } = useUserSession();
   const requestFetch = useRequestFetch();
 
-  const state = reactive<ProfileFormData>({
+  const state = reactive<UpdatePersonalInput>({
     name: [user?.value?.data?.firstName, user?.value?.data?.lastName].filter(Boolean).join(" ").trim(),
     email: user?.value?.data?.email || "",
     phone: user?.value?.data?.phone || "",
   });
 
+  watchEffect(() => {
+    state.name = [user?.value?.data?.firstName, user?.value?.data?.lastName].filter(Boolean).join(" ").trim();
+    state.email = user?.value?.data?.email || "";
+    state.phone = user?.value?.data?.phone || "";
+  });
+
   const toast = useToast();
 
   const { mutateAsync: updatePersonalData, isPending } = useMutation({
-    mutationFn: async (payload: ProfileFormData) => {
-      const [firstName = "", ...lastNameParts] = payload.name.split(" ");
-      const lastName = lastNameParts.join(" ");
-
+    mutationFn: async (payload: UpdatePersonalInput) => {
       const updateResponse = await requestFetch("/api/auth/personal-data", {
         method: "PATCH",
-        body: {
-          firstName,
-          lastName,
-        },
+        body: payload,
       });
 
       const { email, phone } = payload;
@@ -75,7 +66,7 @@ export function usePersonalDataForm() {
 
   return {
     state,
-    schema: profileFormSchema,
+    schema: updatePersonalInput,
     updatePersonalData,
     loading: isPending,
   };

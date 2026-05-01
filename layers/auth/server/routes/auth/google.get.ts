@@ -26,8 +26,8 @@ export default defineOAuthGoogleEventHandler({
       const response = await authService.googleSignIn({ accessToken: access_token });
 
       await setUserSession(event, {
-        user: {
-          data: response.user,
+        user: { data: response.user },
+        secure: {
           tokens: {
             access: response.accessToken,
             refresh: response.refreshToken,

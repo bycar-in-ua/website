@@ -1,6 +1,6 @@
 export default defineNuxtRouteMiddleware(async (to, from) => {
   const {
-    loggedIn, user, fetch: fetchSession,
+    loggedIn, user, fetch: fetchSession, clear: clearSession,
   } = useUserSession();
 
   try {
@@ -19,6 +19,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
       }
     }
 
+    await clearSession();
     throw new Error("User not authenticated");
   } catch {
     const redirectPath
