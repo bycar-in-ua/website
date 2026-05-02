@@ -3,6 +3,7 @@ import { getInfoBullets, getPowerUnitTitle } from "./helpers";
 import type { PowerUnitView, VehicleSearchDocument, VehicleView } from "@bycar-in-ua/vehicles-sdk";
 import { useProfile } from "#layers/profile/composables/useProfile";
 import WrapTitle from "~/components/UI/WrapTitle.vue";
+import InfoLine from "~/components/Single/InfoLine.vue";
 
 const props = defineProps<{
   car: VehicleView;
@@ -50,11 +51,17 @@ function handleCompare() {
 </script>
 
 <template>
-  <UCard class="sticky top-4">
+  <UCard :ui="{ root: 'divide-gray-200', body: 'p-0 sm:p-0 lg:px-6', header: 'px-0 sm:px-0 lg:px-6', footer: 'px-0 sm:px-0 lg:px-6' }">
     <template #header>
-      <WrapTitle :brand="car.brand" :title="carTitle" :subtitle="powerUnitTitle" />
+      <div class="flex items-center justify-between">
+        <WrapTitle :brand="car.brand" :title="carTitle" :subtitle="powerUnitTitle" />
 
-      <div class="flex items-center justify-between mt-6">
+        <div v-if="powerUnit?.price" class="lg:hidden text-xl font-bold">
+          {{ formatCurrency(powerUnit.price, { currency: 'USD', style: 'currency', currencyDisplay: 'narrowSymbol', minimumSignificantDigits: 2 }) }}
+        </div>
+      </div>
+
+      <div class="hidden lg:flex items-center justify-between mt-6">
         <div v-if="powerUnit?.price" class="text-xl font-bold">
           {{ formatCurrency(powerUnit.price, { currency: 'USD', style: 'currency', currencyDisplay: 'narrowSymbol', minimumSignificantDigits: 2 }) }}
         </div>
@@ -85,32 +92,19 @@ function handleCompare() {
       </div>
     </template>
 
-    <div class="space-y-0">
-      <div
+    <div class="space-y-0 divide-y divide-gray-200 max-lg:border-t max-lg:border-b border-gray-200">
+      <InfoLine
         v-for="(bullet, index) in infoBullets"
         :key="index"
-        class="flex items-center justify-between py-4"
-        :class="{ 'border-t border-gray-200 dark:border-gray-800': index > 0 }"
-      >
-        <span class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase">
-          {{ bullet.title }}
-        </span>
-        <span class="text-sm font-semibold text-gray-900 dark:text-white text-right">
-          {{ bullet.value }}
-        </span>
-      </div>
+        :title="bullet.title"
+        :value="bullet.value"
+      />
 
-      <div
+      <InfoLine
         v-if="yearsRange"
-        class="flex items-center justify-between py-4 border-t border-gray-200 dark:border-gray-800"
-      >
-        <span class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase">
-          {{ t('vehicle.modelYear') }}
-        </span>
-        <span class="text-sm font-semibold text-gray-900 dark:text-white text-right">
-          {{ yearsRange }}
-        </span>
-      </div>
+        :title="t('vehicle.modelYear')"
+        :value="yearsRange"
+      />
     </div>
 
     <template #footer>

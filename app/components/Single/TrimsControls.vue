@@ -51,7 +51,7 @@ const powerUnitPrice = computed(() => {
 </script>
 
 <template>
-  <h3 class="mb-3 text-lg font-semibold text-gray-900">
+  <h3 class="mb-3 sm:text-lg font-semibold text-gray-900">
     Комплектації
     <span class="text-dimmed pl-2">{{ trimsPriceRange }}</span>
   </h3>
@@ -68,7 +68,7 @@ const powerUnitPrice = computed(() => {
     />
   </div>
 
-  <h3 class="mt-8 mb-3 text-lg font-semibold text-gray-900">
+  <h3 class="mt-8 mb-3 sm:text-lg font-semibold text-gray-900">
     Силові агрегати
     <span class="text-dimmed pl-2">{{ powerUnitPrice }}</span>
   </h3>

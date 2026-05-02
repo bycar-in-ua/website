@@ -159,12 +159,19 @@ gtag("event", "view_item", {
       {{ car.h1 ?? carTitle }}
     </h1>
 
-    <div class="container mx-auto relative grid grid-cols-3 gap-6 items-start">
-      <div class="col-span-2">
+    <div class="container mx-auto relative lg:grid grid-cols-3 gap-6 items-start">
+      <div class="lg:col-span-2">
         <VehicleGallery
           :images="galleryImages"
           :is-available-now="Boolean(availableVehicles?.meta.totalItems)"
-          class="mb-6 md:mb-12"
+          class="md:mb-6 lg:mb-12 max-sm:-mx-3"
+        />
+
+        <SideWrap
+          class="lg:hidden ring-0 divide-y-0 mb-4"
+          :car="car"
+          :power-unit="activePowerUnit"
+          :available-vehicles="availableVehicles?.items || []"
         />
 
         <UAccordion
@@ -172,7 +179,7 @@ gtag("event", "view_item", {
           :items="accordionItems"
           type="multiple"
           :ui="{
-            label: 'text-xl font-semibold',
+            label: 'text-lg sm:text-xl font-semibold',
             content: 'pb-6',
             trigger: 'py-6',
           }"
@@ -211,7 +218,7 @@ gtag("event", "view_item", {
       </div>
 
       <SideWrap
-        class="sticky top-4"
+        class="hidden lg:block sticky top-4"
         :car="car"
         :power-unit="activePowerUnit"
         :available-vehicles="availableVehicles?.items || []"
