@@ -1,5 +1,11 @@
 <script setup lang="ts">
 import type { TabsItem } from "@nuxt/ui";
+import type {
+  AvailableVehicleView,
+  PowerUnitView,
+  TrimView,
+  VehicleView,
+} from "@bycar-in-ua/vehicles-sdk";
 import {
   getDimensionsBlock,
   getElectricEngineBlock,
@@ -8,12 +14,7 @@ import {
   getTransmissionBlock,
   getWeightsAndVolumesBlock,
 } from "./helpers";
-import type {
-  AvailableVehicleView,
-  PowerUnitView,
-  TrimView,
-  VehicleView,
-} from "@bycar-in-ua/vehicles-sdk";
+import InfoLineComponent from "./InfoLine.vue";
 
 const props = defineProps<{
   car: VehicleView | AvailableVehicleView;
@@ -84,9 +85,7 @@ const tabsItems: TabsItem[] = [
     :ui="{ label: 'normal-case', content: 'divide-y divide-gray-100' }"
   >
     <template #content="{ item }">
-      <div v-for="infoLine in getTabContent(item.value)" :key="infoLine.title" class="font-semibold flex gap-2 justify-between py-4">
-        <span class="text-dimmed text-sm whitespace-nowrap uppercase">{{ infoLine.title }}</span> {{ infoLine.value }}
-      </div>
+      <InfoLineComponent v-for="infoLine in getTabContent(item.value)" :key="infoLine.title" v-bind="infoLine" />
     </template>
   </UTabs>
 </template>

@@ -25,10 +25,10 @@ const cdnImage = useCdnImage();
     </div>
     <div>
       <h2
-        class="font-bold wrap-break-word"
+        class="font-bold wrap-break-word text-lg"
         :class="{
           'text-lg': size === 'sm',
-          'text-xl': size === 'md' || !size,
+          'md:text-xl': size === 'md' || !size,
         }"
       >
         {{ title }}
@@ -38,7 +38,7 @@ const cdnImage = useCdnImage();
         class="font-bold"
         :class="{
           'text-base': size === 'sm',
-          'text-lg': size === 'md' || !size,
+          'md:text-lg': size === 'md' || !size,
         }"
       >
         {{ subtitle }}
