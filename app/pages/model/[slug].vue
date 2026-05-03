@@ -180,7 +180,7 @@ gtag("event", "view_item", {
           type="multiple"
           :ui="{
             label: 'text-lg sm:text-xl font-semibold',
-            content: 'pb-6',
+            content: 'pb-6 max-sm:overflow-visible',
             trigger: 'py-6',
           }"
         >

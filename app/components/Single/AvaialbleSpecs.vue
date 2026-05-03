@@ -24,8 +24,8 @@ const accordionItems: AccordionItem[] = [
 </script>
 
 <template>
-  <section class="container xl:flex xl:gap-6 my-20">
-    <SectionTitle :title="['Специфікація', 'Ключові особливості']" class="basis-102 shrink-0 items-start" />
+  <section class="container xl:flex xl:gap-6 my-12 sm:my-16 md:my-20">
+    <SectionTitle :title="['Специфікація', 'Ключові особливості']" class="basis-102 shrink-0 items-start mb-8 md:mb-12" />
 
     <UAccordion
       :default-value="['0']"
@@ -33,7 +33,7 @@ const accordionItems: AccordionItem[] = [
       type="multiple"
       :ui="{
         label: 'text-xl font-semibold',
-        content: 'pb-6',
+        content: 'pb-6 max-sm:overflow-visible',
         trigger: 'py-6',
       }"
     >
