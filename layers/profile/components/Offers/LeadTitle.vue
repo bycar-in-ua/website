@@ -74,6 +74,7 @@ const statusMeta = computed<Pick<BadgeProps, "label" | "color">>(() => {
       :brand="lead.vehicle?.brand"
       :title="leadTitle"
       :subtitle="leadSubtitle"
+      logo-class="size-12"
       size="sm"
     />
 

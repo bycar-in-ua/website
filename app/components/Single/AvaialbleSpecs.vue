@@ -24,7 +24,7 @@ const accordionItems: AccordionItem[] = [
 </script>
 
 <template>
-  <section class="container flex gap-6 my-20">
+  <section class="container xl:flex xl:gap-6 my-20">
     <SectionTitle :title="['Специфікація', 'Ключові особливості']" class="basis-102 shrink-0 items-start" />
 
     <UAccordion

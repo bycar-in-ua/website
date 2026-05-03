@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import type { VehicleView } from "@bycar-in-ua/vehicles-sdk";
+import { twMerge } from "tailwind-merge";
 
 defineProps<{
   brand: VehicleView["brand"];
   title: string;
   subtitle?: string;
   size?: "sm" | "md";
+  logoClass?: string;
 }>();
 
 const cdnImage = useCdnImage();
@@ -15,11 +17,7 @@ const cdnImage = useCdnImage();
   <div class="flex items-center gap-4">
     <div
       v-if="brand?.logo"
-      class="bg-black flex items-center justify-center shrink-0 p-2"
-      :class="{
-        'size-12': size === 'sm',
-        'size-14': size === 'md' || !size,
-      }"
+      :class="twMerge('bg-black flex items-center justify-center shrink-0 p-2 size-14', logoClass)"
     >
       <img :src="cdnImage(brand?.logo, 'thumbnail')" :alt="brand.displayName" class="w-full h-full object-contain invert grayscale brightness-100">
     </div>
@@ -27,7 +25,6 @@ const cdnImage = useCdnImage();
       <h2
         class="font-bold wrap-break-word text-lg"
         :class="{
-          'text-lg': size === 'sm',
           'md:text-xl': size === 'md' || !size,
         }"
       >

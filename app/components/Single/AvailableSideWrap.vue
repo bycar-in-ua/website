@@ -19,7 +19,7 @@ const carRequestSlideover = useCarRequestSlideover();
 </script>
 
 <template>
-  <UCard :ui="{ root: 'max-w-102', body: 'border-gray-200', footer: 'sm:p-6' }">
+  <UCard :ui="{ root: 'md:max-w-102 max-md:ring-0 max-md:divide-y-0', body: 'border-gray-200 px-0 sm:px-0 md:px-6', footer: 'max-md:pt-1 p-0 sm:px-0 md:p-6' }">
     <WrapTitle :brand="car.brand" :title="carTitle" :subtitle="powerUnitTitle" />
 
     <div v-if="car.dealer" class="inline-flex gap-1 items-center my-4 text-dimmed">
@@ -97,7 +97,7 @@ const carRequestSlideover = useCarRequestSlideover();
           Запитати інші пропозиції
         </UButton>
       </div>
-      <p class="text-xs text-dimmed text-center mt-3">
+      <p class="text-xs text-dimmed text-center mt-3 text-balance">
         Кінцева вартість залежить від обраного дилера та актуальних акцій на момент угоди
       </p>
     </template>

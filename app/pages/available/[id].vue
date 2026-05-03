@@ -54,24 +54,22 @@ const wrapVisible = useElementVisibility(wrapRef);
 
 <template>
   <main>
-    <ImagesGrid :images="images">
-      <template #overlay>
-        <div class="z-10 absolute inset-0 flex items-center">
-          <div class="container">
-            <AvailableSideWrap
-              ref="wrapRef"
-              :car="availableVehicle"
-              :car-title
-              :power-unit-title
-              :current-price="prices.current"
-              :base-price="prices.base"
-              class="ml-auto cursor-default"
-              @click.stop
-            />
-          </div>
-        </div>
-      </template>
-    </ImagesGrid>
+    <ImagesGrid :images="images" />
+
+    <div class="flex items-center z-10 md:absolute md:inset-x-0 md:top-[25vh] pointer-events-none">
+      <div class="container">
+        <AvailableSideWrap
+          ref="wrapRef"
+          :car="availableVehicle"
+          :car-title
+          :power-unit-title
+          :current-price="prices.current"
+          :base-price="prices.base"
+          class="md:ml-auto cursor-default pointer-events-auto"
+          @click.stop
+        />
+      </div>
+    </div>
 
     <AvailableSpecs :car="availableVehicle" />
 
@@ -81,8 +79,8 @@ const wrapVisible = useElementVisibility(wrapRef);
       :power-unit-title
       :current-price="prices.current"
       :base-price="prices.base"
-      class="sticky transition-all"
-      :class="wrapVisible ? '-bottom-full' : 'bottom-0'"
+      class="sticky transition-all max-md:mx-2"
+      :class="wrapVisible ? '-bottom-full' : 'bottom-2 md:bottom-0'"
     />
 
     <VehiclesCarouselSection
