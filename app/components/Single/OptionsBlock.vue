@@ -13,7 +13,7 @@ defineProps<{ options?: TrimView["options"]; }>();
     variant="pill"
     color="secondary"
     :default-value="options?.[0]?.id"
-    :ui="{ label: 'normal-case', root: 'gap-6', list: 'overflow-x-auto no-scrollbar' }"
+    :ui="{ label: 'normal-case', root: 'gap-6', list: 'overflow-x-auto no-scrollbar max-sm:w-screen max-sm:-mx-4 max-sm:px-4' }"
   >
     <template #content="{ item }">
       <ul>

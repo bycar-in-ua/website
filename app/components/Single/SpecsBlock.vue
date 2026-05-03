@@ -82,7 +82,11 @@ const tabsItems: TabsItem[] = [
     variant="pill"
     color="secondary"
     default-value="general"
-    :ui="{ label: 'normal-case', content: 'divide-y divide-gray-100' }"
+    :ui="{
+      label: 'normal-case',
+      content: 'divide-y divide-gray-100',
+      list: 'overflow-x-auto no-scrollbar max-sm:w-screen max-sm:-mx-4 max-sm:px-4',
+    }"
   >
     <template #content="{ item }">
       <InfoLineComponent v-for="infoLine in getTabContent(item.value)" :key="infoLine.title" v-bind="infoLine" />
