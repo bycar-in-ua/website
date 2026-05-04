@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { CheckboxProps } from "@nuxt/ui";
 import type { BodyType, VehiclesFilters } from "@bycar-in-ua/sdk";
+import DrawerSlideover from "~/components/UI/DrawerSlideover.vue";
 import { useQuizStore } from "#layers/quiz/stores/quiz";
 import QuestionContainer from "./QuestionContainer.vue";
 import QuizButton from "./QuizButton.vue";
@@ -27,11 +28,13 @@ const checkboxUi: CheckboxProps["ui"] = {
 </script>
 
 <template>
-  <UModal
-    v-model:open="quizStore.isOpen"
-    fullscreen
-    :ui="{ body: 'flex flex-col items-center justify-center' }"
-  >
+  <DrawerSlideover v-model:open="quizStore.isOpen" :ui="{ footer: 'md:flex-row md:justify-between' }">
+    <template #header>
+      <h2 class="text-lg font-bold uppercase">
+        Підбір авто
+      </h2>
+    </template>
+
     <template #body>
       <UCard
         :ui="{
@@ -185,5 +188,19 @@ const checkboxUi: CheckboxProps["ui"] = {
         </div>
       </UCard>
     </template>
-  </UModal>
+
+    <template #footer>
+      <UButton
+        variant="link"
+        color="secondary"
+        icon="i-lucide-arrow-left"
+        @click="quizStore.step -= 1"
+      >
+        Назад
+      </UButton>
+      <UButton clock class="md:w-fit">
+        Наступний крок
+      </UButton>
+    </template>
+  </DrawerSlideover>
 </template>

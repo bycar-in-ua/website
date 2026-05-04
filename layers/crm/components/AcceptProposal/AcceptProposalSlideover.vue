@@ -69,7 +69,15 @@ const { mutate: acceptProposal, isPending } = useMutation({
 </script>
 
 <template>
-  <DrawerSlideover :body-class="`flex flex-col ${isFormStage ? 'justify-between' : 'justify-center'}`" :hide-borders="!isFormStage">
+  <DrawerSlideover
+    :body-class="`flex flex-col ${isFormStage ? 'justify-between' : 'justify-center'}`"
+    :hide-borders="!isFormStage"
+    :ui="{
+      header: `md:p-8 md:pb-6 ${isFormStage ? '' : 'border-b-0'}`,
+      body: `md:p-8 flex flex-col ${isFormStage ? 'justify-between' : 'justify-center'}`,
+      footer: 'md:p-8 md:pt-6',
+    } "
+  >
     <template v-if="isFormStage" #header>
       <div>
         <h2 class="text-3xl font-bold mb-4">
@@ -91,6 +99,7 @@ const { mutate: acceptProposal, isPending } = useMutation({
           variant="subtle"
           icon="i-lucide-info"
           description="Зверніть увагу, що після підтвердження інші пропозиції за цим запитом стануть неактивними."
+          class="mt-auto"
         />
       </template>
 

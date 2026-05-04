@@ -36,6 +36,10 @@ function onAfterEnter() {
   <DrawerSlideover
     v-model:open="store.isOpen"
     hide-borders
+    :ui="{
+      header: 'border-b-0',
+      body: 'md:px-8',
+    }"
     @after:enter="onAfterEnter"
     @after:leave="store.reset"
   >

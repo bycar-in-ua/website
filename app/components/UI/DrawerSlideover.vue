@@ -1,14 +1,20 @@
 <script setup lang="ts">
 import { breakpointsTailwind, useBreakpoints } from "@vueuse/core";
 
+type Props = {
+  header?: string;
+  ui?: {
+    header?: string;
+    body?: string;
+    footer?: string;
+  };
+};
+
+defineProps<Props>();
+
 const breakpoints = useBreakpoints(breakpointsTailwind);
 
 const largerThenMd = breakpoints.greater("md");
-
-defineProps<{
-  hideBorders?: boolean;
-  bodyClass?: string;
-}>();
 
 const open = defineModel<boolean>("open", { default: false });
 </script>
@@ -20,14 +26,16 @@ const open = defineModel<boolean>("open", { default: false });
     inset
     close
     :ui="{
+      ...ui,
       content: 'md:max-w-131 w-full',
-      header: `sm:p-8 sm:pb-6 relative ${hideBorders ? 'border-b-0' : ''}`,
-      body: `sm:p-8 ${bodyClass || ''}`,
-      footer: `sm:p-8 sm:pt-6 ${hideBorders ? 'border-t-0' : ''}`,
     }"
   >
     <template #header="{ close }">
-      <slot name="header" />
+      <slot name="header">
+        <h2 class="text-lg font-bold">
+          {{ header }}
+        </h2>
+      </slot>
 
       <UButton
         icon="i-lucide-x"
@@ -54,6 +62,8 @@ const open = defineModel<boolean>("open", { default: false });
     direction="bottom"
     inset
     :ui="{
+      ...ui,
+      container: 'h-full',
       content: 'h-full max-h-[90svh]',
     }"
   >
