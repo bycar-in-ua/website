@@ -20,8 +20,18 @@ export default defineAppConfig({
     },
     input: { variants: { variant: { ghost: "hover:bg-transparent focus:bg-transparent hover:placeholder:text-gray-700 hover:text-primary" } } },
     selectMenu: { slots: { trailing: "pe-0! transition-all group-data-[state=open]:rotate-180" } },
-    slideover: { slots: { overlay: "bg-black/20" } },
-    drawer: { slots: { overlay: "bg-black/20" } },
+    slideover: {
+      slots: {
+        header: "min-h-14",
+        overlay: "bg-black/20",
+      },
+    },
+    drawer: {
+      slots: {
+        overlay: "bg-black/20",
+        header: "px-4 pt-2 pb-4.5 sm:px-6",
+      },
+    },
     pinInput: {
       slots: {
         root: "border-b border-gray-200 gap-0",

@@ -1,7 +1,7 @@
-import type { Vehicle } from "@bycar-in-ua/sdk";
 import { defineStore } from "pinia";
 import type { LocationQueryRaw } from "vue-router";
 import type { FiltersState } from "#shared/types";
+import { QUIZ_STEPS, type QuizStep } from "../quiz.types";
 
 const initialFilters: FiltersState = Object.freeze({
   brand: [],
@@ -14,31 +14,12 @@ const initialFilters: FiltersState = Object.freeze({
 
 export const useQuizStore = defineStore("quiz", () => {
   const isOpen = ref(false);
-  const step = ref(0);
-  const isUserKnow = ref<boolean | null>(null);
+  const step = ref<QuizStep>(QUIZ_STEPS.BODY);
   const filters = ref<FiltersState>({ ...initialFilters });
-
-  const resetState = () => {
-    step.value = 0;
-    isUserKnow.value = null;
-    filters.value = { ...initialFilters };
-  };
 
   const { gtag } = useGtag();
 
-  const canFinishQuiz = computed(() => {
-    return Boolean(
-      filters.value.bodyType?.length
-      || filters.value.drive?.length
-      || filters.value.engineType?.length
-      || filters.value.priceFrom
-      || filters.value.priceTo,
-    );
-  });
-
   const openQuiz = () => {
-    resetState();
-
     isOpen.value = true;
 
     gtag("event", "quiz_open", {
@@ -47,21 +28,33 @@ export const useQuizStore = defineStore("quiz", () => {
     });
   };
 
-  const finishQuiz = () => {
-    if (filters.value.brand?.length === 1 && step.value === 0) {
-      step.value += 1;
+  const stepBack = () => {
+    if (step.value === QUIZ_STEPS.BODY) {
+      isOpen.value = false;
       return;
     }
+    step.value -= 1;
+  };
 
+  const isFinalStep = computed(() => step.value === QUIZ_STEPS.BRAND);
+
+  const stepForward = () => {
+    if (isFinalStep.value) {
+      finishQuiz();
+    } else {
+      step.value += 1;
+    }
+  };
+
+  const finishQuiz = () => {
     const query: LocationQueryRaw = Object.entries(filters.value).reduce(
       (acc, [key, value]) => {
-        if ((key === "priceFrom" || key === "priceTo") && !!value) {
-          acc[key] = value;
-          return acc;
-        }
-
         if (Array.isArray(value) && value.length) {
           acc[key] = value.join(",");
+        } else {
+          if (value) {
+            acc[key] = value;
+          }
         }
 
         return acc;
@@ -75,63 +68,26 @@ export const useQuizStore = defineStore("quiz", () => {
     });
 
     isOpen.value = false;
-    resetState();
+    step.value = QUIZ_STEPS.BODY;
+    filters.value = { ...initialFilters };
 
     navigateTo({
       name: "catalog",
       query,
-    }, { replace: true });
-  };
-
-  const selectModel = (car: Vehicle) => {
-    navigateTo({
-      name: "SingleCar",
-      params: { slug: car.slug },
+    }, {
+      replace: true,
+      open: { target: "_self" },
     });
-
-    isOpen.value = false;
-    resetState();
-
-    gtag("event", "model_selected", {
-      event_category: "quiz",
-      event_label: "model_selected",
-      value: car.slug,
-    });
-  };
-
-  const checkHandler = <TValue extends string | number>(
-    field: keyof FiltersState,
-    checked: boolean | "indeterminate",
-    value: TValue,
-  ) => {
-    const existedValue = filters.value[field] ?? [];
-
-    if (!Array.isArray(existedValue)) {
-      return;
-    }
-
-    if (checked) {
-      filters.value = {
-        ...filters.value,
-        [field]: [...existedValue, value],
-      };
-    } else {
-      filters.value = {
-        ...filters.value,
-        [field]: existedValue.filter((item) => item !== value),
-      };
-    }
   };
 
   return {
     isOpen,
     step,
-    isUserKnow,
+    isFinalStep,
+    stepBack,
+    stepForward,
     filters,
-    canFinishQuiz,
     openQuiz,
     finishQuiz,
-    selectModel,
-    checkHandler,
   };
 });

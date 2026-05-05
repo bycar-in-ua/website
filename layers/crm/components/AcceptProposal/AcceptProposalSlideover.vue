@@ -69,14 +69,29 @@ const { mutate: acceptProposal, isPending } = useMutation({
 </script>
 
 <template>
-  <DrawerSlideover :body-class="`flex flex-col ${isFormStage ? 'justify-between' : 'justify-center'}`" :hide-borders="!isFormStage">
-    <template v-if="isFormStage" #header>
-      <div>
-        <h2 class="text-3xl font-bold mb-4">
+  <DrawerSlideover
+    :ui="{
+      header: `md:p-8 md:pb-6 relative ${isFormStage ? '' : 'border-b-0'}`,
+      body: `md:p-8 flex flex-col ${isFormStage ? 'justify-between' : 'justify-center'}`,
+      footer: 'md:p-8 md:pt-6',
+    } "
+  >
+    <template #header="{ close }">
+      <UButton
+        icon="i-lucide-x"
+        square
+        variant="link"
+        color="neutral"
+        class="absolute top-2 md:top-4 right-4 md:right-6 p-0"
+        @click="close"
+      />
+
+      <div v-if="isFormStage">
+        <h2 class="text-xl md:text-3xl font-bold mb-3 md:mb-4">
           Підтвердження вибору
         </h2>
 
-        <p class="text-dimmed">
+        <p class="text-sm md:text-base text-toned">
           Після підтвердження ми надішлемо ваші контакти офіційному дилеру для подальшого зв'язку.
         </p>
       </div>
@@ -91,6 +106,7 @@ const { mutate: acceptProposal, isPending } = useMutation({
           variant="subtle"
           icon="i-lucide-info"
           description="Зверніть увагу, що після підтвердження інші пропозиції за цим запитом стануть неактивними."
+          class="mt-auto"
         />
       </template>
 

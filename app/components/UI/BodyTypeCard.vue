@@ -19,7 +19,7 @@ defineProps<{
     }"
   >
     <div
-      class="body-type-card-image h-25.25 sm:h-33.75 flex justify-center items-center object-contain bg-no-repeat bg-center bg-cover"
+      class="body-type-card-image h-25.25 sm:h-33.75 flex justify-center items-center bg-no-repeat bg-center bg-cover"
       :style="{
         '--bg-image': `url(${image})`,
         '--hover-bg-image': `url(${hoverImage})`,

@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { PRICE_STEP } from "#shared/priceTemplates";
 import { refWithControl, useDebounceFn } from "@vueuse/core";
+
+const PRICE_STEP = 5_000;
 
 const props = defineProps<{
   boundaries?: {
