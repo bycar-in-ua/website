@@ -21,11 +21,16 @@ const quizStepsComponents: Record<QuizStep, Component> = {
 </script>
 
 <template>
-  <DrawerSlideover v-model:open="quizStore.isOpen" :ui="{ body: 'md:p-8', footer: 'md:flex-row md:justify-between relative' }">
-    <template #header>
-      <h2 class="text-lg font-bold uppercase">
-        Підбір авто
-      </h2>
+  <DrawerSlideover v-model:open="quizStore.isOpen" title="Підбір авто" :ui="{ body: 'md:p-8', footer: 'md:flex-row md:justify-between relative' }">
+    <template #drawer-header-extra>
+      <UButton
+        v-if="quizStore.step !== QUIZ_STEPS.BODY"
+        variant="link"
+        color="neutral"
+        icon="i-lucide-arrow-left"
+        class="p-0"
+        @click="quizStore.stepBack"
+      />
     </template>
 
     <template #body>
@@ -41,11 +46,12 @@ const quizStepsComponents: Record<QuizStep, Component> = {
         variant="link"
         color="secondary"
         icon="i-lucide-arrow-left"
+        class="max-md:hidden"
         @click="quizStore.stepBack"
       >
         Назад
       </UButton>
-      <UButton clock class="md:w-fit" @click="quizStore.stepForward">
+      <UButton clock class="md:w-fit justify-center" @click="quizStore.stepForward">
         <template v-if="quizStore.isFinalStep">
           Переглянути варіанти
         </template>

@@ -26,7 +26,12 @@ export default defineAppConfig({
         overlay: "bg-black/20",
       },
     },
-    drawer: { slots: { overlay: "bg-black/20" } },
+    drawer: {
+      slots: {
+        overlay: "bg-black/20",
+        header: "px-4 pt-2 pb-4.5 sm:px-6",
+      },
+    },
     pinInput: {
       slots: {
         root: "border-b border-gray-200 gap-0",

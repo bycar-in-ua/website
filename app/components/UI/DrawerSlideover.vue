@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { breakpointsTailwind, useBreakpoints } from "@vueuse/core";
+import { twMerge } from "tailwind-merge";
 
 type Props = {
-  header?: string;
+  title?: string;
   ui?: {
     header?: string;
     body?: string;
@@ -17,6 +18,10 @@ const breakpoints = useBreakpoints(breakpointsTailwind);
 const largerThenMd = breakpoints.greater("md");
 
 const open = defineModel<boolean>("open", { default: false });
+
+const closeHandler = () => {
+  open.value = false;
+};
 </script>
 
 <template>
@@ -27,32 +32,33 @@ const open = defineModel<boolean>("open", { default: false });
     close
     :ui="{
       ...ui,
+      header: twMerge(ui?.header, 'justify-between'),
       content: 'md:max-w-131 w-full',
     }"
   >
-    <template #header="{ close }">
-      <slot name="header">
-        <h2 class="text-lg font-bold">
-          {{ header }}
+    <template #header>
+      <slot name="header" :close="closeHandler">
+        <h2 class="text-lg font-bold uppercase">
+          {{ title }}
         </h2>
-      </slot>
 
-      <UButton
-        icon="i-lucide-x"
-        square
-        variant="link"
-        color="secondary"
-        class="absolute right-6 top-4 p-0"
-        @click="close"
-      />
+        <UButton
+          icon="i-lucide-x"
+          square
+          variant="link"
+          color="secondary"
+          class="p-0"
+          @click="closeHandler"
+        />
+      </slot>
     </template>
 
-    <template #body="bodyProps">
-      <slot name="body" v-bind="bodyProps" />
+    <template #body>
+      <slot name="body" :close="closeHandler" />
     </template>
 
     <template v-if="$slots.footer" #footer>
-      <slot name="footer" />
+      <slot name="footer" :close="closeHandler" />
     </template>
   </USlideover>
 
@@ -63,29 +69,40 @@ const open = defineModel<boolean>("open", { default: false });
     inset
     :ui="{
       ...ui,
+      header: twMerge(ui?.header, 'flex justify-between items-center'),
       container: 'h-full',
       content: 'h-full max-h-[90svh]',
     }"
   >
     <template #header>
-      <slot name="header" />
+      <slot name="header" :close="closeHandler">
+        <div class="basis-1/5 flex items-center">
+          <slot name="drawer-header-extra" />
+        </div>
 
-      <UButton
-        icon="i-lucide-x"
-        square
-        variant="link"
-        color="neutral"
-        class="absolute right-4 top-6 p-0"
-        @click="open = false"
-      />
+        <h2 class="text-lg font-bold basis-3/5 text-center">
+          {{ title }}
+        </h2>
+
+        <div class="basis-1/5 flex items-center justify-end">
+          <UButton
+            icon="i-lucide-x"
+            square
+            variant="link"
+            color="neutral"
+            class="p-0 ms-auto"
+            @click="closeHandler"
+          />
+        </div>
+      </slot>
     </template>
 
     <template #body>
-      <slot name="body" />
+      <slot name="body" :close="closeHandler" />
     </template>
 
     <template v-if="$slots.footer" #footer>
-      <slot name="footer" />
+      <slot name="footer" :close="closeHandler" />
     </template>
   </UDrawer>
 </template>

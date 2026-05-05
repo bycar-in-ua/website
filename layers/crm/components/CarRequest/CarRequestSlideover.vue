@@ -6,7 +6,7 @@ import { useCarRequestStore } from "../../stores/car-request";
 import RequestForm from "./RequestForm.vue";
 import RequestSuccessState from "./RequestSuccessState.vue";
 
-const props = defineProps<RequestFormProps & { close?: () => void; }>();
+const props = defineProps<RequestFormProps>();
 
 const formId = computed(() => props.direct ? "this-offer-request-form" : "all-offers-request-form");
 
@@ -38,11 +38,9 @@ const store = useCarRequestStore();
 const { loggedIn } = useUserSession();
 const authSlideoverStore = useAuthSlideoverStore();
 
-function onNavigate() {
-  props?.close?.();
-
+const onNavigate = async () => {
   if (loggedIn.value) {
-    navigateTo("/profile/offers");
+    await navigateTo("/profile/offers");
     return;
   }
 
@@ -53,7 +51,7 @@ function onNavigate() {
       stage: "confirm-otp",
     },
   });
-}
+};
 
 const hideBorders = computed(() => store.stage === "success");
 </script>
@@ -61,58 +59,69 @@ const hideBorders = computed(() => store.stage === "success");
 <template>
   <DrawerSlideover
     :ui="{
-      header: `md:py-8 md:pb-6 block border-gray-200 ${hideBorders ? 'border-b-0' : 'border-b'}`,
+      header: `md:p-8 md:pb-6 block relative border-gray-200 ${hideBorders ? 'border-b-0' : 'border-b'}`,
       body: 'md:p-8',
       footer: `md:p-8 md:pt-6 ${hideBorders ? 'md:border-t-0' : ''}`,
     }"
   >
-    <template v-if="store.stage !== 'success'" #header>
-      <h3 class="text-xl sm:text-3xl font-bold">
-        <span class="text-primary">{{ copy.heading }}</span>
-        <br>
-        {{ copy.subheading }}
-      </h3>
-      <div class="flex items-start gap-2 mt-4 md:mt-6">
-        <p class="text-base font-medium leading-relaxed text-gray-700 text-balance">
-          {{ copy.description }}
-        </p>
-        <UPopover
-          mode="hover"
-          arrow
-          :content="{ side: 'bottom', align: 'end' }"
-          :ui="{ content: 'dark p-3' }"
-        >
-          <UIcon name="i-heroicons-information-circle" class="size-5 shrink-0 text-gray-300 hover:text-gray-500 transition-colors cursor-pointer" />
+    <template #header="{ close }">
+      <UButton
+        icon="i-lucide-x"
+        square
+        variant="link"
+        color="secondary"
+        class="absolute top-2 md:top-4 right-4 md:right-6 p-0"
+        @click="close"
+      />
 
-          <template #content>
-            <p class="text-white text-sm font-bold mb-2">
-              Наступні кроки:
-            </p>
-            <div class="flex flex-col gap-2">
-              <div
-                v-for="(step, i) in copy.steps"
-                :key="i"
-                class="flex items-center gap-2"
-              >
-                <span class="size-4.5 rounded-full bg-primary flex items-center justify-center text-white text-xs font-medium shrink-0">
-                  {{ i + 1 }}
-                </span>
-                <span class="text-gray-100 text-xs font-medium">{{ step }}</span>
+      <div v-if="store.stage !== 'success'">
+        <h3 class="text-xl md:text-3xl font-bold">
+          <span class="text-primary">{{ copy.heading }}</span>
+          <br>
+          {{ copy.subheading }}
+        </h3>
+        <div class="flex items-start gap-2 mt-4 md:mt-6">
+          <p class="text-base font-medium leading-relaxed text-gray-700 text-balance">
+            {{ copy.description }}
+          </p>
+          <UPopover
+            mode="hover"
+            arrow
+            :content="{ side: 'bottom', align: 'end' }"
+            :ui="{ content: 'dark p-3' }"
+          >
+            <UIcon name="i-heroicons-information-circle" class="size-5 shrink-0 text-gray-300 hover:text-gray-500 transition-colors cursor-pointer" />
+
+            <template #content>
+              <p class="text-white text-sm font-bold mb-2">
+                Наступні кроки:
+              </p>
+              <div class="flex flex-col gap-2">
+                <div
+                  v-for="(step, i) in copy.steps"
+                  :key="i"
+                  class="flex items-center gap-2"
+                >
+                  <span class="size-4.5 rounded-full bg-primary flex items-center justify-center text-white text-xs font-medium shrink-0">
+                    {{ i + 1 }}
+                  </span>
+                  <span class="text-gray-100 text-xs font-medium">{{ step }}</span>
+                </div>
               </div>
-            </div>
-          </template>
-        </UPopover>
+            </template>
+          </UPopover>
+        </div>
       </div>
     </template>
 
-    <template #body>
+    <template #body="{ close }">
       <RequestSuccessState
         v-if="store.stage === 'success' && store.successData"
         :direct="props.direct ?? false"
         :logged-in="loggedIn"
         :resolution-deadline="store.successData.resolutionDeadline"
         :has-flexible-search="Boolean(store.successData.vehicleFlexible || store.successData.trimFlexible)"
-        @navigate="onNavigate"
+        @navigate="onNavigate().then(close)"
       />
       <RequestForm
         v-else
