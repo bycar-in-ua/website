@@ -77,6 +77,7 @@ const tabsItems: TabsItem[] = [
 
 <template>
   <UTabs
+    data-testid="specifications-tabs"
     :items="tabsItems"
     class="w-full"
     variant="pill"

@@ -53,10 +53,10 @@ const powerUnitPrice = computed(() => {
 <template>
   <h3 class="mb-3 sm:text-lg font-semibold text-gray-900">
     Комплектації
-    <span class="text-dimmed pl-2">{{ trimsPriceRange }}</span>
+    <span class="text-dimmed pl-2" data-testid="trims-price-range">{{ trimsPriceRange }}</span>
   </h3>
 
-  <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+  <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5" data-testid="trims-list">
     <SelectionCard
       v-for="trim in trims"
       :key="trim.id"
@@ -71,10 +71,10 @@ const powerUnitPrice = computed(() => {
 
   <h3 class="mt-8 mb-3 sm:text-lg font-semibold text-gray-900">
     Силові агрегати
-    <span class="text-dimmed pl-2">{{ powerUnitPrice }}</span>
+    <span class="text-dimmed pl-2" data-testid="power-units-price">{{ powerUnitPrice }}</span>
   </h3>
 
-  <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+  <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5" data-testid="power-units-list">
     <SelectionCard
       v-for="powerUnit in powerUnits"
       :key="powerUnit.id"
