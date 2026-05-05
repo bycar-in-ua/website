@@ -6,8 +6,7 @@ import {
   PRICE_STEP,
 } from "#shared/priceTemplates";
 import { useQuizStore } from "#layers/quiz/stores/quiz";
-import QuestionContainer from "./QuestionContainer.vue";
-import QuizButton from "./QuizButton.vue";
+import QuestionContainer from "./StepContainer.vue";
 
 const quizStore = useQuizStore();
 

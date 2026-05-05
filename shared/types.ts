@@ -1,16 +1,3 @@
-import type { VehiclesSearchSchema } from "@bycar-in-ua/sdk";
+import type { SearchVehiclesInput } from "@bycar-in-ua/vehicles-sdk";
 
-export type FiltersState = Omit<
-  NonNullable<VehiclesSearchSchema["filters"]>,
-  "status" | "price"
-> & {
-  priceFrom?: number;
-  priceTo?: number;
-  availableOnly?: boolean;
-};
-
-export type VehiclesFilterSet = {
-  title: string;
-  filters: VehiclesSearchSchema["filters"];
-  queryString: string;
-};
+export type FiltersState = SearchVehiclesInput["filters"];
