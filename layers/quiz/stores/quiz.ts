@@ -74,7 +74,10 @@ export const useQuizStore = defineStore("quiz", () => {
     navigateTo({
       name: "catalog",
       query,
-    }, { replace: true });
+    }, {
+      replace: true,
+      open: { target: "_self" },
+    });
   };
 
   return {
