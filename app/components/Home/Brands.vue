@@ -1,13 +1,7 @@
 <script setup lang="ts">
-import { useQuery } from "@tanstack/vue-query";
+import { useBrands } from "~/composables/useBrands";
 
-const brandService = useBrandService();
-
-const { data: brands, suspense } = useQuery({
-  queryKey: ["established-brands"],
-  queryFn: () => brandService.getBrands(),
-  placeholderData: () => [],
-});
+const { data: brands, suspense } = useBrands();
 
 await suspense();
 </script>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Control from "./Control.vue";
+import SelectionCard from "~/components/UI/SelectionCard.vue";
 import { getPowerUnitTitle, getPowerUnitSubtitle } from "~/components/Single/helpers";
 import type { PowerUnitView, TrimView } from "@bycar-in-ua/vehicles-sdk";
 
@@ -57,11 +57,12 @@ const powerUnitPrice = computed(() => {
   </h3>
 
   <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-    <Control
+    <SelectionCard
       v-for="trim in trims"
       :key="trim.id"
       :title="trim.displayName"
-      :active="trim.id === activeTrim?.id"
+      :selected="trim.id === activeTrim?.id"
+      indicator-type="radio"
       @click="() => setActiveTrim(trim)"
       @mouseover="hoveredTrim = trim"
       @mouseleave="hoveredTrim = null"
@@ -74,12 +75,13 @@ const powerUnitPrice = computed(() => {
   </h3>
 
   <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-    <Control
+    <SelectionCard
       v-for="powerUnit in powerUnits"
       :key="powerUnit.id"
       :title="getPowerUnitTitle(powerUnit)"
       :subtitle="getPowerUnitSubtitle(powerUnit, $t)"
-      :active="powerUnit.id === activePowerUnit?.id"
+      :selected="powerUnit.id === activePowerUnit?.id"
+      indicator-type="radio"
       @click="() => setActivePowerUnit(powerUnit)"
       @mouseover="hoveredPowerUnit = powerUnit"
       @mouseleave="hoveredPowerUnit = null"

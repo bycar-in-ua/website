@@ -28,6 +28,24 @@ export const useQuizStore = defineStore("quiz", () => {
     });
   };
 
+  const stepBack = () => {
+    if (step.value === QUIZ_STEPS.BODY) {
+      isOpen.value = false;
+      return;
+    }
+    step.value -= 1;
+  };
+
+  const isFinalStep = computed(() => step.value === QUIZ_STEPS.BRAND);
+
+  const stepForward = () => {
+    if (isFinalStep.value) {
+      finishQuiz();
+    } else {
+      step.value += 1;
+    }
+  };
+
   const finishQuiz = () => {
     const query: LocationQueryRaw = Object.entries(filters.value).reduce(
       (acc, [key, value]) => {
@@ -62,6 +80,9 @@ export const useQuizStore = defineStore("quiz", () => {
   return {
     isOpen,
     step,
+    isFinalStep,
+    stepBack,
+    stepForward,
     filters,
     openQuiz,
     finishQuiz,
