@@ -36,7 +36,7 @@ const menuItems: NavigationMenuItem[] = [
   },
   {
     label: "Aвто в наявності",
-    to: "/catalog",
+    to: "/catalog/available",
   },
   {
     label: "Каталог моделей",

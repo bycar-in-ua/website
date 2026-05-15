@@ -34,7 +34,7 @@ export const useCatalogStore = defineStore("catalog", () => {
   const vehiclesService = useVehiclesService();
 
   const {
-    data, refetch, isLoading,
+    data, refetch, isFetching,
   } = useQuery({
     queryKey: [
       "search-cars", filters, pagination, order,
@@ -68,7 +68,7 @@ export const useCatalogStore = defineStore("catalog", () => {
     filters,
     pagination,
     order,
-    isLoading,
+    isFetching,
     data,
     refetch,
     updateFilters,

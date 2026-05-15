@@ -10,7 +10,7 @@ const catalogMenuItem: NavigationMenuItem = {
 
 const avilableCatalogMenuItem: NavigationMenuItem = {
   label: "Aвто в наявності",
-  to: "/catalog",
+  to: "/catalog/available",
 };
 
 const aboutMenuItem: NavigationMenuItem = {

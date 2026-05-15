@@ -55,6 +55,7 @@ onUnmounted(() => {
       bg-url="/images/catalog-banner.jpg"
       :extra="`${filtersData?.total} Пропозицій`"
       class="catalog-page-header"
+      :loading="catalogStore.isFetching"
     />
 
     <Headline
