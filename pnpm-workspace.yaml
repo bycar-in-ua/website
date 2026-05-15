@@ -1,0 +1,7 @@
+allowBuilds:
+  '@parcel/watcher': true
+  '@sentry/cli': true
+  esbuild: true
+  unrs-resolver: true
+  vue-demi: true
+nodeLinker: hoisted
