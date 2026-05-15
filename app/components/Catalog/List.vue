@@ -11,12 +11,6 @@ const list = useTemplateRef<HTMLDivElement>("list");
 
 <template>
   <div class="w-full relative" data-testid="cars-catalog">
-    <UProgress
-      v-if="catalogStore.isLoading"
-      animation="carousel"
-      class="absolute -top-4 left-0 right-0"
-    />
-
     <template v-if="!catalogStore.data?.items.length">
       <p class="text-center p-4 text-xl" v-text="$t('emptyCatalog')" />
       <ContactFormSection
@@ -38,7 +32,7 @@ const list = useTemplateRef<HTMLDivElement>("list");
       ref="list"
       data-testid="cars-catalog-grid"
       class="grid xs:grid-cols-2 sm:grid-cols-3 gap-5"
-      :class="{ 'blur-sm': catalogStore.isLoading }"
+      :class="{ 'blur-sm': catalogStore.isFetching }"
     >
       <NuxtLink
         v-for="car in catalogStore?.data?.items || []"
