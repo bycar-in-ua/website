@@ -233,6 +233,7 @@ const handleNavigate = () => {
           block
           color="primary"
           class="lg:basis-64 mt-2 md:mt-0 max-md:min-h-10 text-base md:text-lg"
+          data-testid="hero-section-form-submit"
           @click="handleNavigate"
         />
       </UForm>

@@ -9,8 +9,8 @@ test.describe("Home page", () => {
   test("check that home page loads correctly", async ({ page }) => {
     await expect(page).toHaveTitle("Легкий шлях до нового авто | bycar.in.ua");
     await expect(page.locator("body")).toContainText("Переглядайте, порівнюйте");
-    await test.step("Check that the 'Переглянути 50 авто' button is visible and enabled", async () => {
-      const button = page.getByRole("button", { name: /ˆПереглянути 50/ });
+    await test.step("Check that the 'Переглянути N авто' button is visible and enabled", async () => {
+      const button = page.getByTestId("hero-section-form-submit");
       await button.scrollIntoViewIfNeeded();
       await expect(button).toBeVisible();
       await expect(button).toBeEnabled();
