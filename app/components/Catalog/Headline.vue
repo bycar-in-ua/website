@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import type { SearchVehiclesInput } from "@bycar-in-ua/vehicles-sdk";
 import type { DropdownMenuItem } from "@nuxt/ui";
-import { useFiltersStore } from "~/stores/filters";
-import { useCatalogStore } from "~/stores/catalog";
+import { useModelsCatalogFiltersStore } from "~/stores/models-catalog-filters.store";
 
 defineEmits<{
   (e: "filter-click"): void;
@@ -10,8 +9,7 @@ defineEmits<{
 
 const { t } = useI18n();
 
-const filtersStore = useFiltersStore();
-const catalogStore = useCatalogStore();
+const filtersStore = useModelsCatalogFiltersStore();
 
 type OrderOption = NonNullable<NonNullable<SearchVehiclesInput["sort"]>["field"]>;
 
@@ -36,9 +34,9 @@ const options = computed<DropdownMenuItem[]>(() => orders.map(
   (order) => ({
     label: orderLabels[order],
     value: order,
-    active: catalogStore.order?.field === order,
+    active: filtersStore.sort?.field === order,
     onSelect: () => {
-      catalogStore.order = { field: order };
+      filtersStore.sort = { field: order };
     },
   }),
 ));
@@ -97,7 +95,7 @@ const filterButtonLabel = computed(() => {
 
       <UDropdownMenu :items="options" class="basis-full">
         <UButton
-          :label="orderLabels[catalogStore.order?.field || 'recommended']"
+          :label="orderLabels[filtersStore.sort?.field || 'recommended']"
           color="secondary"
           variant="outline"
           icon="i-lucide-arrow-up-down"

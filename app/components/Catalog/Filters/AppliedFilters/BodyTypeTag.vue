@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useFiltersStore } from "~/stores/filters";
+import { useModelsCatalogFiltersStore } from "~/stores/models-catalog-filters.store";
 import type { AppliedFilterProps } from "./types";
 import BaseFilterTag from "./BaseFilterTag.vue";
 
 defineProps<AppliedFilterProps>();
 
-const filtersStore = useFiltersStore();
+const filtersStore = useModelsCatalogFiltersStore();
 </script>
 
 <template>

@@ -1,25 +1,44 @@
 <script setup lang="ts">
+import type { SearchVehiclesInput } from "@bycar-in-ua/vehicles-sdk";
 import PageHeader from "~/components/UI/PageHeader.vue";
-import List from "~/components/Catalog/List.vue";
+import { CarCard } from "~/components/UI/CarCard";
 import Headline from "~/components/Catalog/Headline.vue";
 import ContactForm from "~/components/ContactFormSection.vue";
+import EmptyState from "~/components/Catalog/EmptyState.vue";
 import FiltersSlideover from "~/components/Catalog/Filters/FiltersSlideover.vue";
-import { useCatalogStore } from "~/stores/catalog";
-
-const isFiltersOpen = ref(false);
+import Pagination from "~/components/UI/Pagination.vue";
+import { useModelsCatalogFiltersStore } from "~/stores/models-catalog-filters.store";
+import { useVehiclesSearch } from "~/composables/useVehiclesSearch";
 
 definePageMeta({ name: "catalog" });
 
-const route = useRoute();
+const filtersStore = useModelsCatalogFiltersStore();
 
-const catalogStore = useCatalogStore();
-const { data: filtersData } = useCatalogFilters();
+onUnmounted(() => {
+  filtersStore.$dispose();
+});
 
-const brandFilterId = catalogStore.filters.brand?.at(0);
+const searchInput = computed<SearchVehiclesInput>(() => ({
+  filters: filtersStore.appliedFilters,
+  pagination: filtersStore.pagination,
+  sort: filtersStore.sort,
+}));
+
+const {
+  data: vehiclesData, isFetching, suspense,
+} = useVehiclesSearch(searchInput);
+
+if (import.meta.server) {
+  await suspense();
+}
+
+const brandFilterId = filtersStore.appliedFilters.brand?.at(0);
 
 const { h1, ...seoInput } = await useCatalogSeo(brandFilterId);
 
 useSeoMeta(seoInput);
+
+const route = useRoute();
 
 useHead({
   script: [
@@ -37,11 +56,9 @@ useHead({
   ],
 });
 
-await catalogStore.refetch();
+const isFiltersOpen = ref(false);
 
-onUnmounted(() => {
-  catalogStore.$dispose();
-});
+const list = useTemplateRef<HTMLDivElement>("list");
 </script>
 
 <template>
@@ -53,9 +70,9 @@ onUnmounted(() => {
     <PageHeader
       :title="['Каталог моделей', 'Знайомтесь з моделями']"
       bg-url="/images/catalog-banner.jpg"
-      :extra="`${filtersData?.total} Пропозицій`"
+      :extra="`${filtersStore.data?.total} Пропозицій`"
       class="catalog-page-header"
-      :loading="catalogStore.isFetching"
+      :loading="isFetching"
     />
 
     <Headline
@@ -64,8 +81,48 @@ onUnmounted(() => {
     />
     <FiltersSlideover v-model:open="isFiltersOpen" />
 
-    <div class="container mx-auto py-16">
-      <List />
+    <EmptyState v-if="!vehiclesData?.items.length" />
+
+    <div class="container mx-auto py-16" data-testid="cars-catalog">
+      <div
+        ref="list"
+        data-testid="cars-catalog-grid"
+        class="grid xs:grid-cols-2 sm:grid-cols-3 gap-5"
+        :class="{ 'blur-sm': isFetching }"
+      >
+        <NuxtLink
+          v-for="car in vehiclesData?.items || []"
+          :key="car.id"
+          data-testid="catalog-car"
+          :to="{
+            name: 'SingleCar',
+            params: {
+              slug: car.slug,
+            },
+          }"
+        >
+          <CarCard :car="car">
+            <template #cta>
+              <UButton block @click="navigateTo({ name: 'SingleCar', params: { slug: car.slug } })">
+                Дізнатися деталі
+              </UButton>
+            </template>
+
+          </CarCard>
+        </NuxtLink>
+      </div>
+
+      <Pagination
+        class="mt-10 flex justify-center"
+        :page="filtersStore.pagination.page"
+        :pagination="vehiclesData?.meta"
+        @update:page="
+          (page) => {
+            filtersStore.pagination = { page };
+            list?.scrollIntoView();
+          }
+        "
+      />
     </div>
 
     <ContactForm page="Каталог" />

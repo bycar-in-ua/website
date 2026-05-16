@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useFiltersStore } from "~/stores/filters";
+import { useModelsCatalogFiltersStore } from "~/stores/models-catalog-filters.store";
 import BrandTag from "./BrandTag.vue";
 import BodyTypeTag from "./BodyTypeTag.vue";
 import EngineTypeTag from "./EngineTypeTag.vue";
@@ -7,7 +7,7 @@ import DriveTypeTag from "./DriveTypeTag.vue";
 import PriceTag from "./PriceTag.vue";
 import type { VehiclesFiltersSchema } from "@bycar-in-ua/vehicles-sdk";
 
-const filtersStore = useFiltersStore();
+const filtersStore = useModelsCatalogFiltersStore();
 
 const appliedFilters = computed(() => {
   return Object.entries(filtersStore.selectedFilters)

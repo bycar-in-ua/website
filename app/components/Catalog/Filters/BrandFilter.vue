@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useFiltersStore } from "~/stores/filters";
+import { useModelsCatalogFiltersStore } from "~/stores/models-catalog-filters.store";
 import FilterLabel from "./FilterLabel.vue";
 import type { CheckboxGroupItemWithCount } from "./types";
 
@@ -10,7 +10,7 @@ export type BrandFilterOption = {
   disabled?: boolean;
 };
 
-const filtersStore = useFiltersStore();
+const filtersStore = useModelsCatalogFiltersStore();
 
 const brandOptions = computed<CheckboxGroupItemWithCount[]>(
   () =>
