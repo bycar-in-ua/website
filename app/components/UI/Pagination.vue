@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { PaginationMeta } from "@bycar-in-ua/sdk";
+import type { PaginationMeta } from "@bycar-in-ua/vehicles-sdk";
 
 defineProps<{ pagination: PaginationMeta; }>();
 

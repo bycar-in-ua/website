@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
-import type { VehiclesSearchSchema } from "@bycar-in-ua/sdk";
-import type { FiltersState } from "#shared/types";
 import type { SearchVehiclesInput, VehiclesFiltersSchema } from "@bycar-in-ua/vehicles-sdk";
+import type { FiltersState } from "#shared/types";
 import { keepPreviousData, useQuery } from "@tanstack/vue-query";
 import { useFiltersStore } from "~/stores/filters";
 
@@ -12,7 +11,7 @@ export const useCatalogStore = defineStore("catalog", () => {
 
   const filters = ref<VehiclesFiltersSchema>({ ...filtersStore.selectedFilters });
 
-  const pagination = computed<NonNullable<VehiclesSearchSchema["pagination"]>>({
+  const pagination = computed<NonNullable<SearchVehiclesInput["pagination"]>>({
     get() {
       return {
         page: Number(router.currentRoute.value.query.page ?? 1),

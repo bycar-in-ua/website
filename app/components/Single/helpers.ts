@@ -1,9 +1,14 @@
-import {
-  BodyType,
-  type Engine,
-  type PowerUnit,
-  type Vehicle,
-} from "@bycar-in-ua/sdk";
+import type {
+  AvailableVehicleView,
+  EngineView,
+  PowerUnitView,
+  TransmissionView,
+  VehicleView,
+  Engine,
+  PowerUnit,
+  Vehicle,
+} from "@bycar-in-ua/vehicles-sdk";
+import { BodyType } from "@bycar-in-ua/vehicles-sdk";
 import type { Composer } from "#i18n";
 import type { InfoLine, InfoBulletProps } from "./interface";
 import {
@@ -18,13 +23,6 @@ import {
 } from "~/components/UI/Icons";
 import type { Component } from "vue";
 import Drive from "~/components/UI/Icons/Drive.vue";
-import type {
-  AvailableVehicleView,
-  EngineView,
-  PowerUnitView,
-  TransmissionView,
-  VehicleView,
-} from "@bycar-in-ua/vehicles-sdk";
 
 function getSafeValue<TCheck, TValue>(
   checkable: TCheck,

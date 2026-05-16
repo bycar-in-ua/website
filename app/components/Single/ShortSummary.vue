@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { PowerUnit, Vehicle } from "@bycar-in-ua/sdk";
+import type { PowerUnit, Vehicle } from "@bycar-in-ua/vehicles-sdk";
 import type { InfoBulletProps } from "./interface.js";
 import InfoBullet from "./InfoBullet.vue";
 import { getInfoBullets } from "./helpers.js";

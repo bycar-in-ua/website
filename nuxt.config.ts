@@ -54,6 +54,23 @@ export default defineNuxtConfig({
 
   compatibilityDate: "2025-09-14",
 
+  vite: {
+    optimizeDeps: {
+      include: [
+        "@bycar-in-ua/auth-sdk",
+        "@bycar-in-ua/brands-sdk",
+        "@bycar-in-ua/vehicles-sdk",
+        "@tanstack/vue-query",
+        "@vue/devtools-core",
+        "@vue/devtools-kit",
+        "@vueuse/core",
+        "brace-expansion", // CJS
+        "tailwind-merge",
+        "valibot",
+      ],
+    },
+  },
+
   typescript: { includeWorkspace: true },
 
   bycar: {
