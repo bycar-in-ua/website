@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { PaginationMeta } from "@bycar-in-ua/vehicles-sdk";
+import type { PaginatedResponse } from "@bycar-in-ua/auth-sdk";
 
-defineProps<{ pagination: PaginationMeta; }>();
+defineProps<{ pagination: PaginatedResponse<never>["meta"]; }>();
 
 const page = defineModel<number>("page", { default: 1 });
 </script>
