@@ -1,4 +1,5 @@
 import { generatePageTitle } from "~/utils/seo";
+import { useBrands } from "~/composables/useBrands";
 
 type SeoMetaInput = Parameters<typeof useSeoMeta>[0] & {
   h1?: string;
@@ -29,12 +30,12 @@ export async function useCatalogSeo(
     };
   }
 
-  const brandService = useBrandService();
+  const { data: brands } = useBrands();
 
-  const brand = await brandService.getBrand(Number(brandId));
+  const brand = computed(() => brands.value?.find((b) => b.id === Number(brandId)));
 
-  const title = brand.metaTitle || defaultPageTitle;
-  const description = brand.metaDescription || defaultPageDescription;
+  const title = brand.value?.metaTitle || defaultPageTitle;
+  const description = brand.value?.metaDescription || defaultPageDescription;
 
   return {
     title,
@@ -46,6 +47,6 @@ export async function useCatalogSeo(
       alt: title,
     },
     ogDescription: description,
-    h1: brand.h1,
+    h1: brand.value?.h1,
   };
 }
