@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import PriceFilter from "~/components/Catalog/Filters/PriceFilter.vue";
-import { useCatalogFilters } from "~/composables/useCatalogFilters";
+import { useModelsCatalogFilters } from "~/composables/useModelsCatalogFilters";
 import { useQuizStore } from "#layers/quiz/stores/quiz";
 import StepContainer from "./StepContainer.vue";
 
 const quizStore = useQuizStore();
 
-const { data: catalogFilters } = useCatalogFilters();
+const { data: catalogFilters } = useModelsCatalogFilters();
 </script>
 
 <template>

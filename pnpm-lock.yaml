@@ -21,8 +21,8 @@ importers:
         specifier: 0.1.0
         version: 0.1.0(typescript@6.0.3)
       '@bycar-in-ua/vehicles-sdk':
-        specifier: 0.3.1
-        version: 0.3.1(typescript@6.0.3)
+        specifier: 0.3.6
+        version: 0.3.6(typescript@6.0.3)
       '@pinia/nuxt':
         specifier: ^0.11.3
         version: 0.11.3(magicast@0.5.3)(pinia@3.0.4(typescript@6.0.3)(vue@3.5.34(typescript@6.0.3)))
@@ -48,6 +48,9 @@ importers:
       '@iconify-json/heroicons':
         specifier: ^1.2.3
         version: 1.2.3
+      '@iconify-json/lucide':
+        specifier: ^1.2.107
+        version: 1.2.107
       '@nuxt/devtools':
         specifier: 3.2.2
         version: 3.2.2(vite@7.3.3(@types/node@25.8.0)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.47.1)(yaml@2.9.0))(vue@3.5.34(typescript@6.0.3))
@@ -304,8 +307,8 @@ packages:
   '@bycar-in-ua/sdk@0.4.4':
     resolution: {integrity: sha512-qC2zsQLqPFkzVDgMs4DmPF0lQWrpmrb6mTrqwtkFNZHG9sOkwQS+QketgTtp3PbwstEDASXgXkln5XLs7rebMg==, tarball: https://npm.pkg.github.com/download/@bycar-in-ua/sdk/0.4.4/a7a66b97d2e7a2f8247f3f2c78bfe32ee1ea99bc}
 
-  '@bycar-in-ua/vehicles-sdk@0.3.1':
-    resolution: {integrity: sha512-Ql+Dh7i759p//Gw5ZONjRf4DLFAzMO7iZVj300ZPVySZSEVxtYlvMi72To4RswaQMyVz01ryVh06x30NuSWHMg==, tarball: https://npm.pkg.github.com/download/@bycar-in-ua/vehicles-sdk/0.3.1/bd39cc18db2a1d7fb453c1a15f7fbf16d2e529ad}
+  '@bycar-in-ua/vehicles-sdk@0.3.6':
+    resolution: {integrity: sha512-fO43rsy+Lz/mu6r23rZF4VNIXrymqLdJoH9087rrbiQCvfSUhlWHbxByit2q8QHcqDT/qHCCjtx2OSLpvRh0AQ==, tarball: https://npm.pkg.github.com/download/@bycar-in-ua/vehicles-sdk/0.3.6/f9ab233694befa1e842573c49fdd5bf66b6977d7}
 
   '@capsizecss/unpack@4.0.0':
     resolution: {integrity: sha512-VERIM64vtTP1C4mxQ5thVT9fK0apjPFobqybMtA1UdUujWka24ERHbRHFGmpbbhp73MhV+KSsHQH9C6uOTdEQA==}
@@ -934,6 +937,9 @@ packages:
 
   '@iconify-json/heroicons@1.2.3':
     resolution: {integrity: sha512-n+vmCEgTesRsOpp5AB5ILB6srsgsYK+bieoQBNlafvoEhjVXLq8nIGN4B0v/s4DUfa0dOrjwE/cKJgIKdJXOEg==}
+
+  '@iconify-json/lucide@1.2.107':
+    resolution: {integrity: sha512-Q4JmCICVwHqaGhB3ugDFdb4uGXuU/o8OJrJuo1YjeZhGeT3jX5fc//7qMNsCb10VuL2PVDM/CkaqO9chnmI3gg==}
 
   '@iconify/collections@1.0.683':
     resolution: {integrity: sha512-ZfrFEuExsdpcO2PCkbHBMja26eyPRZ+Bh7Af/lGAk5C8t740H9bYPyrJVQzQrxnPFcRwNq1Ehs+Q8aQJRYn/Iw==}
@@ -6977,7 +6983,7 @@ snapshots:
 
   '@bycar-in-ua/sdk@0.4.4': {}
 
-  '@bycar-in-ua/vehicles-sdk@0.3.1(typescript@6.0.3)':
+  '@bycar-in-ua/vehicles-sdk@0.3.6(typescript@6.0.3)':
     dependencies:
       valibot: 1.4.0(typescript@6.0.3)
     transitivePeerDependencies:
@@ -7415,6 +7421,10 @@ snapshots:
   '@humanwhocodes/retry@0.4.3': {}
 
   '@iconify-json/heroicons@1.2.3':
+    dependencies:
+      '@iconify/types': 2.0.0
+
+  '@iconify-json/lucide@1.2.107':
     dependencies:
       '@iconify/types': 2.0.0
 

@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useFiltersStore } from "~/stores/filters";
+import { useModelsCatalogFiltersStore } from "~/stores/models-catalog-filters.store";
 import FilterLabel from "./FilterLabel.vue";
 import type { CheckboxGroupItemWithCount } from "./types";
 
 const { t } = useI18n();
 
-const filtersStore = useFiltersStore();
+const filtersStore = useModelsCatalogFiltersStore();
 
 const bodyTypeOptions = computed<CheckboxGroupItemWithCount[]>(
   () =>

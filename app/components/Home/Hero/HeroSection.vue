@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { CheckboxGroupItem } from "@nuxt/ui";
-import { useCatalogFilters } from "~/composables/useCatalogFilters";
+import { useModelsCatalogFilters } from "~/composables/useModelsCatalogFilters";
 import { serializeFiltersToQuery } from "~/utils/filters";
-import { useFiltersStore } from "~/stores/filters";
+import { useModelsCatalogFiltersStore } from "~/stores/models-catalog-filters.store";
 import PriceFilter from "~/components/Catalog/Filters/PriceFilter.vue";
 import QuickFilterPopover from "./QuickFilterPopover.vue";
 import QuickFilterList from "./QuickFilterList.vue";
@@ -12,7 +12,7 @@ defineProps<{ totalCars?: number; }>();
 const { t } = useI18n();
 const {
   data: filtersData, selectedFilters, suspense,
-} = useCatalogFilters();
+} = useModelsCatalogFilters();
 
 if (import.meta.server) {
   await suspense();
@@ -112,7 +112,7 @@ const allBrandCheckboxModel = computed({
 });
 
 const handleNavigate = () => {
-  const filtersStore = useFiltersStore();
+  const filtersStore = useModelsCatalogFiltersStore();
   filtersStore.selectedFilters = selectedFilters.value;
   filtersStore.applyFilters();
 
@@ -233,6 +233,7 @@ const handleNavigate = () => {
           block
           color="primary"
           class="lg:basis-64 mt-2 md:mt-0 max-md:min-h-10 text-base md:text-lg"
+          data-testid="hero-section-form-submit"
           @click="handleNavigate"
         />
       </UForm>

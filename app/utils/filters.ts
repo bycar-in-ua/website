@@ -1,5 +1,7 @@
-import type { VehiclesFiltersSchema } from "@bycar-in-ua/vehicles-sdk";
+import type { VehiclesFiltersSchema, AvailableVehiclesFiltersSchema, SearchVehiclesInput } from "@bycar-in-ua/vehicles-sdk";
 import type { LocationQuery } from "vue-router";
+
+export type CatalogsSorting = NonNullable<SearchVehiclesInput["sort"]>["field"];
 
 const ARRAY_FILTER_KEYS: (keyof VehiclesFiltersSchema)[] = [
   "bodyType",
@@ -25,13 +27,12 @@ const STRING_FILTER_KEYS: (keyof VehiclesFiltersSchema)[] = [
   "productionRelevance",
 ];
 
-export const DEFAULT_FILTERS: VehiclesFiltersSchema = {
+const sharedDefaultFilters: Omit<VehiclesFiltersSchema, "availability" | "productionRelevance"> = {
   bodyType: [],
   engineType: [],
   brand: [],
   minPrice: undefined,
   maxPrice: undefined,
-  availability: undefined,
   driveType: [],
   gearboxType: [],
   yearFrom: undefined,
@@ -40,7 +41,19 @@ export const DEFAULT_FILTERS: VehiclesFiltersSchema = {
   maxDisplacement: undefined,
   minPower: undefined,
   maxPower: undefined,
+};
+
+export const DEFAULT_MODELS_FILTERS: VehiclesFiltersSchema = {
+  ...sharedDefaultFilters,
+  availability: undefined,
   productionRelevance: undefined,
+};
+
+export const DEFAULT_AVAILABLE_FILTERS: AvailableVehiclesFiltersSchema = {
+  ...sharedDefaultFilters,
+  location: undefined,
+  discount: undefined,
+  model: undefined,
 };
 
 export function serializeFiltersToQuery(filters: VehiclesFiltersSchema): Record<string, string> {
@@ -64,7 +77,7 @@ export function serializeFiltersToQuery(filters: VehiclesFiltersSchema): Record<
 }
 
 export function parseFiltersFromQuery(query: LocationQuery): VehiclesFiltersSchema {
-  const filters: VehiclesFiltersSchema = { ...DEFAULT_FILTERS };
+  const filters: VehiclesFiltersSchema = { ...DEFAULT_MODELS_FILTERS };
 
   for (const key of ARRAY_FILTER_KEYS) {
     const value = query[key];
@@ -94,3 +107,18 @@ export function parseFiltersFromQuery(query: LocationQuery): VehiclesFiltersSche
 
   return filters;
 }
+
+export const countFilters = (filters: Record<string, unknown>) =>
+  Object.values(filters)
+    .reduce<{ count: number; }>((acc, curr) => {
+      if (curr) {
+        if (Array.isArray(curr)) {
+          acc.count += curr.length;
+        } else {
+          acc.count += 1;
+        }
+      }
+
+      return acc;
+    }, { count: 0 })
+    .count;

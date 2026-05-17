@@ -1,62 +1,17 @@
 <script setup lang="ts">
-import type { SearchVehiclesInput } from "@bycar-in-ua/vehicles-sdk";
-import type { DropdownMenuItem } from "@nuxt/ui";
-import { useFiltersStore } from "~/stores/filters";
-import { useCatalogStore } from "~/stores/catalog";
+import type { CatalogsSorting } from "~/utils/filters";
+import SortDropdown from "./SortDropdown.vue";
+
+const props = defineProps<{ appliedFiltersCount?: number; }>();
 
 defineEmits<{
   (e: "filter-click"): void;
 }>();
 
-const { t } = useI18n();
-
-const filtersStore = useFiltersStore();
-const catalogStore = useCatalogStore();
-
-type OrderOption = NonNullable<NonNullable<SearchVehiclesInput["sort"]>["field"]>;
-
-const orderLabels: Record<OrderOption, string> = Object.freeze({
-  recommended: "Рекомендовані",
-  popular: "Популярні",
-  price_desc: "Від найбільшої ціни",
-  price_asc: "Від найменшої ціни",
-  year_desc: "Від найновішого року",
-  year_asc: "Від найстарішого року",
-});
-
-const orders: OrderOption[] = [
-  "recommended",
-  "price_asc",
-  "price_desc",
-  "year_desc",
-  "year_asc",
-] as const;
-
-const options = computed<DropdownMenuItem[]>(() => orders.map(
-  (order) => ({
-    label: orderLabels[order],
-    value: order,
-    active: catalogStore.order?.field === order,
-    onSelect: () => {
-      catalogStore.order = { field: order };
-    },
-  }),
-));
-
-const quickFilters = computed(() => filtersStore.data?.filters?.bodyType?.filter((filter) => filter.count > 0) || []);
-
-const toggleQuickFilter = (value: string) => {
-  if (filtersStore.selectedFilters.bodyType?.includes(value)) {
-    filtersStore.removeFilter("bodyType", value);
-  } else {
-    filtersStore.selectedFilters.bodyType?.push(value);
-  }
-
-  filtersStore.applyFilters();
-};
+const sort = defineModel<CatalogsSorting>("sort", { required: true });
 
 const filterButtonLabel = computed(() => {
-  const count = filtersStore.appliedFiltersCount;
+  const count = props?.appliedFiltersCount || 0;
   return `Фільтр${count > 0 ? ` (${count})` : ""}`;
 });
 </script>
@@ -73,17 +28,8 @@ const filterButtonLabel = computed(() => {
       class="mr-2 hidden md:inline-flex"
       @click="$emit('filter-click')"
     />
-    <div class="flex gap-1.5 items-center overflow-x-auto max-w-full grow no-scrollbar">
-      <UButton
-        v-for="item in quickFilters"
-        :key="item.value"
-        :label="`${t(`vehicle.bodyTypes.items.${item.value}`)} (${item.count})`"
-        :color="filtersStore.selectedFilters.bodyType?.includes(item.value) ? 'primary' : 'secondary'"
-        variant="outline"
-        class="capitalize"
-        @click="toggleQuickFilter(item.value)"
-      />
-    </div>
+
+    <slot />
 
     <div class="flex w-full md:w-auto">
       <UButton
@@ -95,23 +41,7 @@ const filterButtonLabel = computed(() => {
         @click="$emit('filter-click')"
       />
 
-      <UDropdownMenu :items="options" class="basis-full">
-        <UButton
-          :label="orderLabels[catalogStore.order?.field || 'recommended']"
-          color="secondary"
-          variant="outline"
-          icon="i-lucide-arrow-up-down"
-          data-testid="catalog-sort-button"
-        />
-
-        <template #item-trailing="{ active }">
-          <UIcon
-            name="i-lucide-check"
-            class="text-primary size-4"
-            :class="{ 'opacity-0': !active }"
-          />
-        </template>
-      </UDropdownMenu>
+      <SortDropdown v-model:sort="sort" class="basis-full" />
     </div>
   </div>
 </template>

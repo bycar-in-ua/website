@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { useFiltersStore } from "~/stores/filters";
+import { useModelsCatalogFiltersStore } from "~/stores/models-catalog-filters.store";
 import Filters from "./Filters.vue";
 import { AppliedFilters } from "./AppliedFilters";
 
-const filtersStore = useFiltersStore();
+const filtersStore = useModelsCatalogFiltersStore();
 
 const isOpen = defineModel<boolean>("open", { default: false });
 

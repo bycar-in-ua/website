@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useModelsCatalogFilters } from "~/composables/useModelsCatalogFilters";
 import ContactForm from "~/components/ContactFormSection.vue";
 import { Hero } from "~/components/Home/Hero";
 import HowItWorks from "~/components/Home/HowItWorks.vue";
@@ -29,7 +30,7 @@ useSeoMeta({
   ogDescription: pageDescription,
 });
 
-const { data: filtersData } = useCatalogFilters();
+const { data: filtersData } = useModelsCatalogFilters();
 </script>
 
 <template>

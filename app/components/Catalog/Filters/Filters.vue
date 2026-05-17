@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { AccordionItem } from "@nuxt/ui";
-import { useFiltersStore } from "~/stores/filters";
+import { useModelsCatalogFiltersStore } from "~/stores/models-catalog-filters.store";
 import PriceFilter from "./PriceFilter.vue";
 import BrandFilter from "./BrandFilter.vue";
 import BodyTypeFilter from "./BodyTypeFilter.vue";
@@ -8,7 +8,7 @@ import EngineTypeFilter from "./EngineTypeFilter.vue";
 import DriveFilter from "./DriveFilter.vue";
 
 const { t } = useI18n();
-const filtersStore = useFiltersStore();
+const filtersStore = useModelsCatalogFiltersStore();
 
 const items = computed<AccordionItem[]>(() => [
   {

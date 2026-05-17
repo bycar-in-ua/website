@@ -1,5 +1,5 @@
 import type { Component } from "vue";
-import type { Vehicle, AvailableVehicle } from "@bycar-in-ua/sdk";
+import type { Vehicle, AvailableVehicle } from "@bycar-in-ua/vehicles-sdk";
 
 export type InfoBulletProps = {
   title: string;

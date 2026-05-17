@@ -9,7 +9,7 @@ const emit = defineEmits<{ remove: []; }>();
     <template #trailing>
       <UIcon
         name="i-lucide-x"
-        class="cursor-pointer size-[18px]"
+        class="cursor-pointer size-4.5"
         @click="emit('remove')"
       />
     </template>
