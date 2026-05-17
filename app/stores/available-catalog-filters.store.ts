@@ -1,5 +1,5 @@
 import type { AvailableVehiclesFiltersSchema, PaginationSchema } from "@bycar-in-ua/vehicles-sdk";
-import { DEFAULT_AVAILABLE_FILTERS, countFilters, type CatalogsSorting } from "~/utils/filters";
+import { DEFAULT_AVAILABLE_FILTERS, countFilters } from "~/utils/filters";
 
 export const useAvailableCatalogFiltersStore = defineStore("available-catalog-filters", () => {
   const selectedFilters = ref<AvailableVehiclesFiltersSchema>({ ...DEFAULT_AVAILABLE_FILTERS });
@@ -48,8 +48,6 @@ export const useAvailableCatalogFiltersStore = defineStore("available-catalog-fi
     },
   });
 
-  const sort = ref<CatalogsSorting>("recommended");
-
   const applyFilters = () => {
     appliedFilters.value = { ...selectedFilters.value };
 
@@ -72,7 +70,6 @@ export const useAvailableCatalogFiltersStore = defineStore("available-catalog-fi
     appliedFilters,
     appliedFiltersCount,
     pagination,
-    sort,
 
     applyFilters,
     clearFilters,

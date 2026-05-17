@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { useQuery } from "@tanstack/vue-query";
+import { useQuery, keepPreviousData } from "@tanstack/vue-query";
 import type { SearchAvailableVehiclesInput } from "@bycar-in-ua/vehicles-sdk";
 import { useAvailableCatalogFiltersStore } from "~/stores/available-catalog-filters.store";
 import { useVehiclesService } from "~/composables/useVehiclesService";
+import { useQueryStringSort } from "~/composables/useQueryStringSort";
 import PageHeader from "~/components/UI/PageHeader.vue";
 import Headline from "~/components/Catalog/Headline.vue";
 import CarCard from "~/components/UI/CarCard";
@@ -14,10 +15,12 @@ const filtersStore = useAvailableCatalogFiltersStore();
 
 const vehiclesService = useVehiclesService();
 
+const sort = useQueryStringSort();
+
 const searchInput = computed<SearchAvailableVehiclesInput>(() => ({
   filters: filtersStore.appliedFilters,
   pagination: filtersStore.pagination,
-  sort: { field: filtersStore.sort },
+  sort: { field: sort.value },
 }));
 
 const {
@@ -25,6 +28,7 @@ const {
 } = useQuery({
   queryKey: ["search-available-vehicles", searchInput],
   queryFn: () => vehiclesService.searchAvailableVehicles(searchInput.value),
+  placeholderData: keepPreviousData,
 });
 
 await suspense();
@@ -43,7 +47,7 @@ const list = useTemplateRef<HTMLDivElement>("list");
     />
 
     <div class="container mx-auto py-8 sm:py-12 md:py-16 relative">
-      <Headline v-model:sort="filtersStore.sort" :applied-filters-count="filtersStore.appliedFiltersCount" class="mb-6 sm:mb-8" />
+      <Headline :applied-filters-count="filtersStore.appliedFiltersCount" class="mb-6 sm:mb-8" />
 
       <div
         ref="list"

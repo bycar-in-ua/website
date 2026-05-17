@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import type { SearchVehiclesInput } from "@bycar-in-ua/vehicles-sdk";
 import type { DropdownMenuItem } from "@nuxt/ui";
+import { useQueryStringSort, type CatalogsSorting } from "~/composables/useQueryStringSort";
 
-type SortOption = NonNullable<NonNullable<SearchVehiclesInput["sort"]>["field"]>;
+const sort = useQueryStringSort();
 
-const sortModel = defineModel<SortOption | undefined>("sort");
-
-const orderLabels: Record<SortOption, string> = Object.freeze({
+const orderLabels: Record<NonNullable<CatalogsSorting>, string> = Object.freeze({
   recommended: "Рекомендовані",
   popular: "Популярні",
   price_desc: "Від найбільшої ціни",
@@ -15,7 +13,7 @@ const orderLabels: Record<SortOption, string> = Object.freeze({
   year_asc: "Від найстарішого року",
 });
 
-const orders: SortOption[] = [
+const orders: NonNullable<CatalogsSorting>[] = [
   "recommended",
   "price_asc",
   "price_desc",
@@ -27,9 +25,9 @@ const options = computed<DropdownMenuItem[]>(() => orders.map(
   (order) => ({
     label: orderLabels[order],
     value: order,
-    active: sortModel.value === order,
+    active: sort.value === order,
     onSelect: () => {
-      sortModel.value = order;
+      sort.value = order;
     },
   }),
 ));
@@ -38,7 +36,7 @@ const options = computed<DropdownMenuItem[]>(() => orders.map(
 <template>
   <UDropdownMenu :items="options" class="basis-full">
     <UButton
-      :label="orderLabels[sortModel || 'recommended']"
+      :label="orderLabels[sort || 'recommended']"
       color="secondary"
       variant="outline"
       icon="i-lucide-arrow-up-down"

@@ -1,7 +1,5 @@
-import type { VehiclesFiltersSchema, AvailableVehiclesFiltersSchema, SearchVehiclesInput } from "@bycar-in-ua/vehicles-sdk";
+import type { VehiclesFiltersSchema, AvailableVehiclesFiltersSchema } from "@bycar-in-ua/vehicles-sdk";
 import type { LocationQuery } from "vue-router";
-
-export type CatalogsSorting = NonNullable<SearchVehiclesInput["sort"]>["field"];
 
 const ARRAY_FILTER_KEYS: (keyof VehiclesFiltersSchema)[] = [
   "bodyType",
