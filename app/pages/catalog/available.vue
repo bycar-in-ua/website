@@ -1,18 +1,35 @@
 <script setup lang="ts">
 import { useQuery } from "@tanstack/vue-query";
+import type { SearchAvailableVehiclesInput } from "@bycar-in-ua/vehicles-sdk";
+import { useAvailableCatalogFiltersStore } from "~/stores/available-catalog-filters.store";
 import { useVehiclesService } from "~/composables/useVehiclesService";
 import PageHeader from "~/components/UI/PageHeader.vue";
-import Headline from "~/components/AvailableCatalog/Headline.vue";
+import Headline from "~/components/Catalog/Headline.vue";
 import CarCard from "~/components/UI/CarCard";
+import Pagination from "~/components/UI/Pagination.vue";
 
 definePageMeta({ name: "available-catalog" });
 
+const filtersStore = useAvailableCatalogFiltersStore();
+
 const vehiclesService = useVehiclesService();
 
-const { data: vehicles } = useQuery({
-  queryKey: ["search-available-vehicles"],
-  queryFn: () => vehiclesService.searchAvailableVehicles({ filters: {} }),
+const searchInput = computed<SearchAvailableVehiclesInput>(() => ({
+  filters: filtersStore.appliedFilters,
+  pagination: filtersStore.pagination,
+  sort: { field: filtersStore.sort },
+}));
+
+const {
+  data: vehicles, suspense, isFetching,
+} = useQuery({
+  queryKey: ["search-available-vehicles", searchInput],
+  queryFn: () => vehiclesService.searchAvailableVehicles(searchInput.value),
 });
+
+await suspense();
+
+const list = useTemplateRef<HTMLDivElement>("list");
 </script>
 
 <template>
@@ -20,22 +37,46 @@ const { data: vehicles } = useQuery({
     <PageHeader
       :title="['Авто в наявності', 'Обирай авто для себе']"
       bg-url="/images/available-catalog-header-bg.jpg"
+      bg-class="object-bottom"
+      :loading="isFetching"
       :extra="vehicles?.meta.totalItems ? `${vehicles?.meta.totalItems} Пропозицій` : ''"
-      class="available-catalog-page-header"
     />
 
     <div class="container mx-auto py-8 sm:py-12 md:py-16 relative">
-      <Headline class="mb-6 sm:mb-8" />
+      <Headline v-model:sort="filtersStore.sort" :applied-filters-count="filtersStore.appliedFiltersCount" class="mb-6 sm:mb-8" />
 
-      <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
-        <CarCard v-for="vehicle in vehicles?.items" :key="vehicle.id" :car="vehicle" />
+      <div
+        ref="list"
+        data-testid="available-catalog-grid"
+        class="grid xs:grid-cols-2 sm:grid-cols-3 gap-5"
+        :class="{ 'blur-sm': isFetching }"
+      >
+        <NuxtLink
+          v-for="vehicle in vehicles?.items"
+          :key="vehicle.id"
+          data-testid="catalog-car"
+          :to="{
+            name: 'AvailableCarSingle',
+            params: {
+              id: vehicle.id,
+            },
+          }"
+        >
+          <CarCard :car="vehicle" />
+        </NuxtLink>
       </div>
+
+      <Pagination
+        class="mt-10 flex justify-center"
+        :page="filtersStore.pagination.page"
+        :pagination="vehicles?.meta"
+        @update:page="
+          (page) => {
+            filtersStore.pagination = { page };
+            list?.scrollIntoView();
+          }
+        "
+      />
     </div>
   </main>
 </template>
-
-<style>
-.available-catalog-page-header {
-    background-position: bottom center;
-}
-</style>

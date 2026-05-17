@@ -1,16 +1,21 @@
 import { defineStore } from "pinia";
 import { useModelsCatalogFilters } from "~/composables/useModelsCatalogFilters";
 import type { SearchVehiclesInput, VehiclesFiltersSchema } from "@bycar-in-ua/vehicles-sdk";
-import { parseFiltersFromQuery, serializeFiltersToQuery, DEFAULT_FILTERS } from "~/utils/filters";
+import {
+  parseFiltersFromQuery,
+  serializeFiltersToQuery,
+  DEFAULT_MODELS_FILTERS,
+  type CatalogsSorting,
+} from "~/utils/filters";
 
-export const useModelsCatalogFiltersStore = defineStore("filters", () => {
+export const useModelsCatalogFiltersStore = defineStore("models-catalog-filters", () => {
   const router = useRouter();
   const route = useRoute();
 
   const {
     data, isLoading, error, selectedFilters, removeFilter,
   } = useModelsCatalogFilters({
-    ...DEFAULT_FILTERS,
+    ...DEFAULT_MODELS_FILTERS,
     ...parseFiltersFromQuery(route.query),
   });
 
@@ -47,7 +52,7 @@ export const useModelsCatalogFiltersStore = defineStore("filters", () => {
     },
   });
 
-  const sort = ref<SearchVehiclesInput["sort"]>({ field: "recommended" });
+  const sort = ref<CatalogsSorting>("recommended");
 
   const applyFilters = () => {
     appliedFilters.value = { ...selectedFilters.value };
@@ -62,7 +67,7 @@ export const useModelsCatalogFiltersStore = defineStore("filters", () => {
   };
 
   const clearFilters = () => {
-    selectedFilters.value = { ...DEFAULT_FILTERS };
+    selectedFilters.value = { ...DEFAULT_MODELS_FILTERS };
     applyFilters();
   };
 

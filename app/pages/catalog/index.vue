@@ -21,16 +21,14 @@ onUnmounted(() => {
 const searchInput = computed<SearchVehiclesInput>(() => ({
   filters: filtersStore.appliedFilters,
   pagination: filtersStore.pagination,
-  sort: filtersStore.sort,
+  sort: { field: filtersStore.sort },
 }));
 
 const {
   data: vehiclesData, isFetching, suspense,
 } = useVehiclesSearch(searchInput);
 
-if (import.meta.server) {
-  await suspense();
-}
+await suspense();
 
 const brandFilterId = filtersStore.appliedFilters.brand?.at(0);
 
@@ -59,6 +57,20 @@ useHead({
 const isFiltersOpen = ref(false);
 
 const list = useTemplateRef<HTMLDivElement>("list");
+
+const { t } = useI18n();
+
+const quickFilters = computed(() => filtersStore.data?.filters?.bodyType?.filter((filter) => filter.count > 0) || []);
+
+const toggleQuickFilter = (value: string) => {
+  if (filtersStore.selectedFilters.bodyType?.includes(value)) {
+    filtersStore.removeFilter("bodyType", value);
+  } else {
+    filtersStore.selectedFilters.bodyType?.push(value);
+  }
+
+  filtersStore.applyFilters();
+};
 </script>
 
 <template>
@@ -76,9 +88,24 @@ const list = useTemplateRef<HTMLDivElement>("list");
     />
 
     <Headline
+      v-model:sort="filtersStore.sort"
       class="mt-16 container mx-auto"
+      :applied-filters-count="filtersStore.appliedFiltersCount"
       @filter-click="isFiltersOpen = true"
-    />
+    >
+      <div class="flex gap-1.5 items-center overflow-x-auto max-w-full grow no-scrollbar">
+        <UButton
+          v-for="item in quickFilters"
+          :key="item.value"
+          :label="`${t(`vehicle.bodyTypes.items.${item.value}`)} (${item.count})`"
+          :color="filtersStore.selectedFilters.bodyType?.includes(item.value) ? 'primary' : 'secondary'"
+          variant="outline"
+          class="capitalize"
+          @click="toggleQuickFilter(item.value)"
+        />
+      </div>
+    </Headline>
+
     <FiltersSlideover v-model:open="isFiltersOpen" />
 
     <EmptyState v-if="!vehiclesData?.items.length" />
@@ -86,7 +113,7 @@ const list = useTemplateRef<HTMLDivElement>("list");
     <div class="container mx-auto py-16" data-testid="cars-catalog">
       <div
         ref="list"
-        data-testid="cars-catalog-grid"
+        data-testid="models-catalog-grid"
         class="grid xs:grid-cols-2 sm:grid-cols-3 gap-5"
         :class="{ 'blur-sm': isFetching }"
       >

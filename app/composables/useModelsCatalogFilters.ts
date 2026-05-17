@@ -1,28 +1,16 @@
 import type { VehiclesFiltersSchema } from "@bycar-in-ua/vehicles-sdk";
 import { keepPreviousData, useQuery } from "@tanstack/vue-query";
-import { DEFAULT_FILTERS } from "~/utils/filters";
+import { DEFAULT_MODELS_FILTERS, countFilters } from "~/utils/filters";
 
 export function useModelsCatalogFilters(initialFilters: VehiclesFiltersSchema = {}) {
   const vehiclesService = useVehiclesService();
 
   const selectedFilters = ref<VehiclesFiltersSchema>({
-    ...DEFAULT_FILTERS,
+    ...DEFAULT_MODELS_FILTERS,
     ...initialFilters,
   });
 
-  const selectedFiltersCount = computed(() => Object.values(selectedFilters.value)
-    .reduce((acc, curr) => {
-      if (curr) {
-        if (Array.isArray(curr)) {
-          acc.count += curr.length;
-        } else {
-          acc.count += 1;
-        }
-      }
-
-      return acc;
-    }, { count: 0 }).count,
-  );
+  const selectedFiltersCount = computed(() => countFilters(selectedFilters.value));
 
   const removeFilter = (key: keyof VehiclesFiltersSchema, value?: string | number) => {
     const target = selectedFilters.value[key];
@@ -45,7 +33,7 @@ export function useModelsCatalogFilters(initialFilters: VehiclesFiltersSchema = 
     data, isLoading, error, suspense,
   } = useQuery({
     queryKey: ["catalog-filters", selectedFilters],
-    queryFn: () => vehiclesService.getFilters(selectedFilters.value),
+    queryFn: () => vehiclesService.getVehiclesFilters(selectedFilters.value),
     placeholderData: keepPreviousData,
   });
 

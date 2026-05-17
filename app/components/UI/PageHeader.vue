@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import { twMerge } from "tailwind-merge";
 import SectionTitle from "./SectionTitle.vue";
 
 defineProps<{
   title: string[];
   bgUrl?: string;
+  bgClass?: string;
   extra?: string;
   loading?: boolean;
 }>();
@@ -11,7 +13,7 @@ defineProps<{
 
 <template>
   <section class="relative flex items-center justify-between page-header dark">
-    <img :src="bgUrl" :alt="title[0]" class="absolute inset-0 w-full h-full object-cover -z-10">
+    <img :src="bgUrl" :alt="title[0]" :class="twMerge('absolute inset-0 w-full h-full object-cover -z-10', bgClass)">
     <div class="container mx-auto py-12 md:py-16 flex items-end justify-between">
       <SectionTitle :title />
 

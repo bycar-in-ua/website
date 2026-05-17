@@ -19,7 +19,7 @@ test.describe("cars catalog", () => {
   });
 
   test("hover the second car, click, hovering other cars", async ({ page }) => {
-    const items = page.getByTestId("cars-catalog-grid").getByTestId("catalog-car");
+    const items = page.getByTestId("models-catalog-grid").getByTestId("catalog-car");
     const secondCar = items.nth(1);
 
     await page.mouse.wheel(0, 200);
