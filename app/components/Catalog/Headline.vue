@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { CatalogsSorting } from "~/utils/filters";
 import SortDropdown from "./SortDropdown.vue";
 
 const props = defineProps<{ appliedFiltersCount?: number; }>();
@@ -7,8 +6,6 @@ const props = defineProps<{ appliedFiltersCount?: number; }>();
 defineEmits<{
   (e: "filter-click"): void;
 }>();
-
-const sort = defineModel<CatalogsSorting>("sort", { required: true });
 
 const filterButtonLabel = computed(() => {
   const count = props?.appliedFiltersCount || 0;
@@ -41,7 +38,7 @@ const filterButtonLabel = computed(() => {
         @click="$emit('filter-click')"
       />
 
-      <SortDropdown v-model:sort="sort" class="basis-full" />
+      <SortDropdown class="basis-full" />
     </div>
   </div>
 </template>

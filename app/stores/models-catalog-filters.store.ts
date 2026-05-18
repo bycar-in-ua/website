@@ -1,12 +1,8 @@
 import { defineStore } from "pinia";
 import { useModelsCatalogFilters } from "~/composables/useModelsCatalogFilters";
-import type { SearchVehiclesInput, VehiclesFiltersSchema } from "@bycar-in-ua/vehicles-sdk";
-import {
-  parseFiltersFromQuery,
-  serializeFiltersToQuery,
-  DEFAULT_MODELS_FILTERS,
-  type CatalogsSorting,
-} from "~/utils/filters";
+import type { VehiclesFiltersSchema } from "@bycar-in-ua/vehicles-sdk";
+import { useQueryStringPagination } from "~/composables/useQueryStringPagination";
+import { parseFiltersFromQuery, serializeFiltersToQuery, DEFAULT_MODELS_FILTERS } from "~/utils/filters";
 
 export const useModelsCatalogFiltersStore = defineStore("models-catalog-filters", () => {
   const router = useRouter();
@@ -35,24 +31,7 @@ export const useModelsCatalogFiltersStore = defineStore("models-catalog-filters"
     }, { count: 0 }).count,
   );
 
-  const pagination = computed<NonNullable<SearchVehiclesInput["pagination"]>>({
-    get() {
-      return {
-        page: Number(router.currentRoute.value.query.page ?? 1),
-        limit: 15,
-      };
-    },
-    set(value) {
-      router.replace({
-        query: {
-          ...router.currentRoute.value.query,
-          page: String(value.page),
-        },
-      });
-    },
-  });
-
-  const sort = ref<CatalogsSorting>("recommended");
+  const pagination = useQueryStringPagination();
 
   const applyFilters = () => {
     appliedFilters.value = { ...selectedFilters.value };
@@ -77,7 +56,6 @@ export const useModelsCatalogFiltersStore = defineStore("models-catalog-filters"
     appliedFilters,
     appliedFiltersCount,
     pagination,
-    sort,
 
     isLoading,
     error,

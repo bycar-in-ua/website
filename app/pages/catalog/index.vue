@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { SearchVehiclesInput } from "@bycar-in-ua/vehicles-sdk";
+import { useQueryStringSort } from "~/composables/useQueryStringSort";
 import PageHeader from "~/components/UI/PageHeader.vue";
 import { CarCard } from "~/components/UI/CarCard";
 import Headline from "~/components/Catalog/Headline.vue";
@@ -18,10 +19,12 @@ onUnmounted(() => {
   filtersStore.$dispose();
 });
 
+const sort = useQueryStringSort();
+
 const searchInput = computed<SearchVehiclesInput>(() => ({
   filters: filtersStore.appliedFilters,
   pagination: filtersStore.pagination,
-  sort: { field: filtersStore.sort },
+  sort: { field: sort.value },
 }));
 
 const {
@@ -88,7 +91,6 @@ const toggleQuickFilter = (value: string) => {
     />
 
     <Headline
-      v-model:sort="filtersStore.sort"
       class="mt-16 container mx-auto"
       :applied-filters-count="filtersStore.appliedFiltersCount"
       @filter-click="isFiltersOpen = true"
