@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useModelsCatalogFiltersStore } from "~/stores/models-catalog-filters.store";
+import { useFilters } from "~/composables/useFilters";
 import FilterLabel from "./FilterLabel.vue";
 import type { CheckboxGroupItemWithCount } from "./types";
 
@@ -10,11 +10,11 @@ export type BrandFilterOption = {
   disabled?: boolean;
 };
 
-const filtersStore = useModelsCatalogFiltersStore();
+const { data, selectedFilters } = useFilters();
 
 const brandOptions = computed<CheckboxGroupItemWithCount[]>(
   () =>
-    filtersStore.data?.filters?.brand.map((b) => ({
+    data.value?.filters?.brand.map((b) => ({
       label: b.displayName,
       count: b.count,
       value: String(b.id),
@@ -25,7 +25,7 @@ const brandOptions = computed<CheckboxGroupItemWithCount[]>(
 
 <template>
   <div class="max-h-40 overflow-y-auto">
-    <UCheckboxGroup v-model="filtersStore.selectedFilters.brand" :items="brandOptions">
+    <UCheckboxGroup v-model="selectedFilters.brand" :items="brandOptions">
       <template #label="{ item }">
         <FilterLabel :label="item.label" :count="item.count" />
       </template>

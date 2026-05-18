@@ -23,6 +23,7 @@ export default defineI18nConfig(() => ({
       filters: {
         title: "Фільтри",
         clearAll: "Очистити всі",
+        bodyType: { title: "Тип кузова" },
         engineType: {
           title: "Тип двигуна",
           gas: "Бензин",
@@ -30,16 +31,25 @@ export default defineI18nConfig(() => ({
           hybrid: "Гібрид",
           electric: "Електро",
         },
+        gearboxType: { title: "Тип трансмісії" },
         drive: {
           title: "Тип приводу",
           FWD: "Передній привід",
           RWD: "Задній привід",
           AWD: "Повний привід",
         },
+        driveType: { title: "Тип приводу" },
+        brand: { title: "Марка" },
         price: {
           priceFrom: "Ціна від",
           priceTo: "Ціна до",
         },
+        priceRange: { title: "Ціна" },
+        availability: { title: "Доступність" },
+        yearRange: { title: "Рік випуску" },
+        displacementRange: { title: "Об'єм двигуна" },
+        powerRange: { title: "Потужність" },
+        productionRelevance: { title: "Актуальність випуску" },
       },
       orders: {
         "price-asc": "За ціною: від дешевших",

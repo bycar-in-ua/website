@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { AccordionItem } from "@nuxt/ui";
-import { useModelsCatalogFiltersStore } from "~/stores/models-catalog-filters.store";
+import { useFilters } from "~/composables/useFilters";
 import PriceFilter from "./PriceFilter.vue";
 import BrandFilter from "./BrandFilter.vue";
 import BodyTypeFilter from "./BodyTypeFilter.vue";
@@ -8,7 +8,9 @@ import EngineTypeFilter from "./EngineTypeFilter.vue";
 import DriveFilter from "./DriveFilter.vue";
 
 const { t } = useI18n();
-const filtersStore = useModelsCatalogFiltersStore();
+const {
+  data, isLoading, selectedFilters,
+} = useFilters();
 
 const items = computed<AccordionItem[]>(() => [
   {
@@ -41,7 +43,7 @@ const defaultValue = ref([
 <template>
   <div class="relative">
     <div
-      v-if="filtersStore.isLoading"
+      v-if="isLoading"
       class="absolute top-2 right-2 z-10"
     >
       <UIcon name="i-heroicons-arrow-path" class="w-5 h-5 animate-spin text-primary" />
@@ -59,9 +61,9 @@ const defaultValue = ref([
 
       <template #price>
         <PriceFilter
-          v-model:min-price="filtersStore.selectedFilters.minPrice"
-          v-model:max-price="filtersStore.selectedFilters.maxPrice"
-          :boundaries="{ min: filtersStore.data?.filters.priceRange.min, max: filtersStore.data?.filters.priceRange.max }"
+          v-model:min-price="selectedFilters.minPrice"
+          v-model:max-price="selectedFilters.maxPrice"
+          :boundaries="{ min: data?.filters.priceRange.min, max: data?.filters.priceRange.max }"
         >
           <template #min-price-label>
             <span class="uppercase font-semibold text-sm inline-block mb-1.5">

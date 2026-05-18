@@ -1,25 +1,28 @@
 <script setup lang="ts">
 import { useQuery, keepPreviousData } from "@tanstack/vue-query";
 import type { SearchAvailableVehiclesInput } from "@bycar-in-ua/vehicles-sdk";
-import { useAvailableCatalogFiltersStore } from "~/stores/available-catalog-filters.store";
 import { useVehiclesService } from "~/composables/useVehiclesService";
+import { useAvailableCatalogFiltersProvider } from "~/composables/useAvailableCatalogFiltersProvider";
 import { useQueryStringSort } from "~/composables/useQueryStringSort";
 import PageHeader from "~/components/UI/PageHeader.vue";
 import Headline from "~/components/Catalog/Headline.vue";
+import FiltersSlideover from "~/components/Catalog/Filters/FiltersSlideover.vue";
 import CarCard from "~/components/UI/CarCard";
 import Pagination from "~/components/UI/Pagination.vue";
 
 definePageMeta({ name: "available-catalog" });
 
-const filtersStore = useAvailableCatalogFiltersStore();
+const {
+  appliedFilters, appliedFiltersCount, pagination,
+} = useAvailableCatalogFiltersProvider();
 
 const vehiclesService = useVehiclesService();
 
 const sort = useQueryStringSort();
 
 const searchInput = computed<SearchAvailableVehiclesInput>(() => ({
-  filters: filtersStore.appliedFilters,
-  pagination: filtersStore.pagination,
+  filters: appliedFilters.value,
+  pagination: pagination.value,
   sort: { field: sort.value },
 }));
 
@@ -34,6 +37,8 @@ const {
 await suspense();
 
 const list = useTemplateRef<HTMLDivElement>("list");
+
+const isFiltersOpen = ref(false);
 </script>
 
 <template>
@@ -47,7 +52,13 @@ const list = useTemplateRef<HTMLDivElement>("list");
     />
 
     <div class="container mx-auto py-8 sm:py-12 md:py-16 relative">
-      <Headline :applied-filters-count="filtersStore.appliedFiltersCount" class="mb-6 sm:mb-8" />
+      <Headline
+        class="mb-6 sm:mb-8"
+        :applied-filters-count="appliedFiltersCount"
+        @filter-click="isFiltersOpen = true"
+      />
+
+      <FiltersSlideover v-model:open="isFiltersOpen" />
 
       <div
         ref="list"
@@ -72,11 +83,11 @@ const list = useTemplateRef<HTMLDivElement>("list");
 
       <Pagination
         class="mt-10 flex justify-center"
-        :page="filtersStore.pagination.page"
+        :page="pagination.page"
         :pagination="vehicles?.meta"
         @update:page="
           (page) => {
-            filtersStore.pagination = { page };
+            pagination = { page };
             list?.scrollIntoView();
           }
         "

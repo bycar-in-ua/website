@@ -12,6 +12,9 @@ export function useModelsCatalogFilters(initialFilters: VehiclesFiltersSchema = 
 
   const selectedFiltersCount = computed(() => countFilters(selectedFilters.value));
 
+  /**
+   * @deprecated Probably unused
+   */
   const removeFilter = (key: keyof VehiclesFiltersSchema, value?: string | number) => {
     const target = selectedFilters.value[key];
 

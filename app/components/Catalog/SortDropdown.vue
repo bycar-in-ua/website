@@ -52,7 +52,6 @@ const syncDrawerSortModel = (open: boolean) => {
   <UDropdownMenu
     v-if="isDropdown"
     :items="options"
-    class="basis-full"
     :ui="{ item: 'data-highlighted:before:bg-transparent' }"
   >
     <UButton
@@ -60,6 +59,7 @@ const syncDrawerSortModel = (open: boolean) => {
       color="secondary"
       variant="outline"
       icon="i-lucide-arrow-up-down"
+      block
       data-testid="catalog-sort-button"
     />
 
@@ -90,6 +90,8 @@ const syncDrawerSortModel = (open: boolean) => {
       variant="outline"
       icon="i-lucide-arrow-up-down"
       data-testid="catalog-sort-button"
+      size="sm"
+      :ui="{ label: 'max-sm:w-0 grow' }"
     />
 
     <template #header>

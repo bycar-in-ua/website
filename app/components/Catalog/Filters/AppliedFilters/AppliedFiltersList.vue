@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useModelsCatalogFiltersStore } from "~/stores/models-catalog-filters.store";
+import { useFilters } from "~/composables/useFilters";
 import BrandTag from "./BrandTag.vue";
 import BodyTypeTag from "./BodyTypeTag.vue";
 import EngineTypeTag from "./EngineTypeTag.vue";
@@ -7,10 +7,10 @@ import DriveTypeTag from "./DriveTypeTag.vue";
 import PriceTag from "./PriceTag.vue";
 import type { VehiclesFiltersSchema } from "@bycar-in-ua/vehicles-sdk";
 
-const filtersStore = useModelsCatalogFiltersStore();
+const { selectedFilters } = useFilters();
 
-const appliedFilters = computed(() => {
-  return Object.entries(filtersStore.selectedFilters)
+const filtersList = computed(() => {
+  return Object.entries(selectedFilters.value)
     .filter(([, value]) => Boolean(value))
     .flatMap(([filter, value]) => Array.isArray(value) ? value.map((v) => [filter, v]) : [[filter, value]]);
 });
@@ -34,7 +34,7 @@ const filtersMap: Partial<Record<keyof VehiclesFiltersSchema, Component>> = {
     <div class="flex gap-2 items-start flex-wrap">
       <component
         :is="filtersMap[filter as keyof VehiclesFiltersSchema]"
-        v-for="([filter, value], i) in appliedFilters"
+        v-for="([filter, value], i) in filtersList"
         :key="i"
         :value
         :filter

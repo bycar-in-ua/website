@@ -4,7 +4,7 @@ defineEmits<{ close: []; }>();
 </script>
 
 <template>
-  <span class="basis-6 shrink-0">
+  <span class="basis-6 shrink-0 inline-flex items-center">
     <slot name="left" />
   </span>
 
@@ -12,7 +12,7 @@ defineEmits<{ close: []; }>();
     {{ title }}
   </h3>
 
-  <span class="basis-6 shrink-0">
+  <span class="basis-6 shrink-0 inline-flex items-center">
     <slot name="right">
       <UIcon
         name="i-lucide-x"
