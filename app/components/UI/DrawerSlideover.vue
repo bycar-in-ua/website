@@ -15,7 +15,7 @@ defineProps<Props>();
 
 const breakpoints = useBreakpoints(breakpointsTailwind);
 
-const largerThenMd = breakpoints.greater("md");
+const isSlideover = breakpoints.greater("md");
 
 const open = defineModel<boolean>("open", { default: false });
 
@@ -26,7 +26,7 @@ const closeHandler = () => {
 
 <template>
   <USlideover
-    v-if="largerThenMd"
+    v-if="isSlideover"
     v-model:open="open"
     inset
     close
@@ -37,7 +37,7 @@ const closeHandler = () => {
     }"
   >
     <template #header>
-      <slot name="header" :close="closeHandler">
+      <slot name="header" :close="closeHandler" :is-slideover="isSlideover">
         <h2 class="text-lg font-bold uppercase">
           {{ title }}
         </h2>
@@ -54,11 +54,11 @@ const closeHandler = () => {
     </template>
 
     <template #body>
-      <slot name="body" :close="closeHandler" />
+      <slot name="body" :close="closeHandler" :is-slideover="isSlideover" />
     </template>
 
     <template v-if="$slots.footer" #footer>
-      <slot name="footer" :close="closeHandler" />
+      <slot name="footer" :close="closeHandler" :is-slideover="isSlideover" />
     </template>
   </USlideover>
 
@@ -75,7 +75,7 @@ const closeHandler = () => {
     }"
   >
     <template #header>
-      <slot name="header" :close="closeHandler">
+      <slot name="header" :close="closeHandler" :is-slideover="isSlideover">
         <div class="basis-1/5 flex items-center">
           <slot name="drawer-header-extra" />
         </div>
@@ -98,11 +98,11 @@ const closeHandler = () => {
     </template>
 
     <template #body>
-      <slot name="body" :close="closeHandler" />
+      <slot name="body" :close="closeHandler" :is-slideover="isSlideover" />
     </template>
 
     <template v-if="$slots.footer" #footer>
-      <slot name="footer" :close="closeHandler" />
+      <slot name="footer" :close="closeHandler" :is-slideover="isSlideover" />
     </template>
   </UDrawer>
 </template>

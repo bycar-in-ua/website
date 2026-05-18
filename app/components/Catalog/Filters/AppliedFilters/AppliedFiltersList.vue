@@ -26,8 +26,8 @@ const filtersMap: Partial<Record<keyof VehiclesFiltersSchema, Component>> = {
 </script>
 
 <template>
-  <div class="py-4 px-6 flex flex-col gap-4">
-    <h3 class="font-semibold uppercase">
+  <div class="py-3 md:py-4 px-4 md:px-6 flex flex-col gap-3 md:gap-4">
+    <h3 class="font-semibold md:uppercase max-md:text-toned max-md:text-sm">
       Застосовані фільтри
     </h3>
 
