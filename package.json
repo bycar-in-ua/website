@@ -10,7 +10,8 @@
     "preview": "nuxt preview",
     "typecheck": "nuxt typecheck",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "test:e2e": "playwright test"
   },
   "devDependencies": {
     "@bycar-in-ua/sdk": "^0.4.4",

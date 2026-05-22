@@ -41,7 +41,7 @@ const checkHandler = (value: EngineType) => {
 
 <template>
   <StepContainer title="2. Який двигун оберемо для авто?" subtitle="Впливає на потужність та економічність авто.">
-    <div class="space-y-3">
+    <div class="space-y-3" data-testid="quiz-engine-list">
       <SelectionCard
         v-for="option in enginesOptions"
         :key="option.value"

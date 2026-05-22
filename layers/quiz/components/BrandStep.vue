@@ -23,7 +23,7 @@ const checkHandler = (value: number) => {
 
 <template>
   <StepContainer title="5. Які марки хочете розглянути?" subtitle="Можна обрати декілька або подивитися всі авто.">
-    <div class="space-y-3">
+    <div class="space-y-3" data-testid="quiz-brand-list">
       <SelectionCard
         title="Всі"
         :selected="quizStore.filters.brand?.length === 0"

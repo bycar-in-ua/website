@@ -58,12 +58,9 @@ test.describe("Single car page", () => {
   });
 });
 
-test.only("check that Similar cars section is displayed and contains at least 3 cars", async ({ page }) => {
+test("check that Similar cars section is displayed and contains at least 3 cars", async ({ page }) => {
   const similarCarsSection = page.locator("section", { hasText: "Подібні авто" });
   const similarCars = similarCarsSection.locator("[data-slot=\"item\"]");
   await expect(similarCarsSection).toBeVisible();
   expect(await similarCars.count()).toBeGreaterThan(2);
-  // const similarCarButton = similarCars.locator("button");
-  // const similarCarButtonForward = similarCarButton.locator("[data-slot=\"leadingIcon\"]").nth(1);
-  // await similarCarButtonForward.click();
 });

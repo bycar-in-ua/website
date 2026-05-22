@@ -25,6 +25,7 @@ const quizStepsComponents: Record<QuizStep, Component> = {
     <template #drawer-header-extra>
       <UButton
         v-if="quizStore.step !== QUIZ_STEPS.BODY"
+        data-testid="quiz-mobile-back-button"
         variant="link"
         color="neutral"
         icon="i-lucide-arrow-left"
@@ -43,6 +44,7 @@ const quizStepsComponents: Record<QuizStep, Component> = {
       <UProgress v-model="quizStore.step" :max="QUIZ_STEPS.BRAND" :ui="{ root: 'absolute -top-2 inset-x-0', base: 'rounded-none', indicator: 'rounded-none' }" />
 
       <UButton
+        data-testid="quiz-back-button"
         variant="link"
         color="secondary"
         icon="i-lucide-arrow-left"
@@ -51,7 +53,13 @@ const quizStepsComponents: Record<QuizStep, Component> = {
       >
         Назад
       </UButton>
-      <UButton clock class="md:w-fit justify-center" @click="quizStore.stepForward">
+      <UButton
+        data-testid="quiz-next-button"
+        clock
+        class="md:w-fit justify-center"
+        :disabled="!quizStore.canStepForward"
+        @click="quizStore.stepForward"
+      >
         <template v-if="quizStore.isFinalStep">
           Переглянути варіанти
         </template>
