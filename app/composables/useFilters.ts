@@ -6,25 +6,28 @@ import type {
   VehiclesFiltersResponse,
   VehiclesFiltersSchema,
 } from "@bycar-in-ua/vehicles-sdk";
+import type { FiltersKeys } from "~/components/Catalog/Filters/types";
 
-type UnifiedFilters = VehiclesFiltersSchema & AvailableVehiclesFiltersSchema;
+export type UnifiedFiltersSchema = VehiclesFiltersSchema & AvailableVehiclesFiltersSchema;
 
 export interface FiltersAPI {
   data: Readonly<Ref<VehiclesFiltersResponse | AvailableVehiclesFiltersResponse | undefined>>;
   isLoading: Readonly<Ref<boolean | undefined>>;
   error: Readonly<Ref<Error | null>>;
 
-  selectedFilters: Ref<UnifiedFilters>;
+  selectedFilters: Ref<UnifiedFiltersSchema>;
   selectedFiltersCount: ComputedRef<number>;
-  removeSelectedFilter: (filter: keyof UnifiedFilters, value?: string | number) => void;
+  removeSelectedFilter: (filter: keyof UnifiedFiltersSchema, value?: string | number) => void;
   resetSelectedFilters: () => void;
 
-  appliedFilters: Ref<UnifiedFilters>;
+  appliedFilters: Ref<UnifiedFiltersSchema>;
   appliedFiltersCount: ComputedRef<number>;
   pagination: WritableComputedRef<PaginationSchema>;
 
   applyFilters: () => void;
   clearFilters: () => void;
+
+  responsiveFilterView: Ref<FiltersKeys | undefined>;
 }
 
 export const filtersKey = Symbol("filters") as InjectionKey<FiltersAPI>;

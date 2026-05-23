@@ -43,14 +43,14 @@ const sharedDefaultFilters: Omit<VehiclesFiltersSchema, "availability" | "produc
 
 export const DEFAULT_MODELS_FILTERS: VehiclesFiltersSchema = {
   ...sharedDefaultFilters,
-  availability: undefined,
+  availability: "all",
   productionRelevance: undefined,
 };
 
 export const DEFAULT_AVAILABLE_FILTERS: AvailableVehiclesFiltersSchema = {
   ...sharedDefaultFilters,
   location: undefined,
-  discount: undefined,
+  discount: false,
   model: undefined,
 };
 

@@ -1,16 +1,19 @@
 <script setup lang="ts">
-import type { Filters, FiltersKeys } from "../types";
+import type { FilterDefinition } from "../types";
+import { useFilters } from "~/composables/useFilters";
 import FiltersList from "./FiltersList.vue";
-import PriceFilterView from "./PriceFilterView.vue";
+import ResponsiveFilter from "./ResponsiveFilter.vue";
 
 defineOptions({ name: "ResponsiveFilters" });
-defineProps<{ filters?: Filters; }>();
+defineProps<{ filters: FilterDefinition[]; }>();
 
-const responsiveFilterView = defineModel<FiltersKeys>("filter");
-const responsiveFiltersViews: Partial<Record<FiltersKeys, Component>> = { priceRange: PriceFilterView };
+const { responsiveFilterView } = useFilters();
 </script>
 
 <template>
-  <component :is="responsiveFiltersViews[responsiveFilterView]" v-if="responsiveFilterView && responsiveFiltersViews[responsiveFilterView]" />
-  <FiltersList v-else :filters @filter-click="(key) => responsiveFilterView = key" />
+  <ResponsiveFilter
+    v-if="responsiveFilterView"
+    :filter="filters.find(f => f.key === responsiveFilterView)!"
+  />
+  <FiltersList v-else :filters />
 </template>

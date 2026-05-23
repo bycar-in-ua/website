@@ -45,11 +45,20 @@ export default defineI18nConfig(() => ({
           priceTo: "Ціна до",
         },
         priceRange: { title: "Ціна" },
-        availability: { title: "Доступність" },
+        availability: {
+          title: "Доступність",
+          all: "Всі авто",
+          availableNow: "Доступно зараз",
+        },
         yearRange: { title: "Рік випуску" },
         displacementRange: { title: "Об'єм двигуна" },
         powerRange: { title: "Потужність" },
         productionRelevance: { title: "Актуальність випуску" },
+        discount: {
+          title: "Спецпропозиція",
+          all: "Всі",
+          discounted: "Зі знижкою",
+        },
       },
       orders: {
         "price-asc": "За ціною: від дешевших",

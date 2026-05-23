@@ -8,6 +8,7 @@ import {
 } from "~/utils/filters";
 import { filtersKey, type FiltersAPI } from "./useFilters";
 import { useQueryStringPagination } from "./useQueryStringPagination";
+import type { FiltersKeys } from "~/components/Catalog/Filters/types";
 
 export function useAvailableCatalogFiltersProvider() {
   const route = useRoute();
@@ -69,6 +70,8 @@ export function useAvailableCatalogFiltersProvider() {
     applyFilters();
   };
 
+  const responsiveFilterView = ref<FiltersKeys>();
+
   const api: FiltersAPI = {
     data,
     isLoading,
@@ -85,6 +88,8 @@ export function useAvailableCatalogFiltersProvider() {
 
     applyFilters,
     clearFilters,
+
+    responsiveFilterView,
   };
 
   provide(filtersKey, api);

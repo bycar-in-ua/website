@@ -14,7 +14,7 @@ import { useVehiclesSearch } from "~/composables/useVehiclesSearch";
 definePageMeta({ name: "catalog" });
 
 const {
-  data,
+  data: filtersData,
   selectedFilters,
   removeSelectedFilter,
   appliedFilters,
@@ -67,7 +67,7 @@ const list = useTemplateRef<HTMLDivElement>("list");
 
 const { t } = useI18n();
 
-const quickFilters = computed(() => data.value?.filters?.bodyType?.filter((filter) => filter.count > 0) || []);
+const quickFilters = computed(() => filtersData.value?.filters?.bodyType?.filter((filter) => filter.count > 0) || []);
 
 const toggleQuickFilter = (value: string) => {
   if (selectedFilters.value.bodyType?.includes(value)) {
@@ -89,7 +89,7 @@ const toggleQuickFilter = (value: string) => {
     <PageHeader
       :title="['Каталог моделей', 'Знайомтесь з моделями']"
       bg-url="/images/catalog-banner.jpg"
-      :extra="`${data?.total} Пропозицій`"
+      :extra="`${vehiclesData?.meta.totalItems} Пропозицій`"
       class="catalog-page-header"
       :loading="isFetching"
     />

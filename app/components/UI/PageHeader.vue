@@ -14,10 +14,10 @@ defineProps<{
 <template>
   <section class="relative flex items-center justify-between page-header dark">
     <img :src="bgUrl" :alt="title[0]" :class="twMerge('absolute inset-0 w-full h-full object-cover -z-10', bgClass)">
-    <div class="container mx-auto py-12 md:py-16 flex items-end justify-between">
+    <div class="container mx-auto py-12 md:py-16 sm:flex items-end justify-between">
       <SectionTitle :title />
 
-      <div v-if="extra" class="text-white font-semibold uppercase">
+      <div v-if="extra" class="text-white font-semibold uppercase max-sm:mt-7.5">
         {{ extra }}
       </div>
     </div>

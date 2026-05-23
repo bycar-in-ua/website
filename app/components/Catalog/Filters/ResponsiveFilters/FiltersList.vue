@@ -1,20 +1,21 @@
 <script setup lang="ts">
-import type { Filters, FiltersKeys } from "../types";
-import { sortFiltersByWeight } from "../helpers";
+import { useFilters } from "~/composables/useFilters";
+import type { FilterDefinition } from "../types";
 
-defineProps<{ filters?: Filters; }>();
-defineEmits<{ filterClick: [key: FiltersKeys]; }>();
+defineProps<{ filters: FilterDefinition[]; }>();
+
+const { responsiveFilterView } = useFilters();
 </script>
 
 <template>
   <div class="px-4 sm:px-6">
     <div
-      v-for="(filter, key) in sortFiltersByWeight(filters)"
-      :key="key"
+      v-for="filter in filters"
+      :key="filter.key"
       class="py-3 sm:py-4 flex items-center justify-between border-b border-gray-100"
-      @click="$emit('filterClick', key)"
+      @click="responsiveFilterView = filter.key"
     >
-      <span class="text-sm sm:text-base font-medium text-toned">{{ $t(`filters.${key}.title`) }}</span>
+      <span class="text-sm sm:text-base font-medium text-toned">{{ filter.label }}</span>
       <UIcon name="i-lucide-chevron-right" class="text-dimmed size-4.5" />
     </div>
   </div>

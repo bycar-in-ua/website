@@ -1,6 +1,8 @@
 <script setup lang="ts">
-defineProps<{ label: string;
-  count: number; }>();
+defineProps<{
+  label: string;
+  count: number;
+}>();
 </script>
 
 <template>

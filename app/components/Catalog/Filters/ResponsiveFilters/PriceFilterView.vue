@@ -1,23 +1,24 @@
 <script setup lang="ts">
+import { useFilters } from "~/composables/useFilters";
 import PriceFilter from "../PriceFilter.vue";
+import ApplyButton from "./ApplyButton.vue";
 
-const minPrice = defineModel<number>("minPrice");
-const maxPrice = defineModel<number>("maxPrice");
+const { selectedFilters, responsiveFilterView } = useFilters();
+
+const minPrice = ref(selectedFilters.value.minPrice);
+const maxPrice = ref(selectedFilters.value.maxPrice);
+
+const handleApply = () => {
+  selectedFilters.value.minPrice = minPrice.value;
+  selectedFilters.value.maxPrice = maxPrice.value;
+  responsiveFilterView.value = undefined;
+};
 </script>
 
 <template>
-  <div class="p-4">
-    <PriceFilter v-model:min-price="minPrice" v-model:max-price="maxPrice">
-      <template #min-price-label>
-        <span class="uppercase font-semibold text-sm inline-block mb-1.5">
-          Від
-        </span>
-      </template>
-      <template #max-price-label>
-        <span class="uppercase font-semibold text-sm inline-block mb-1.5">
-          До
-        </span>
-      </template>
-    </PriceFilter>
-  </div>
+  <PriceFilter v-model:min-price="minPrice" v-model:max-price="maxPrice" />
+
+  <Teleport to=".filters-footer">
+    <ApplyButton @click="handleApply" />
+  </Teleport>
 </template>

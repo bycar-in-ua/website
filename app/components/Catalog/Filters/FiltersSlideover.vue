@@ -2,8 +2,9 @@
 import DrawerSlideover from "~/components/UI/DrawerSlideover.vue";
 import DrawerHeader from "~/components/UI/DrawerHeader.vue";
 import { useFilters } from "~/composables/useFilters";
-import type { FiltersKeys } from "./types";
-import Filters from "./Filters.vue";
+import type { Filters } from "./types";
+import { buildFilterDefinitions } from "./helpers";
+import DesktopFilters from "./DesktopFilters/index.vue";
 import ResponsiveFilters from "./ResponsiveFilters/index.vue";
 import { AppliedFilters } from "./AppliedFilters";
 
@@ -15,6 +16,7 @@ const {
   clearFilters,
   resetSelectedFilters,
   selectedFiltersCount,
+  responsiveFilterView,
 } = useFilters();
 
 const handleApply = () => {
@@ -23,7 +25,15 @@ const handleApply = () => {
   isOpen.value = false;
 };
 
-const responsiveFilterView = ref<FiltersKeys | undefined>();
+const { t } = useI18n();
+
+const filters = computed(() => {
+  if (!data.value?.filters) {
+    return [];
+  }
+
+  return buildFilterDefinitions(data.value.filters as Filters, t);
+});
 </script>
 
 <template>
@@ -34,7 +44,7 @@ const responsiveFilterView = ref<FiltersKeys | undefined>();
     :ui="{
       header: 'border-b border-gray-200',
       body: 'p-0 sm:p-0',
-      footer: 'gap-2',
+      footer: 'gap-2 filters-footer',
     }"
   >
     <template #header="{ close, isSlideover }">
@@ -77,29 +87,31 @@ const responsiveFilterView = ref<FiltersKeys | undefined>();
     </template>
 
     <template #body="{ isSlideover }">
-      <AppliedFilters v-if="selectedFiltersCount > 0" class="max-md:border-b border-gray-100" />
-      <Filters v-if="isSlideover" />
-      <ResponsiveFilters v-else v-model:filter="responsiveFilterView" :filters="data?.filters" />
+      <AppliedFilters v-show="(selectedFiltersCount > 0 && (isSlideover || !responsiveFilterView))" class="max-md:border-b border-gray-100" />
+      <DesktopFilters v-if="isSlideover" :filters />
+      <ResponsiveFilters v-else :filters />
     </template>
 
     <template #footer="{ isSlideover }">
-      <UButton
-        block
-        :size="isSlideover ? 'md' : 'sm'"
-        @click="handleApply"
-      >
-        Показати ({{ data?.total }})
-      </UButton>
+      <template v-if="isSlideover || !responsiveFilterView">
+        <UButton
+          block
+          :size="isSlideover ? 'md' : 'sm'"
+          @click="handleApply"
+        >
+          Показати ({{ data?.total }})
+        </UButton>
 
-      <UButton
-        v-if="!isSlideover && selectedFiltersCount > 0"
-        label="Очистити все"
-        variant="outline"
-        color="secondary"
-        block
-        :size="isSlideover ? 'md' : 'sm'"
-        @click="clearFilters"
-      />
+        <UButton
+          v-if="!isSlideover && selectedFiltersCount > 0"
+          label="Очистити все"
+          variant="outline"
+          color="secondary"
+          block
+          :size="isSlideover ? 'md' : 'sm'"
+          @click="clearFilters"
+        />
+      </template>
     </template>
   </DrawerSlideover>
 </template>
