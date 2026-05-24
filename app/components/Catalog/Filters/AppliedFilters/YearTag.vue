@@ -9,7 +9,7 @@ const { removeSelectedFilter } = useFilters();
 </script>
 
 <template>
-  <BaseFilterTag @remove="removeSelectedFilter('bodyType', value)">
-    {{ $t(`vehicle.bodyTypes.items.${value}`) }}
+  <BaseFilterTag @remove="removeSelectedFilter(filter, value)">
+    {{ filter === 'yearFrom' ? `Від` : `До` }} {{ value }} року
   </BaseFilterTag>
 </template>

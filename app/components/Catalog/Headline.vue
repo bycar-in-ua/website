@@ -22,7 +22,7 @@ const filterButtonLabel = computed(() => {
       color="secondary"
       variant="outline"
       icon="i-lucide-settings-2"
-      class="mr-2 hidden md:inline-flex"
+      class="mr-2 max-md:hidden"
       @click="$emit('filter-click')"
     />
 
@@ -34,11 +34,13 @@ const filterButtonLabel = computed(() => {
         color="secondary"
         variant="outline"
         icon="i-lucide-settings-2"
-        class="basis-full md:hidden"
+        class="shrink-0 max-sm:basis-1/2 md:hidden"
+        block
+        size="sm"
         @click="$emit('filter-click')"
       />
 
-      <SortDropdown class="basis-full" />
+      <SortDropdown class="shrink-0 max-sm:basis-1/2" />
     </div>
   </div>
 </template>

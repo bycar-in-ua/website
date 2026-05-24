@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { useModelsCatalogFiltersStore } from "~/stores/models-catalog-filters.store";
+import { useFilters } from "~/composables/useFilters";
 import type { AppliedFilterProps } from "./types";
 import BaseFilterTag from "./BaseFilterTag.vue";
 
 defineProps<AppliedFilterProps>();
 
-const filtersStore = useModelsCatalogFiltersStore();
+const { removeSelectedFilter } = useFilters();
 </script>
 
 <template>
-  <BaseFilterTag @remove="filtersStore.removeFilter('engineType', value)">
+  <BaseFilterTag @remove="removeSelectedFilter('engineType', value)">
     {{ $t(`filters.engineType.${value}`) }}
   </BaseFilterTag>
 </template>

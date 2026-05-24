@@ -8,22 +8,26 @@ import ContactForm from "~/components/ContactFormSection.vue";
 import EmptyState from "~/components/Catalog/EmptyState.vue";
 import FiltersSlideover from "~/components/Catalog/Filters/FiltersSlideover.vue";
 import Pagination from "~/components/UI/Pagination.vue";
-import { useModelsCatalogFiltersStore } from "~/stores/models-catalog-filters.store";
+import { useModelsCatalogFiltersProvider } from "~/composables/useModelsCatalogFiltersProvider";
 import { useVehiclesSearch } from "~/composables/useVehiclesSearch";
 
 definePageMeta({ name: "catalog" });
 
-const filtersStore = useModelsCatalogFiltersStore();
-
-onUnmounted(() => {
-  filtersStore.$dispose();
-});
+const {
+  data: filtersData,
+  selectedFilters,
+  removeSelectedFilter,
+  appliedFilters,
+  appliedFiltersCount,
+  pagination,
+  applyFilters,
+} = useModelsCatalogFiltersProvider();
 
 const sort = useQueryStringSort();
 
 const searchInput = computed<SearchVehiclesInput>(() => ({
-  filters: filtersStore.appliedFilters,
-  pagination: filtersStore.pagination,
+  filters: appliedFilters.value,
+  pagination: pagination.value,
   sort: { field: sort.value },
 }));
 
@@ -33,7 +37,7 @@ const {
 
 await suspense();
 
-const brandFilterId = filtersStore.appliedFilters.brand?.at(0);
+const brandFilterId = appliedFilters.value.brand?.at(0);
 
 const { h1, ...seoInput } = await useCatalogSeo(brandFilterId);
 
@@ -63,16 +67,16 @@ const list = useTemplateRef<HTMLDivElement>("list");
 
 const { t } = useI18n();
 
-const quickFilters = computed(() => filtersStore.data?.filters?.bodyType?.filter((filter) => filter.count > 0) || []);
+const quickFilters = computed(() => filtersData.value?.filters?.bodyType?.filter((filter) => filter.count > 0) || []);
 
 const toggleQuickFilter = (value: string) => {
-  if (filtersStore.selectedFilters.bodyType?.includes(value)) {
-    filtersStore.removeFilter("bodyType", value);
+  if (selectedFilters.value.bodyType?.includes(value)) {
+    removeSelectedFilter("bodyType", value);
   } else {
-    filtersStore.selectedFilters.bodyType?.push(value);
+    selectedFilters.value.bodyType?.push(value);
   }
 
-  filtersStore.applyFilters();
+  applyFilters();
 };
 </script>
 
@@ -85,14 +89,14 @@ const toggleQuickFilter = (value: string) => {
     <PageHeader
       :title="['Каталог моделей', 'Знайомтесь з моделями']"
       bg-url="/images/catalog-banner.jpg"
-      :extra="`${filtersStore.data?.total} Пропозицій`"
+      :extra="`${vehiclesData?.meta.totalItems} Пропозицій`"
       class="catalog-page-header"
       :loading="isFetching"
     />
 
     <Headline
       class="mt-16 container mx-auto"
-      :applied-filters-count="filtersStore.appliedFiltersCount"
+      :applied-filters-count="appliedFiltersCount"
       @filter-click="isFiltersOpen = true"
     >
       <div class="flex gap-1.5 items-center overflow-x-auto max-w-full grow no-scrollbar">
@@ -100,7 +104,7 @@ const toggleQuickFilter = (value: string) => {
           v-for="item in quickFilters"
           :key="item.value"
           :label="`${t(`vehicle.bodyTypes.items.${item.value}`)} (${item.count})`"
-          :color="filtersStore.selectedFilters.bodyType?.includes(item.value) ? 'primary' : 'secondary'"
+          :color="selectedFilters.bodyType?.includes(item.value) ? 'primary' : 'secondary'"
           variant="outline"
           class="capitalize"
           @click="toggleQuickFilter(item.value)"
@@ -143,11 +147,11 @@ const toggleQuickFilter = (value: string) => {
 
       <Pagination
         class="mt-10 flex justify-center"
-        :page="filtersStore.pagination.page"
+        :page="pagination.page"
         :pagination="vehiclesData?.meta"
         @update:page="
           (page) => {
-            filtersStore.pagination = { page };
+            pagination = { page };
             list?.scrollIntoView();
           }
         "

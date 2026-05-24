@@ -43,5 +43,14 @@ export default defineAppConfig({
       },
       defaultVariants: { variant: "ghost" },
     },
+    inputNumber: {
+      slots: { base: "font-medium" },
+      variants: {
+        size: {
+          sm: "px-0 pt-1 pb-1.5",
+          md: "px-0 pt-1 pb-1.5",
+        },
+      },
+    },
   },
 });

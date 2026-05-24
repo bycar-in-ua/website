@@ -5,11 +5,11 @@ import BaseFilterTag from "./BaseFilterTag.vue";
 
 defineProps<AppliedFilterProps>();
 
-const { removeSelectedFilter } = useFilters();
+const { selectedFilters } = useFilters();
 </script>
 
 <template>
-  <BaseFilterTag @remove="removeSelectedFilter('bodyType', value)">
-    {{ $t(`vehicle.bodyTypes.items.${value}`) }}
+  <BaseFilterTag v-if="value !== 'all'" @remove="selectedFilters.availability = 'all'">
+    Доступно зараз
   </BaseFilterTag>
 </template>

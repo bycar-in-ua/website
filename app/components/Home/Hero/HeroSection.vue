@@ -2,8 +2,7 @@
 import type { CheckboxGroupItem } from "@nuxt/ui";
 import { useModelsCatalogFilters } from "~/composables/useModelsCatalogFilters";
 import { serializeFiltersToQuery } from "~/utils/filters";
-import { useModelsCatalogFiltersStore } from "~/stores/models-catalog-filters.store";
-import PriceFilter from "~/components/Catalog/Filters/PriceFilter.vue";
+import RangeControl from "~/components/UI/RangeControl.vue";
 import QuickFilterPopover from "./QuickFilterPopover.vue";
 import QuickFilterList from "./QuickFilterList.vue";
 
@@ -112,10 +111,6 @@ const allBrandCheckboxModel = computed({
 });
 
 const handleNavigate = () => {
-  const filtersStore = useModelsCatalogFiltersStore();
-  filtersStore.selectedFilters = selectedFilters.value;
-  filtersStore.applyFilters();
-
   navigateTo({
     name: "catalog",
     query: serializeFiltersToQuery(selectedFilters.value),
@@ -165,9 +160,10 @@ const handleNavigate = () => {
             />
           </UFormField>
           <template #content>
-            <PriceFilter
+            <RangeControl
               v-model:min-price="selectedFilters.minPrice"
               v-model:max-price="selectedFilters.maxPrice"
+              :step="5000"
               :boundaries="{ min: filtersData?.filters.priceRange.min, max: filtersData?.filters.priceRange.max }"
             />
           </template>
