@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import type { FilterDefinition } from "../types";
+import type { FilterDefinition } from "~/utils/filters";
 import CheckboxGroupFilter from "./CheckboxGroupFilter.vue";
 import RadioGroupFilter from "./RadioGroupFilter.vue";
 import PriceFilterView from "./PriceFilterView.vue";
+import YearFilterView from "./YearFilterView.vue";
 
 defineProps<{ filter: FilterDefinition; }>();
 </script>
@@ -12,5 +13,6 @@ defineProps<{ filter: FilterDefinition; }>();
     <CheckboxGroupFilter v-if="filter.type === 'checkbox'" :filter="filter" />
     <RadioGroupFilter v-if="filter.type === 'radio'" :filter="filter" />
     <PriceFilterView v-if="filter.key === 'priceRange'" />
+    <YearFilterView v-if="filter.key === 'yearRange'" />
   </div>
 </template>

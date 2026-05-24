@@ -5,6 +5,8 @@ import BodyTypeTag from "./BodyTypeTag.vue";
 import EngineTypeTag from "./EngineTypeTag.vue";
 import DriveTypeTag from "./DriveTypeTag.vue";
 import PriceTag from "./PriceTag.vue";
+import YearTag from "./YearTag.vue";
+import AvailablityTag from "./AvailablityTag.vue";
 import type { VehiclesFiltersSchema } from "@bycar-in-ua/vehicles-sdk";
 
 const { selectedFilters } = useFilters();
@@ -16,12 +18,15 @@ const filtersList = computed(() => {
 });
 
 const filtersMap: Partial<Record<keyof VehiclesFiltersSchema, Component>> = {
+  availability: AvailablityTag,
   brand: BrandTag,
   bodyType: BodyTypeTag,
   engineType: EngineTypeTag,
   driveType: DriveTypeTag,
   maxPrice: PriceTag,
   minPrice: PriceTag,
+  yearFrom: YearTag,
+  yearTo: YearTag,
 };
 </script>
 

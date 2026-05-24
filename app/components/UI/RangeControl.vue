@@ -52,7 +52,8 @@ const maxInputModel = computed({
         :max="(boundaries?.max || Infinity) - (step || 0)"
         :placeholder="boundaries?.min?.toString()"
         :format-options
-        size="sm"
+        :increment="false"
+        :decrement="false"
         class="w-full"
       />
     </div>
@@ -67,7 +68,8 @@ const maxInputModel = computed({
         :max="boundaries?.max"
         :placeholder="boundaries?.max?.toString()"
         :format-options
-        size="sm"
+        :increment="false"
+        :decrement="false"
         class="w-full"
       />
     </div>

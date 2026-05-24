@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ListFilterDefinition } from "../types";
+import type { ListFilterDefinition } from "~/utils/filters";
 import FilterLabel from "../FilterLabel.vue";
 import ApplyButton from "./ApplyButton.vue";
 

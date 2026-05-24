@@ -2,8 +2,7 @@
 import DrawerSlideover from "~/components/UI/DrawerSlideover.vue";
 import DrawerHeader from "~/components/UI/DrawerHeader.vue";
 import { useFilters } from "~/composables/useFilters";
-import type { Filters } from "./types";
-import { buildFilterDefinitions } from "./helpers";
+import { buildFilterDefinitions, type Filters } from "~/utils/filters";
 import DesktopFilters from "./DesktopFilters/index.vue";
 import ResponsiveFilters from "./ResponsiveFilters/index.vue";
 import { AppliedFilters } from "./AppliedFilters";

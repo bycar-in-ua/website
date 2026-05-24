@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useFilters } from "~/composables/useFilters";
-import type { FilterDefinition } from "../types";
+import type { FilterDefinition } from "~/utils/filters";
 
 defineProps<{ filters: FilterDefinition[]; }>();
 

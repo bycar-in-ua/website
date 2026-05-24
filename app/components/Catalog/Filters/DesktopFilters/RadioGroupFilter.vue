@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { FilterListItem } from "../types";
+import type { FilterListItem } from "~/utils/filters";
 import FilterLabel from "../FilterLabel.vue";
 
 defineProps<{ items: FilterListItem[]; }>();

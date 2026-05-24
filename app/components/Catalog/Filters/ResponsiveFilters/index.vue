@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { FilterDefinition } from "../types";
+import type { FilterDefinition } from "~/utils/filters";
 import { useFilters } from "~/composables/useFilters";
 import FiltersList from "./FiltersList.vue";
 import ResponsiveFilter from "./ResponsiveFilter.vue";

@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { useFilters, type UnifiedFiltersSchema } from "~/composables/useFilters";
-import type { FilterDefinition } from "../types";
+import type { FilterDefinition } from "~/utils/filters";
 import PriceFilter from "../PriceFilter.vue";
+import YearFilter from "../YearFilter.vue";
 import CheckboxGroupFilter from "./CheckboxGroupFilter.vue";
 import RadioGroupFilter from "./RadioGroupFilter.vue";
 
@@ -49,6 +50,12 @@ const { isLoading, selectedFilters } = useFilters();
           v-if="item.key === 'priceRange'"
           v-model:min-price="selectedFilters.minPrice"
           v-model:max-price="selectedFilters.maxPrice"
+        />
+
+        <YearFilter
+          v-if="item.key === 'yearRange'"
+          v-model:from="selectedFilters.yearFrom"
+          v-model:to="selectedFilters.yearTo"
         />
       </template>
     </UAccordion>
