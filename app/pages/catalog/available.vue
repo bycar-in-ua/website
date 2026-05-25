@@ -24,7 +24,7 @@ const searchInput = computed<SearchAvailableVehiclesInput>(() => ({
   filters: appliedFilters.value,
   pagination: pagination.value,
   sort: { field: sort.value },
-}));
+} as SearchAvailableVehiclesInput));
 
 const {
   data: vehicles, suspense, isFetching,

@@ -21,8 +21,8 @@ importers:
         specifier: 0.1.0
         version: 0.1.0(typescript@6.0.3)
       '@bycar-in-ua/vehicles-sdk':
-        specifier: 0.3.6
-        version: 0.3.6(typescript@6.0.3)
+        specifier: 0.3.7
+        version: 0.3.7(typescript@6.0.3)
       '@pinia/nuxt':
         specifier: ^0.11.3
         version: 0.11.3(magicast@0.5.3)(pinia@3.0.4(typescript@6.0.3)(vue@3.5.34(typescript@6.0.3)))
@@ -307,8 +307,8 @@ packages:
   '@bycar-in-ua/sdk@0.4.4':
     resolution: {integrity: sha512-qC2zsQLqPFkzVDgMs4DmPF0lQWrpmrb6mTrqwtkFNZHG9sOkwQS+QketgTtp3PbwstEDASXgXkln5XLs7rebMg==, tarball: https://npm.pkg.github.com/download/@bycar-in-ua/sdk/0.4.4/a7a66b97d2e7a2f8247f3f2c78bfe32ee1ea99bc}
 
-  '@bycar-in-ua/vehicles-sdk@0.3.6':
-    resolution: {integrity: sha512-fO43rsy+Lz/mu6r23rZF4VNIXrymqLdJoH9087rrbiQCvfSUhlWHbxByit2q8QHcqDT/qHCCjtx2OSLpvRh0AQ==, tarball: https://npm.pkg.github.com/download/@bycar-in-ua/vehicles-sdk/0.3.6/f9ab233694befa1e842573c49fdd5bf66b6977d7}
+  '@bycar-in-ua/vehicles-sdk@0.3.7':
+    resolution: {integrity: sha512-EAyr7B9jJTNB9FMtWDpKAonsG4LrK6iC0C6JF+A1xoN8eX0YWr+Qk9iF2O4LKoXbBltMejQPPhOcavTaWt/bgQ==, tarball: https://npm.pkg.github.com/download/@bycar-in-ua/vehicles-sdk/0.3.7/68ad09b1b2b6f6ecd90a4cb81ae9b317641cc139}
 
   '@capsizecss/unpack@4.0.0':
     resolution: {integrity: sha512-VERIM64vtTP1C4mxQ5thVT9fK0apjPFobqybMtA1UdUujWka24ERHbRHFGmpbbhp73MhV+KSsHQH9C6uOTdEQA==}
@@ -6983,7 +6983,7 @@ snapshots:
 
   '@bycar-in-ua/sdk@0.4.4': {}
 
-  '@bycar-in-ua/vehicles-sdk@0.3.6(typescript@6.0.3)':
+  '@bycar-in-ua/vehicles-sdk@0.3.7(typescript@6.0.3)':
     dependencies:
       valibot: 1.4.0(typescript@6.0.3)
     transitivePeerDependencies:

@@ -1,14 +1,6 @@
 import type { InjectionKey } from "vue";
-import type {
-  AvailableVehiclesFiltersResponse,
-  AvailableVehiclesFiltersSchema,
-  PaginationSchema,
-  VehiclesFiltersResponse,
-  VehiclesFiltersSchema,
-} from "@bycar-in-ua/vehicles-sdk";
-import type { FiltersKeys } from "~/components/Catalog/Filters/types";
-
-export type UnifiedFiltersSchema = VehiclesFiltersSchema & AvailableVehiclesFiltersSchema;
+import type { AvailableVehiclesFiltersResponse, PaginationSchema, VehiclesFiltersResponse } from "@bycar-in-ua/vehicles-sdk";
+import type { FiltersKeys, UnifiedFiltersSchema } from "~/utils/filters";
 
 export interface FiltersAPI {
   data: Readonly<Ref<VehiclesFiltersResponse | AvailableVehiclesFiltersResponse | undefined>>;

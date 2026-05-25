@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { CheckboxGroupItem } from "@nuxt/ui";
 import { useModelsCatalogFilters } from "~/composables/useModelsCatalogFilters";
-import { serializeFiltersToQuery } from "~/utils/filters";
+import { DEFAULT_MODELS_FILTERS, serializeFiltersToQuery } from "~/utils/filters";
 import RangeControl from "~/components/UI/RangeControl.vue";
 import QuickFilterPopover from "./QuickFilterPopover.vue";
 import QuickFilterList from "./QuickFilterList.vue";
@@ -113,7 +113,7 @@ const allBrandCheckboxModel = computed({
 const handleNavigate = () => {
   navigateTo({
     name: "catalog",
-    query: serializeFiltersToQuery(selectedFilters.value),
+    query: serializeFiltersToQuery(selectedFilters.value, DEFAULT_MODELS_FILTERS),
   });
 };
 </script>
@@ -219,7 +219,7 @@ const handleNavigate = () => {
             />
           </UFormField>
           <template #content>
-            <QuickFilterList v-model="selectedFilters.brand" v-model:all-checkbox="allBrandCheckboxModel" :items="brandsItems" />
+            <QuickFilterList v-model="selectedFilters.brand as number[]" v-model:all-checkbox="allBrandCheckboxModel" :items="brandsItems" />
           </template>
         </QuickFilterPopover>
 

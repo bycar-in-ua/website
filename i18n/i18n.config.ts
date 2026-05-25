@@ -53,7 +53,11 @@ export default defineI18nConfig(() => ({
         yearRange: { title: "Рік випуску" },
         displacementRange: { title: "Об'єм двигуна" },
         powerRange: { title: "Потужність" },
-        productionRelevance: { title: "Актуальність випуску" },
+        productionRelevance: {
+          title: "Актуальність випуску",
+          all: "Всі авто",
+          current: "Виробляються зараз",
+        },
         discount: {
           title: "Спецпропозиція",
           all: "Всі",

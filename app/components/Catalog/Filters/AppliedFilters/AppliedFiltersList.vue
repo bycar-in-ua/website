@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useFilters } from "~/composables/useFilters";
+import type { UnifiedFiltersSchema } from "~/utils/filters";
 import BrandTag from "./BrandTag.vue";
 import BodyTypeTag from "./BodyTypeTag.vue";
 import EngineTypeTag from "./EngineTypeTag.vue";
@@ -7,7 +8,8 @@ import DriveTypeTag from "./DriveTypeTag.vue";
 import PriceTag from "./PriceTag.vue";
 import YearTag from "./YearTag.vue";
 import AvailablityTag from "./AvailablityTag.vue";
-import type { VehiclesFiltersSchema } from "@bycar-in-ua/vehicles-sdk";
+import ProductionTag from "./ProductionTag.vue";
+import DiscountTag from "./DiscountTag.vue";
 
 const { selectedFilters } = useFilters();
 
@@ -17,7 +19,7 @@ const filtersList = computed(() => {
     .flatMap(([filter, value]) => Array.isArray(value) ? value.map((v) => [filter, v]) : [[filter, value]]);
 });
 
-const filtersMap: Partial<Record<keyof VehiclesFiltersSchema, Component>> = {
+const filtersMap: Partial<Record<keyof UnifiedFiltersSchema, Component>> = {
   availability: AvailablityTag,
   brand: BrandTag,
   bodyType: BodyTypeTag,
@@ -25,8 +27,10 @@ const filtersMap: Partial<Record<keyof VehiclesFiltersSchema, Component>> = {
   driveType: DriveTypeTag,
   maxPrice: PriceTag,
   minPrice: PriceTag,
+  discount: DiscountTag,
   yearFrom: YearTag,
   yearTo: YearTag,
+  productionRelevance: ProductionTag,
 };
 </script>
 
@@ -38,7 +42,7 @@ const filtersMap: Partial<Record<keyof VehiclesFiltersSchema, Component>> = {
 
     <div class="flex gap-2 items-start flex-wrap">
       <component
-        :is="filtersMap[filter as keyof VehiclesFiltersSchema]"
+        :is="filtersMap[filter as keyof UnifiedFiltersSchema]"
         v-for="([filter, value], i) in filtersList"
         :key="i"
         :value

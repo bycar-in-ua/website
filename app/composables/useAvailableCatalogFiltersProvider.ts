@@ -4,18 +4,18 @@ import {
   parseFiltersFromQuery,
   serializeFiltersToQuery,
   countFilters,
-  DEFAULT_MODELS_FILTERS,
+  DEFAULT_AVAILABLE_FILTERS,
+  type FiltersKeys,
 } from "~/utils/filters";
 import { filtersKey, type FiltersAPI } from "./useFilters";
 import { useQueryStringPagination } from "./useQueryStringPagination";
-import type { FiltersKeys } from "~/components/Catalog/Filters/types";
 
 export function useAvailableCatalogFiltersProvider() {
   const route = useRoute();
 
   const selectedFilters = ref<AvailableVehiclesFiltersSchema>({
     ...DEFAULT_AVAILABLE_FILTERS,
-    ...parseFiltersFromQuery(route.query),
+    ...parseFiltersFromQuery(route.query, DEFAULT_AVAILABLE_FILTERS),
   });
   const selectedFiltersCount = computed(() => countFilters(selectedFilters.value));
 
@@ -60,13 +60,13 @@ export function useAvailableCatalogFiltersProvider() {
   const applyFilters = () => {
     appliedFilters.value = { ...selectedFilters.value };
 
-    const filterQuery = serializeFiltersToQuery(selectedFilters.value);
+    const filterQuery = serializeFiltersToQuery(selectedFilters.value, DEFAULT_AVAILABLE_FILTERS);
     router.replace({ query: { ...filterQuery } });
     pagination.value.page = 1;
   };
 
   const clearFilters = () => {
-    selectedFilters.value = { ...DEFAULT_MODELS_FILTERS };
+    selectedFilters.value = { ...DEFAULT_AVAILABLE_FILTERS };
     applyFilters();
   };
 

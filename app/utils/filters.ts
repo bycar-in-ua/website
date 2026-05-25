@@ -7,6 +7,8 @@ import type {
 import type { LocationQuery } from "vue-router";
 import type { Composer } from "#i18n";
 
+export type UnifiedFiltersSchema = VehiclesFiltersSchema & AvailableVehiclesFiltersSchema;
+
 export type Filters = VehiclesFiltersResponse["filters"] & AvailableVehiclesFiltersResponse["filters"];
 
 export type FiltersKeys = keyof VehiclesFiltersResponse["filters"] | keyof AvailableVehiclesFiltersResponse["filters"];
@@ -34,31 +36,7 @@ export interface RangeFilterDefinition extends BaseFilterDefinition {
 
 export type FilterDefinition = ListFilterDefinition | RangeFilterDefinition;
 
-const ARRAY_FILTER_KEYS: (keyof VehiclesFiltersSchema)[] = [
-  "bodyType",
-  "engineType",
-  "brand",
-  "driveType",
-  "gearboxType",
-];
-
-const NUMBER_FILTER_KEYS: (keyof VehiclesFiltersSchema)[] = [
-  "minPrice",
-  "maxPrice",
-  "yearFrom",
-  "yearTo",
-  "minDisplacement",
-  "maxDisplacement",
-  "minPower",
-  "maxPower",
-];
-
-const STRING_FILTER_KEYS: (keyof VehiclesFiltersSchema)[] = [
-  "availability",
-  "productionRelevance",
-];
-
-const sharedDefaultFilters: Omit<VehiclesFiltersSchema, "availability" | "productionRelevance"> = {
+const sharedDefaultFilters: Omit<VehiclesFiltersSchema, "availability" | "productionRelevance"> = Object.freeze({
   bodyType: [],
   engineType: [],
   brand: [],
@@ -72,43 +50,82 @@ const sharedDefaultFilters: Omit<VehiclesFiltersSchema, "availability" | "produc
   maxDisplacement: undefined,
   minPower: undefined,
   maxPower: undefined,
-};
+});
 
-export const DEFAULT_MODELS_FILTERS: VehiclesFiltersSchema = {
+export const DEFAULT_MODELS_FILTERS: VehiclesFiltersSchema = Object.freeze({
   ...sharedDefaultFilters,
   availability: "all",
-  productionRelevance: undefined,
-};
+  productionRelevance: "all",
+});
 
-export const DEFAULT_AVAILABLE_FILTERS: AvailableVehiclesFiltersSchema = {
+export const DEFAULT_AVAILABLE_FILTERS: AvailableVehiclesFiltersSchema = Object.freeze({
   ...sharedDefaultFilters,
   location: undefined,
-  discount: false,
+  discount: "all",
   model: undefined,
-};
+});
 
-export function serializeFiltersToQuery(filters: VehiclesFiltersSchema): Record<string, string> {
-  const query: Record<string, string> = {};
-
-  for (const key of ARRAY_FILTER_KEYS) {
-    const value = filters[key];
-    if (Array.isArray(value) && value.length > 0) {
-      query[key] = value.join(",");
-    }
+const isFilterDefaultValue = (curr: unknown, defaultValue: unknown) => {
+  if (Array.isArray(curr) && Array.isArray(defaultValue)) {
+    return curr.length === defaultValue.length
+      && curr.every((value, index) => value === defaultValue[index]);
   }
 
-  for (const key of [...NUMBER_FILTER_KEYS, ...STRING_FILTER_KEYS]) {
-    const value = filters[key];
-    if (value !== undefined && value !== null) {
-      query[key] = String(value);
+  return Object.is(curr, defaultValue);
+};
+
+export function serializeFiltersToQuery(filters: UnifiedFiltersSchema, defaultFilters: UnifiedFiltersSchema): Record<string, string> {
+  const query: Record<string, string> = {};
+
+  for (const key of Object.keys(filters)) {
+    const defaultValue = defaultFilters[key as keyof typeof defaultFilters];
+    const value = filters[key as keyof typeof filters];
+
+    if (isFilterDefaultValue(value, defaultValue) || value === undefined || value === null) {
+      continue;
     }
+
+    if (Array.isArray(value)) {
+      if (value.length > 0) {
+        query[key] = value.join(",");
+      }
+
+      continue;
+    }
+
+    query[key] = String(value);
   }
 
   return query;
 }
 
-export function parseFiltersFromQuery(query: LocationQuery): VehiclesFiltersSchema {
-  const filters: VehiclesFiltersSchema = { ...DEFAULT_MODELS_FILTERS };
+const ARRAY_FILTER_KEYS: (keyof UnifiedFiltersSchema)[] = [
+  "bodyType",
+  "engineType",
+  "brand",
+  "driveType",
+  "gearboxType",
+];
+
+const NUMBER_FILTER_KEYS: (keyof UnifiedFiltersSchema)[] = [
+  "minPrice",
+  "maxPrice",
+  "yearFrom",
+  "yearTo",
+  "minDisplacement",
+  "maxDisplacement",
+  "minPower",
+  "maxPower",
+];
+
+const STRING_FILTER_KEYS: (keyof UnifiedFiltersSchema)[] = [
+  "availability",
+  "productionRelevance",
+  "discount",
+];
+
+export function parseFiltersFromQuery(query: LocationQuery, defaultFilters: UnifiedFiltersSchema): UnifiedFiltersSchema {
+  const filters: UnifiedFiltersSchema = { ...defaultFilters };
 
   for (const key of ARRAY_FILTER_KEYS) {
     const value = query[key];
@@ -139,14 +156,6 @@ export function parseFiltersFromQuery(query: LocationQuery): VehiclesFiltersSche
   return filters;
 }
 
-const isFilterDefaultValue = (curr: unknown, defaultValue: unknown) => {
-  if (Array.isArray(curr) && Array.isArray(defaultValue)) {
-    return curr.length === defaultValue.length
-      && curr.every((value, index) => value === defaultValue[index]);
-  }
-
-  return Object.is(curr, defaultValue);
-};
 export const countFilters = (filters: VehiclesFiltersSchema | AvailableVehiclesFiltersSchema) => {
   const defaultFilters = "availability" in filters
     ? DEFAULT_MODELS_FILTERS
@@ -232,20 +241,30 @@ const buildAvailablilityFilter: FilterDefinitionBuilder<"availability"> = (data,
   })),
 });
 
-/**
- * Rework on backend, return "all" and "current", remove "discontinued"
- */
-// const buildProductionRelevanceFilter: FilterDefinitionBuilder<"productionRelevance"> = (data, t) => ({
-//   key: "productionRelevance",
-//   label: t("filters.productionRelevance.title"),
-//   type: "radio",
-//   options: Object.entries(data).map(([relevance, count]) => ({
-//     value: relevance,
-//     label: t(`filters.productionRelevance.${relevance}`),
-//     count,
-//     disabled: count === 0,
-//   }))
-// });
+const buildProductionRelevanceFilter: FilterDefinitionBuilder<"productionRelevance"> = (data, t) => {
+  const currentCount = data.current;
+  const allCount = currentCount + data.discontinued;
+
+  return {
+    key: "productionRelevance",
+    label: t("filters.productionRelevance.title"),
+    type: "radio",
+    options: [
+      {
+        value: "all",
+        label: t("filters.productionRelevance.all"),
+        count: allCount,
+        disabled: allCount === 0,
+      },
+      {
+        value: "current",
+        label: t("filters.productionRelevance.current"),
+        count: currentCount,
+        disabled: currentCount === 0,
+      },
+    ],
+  };
+};
 
 // Rework backend filters to use string here
 const buildDiscountFilter: FilterDefinitionBuilder<"discount"> = (data, t) => ({
@@ -253,7 +272,7 @@ const buildDiscountFilter: FilterDefinitionBuilder<"discount"> = (data, t) => ({
   label: t("filters.discount.title"),
   type: "radio",
   options: Object.entries(data).map(([discount, count]) => ({
-    value: (discount === "discounted" ? true : false) as unknown as string,
+    value: discount,
     label: t(`filters.discount.${discount}`),
     count,
     disabled: count === 0,
@@ -310,9 +329,9 @@ export function buildFilterDefinitions(filters: Filters, t: Composer["t"]): Filt
   if (filters.availability) {
     definitions.push(buildAvailablilityFilter(filters.availability, t));
   }
-  // if (filters.productionRelevance) {
-  //   definitions.push(buildProductionRelevanceFilter(filters.productionRelevance, t));
-  // }
+  if (filters.productionRelevance) {
+    definitions.push(buildProductionRelevanceFilter(filters.productionRelevance, t));
+  }
   if (filters.discount) {
     definitions.push(buildDiscountFilter(filters.discount, t));
   }
