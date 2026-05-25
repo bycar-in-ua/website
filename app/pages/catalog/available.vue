@@ -5,10 +5,12 @@ import { useVehiclesService } from "~/composables/useVehiclesService";
 import { useAvailableCatalogFiltersProvider } from "~/composables/useAvailableCatalogFiltersProvider";
 import { useQueryStringSort } from "~/composables/useQueryStringSort";
 import PageHeader from "~/components/UI/PageHeader.vue";
+import EmptyState from "~/components/Catalog/EmptyState.vue";
 import Headline from "~/components/Catalog/Headline.vue";
 import FiltersSlideover from "~/components/Catalog/Filters/FiltersSlideover.vue";
 import CarCard from "~/components/UI/CarCard";
 import Pagination from "~/components/UI/Pagination.vue";
+import ContactForm from "~/components/ContactFormSection.vue";
 
 definePageMeta({ name: "available-catalog" });
 
@@ -60,7 +62,17 @@ const isFiltersOpen = ref(false);
 
       <FiltersSlideover v-model:open="isFiltersOpen" />
 
+      <EmptyState
+        v-if="!vehicles?.items?.length"
+        description="Спробуйте змінити фільтри пошуку або перейдіть в каталог моделей — можливо, потрібна модель зараз не в наявності"
+      >
+        <template #extra>
+          <UButton label="Перейти до каталогу моделей" :to="{ name: 'catalog' }" />
+        </template>
+      </EmptyState>
+
       <div
+        v-else
         ref="list"
         data-testid="available-catalog-grid"
         class="grid xs:grid-cols-2 sm:grid-cols-3 gap-5"
@@ -93,5 +105,7 @@ const isFiltersOpen = ref(false);
         "
       />
     </div>
+
+    <ContactForm page="Каталог в наявності" />
   </main>
 </template>
