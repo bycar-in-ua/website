@@ -10,6 +10,6 @@ const { data, removeSelectedFilter } = useFilters();
 
 <template>
   <BaseFilterTag @remove="removeSelectedFilter('brand', value)">
-    {{ data?.filters.brand.find((brand) => brand.id === Number(value))?.displayName }}
+    {{ data?.filters.brand.find((brand) => brand.id === Number(value))?.displayName || 'Невідомий бренд' }}
   </BaseFilterTag>
 </template>

@@ -1,21 +1,20 @@
 <script setup lang="ts">
-import ContactFormSection from "~/components/ContactFormSection.vue";
+import RoadSign from "~/components/UI/RoadSign.vue";
+
+defineProps<{ description?: string; }>();
 </script>
 
 <template>
-  <p class="text-center p-4 text-xl" v-text="$t('emptyCatalog')" />
-  <ContactFormSection
-    page="Каталог"
-    class="md:justify-between"
-  >
-    <template #message>
-      <h3 class="text-2xl font-bold mb-2">
-        Не вдалось знайти бажане авто в каталозі?<br>
-        Запитай у експерта!
-      </h3>
-      <p class="text-base text-gray-500 mb-4">
-        Можливо, є додаткова інформація або ще не все оновлено в каталозі.
-      </p>
-    </template>
-  </ContactFormSection>
+  <div class="flex flex-col items-center py-10 md:py-14">
+    <RoadSign class="mb-8">
+      Авто<br>
+      не знайдено
+    </RoadSign>
+
+    <p class="max-w-4xl mb-4 sm:mb-6 text-toned font-semibold text-lg sm:text-xl text-center text-balanced">
+      {{ description }}
+    </p>
+
+    <slot name="extra" />
+  </div>
 </template>

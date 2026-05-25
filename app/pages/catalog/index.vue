@@ -29,7 +29,7 @@ const searchInput = computed<SearchVehiclesInput>(() => ({
   filters: appliedFilters.value,
   pagination: pagination.value,
   sort: { field: sort.value },
-}));
+} as SearchVehiclesInput));
 
 const {
   data: vehiclesData, isFetching, suspense,
@@ -73,7 +73,7 @@ const toggleQuickFilter = (value: string) => {
   if (selectedFilters.value.bodyType?.includes(value)) {
     removeSelectedFilter("bodyType", value);
   } else {
-    selectedFilters.value.bodyType?.push(value);
+    selectedFilters.value.bodyType = [...(selectedFilters.value.bodyType || []), value];
   }
 
   applyFilters();
@@ -114,9 +114,9 @@ const toggleQuickFilter = (value: string) => {
 
     <FiltersSlideover v-model:open="isFiltersOpen" />
 
-    <EmptyState v-if="!vehiclesData?.items.length" />
+    <EmptyState v-if="!vehiclesData?.items.length" description="Спробуйте змінити фільтри пошуку" />
 
-    <div class="container mx-auto py-16" data-testid="cars-catalog">
+    <div v-else class="container mx-auto py-16" data-testid="cars-catalog">
       <div
         ref="list"
         data-testid="models-catalog-grid"
@@ -158,7 +158,7 @@ const toggleQuickFilter = (value: string) => {
       />
     </div>
 
-    <ContactForm page="Каталог" />
+    <ContactForm page="Каталог моделей" />
   </main>
 </template>
 
