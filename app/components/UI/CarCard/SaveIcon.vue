@@ -1,24 +1,37 @@
 <script setup lang="ts">
-import { useMutation } from "@tanstack/vue-query";
+import { BookmarkFilled } from "~/components/UI/Icons";
+import { useProfile } from "#layers/profile/composables/useProfile";
+import type { CardType } from "./interface";
 
 const props = defineProps<{
-  isSaved?: boolean;
   carId: number;
-  title?: string;
-  toggleSave: (carId: number, title?: string) => Promise<void>;
+  cardType: CardType;
+  carTitle?: string;
 }>();
 
-const { mutateAsync, isPending } = useMutation({
-  mutationKey: ["toggle-save", props.carId],
-  mutationFn: () => props.toggleSave(props.carId, props.title),
-});
+const { profile, toggleFavorite } = useProfile();
+
+const isSaved = computed(() => profile.data.value?.savedCars?.includes(props.carId));
+
+const isSaving = ref(false);
+
+const handleSave = () => {
+  isSaving.value = true;
+  toggleFavorite({
+    carId: props.carId,
+    carType: props.cardType,
+    title: props.carTitle,
+  }).finally(() => {
+    isSaving.value = false;
+  });
+};
 </script>
 
 <template>
   <UIcon
-    name="i-lucide-bookmark"
+    :name="isSaved ? BookmarkFilled : 'i-lucide-bookmark'"
     class="size-5"
-    :class="{ 'animate-ping': isPending, 'fill-current': isSaved }"
-    @click.prevent.stop="mutateAsync"
+    :class="{ 'animate-ping': isSaving, 'fill-current': isSaved }"
+    @click.prevent.stop="handleSave"
   />
 </template>

@@ -29,7 +29,7 @@ const acceptCookieHandler = () => {
   localStorage.setItem("cookieAccepted", "true");
 };
 
-const profile = useProfileProvider();
+const { profile } = useProfileProvider();
 
 await profile.suspense();
 

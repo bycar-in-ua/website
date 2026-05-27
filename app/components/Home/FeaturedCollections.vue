@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { AccordionItem } from "@nuxt/ui";
 import { useQuery } from "@tanstack/vue-query";
+import type { VehicleSearchDocument } from "@bycar-in-ua/vehicles-sdk";
 import { BodyType } from "@bycar-in-ua/vehicles-sdk";
 import SectionTitle from "~/components/UI/SectionTitle.vue";
 import VehiclesCarousel from "~/components/VehiclesCarousel.vue";
-import type { VehicleSearchDocument } from "@bycar-in-ua/vehicles-sdk";
 
 const vehiclesService = useVehiclesService();
 

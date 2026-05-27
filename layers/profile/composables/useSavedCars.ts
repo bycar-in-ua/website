@@ -6,7 +6,7 @@ const PAGE_SIZE = 8;
 
 export function useSavedCars() {
   const { user } = useUserSession();
-  const profile = useProfile();
+  const { profile } = useProfile();
   const vehiclesService = useVehiclesService();
 
   const page = ref(1);

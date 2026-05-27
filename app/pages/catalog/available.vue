@@ -89,7 +89,7 @@ const isFiltersOpen = ref(false);
             },
           }"
         >
-          <CarCard :car="vehicle" />
+          <CarCard :car="vehicle" card-type="available" />
         </NuxtLink>
       </div>
 

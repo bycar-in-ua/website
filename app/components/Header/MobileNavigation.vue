@@ -5,7 +5,7 @@ import { BookmarkFilled } from "~/components/UI/Icons";
 import { useQuizStore } from "#layers/quiz/stores/quiz";
 
 const { t } = useI18n();
-const profile = useProfile();
+const { profile } = useProfile();
 
 const open = ref(false);
 

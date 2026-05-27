@@ -134,7 +134,7 @@ const toggleQuickFilter = (value: string) => {
             },
           }"
         >
-          <CarCard :car="car">
+          <CarCard :car="car" card-type="model">
             <template #cta>
               <UButton block @click="navigateTo({ name: 'SingleCar', params: { slug: car.slug } })">
                 Дізнатися деталі

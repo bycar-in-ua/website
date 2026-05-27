@@ -49,7 +49,7 @@ const {
           },
         }"
       >
-        <CarCard :car="car" :is-saved="true" />
+        <CarCard :car="car" :is-saved="true" card-type="model" />
       </NuxtLink>
     </div>
 

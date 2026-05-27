@@ -5,8 +5,12 @@ import CardData from "./CardData.vue";
 import SaveButtons from "./SaveButtons.vue";
 import CardMedia from "./CardMedia.vue";
 import { getVehicleInfoBullets } from "./helpers";
+import type { CardType } from "./interface";
 
-const props = defineProps<{ car: VehicleSearchDocument; }>();
+const props = defineProps<{
+  car: VehicleSearchDocument;
+  cardType: CardType;
+}>();
 
 const { t } = useI18n();
 
@@ -22,6 +26,7 @@ const infoBullets = computed(() => getVehicleInfoBullets(props.car, t));
       <SaveButtons
         :car-id="car.id"
         :car-title="car.title"
+        :card-type="cardType"
       />
     </CardMedia>
 

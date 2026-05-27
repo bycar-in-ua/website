@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { BookmarkFilled } from "~/components/UI/Icons";
 
-const profile = useProfile();
+const { profile } = useProfile();
 </script>
 
 <template>

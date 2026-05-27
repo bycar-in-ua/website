@@ -1,8 +1,50 @@
-import { useQuery, type UseQueryReturnType } from "@tanstack/vue-query";
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  type UseQueryReturnType,
+} from "@tanstack/vue-query";
 import type { InjectionKey } from "vue";
-import type { Profile } from "@bycar-in-ua/sdk";
+import type { Profile } from "@bycar-in-ua/auth-sdk";
+import type { CardType } from "~/components/UI/CarCard/interface";
+import { useAuthSlideoverStore } from "#layers/auth/stores/auth-slideover";
 
-const provideKey = Symbol("profile") as InjectionKey<UseQueryReturnType<Profile, unknown>>;
+type ToggleFavoritePayload = {
+  carId: number;
+  carType: CardType;
+  title?: string;
+};
+
+interface ProfileAPI {
+  profile: UseQueryReturnType<Profile, unknown>;
+  toggleFavorite: (payload: ToggleFavoritePayload) => Promise<unknown>;
+  isSaving: Ref<boolean>;
+}
+
+const provideKey = Symbol("profile") as InjectionKey<ProfileAPI>;
+
+const createSavePayload = (profile: Profile, { carId, carType }: ToggleFavoritePayload): [profile: Profile, isRemoving: boolean] => {
+  const savedCars = [...(profile?.savedCars ?? [])];
+  const savedAvailableCars = [...(profile?.savedAvailableCars ?? [])];
+  const targetSavedCars = carType === "model" ? savedCars : savedAvailableCars;
+  const isRemoving = targetSavedCars.includes(carId);
+
+  return [
+    {
+      savedCars: carType === "model"
+        ? isRemoving
+          ? savedCars.filter((id) => id !== carId)
+          : [...savedCars, carId]
+        : savedCars,
+      savedAvailableCars: carType === "available"
+        ? isRemoving
+          ? savedAvailableCars.filter((id) => id !== carId)
+          : [...savedAvailableCars, carId]
+        : savedAvailableCars,
+    },
+    isRemoving,
+  ];
+};
 
 export function useProfileProvider() {
   const {
@@ -10,24 +52,103 @@ export function useProfileProvider() {
   } = useUserSession();
   const requestFetch = useRequestFetch();
 
-  const query = useQuery({
+  const profile = useQuery({
     queryKey: [
       "profile", loggedIn, user.value?.data?.id,
     ],
     queryFn: async () => {
       if (!loggedIn.value) {
-        return { savedCars: [] } as Profile;
+        return {
+          savedCars: [],
+          savedAvailableCars: [],
+        };
       }
 
       return requestFetch("/api/profile");
     },
     enabled: ready,
-    placeholderData: () => ({ savedCars: [] } as Profile),
+    placeholderData: () => ({
+      savedCars: [],
+      savedAvailableCars: [],
+    }),
   });
 
-  provide(provideKey, query);
+  const toast = useToast();
+  const route = useRoute();
+  const { gtag } = useGtag();
+  const authSlideoverStore = useAuthSlideoverStore();
+  const queryCLient = useQueryClient();
 
-  return query;
+  const { mutateAsync: toggleFavorite, isPending: isSaving } = useMutation({
+    mutationKey: ["toggle-favorite-car", user.value?.data.id],
+    mutationFn: async (payload: ToggleFavoritePayload) => {
+      if (!loggedIn.value) {
+        throw new Error("Ви не авторизовані");
+      }
+
+      const [body, isRemoving] = createSavePayload(profile.data.value!, payload);
+
+      const data = await requestFetch("/api/profile", {
+        method: "PATCH",
+        body,
+      });
+
+      return {
+        data,
+        isRemoving,
+      };
+    },
+    onSuccess: ({ data, isRemoving }, { title }) => {
+      queryCLient.setQueryData([
+        "profile", loggedIn, user.value?.data?.id,
+      ], () => data);
+
+      toast.add({
+        title: isRemoving ? "Авто видалено" : "Авто збережено",
+        description: `Автомобіль ${title ?? ""} успішно ${isRemoving ? "видалено з" : "додано до"} закладок`,
+        color: "success",
+        duration: 2000,
+      });
+
+      gtag("event",
+        isRemoving ? "remove_saved_car" : "save_car",
+        {
+          event_category: "engagement",
+          event_label: isRemoving ? "remove_saved_car" : "save_car",
+        });
+    },
+    onError: (error) => {
+      if (!loggedIn.value) {
+        toast.add({
+          title: "Ви не авторизовані",
+          description: "Для збереження авто в закладки необхідно увійти в аккаунт",
+          color: "warning",
+          duration: 3000,
+        });
+
+        authSlideoverStore.openSlideover(route.fullPath);
+
+        return;
+      }
+
+      toast.add({
+        title: "Помилка при збереженні авто",
+        description: error.message,
+        color: "error",
+        duration: 3000,
+      });
+    },
+  });
+
+  const api: ProfileAPI = {
+    profile,
+    toggleFavorite,
+    isSaving,
+  };
+
+  provide(provideKey, api);
+
+  return api;
 }
 
 export function useProfile() {

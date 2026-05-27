@@ -40,8 +40,9 @@ const yearsRange = computed(() => {
     .join("-");
 });
 
-const profile = useProfile();
-const { toggleSave, isPending } = useSavedCarActions();
+const {
+  profile, toggleFavorite, isSaving,
+} = useProfile();
 
 const isSaved = computed(() => profile.data.value?.savedCars?.includes(props.car.id) ?? false);
 
@@ -75,9 +76,9 @@ function handleCompare() {
             :icon="isSaved ? 'i-lucide-bookmark-check' : 'i-lucide-bookmark'"
             circle
             class="rounded-full"
-            :loading="isPending"
+            :loading="isSaving"
             :aria-label="t('actions.addToFavorites')"
-            @click="toggleSave(car.id, carTitle)"
+            @click="toggleFavorite({ carId: car.id, carType: 'model', title: carTitle })"
           />
           <UButton
             icon="i-lucide-scale"
