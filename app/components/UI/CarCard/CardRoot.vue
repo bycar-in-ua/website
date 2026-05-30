@@ -25,7 +25,6 @@ const infoBullets = computed(() => getVehicleInfoBullets(props.car, t));
       <CardBadge :car />
       <SaveButtons
         :car-id="car.id"
-        :car-title="car.title"
         :card-type="cardType"
       />
     </CardMedia>
@@ -38,7 +37,7 @@ const infoBullets = computed(() => getVehicleInfoBullets(props.car, t));
       :max-price="car.maxPrice"
       :discounted-price="car.discountedPrice"
       :price-format="{
-        currency: 'USD',
+        currency: cardType === 'model' ? 'USD' : 'UAH',
         currencyDisplay: 'narrowSymbol',
         trailingZeroDisplay: 'stripIfInteger',
       }"

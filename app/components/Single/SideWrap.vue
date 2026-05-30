@@ -78,7 +78,7 @@ function handleCompare() {
             class="rounded-full"
             :loading="isSaving"
             :aria-label="t('actions.addToFavorites')"
-            @click="toggleFavorite({ carId: car.id, carType: 'model', title: carTitle })"
+            @click="toggleFavorite({ carId: car.id, carType: 'model' })"
           />
           <UButton
             icon="i-lucide-scale"

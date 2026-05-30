@@ -53,6 +53,7 @@ defineExpose({
       <CarCard
         :car="car"
         :is-compared="true"
+        :card-type="type"
         class="h-full"
       >
         <template #cta>

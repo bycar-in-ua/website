@@ -12,13 +12,13 @@ import { useAuthSlideoverStore } from "#layers/auth/stores/auth-slideover";
 type ToggleFavoritePayload = {
   carId: number;
   carType: CardType;
-  title?: string;
 };
 
 interface ProfileAPI {
   profile: UseQueryReturnType<Profile, unknown>;
   toggleFavorite: (payload: ToggleFavoritePayload) => Promise<unknown>;
   isSaving: Ref<boolean>;
+  totalSavedCars: ComputedRef<number>;
 }
 
 const provideKey = Symbol("profile") as InjectionKey<ProfileAPI>;
@@ -34,12 +34,12 @@ const createSavePayload = (profile: Profile, { carId, carType }: ToggleFavoriteP
       savedCars: carType === "model"
         ? isRemoving
           ? savedCars.filter((id) => id !== carId)
-          : [...savedCars, carId]
+          : [carId, ...savedCars]
         : savedCars,
       savedAvailableCars: carType === "available"
         ? isRemoving
           ? savedAvailableCars.filter((id) => id !== carId)
-          : [...savedAvailableCars, carId]
+          : [carId, ...savedAvailableCars]
         : savedAvailableCars,
     },
     isRemoving,
@@ -98,16 +98,15 @@ export function useProfileProvider() {
         isRemoving,
       };
     },
-    onSuccess: ({ data, isRemoving }, { title }) => {
+    onSuccess: ({ data, isRemoving }) => {
       queryCLient.setQueryData([
         "profile", loggedIn, user.value?.data?.id,
       ], () => data);
 
       toast.add({
-        title: isRemoving ? "Авто видалено" : "Авто збережено",
-        description: `Автомобіль ${title ?? ""} успішно ${isRemoving ? "видалено з" : "додано до"} закладок`,
-        color: "success",
-        duration: 2000,
+        description: isRemoving ? "Прибрали з обраного. Може, знайдеться щось краще?" : "Гарний вибір! Додали до ваших обраних авто.",
+        color: "neutral",
+        duration: 3000,
       });
 
       gtag("event",
@@ -140,10 +139,17 @@ export function useProfileProvider() {
     },
   });
 
+  const totalSavedCars = computed(() => {
+    const savedModels = profile.data.value?.savedCars?.length || 0;
+    const savedAvailable = profile.data.value?.savedAvailableCars?.length || 0;
+    return savedModels + savedAvailable;
+  });
+
   const api: ProfileAPI = {
     profile,
     toggleFavorite,
     isSaving,
+    totalSavedCars,
   };
 
   provide(provideKey, api);
@@ -155,6 +161,10 @@ export function useProfile() {
   const profile = inject(provideKey);
 
   if (!profile) {
+    if (import.meta.dev) {
+      return useProfileProvider();
+    }
+
     throw new Error("useProfile must be used within a useProfileProvider");
   }
 

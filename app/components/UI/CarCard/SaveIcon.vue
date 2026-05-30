@@ -6,12 +6,14 @@ import type { CardType } from "./interface";
 const props = defineProps<{
   carId: number;
   cardType: CardType;
-  carTitle?: string;
 }>();
 
 const { profile, toggleFavorite } = useProfile();
 
-const isSaved = computed(() => profile.data.value?.savedCars?.includes(props.carId));
+const isSaved = computed(() => {
+  const targetIds = props.cardType === "model" ? profile.data.value?.savedCars : profile.data.value?.savedAvailableCars;
+  return targetIds?.includes(props.carId);
+});
 
 const isSaving = ref(false);
 
@@ -20,7 +22,6 @@ const handleSave = () => {
   toggleFavorite({
     carId: props.carId,
     carType: props.cardType,
-    title: props.carTitle,
   }).finally(() => {
     isSaving.value = false;
   });

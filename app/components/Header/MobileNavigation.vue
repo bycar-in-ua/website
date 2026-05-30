@@ -5,7 +5,7 @@ import { BookmarkFilled } from "~/components/UI/Icons";
 import { useQuizStore } from "#layers/quiz/stores/quiz";
 
 const { t } = useI18n();
-const { profile } = useProfile();
+const { profile, totalSavedCars } = useProfile();
 
 const open = ref(false);
 
@@ -19,16 +19,14 @@ watchEffect(() => {
   }
 });
 
-const savedCarsCount = computed(() => profile.data.value?.savedCars?.length || 0);
-
 const menuItems: NavigationMenuItem[] = [
   {
     label: "Обране",
-    to: "/profile/saved-cars",
+    to: "/profile/favorite",
     icon: profile.data.value?.savedCars?.length ? BookmarkFilled : "i-lucide-bookmark",
-    chip: savedCarsCount.value
+    chip: totalSavedCars.value
       ? {
-          text: String(savedCarsCount.value),
+          text: String(totalSavedCars.value),
           size: "3xl",
           color: "neutral",
         }

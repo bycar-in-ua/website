@@ -5,7 +5,6 @@ import type { CardType } from "./interface";
 defineProps<{
   carId: number;
   cardType: CardType;
-  carTitle: string;
 }>();
 </script>
 
@@ -19,7 +18,6 @@ defineProps<{
       <SaveIcon
         :car-id
         :card-type
-        :car-title
         class="shrink-0"
       />
     </UButton>

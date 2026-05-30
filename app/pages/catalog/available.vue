@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { useQuery, keepPreviousData } from "@tanstack/vue-query";
 import type { SearchAvailableVehiclesInput } from "@bycar-in-ua/vehicles-sdk";
-import { useVehiclesService } from "~/composables/useVehiclesService";
+import { useAvailableVehiclesSearch } from "~/composables/useAvailableVehiclesSearch";
 import { useAvailableCatalogFiltersProvider } from "~/composables/useAvailableCatalogFiltersProvider";
 import { useQueryStringSort } from "~/composables/useQueryStringSort";
 import PageHeader from "~/components/UI/PageHeader.vue";
@@ -18,8 +17,6 @@ const {
   appliedFilters, appliedFiltersCount, pagination,
 } = useAvailableCatalogFiltersProvider();
 
-const vehiclesService = useVehiclesService();
-
 const sort = useQueryStringSort();
 
 const searchInput = computed<SearchAvailableVehiclesInput>(() => ({
@@ -30,11 +27,7 @@ const searchInput = computed<SearchAvailableVehiclesInput>(() => ({
 
 const {
   data: vehicles, suspense, isFetching,
-} = useQuery({
-  queryKey: ["search-available-vehicles", searchInput],
-  queryFn: () => vehiclesService.searchAvailableVehicles(searchInput.value),
-  placeholderData: keepPreviousData,
-});
+} = useAvailableVehiclesSearch(searchInput);
 
 await suspense();
 

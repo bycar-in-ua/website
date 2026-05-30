@@ -12,8 +12,8 @@ importers:
         specifier: 0.3.5
         version: 0.3.5(typescript@6.0.3)
       '@bycar-in-ua/base-nuxt-module':
-        specifier: ^0.0.15
-        version: 0.0.15(magicast@0.5.3)(typescript@6.0.3)(vue@3.5.34(typescript@6.0.3))
+        specifier: 0.1.0
+        version: 0.1.0(magicast@0.5.3)(typescript@6.0.3)(vue@3.5.34(typescript@6.0.3))
       '@bycar-in-ua/brands-sdk':
         specifier: 0.1.2
         version: 0.1.2(typescript@6.0.3)
@@ -97,7 +97,7 @@ importers:
         specifier: ^4.17.21
         version: 4.18.1
       nuxt:
-        specifier: ^4.3.0
+        specifier: ^4.4.0
         version: 4.4.5(@babel/core@7.29.0)(@babel/plugin-syntax-jsx@7.28.6(@babel/core@7.29.0))(@parcel/watcher@2.5.6)(@types/node@25.8.0)(@vue/compiler-sfc@3.5.34)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.4(jiti@2.7.0))(ioredis@5.10.1)(lightningcss@1.32.0)(magicast@0.5.3)(optionator@0.9.4)(pinia@3.0.4(typescript@6.0.3)(vue@3.5.34(typescript@6.0.3)))(rollup-plugin-visualizer@7.0.1(rollup@4.60.4))(rollup@4.60.4)(srvx@0.11.15)(terser@5.47.1)(typescript@6.0.3)(vite@7.3.3(@types/node@25.8.0)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.47.1)(yaml@2.9.0))(yaml@2.9.0)
       nuxt-gtag:
         specifier: ^4.1.0
@@ -295,8 +295,8 @@ packages:
   '@bycar-in-ua/auth-sdk@0.3.5':
     resolution: {integrity: sha512-QjRyim0q29eWGvt1EHg7ljthqCw6iICASHf3vhjUTjtHoT0sIitXGKXs1MvuQebZ/84Vo1OZ0dcdIS5mglyhAw==, tarball: https://npm.pkg.github.com/download/@bycar-in-ua/auth-sdk/0.3.5/38c07adf441eac66ccfb13c7d7f8d3083050feed}
 
-  '@bycar-in-ua/base-nuxt-module@0.0.15':
-    resolution: {integrity: sha512-i93UHmjBkQqkySoxtzYJz4Q4AHfwH/DA3m7VYmSUY0fPylWJp4mbyqS7FTyILb4NF+6cv0P2+eTIP31ur2y8ww==, tarball: https://npm.pkg.github.com/download/@bycar-in-ua/base-nuxt-module/0.0.15/482de795ef7156e7961b84de6ec48c835cf00ae0}
+  '@bycar-in-ua/base-nuxt-module@0.1.0':
+    resolution: {integrity: sha512-qrZ4LB+ZC3whRGfYdXbe5CPSrMQZ6fG8KogqCU5+drijhmuYYz1omkg+D2LIQwueTaptBDms5QM/4yWtvZg6Yw==, tarball: https://npm.pkg.github.com/download/@bycar-in-ua/base-nuxt-module/0.1.0/6af16929fa09a0ee8f50c389269333dda1e8083a}
 
   '@bycar-in-ua/brands-sdk@0.1.2':
     resolution: {integrity: sha512-HP63zZpJ9SOcpRe1qE4/wN+Bob+DxhEaUoAviWcYrkDQXsXeynyt1EPHUpRHvjkIOPR90fQB+GRdu1fX2dhi1A==, tarball: https://npm.pkg.github.com/download/@bycar-in-ua/brands-sdk/0.1.2/779d7fb8422480d9304adec25064e2e73242f216}
@@ -6957,7 +6957,7 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  '@bycar-in-ua/base-nuxt-module@0.0.15(magicast@0.5.3)(typescript@6.0.3)(vue@3.5.34(typescript@6.0.3))':
+  '@bycar-in-ua/base-nuxt-module@0.1.0(magicast@0.5.3)(typescript@6.0.3)(vue@3.5.34(typescript@6.0.3))':
     dependencies:
       '@nuxt/kit': 4.4.5(magicast@0.5.3)
       '@tanstack/vue-query': 5.100.10(vue@3.5.34(typescript@6.0.3))
