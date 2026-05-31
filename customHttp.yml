@@ -1,4 +1,36 @@
 customHeaders:
+  - pattern: "/"
+    headers:
+      - key: "Cache-Control"
+        value: "public, max-age=0, s-maxage=86400"
+  - pattern: "/about"
+    headers:
+      - key: "Cache-Control"
+        value: "public, max-age=0, s-maxage=86400"
+  - pattern: "/catalog"
+    headers:
+      - key: "Cache-Control"
+        value: "public, max-age=0, s-maxage=86400"
+  - pattern: "/catalog/available"
+    headers:
+      - key: "Cache-Control"
+        value: "public, max-age=0, s-maxage=86400"
+  - pattern: "/model/**"
+    headers:
+      - key: "Cache-Control"
+        value: "public, max-age=0, s-maxage=86400"
+  - pattern: "/available/**"
+    headers:
+      - key: "Cache-Control"
+        value: "public, max-age=0, s-maxage=86400"
+  - pattern: "/cookie-policy"
+    headers:
+      - key: "Cache-Control"
+        value: "public, max-age=0, s-maxage=86400"
+  - pattern: "/privacy-policy"
+    headers:
+      - key: "Cache-Control"
+        value: "public, max-age=0, s-maxage=86400"
   - pattern: "**/*"
     headers:
       - key: "Strict-Transport-Security"

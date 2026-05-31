@@ -52,17 +52,6 @@ export default defineNuxtConfig({
     },
   },
 
-  routeRules: {
-    "/": { swr: 60 * 60 },
-    "/about": { swr: 60 * 60 * 24 },
-    "/cookie-policy": { swr: 60 * 60 * 24 * 7 },
-    "/privacy-policy": { swr: 60 * 60 * 24 * 7 },
-    "/catalog": { swr: 60 * 60 },
-    "/catalog/available": { swr: 60 * 15 },
-    "/model/**": { swr: 60 * 60 },
-    "/available/**": { swr: 60 * 15 },
-  },
-
   compatibilityDate: "2025-09-14",
 
   vite: {
