@@ -4,6 +4,7 @@ frontend:
         preBuild:
             commands:
                 - 'corepack enable'
+                - 'corepack prepare pnpm@11 --activate'
                 - 'pnpm config set //npm.pkg.github.com/:_authToken $GITHUB_TOKEN'
                 - 'pnpm i'
         build:

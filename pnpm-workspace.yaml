@@ -4,4 +4,6 @@ allowBuilds:
   esbuild: true
   unrs-resolver: true
   vue-demi: true
+minimumReleaseAgeExclude:
+  - '@bycar-in-ua/*'
 nodeLinker: hoisted
