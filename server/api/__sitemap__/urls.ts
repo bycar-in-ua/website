@@ -1,13 +1,14 @@
 import { defineSitemapEventHandler } from "#imports";
 import type { SitemapUrlInput } from "#sitemap/types";
-import { VehiclePublicService, getBycarFetchClient } from "@bycar-in-ua/vehicles-sdk";
+import { VehiclePublicService, getBycarFetchClient, getApiHost } from "@bycar-in-ua/vehicles-sdk";
 
 export default defineSitemapEventHandler(async (event) => {
   const config = useRuntimeConfig(event);
 
   const urls: SitemapUrlInput[] = [];
 
-  const client = getBycarFetchClient(config.public.vehiclesApiHost);
+  const client = getBycarFetchClient(getApiHost(config.public.stage));
+
   const vehiclesService = new VehiclePublicService(client);
 
   let page = 1;

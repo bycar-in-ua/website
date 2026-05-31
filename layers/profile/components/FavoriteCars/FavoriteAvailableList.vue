@@ -9,7 +9,10 @@ const page = ref(1);
 
 const { data, isFetching } = useAvailableVehiclesSearch(() => ({
   filters: { ids: profile.data.value?.savedAvailableCars },
-  pagination: { page: page.value },
+  pagination: {
+    limit: 10,
+    page: page.value,
+  },
 }));
 </script>
 
