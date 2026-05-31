@@ -29,7 +29,7 @@ const acceptCookieHandler = () => {
   localStorage.setItem("cookieAccepted", "true");
 };
 
-const profile = useProfileProvider();
+const { profile } = useProfileProvider();
 
 await profile.suspense();
 
@@ -49,7 +49,7 @@ if (import.meta.client) {
 </script>
 
 <template>
-  <UApp :toaster="{ position: 'top-right' }">
+  <UApp :toaster="{ position: 'bottom-center' }">
     <AuthSlideover />
     <QuizProvider />
     <NuxtLayout>

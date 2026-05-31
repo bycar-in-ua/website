@@ -37,7 +37,7 @@ const responsiveNavItems: NavigationMenuItem[] = [
   {
     label: "Обране",
     icon: "i-lucide-bookmark",
-    to: "/profile/saved-cars",
+    to: "/profile/favorite",
   },
 ] as const;
 
@@ -96,7 +96,7 @@ onMounted(() => {
         />
       </div>
 
-      <NuxtPage class="max-w-212 w-full" />
+      <NuxtPage class="lg:max-w-212 w-full" />
     </div>
   </main>
 </template>
