@@ -37,7 +37,7 @@ The app shell wraps everything in UApp and renders layout, header, footer, and g
 ## Localization
 
 - Single locale (ua) is configured in i18n/i18n.config.ts.
-- Translation seeds come from @bycar-in-ua/sdk and local overrides.
+- Translations are maintained directly in i18n/i18n.config.ts.
 
 ## Styling
 

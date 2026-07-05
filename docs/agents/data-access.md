@@ -4,7 +4,6 @@ The app integrates with a cloud backend via SDKs. Prefer SDK clients over raw fe
 
 ## SDKs in Use
 
-- @bycar-in-ua/sdk for core public services and types - deprecated, should not be used to access new entities.
 - @bycar-in-ua/vehicles-sdk for vehicle search and filters.
 - @bycar-in-ua/auth-sdk for authentication and token refresh.
 
