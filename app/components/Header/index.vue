@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useResponsiveState } from "~/composables/useResponsiveState";
 import Logo from "~/components/UI/Logo.vue";
 import { useQuizStore } from "#layers/quiz/stores/quiz";
 import { PersonalProfile, SavedCars } from "#layers/profile/components/NavButtons";
@@ -6,12 +7,18 @@ import DesktopNavigation from "./DesktopNavigation.vue";
 import MobileNavigation from "./MobileNavigation.vue";
 
 const quizStore = useQuizStore();
+
+const { isHeaderHidden, headerElement } = useResponsiveState();
 </script>
 
 <template>
   <header
+    ref="headerElement"
     data-testid="bycar-header"
-    class="py-4"
+    class="py-2 sm:py-4 sticky z-30 bg-default transition-[translate,box-shadow] duration-300"
+    :class="[
+      isHeaderHidden ? '-top-full' : 'top-0',
+    ]"
   >
     <div
       class="container flex gap-2 items-center justify-between"

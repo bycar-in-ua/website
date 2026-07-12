@@ -4,8 +4,10 @@ import { useAvailableVehiclesSearch } from "~/composables/useAvailableVehiclesSe
 import { useAvailableCatalogFiltersProvider } from "~/composables/useAvailableCatalogFiltersProvider";
 import { useQueryStringSort } from "~/composables/useQueryStringSort";
 import PageHeader from "~/components/UI/PageHeader.vue";
+import HeadlineStickyContainer from "~/components/Catalog/HeadlineStickyContainer.vue";
 import EmptyState from "~/components/Catalog/EmptyState.vue";
-import Headline from "~/components/Catalog/Headline.vue";
+import FiltersButton from "~/components/Catalog/FiltersButton.vue";
+import SortDropdown from "~/components/Catalog/SortDropdown.vue";
 import FiltersSlideover from "~/components/Catalog/Filters/FiltersSlideover.vue";
 import CarCard from "~/components/UI/CarCard";
 import Pagination from "~/components/UI/Pagination.vue";
@@ -46,12 +48,18 @@ const isFiltersOpen = ref(false);
       :extra="vehicles?.meta.totalItems ? `${vehicles?.meta.totalItems} Пропозицій` : ''"
     />
 
-    <div class="container mx-auto py-8 sm:py-12 md:py-16 relative">
-      <Headline
-        class="mb-6 sm:mb-8"
-        :applied-filters-count="appliedFiltersCount"
-        @filter-click="isFiltersOpen = true"
-      />
+    <div class="container mx-auto pb-8 pt-4 sm:pb-12 sm:pt-8 md:pb-16 md:pt-12 relative">
+      <HeadlineStickyContainer
+        class="flex items-center sm:justify-between sm:gap-4 flex-nowrap"
+      >
+        <FiltersButton
+          :applied-filters-count="appliedFiltersCount"
+          class="max-sm:shrink-0 max-sm:basis-1/2"
+          @click="() => { isFiltersOpen = true }"
+        />
+
+        <SortDropdown class="max-sm:shrink-0 max-sm:basis-1/2" />
+      </HeadlineStickyContainer>
 
       <FiltersSlideover v-model:open="isFiltersOpen" />
 

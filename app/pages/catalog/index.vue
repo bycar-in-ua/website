@@ -3,7 +3,8 @@ import type { SearchVehiclesInput } from "@bycar-in-ua/vehicles-sdk";
 import { useQueryStringSort } from "~/composables/useQueryStringSort";
 import PageHeader from "~/components/UI/PageHeader.vue";
 import { CarCard } from "~/components/UI/CarCard";
-import Headline from "~/components/Catalog/Headline.vue";
+import ResponsiveHorizontalScrollable from "~/components/UI/ResponsiveHorizontalScrollable.vue";
+import ModelCatalogHeadline from "~/components/Catalog/ModelCatalogHeadline.vue";
 import ContactForm from "~/components/ContactFormSection.vue";
 import EmptyState from "~/components/Catalog/EmptyState.vue";
 import FiltersSlideover from "~/components/Catalog/Filters/FiltersSlideover.vue";
@@ -94,12 +95,8 @@ const toggleQuickFilter = (value: string) => {
       :loading="isFetching"
     />
 
-    <Headline
-      class="mt-16 container mx-auto"
-      :applied-filters-count="appliedFiltersCount"
-      @filter-click="isFiltersOpen = true"
-    >
-      <div class="flex gap-1.5 items-center overflow-x-auto max-w-full grow no-scrollbar">
+    <ModelCatalogHeadline :applied-filters-count="appliedFiltersCount" @filter-click="isFiltersOpen = true">
+      <ResponsiveHorizontalScrollable class="flex gap-1.5 items-center">
         <UButton
           v-for="item in quickFilters"
           :key="item.value"
@@ -109,14 +106,14 @@ const toggleQuickFilter = (value: string) => {
           class="capitalize"
           @click="toggleQuickFilter(item.value)"
         />
-      </div>
-    </Headline>
+      </ResponsiveHorizontalScrollable>
+    </ModelCatalogHeadline>
 
     <FiltersSlideover v-model:open="isFiltersOpen" />
 
     <EmptyState v-if="!vehiclesData?.items.length" description="Спробуйте змінити фільтри пошуку" />
 
-    <div v-else class="container mx-auto py-16" data-testid="cars-catalog">
+    <div v-else class="container mx-auto pb-8 sm:pb-12 md:pb-16" data-testid="cars-catalog">
       <div
         ref="list"
         data-testid="models-catalog-grid"
