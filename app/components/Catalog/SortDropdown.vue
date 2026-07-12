@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { DropdownMenuItem } from "@nuxt/ui";
-import { breakpointsTailwind, useBreakpoints } from "@vueuse/core";
+import { useResponsiveState } from "~/composables/useResponsiveState";
 import { useQueryStringSort, type CatalogsSorting } from "~/composables/useQueryStringSort";
 import DrawerHeader from "~/components/UI/DrawerHeader.vue";
 
@@ -34,9 +34,7 @@ const options = computed<DropdownMenuItem[]>(() => orders.map(
   }),
 ));
 
-const breakpoints = useBreakpoints(breakpointsTailwind);
-
-const isDropdown = breakpoints.greater("md");
+const { isMobile } = useResponsiveState();
 
 const drawerOpen = ref(false);
 const drawerSortModel = ref(sort.value);
@@ -49,31 +47,8 @@ const syncDrawerSortModel = (open: boolean) => {
 </script>
 
 <template>
-  <UDropdownMenu
-    v-if="isDropdown"
-    :items="options"
-    :ui="{ item: 'data-highlighted:before:bg-transparent' }"
-  >
-    <UButton
-      :label="orderLabels[sort || 'recommended']"
-      color="secondary"
-      variant="outline"
-      icon="i-lucide-arrow-up-down"
-      block
-      data-testid="catalog-sort-button"
-    />
-
-    <template #item-trailing="{ active }">
-      <UIcon
-        name="i-lucide-check"
-        class="text-primary size-4"
-        :class="{ 'opacity-0': !active }"
-      />
-    </template>
-  </UDropdownMenu>
-
   <UDrawer
-    v-else
+    v-if="isMobile"
     v-model:open="drawerOpen"
     direction="bottom"
     inset
@@ -90,6 +65,7 @@ const syncDrawerSortModel = (open: boolean) => {
       variant="outline"
       icon="i-lucide-arrow-up-down"
       data-testid="catalog-sort-button"
+      block
       size="sm"
       :ui="{ label: 'max-sm:w-0 grow' }"
     />
@@ -121,4 +97,26 @@ const syncDrawerSortModel = (open: boolean) => {
       />
     </template>
   </UDrawer>
+
+  <UDropdownMenu
+    v-else
+    :items="options"
+    :ui="{ item: 'data-highlighted:before:bg-transparent' }"
+  >
+    <UButton
+      :label="orderLabels[sort || 'recommended']"
+      color="secondary"
+      variant="outline"
+      icon="i-lucide-arrow-up-down"
+      data-testid="catalog-sort-button"
+    />
+
+    <template #item-trailing="{ active }">
+      <UIcon
+        name="i-lucide-check"
+        class="text-primary size-4"
+        :class="{ 'opacity-0': !active }"
+      />
+    </template>
+  </UDropdownMenu>
 </template>

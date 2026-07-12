@@ -13,10 +13,6 @@ watchEffect(() => {
   if (import.meta.server) return;
 
   document.documentElement.style.overflow = open.value ? "hidden" : "";
-
-  if (open.value) {
-    document.documentElement.scrollIntoView({ behavior: "smooth" });
-  }
 });
 
 const menuItems: NavigationMenuItem[] = [
@@ -68,7 +64,7 @@ router.afterEach(() => {
       color="secondary"
       size="sm"
       :ui="{ leadingIcon: 'size-6 lg:size-5' }"
-      @click="open = !open"
+      @click="() => { open = !open }"
     />
 
     <USlideover
@@ -78,7 +74,7 @@ router.afterEach(() => {
       :dismissible="false"
       :overlay="false"
       :modal="false"
-      :ui="{ content: 'max-w-screen sm:max-w-screen w-full bottom-0 top-18 border-t border-gray-200', body: 'pt-0' }"
+      :ui="{ content: 'max-w-screen sm:max-w-screen w-full bottom-0 top-14 sm:top-18 border-t border-gray-200', body: 'pt-0' }"
     >
       <template #body>
         <UNavigationMenu
