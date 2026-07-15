@@ -3,7 +3,7 @@ import { generatePageTitle } from "~/utils/seo";
 import HeroSection from "~/components/About/HeroSection.vue";
 import SubHero from "~/components/About/SubHero.vue";
 import ValuesSection from "~/components/About/ValuesSection.vue";
-import InfoBullets from "~/components/About/InfoBullets.vue";
+// import InfoBullets from "~/components/About/InfoBullets.vue";
 import TeamSection from "~/components/About/TeamSection.vue";
 import PartnersSection from "~/components/About/PartnersSection.vue";
 import DualPanel from "~/components/Home/DualPanel.vue";
@@ -12,7 +12,7 @@ const route = useRoute();
 
 const pageTitie = generatePageTitle("Про нас");
 const pageDescription
-  = "Хто ми? ByCar — це команда професіоналів: дипломовані автомобільні інженери, журналісти та люди з багаторічним досвідом в автобізнесі. Ми закохані в автомобілі та прагнемо бути корисними нашій країні й людям";
+  = "Хто ми? ByCar - цей сайт створений тими, хто любить автомобілі. Ми хочемо перетворити вибір авто на простий і цікавий процес. ";
 
 useSeoMeta({
   title: pageTitie,
@@ -48,7 +48,14 @@ useHead({
     <HeroSection />
     <SubHero />
     <ValuesSection />
-    <InfoBullets />
+
+    <!-- <InfoBullets /> -->
+    <section class="container py-12 sm:py-16">
+    <p class="text-xl sm:text-2xl md:text-3xl font-bold text-center">
+        Із <span class="text-primary">Bycar</span> ваше автомобільне життя стає легшим. Від ідеї до купівлі - ми стаємо вашими <span class="text-primary">партнерами.</span> Від купівлі і до продажу наступному власнику - ми <span class="text-primary">ваші друзі!</span>
+    </p>
+    </section>
+
     <TeamSection />
     <PartnersSection />
     <DualPanel />

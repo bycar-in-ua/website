@@ -8,11 +8,11 @@ import SectionTitle from "~/components/UI/SectionTitle.vue";
       <div class="flex flex-col lg:flex-row items-start justify-between gap-8 lg:gap-2 mb-8 md:mb-12">
         <SectionTitle :title="['Хто ми', 'Команда зсередини']" class="lg:basis-1/2" />
         <p class="text-dimmed lg:basis-1/2">
-          Ми з тих, хто впізнає нову модель ще до офіційної презентації і сперечається про комплектації голосніше, ніж про футбол. Зібрались разом і зробили сайт з новими авто, яким хотіли б користуватись самі, коли настане час міняти власну машину.
+            ByCar — це команда професіоналів: дипломовані автомобільні інженери, журналісти та люди з багаторічним досвідом в автобізнесі. Ми закохані в автомобілі та прагнемо бути корисними нашій країні й людям.
         </p>
       </div>
 
-      <img src="/images/about-us-hero.jpg" alt="Команда ByCar" class="aspect-video object-cover">
+      <img src="/images/about-us-team.jpg" alt="Команда ByCar" class="aspect-video object-cover">
     </div>
   </section>
 </template>
