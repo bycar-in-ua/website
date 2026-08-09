@@ -84,7 +84,7 @@ const checkHandler = (value: BodyType) => {
 
 <template>
   <StepContainer title="1. Який кузов вам ближчий?" subtitle="Від цього залежить ваш комфорт та простір.">
-    <div class="grid gap-2 md:gap-5 grid-cols-2">
+    <div class="grid gap-2 md:gap-5 grid-cols-2" data-testid="quiz-cars-list">
       <BodyTypeCard
         v-for="(option, index) in bodyTypes"
         :key="index"

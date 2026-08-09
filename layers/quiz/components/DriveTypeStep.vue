@@ -40,7 +40,7 @@ const checkHandler = (value: string) => {
 
 <template>
   <StepContainer title="3. Який тип приводу оберете?" subtitle="Від цього залежить керованість у різних умовах.">
-    <div class="space-y-3">
+    <div class="space-y-3" data-testid="quiz-drive-list">
       <SelectionCard
         title="Всі"
         :selected="!quizStore.filters.driveType || quizStore.filters.driveType.length === 0"

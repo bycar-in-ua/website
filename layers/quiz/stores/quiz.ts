@@ -38,7 +38,19 @@ export const useQuizStore = defineStore("quiz", () => {
 
   const isFinalStep = computed(() => step.value === QUIZ_STEPS.BRAND);
 
+  const canStepForward = computed(() => {
+    if (step.value === QUIZ_STEPS.BODY) {
+      return Boolean(filters.value.bodyType?.length);
+    }
+
+    return true;
+  });
+
   const stepForward = () => {
+    if (!canStepForward.value) {
+      return;
+    }
+
     if (isFinalStep.value) {
       finishQuiz();
     } else {
@@ -84,6 +96,7 @@ export const useQuizStore = defineStore("quiz", () => {
     isOpen,
     step,
     isFinalStep,
+    canStepForward,
     stepBack,
     stepForward,
     filters,
