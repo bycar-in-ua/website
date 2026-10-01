@@ -71,6 +71,12 @@ const wrapVisible = useElementVisibility(wrapRef);
       </div>
     </div>
 
+    <ContentBlocks
+      v-if="availableVehicle.content?.blocks?.length"
+      :blocks="availableVehicle.content.blocks"
+      data-testid="available-content-blocks"
+    />
+
     <AvailableSpecs :car="availableVehicle" />
 
     <AvailableBottomBar
