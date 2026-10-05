@@ -22,6 +22,8 @@ export default defineNuxtConfig({
 
   devtools: { enabled: Boolean(process.env.NUXT_DEVTOOLS_ENABLED) },
 
+  app: { rootAttrs: { class: "bycar-root" } },
+
   css: ["~/assets/css/global.css"],
 
   colorMode: { preference: "light" },
