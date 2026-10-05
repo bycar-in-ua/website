@@ -31,7 +31,7 @@ const responsiveNavItems: NavigationMenuItem[] = [
   },
   {
     label: "Мої пропозиції",
-    icon: "i-lucide-file-text",
+    icon: "i-lucide-car-front",
     to: "/profile/offers",
   },
   {
