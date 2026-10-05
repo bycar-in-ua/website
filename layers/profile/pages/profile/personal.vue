@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import ContactField from "../../components/ContactField.vue";
+
 definePageMeta({ name: "profile-personal" });
 
 const {
   state,
   schema,
+  isNameChanged,
   updatePersonalData,
   loading,
 } = usePersonalDataForm();
@@ -21,7 +24,7 @@ const { logout } = useLogout();
     class="space-y-6"
     @submit="(e) => { updatePersonalData(e.data) }"
   >
-    <UFormField label="Ім'я" name="firstName">
+    <UFormField label="Ім'я" name="name">
       <UInput
         v-model="state.name"
         placeholder="Вкажіть ім'я"
@@ -29,24 +32,22 @@ const { logout } = useLogout();
       />
     </UFormField>
 
-    <UFormField label="Пошта" name="email">
-      <UInput
-        v-model="state.email"
-        class="w-full"
-      />
-    </UFormField>
+    <ContactField
+      v-model="state.email"
+      type="email"
+      label="Пошта"
+    />
 
-    <UFormField label="Телефон" name="phone">
-      <UInput
-        v-model="state.phone"
-        class="w-full"
-      />
-    </UFormField>
+    <ContactField
+      v-model="state.phone"
+      type="phone"
+      label="Телефон"
+    />
 
     <div class="flex flex-col items-start sm:flex-row sm:justify-between gap-6">
       <UButton
         label="Зберегти"
-        :disabled="!form?.dirty"
+        :disabled="!isNameChanged"
         :loading
         class="max-sm:w-full justify-center"
         @click="form?.submit()"

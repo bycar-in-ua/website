@@ -68,6 +68,12 @@ body {
   overflow-x: clip;
 }
 
+.bycar-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 .mce-styles p {
   @apply pb-4;
 }
